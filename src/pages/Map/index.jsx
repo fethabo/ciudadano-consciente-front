@@ -8,6 +8,7 @@ import { URL_API } from "../../constants";
 
 /* TODO: abstraer funciones de axios? organizaria bastante el uso
 * - agregar loading a funciones de axios (ver doc)
+* agregar alias para dirigir a funciones axios, constantes, componentes (y evitar la ruta relativa)
 */
 
 const Map = () => {
@@ -42,8 +43,8 @@ const Map = () => {
     </div>
     :<div>cargando</div>
   }
-   
-    <Button onClick={()=>navigate(location.pathname+"/1")}>Ir a level especifico</Button>
+   {/* TODO: EL /3 debe ser el id del nivel seleccionado */}
+    <Button onClick={()=>navigate(location.pathname+"/3")}>Ir a level especifico</Button>
     </Box>
     )
   };

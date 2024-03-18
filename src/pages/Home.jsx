@@ -17,7 +17,6 @@ export default function Home (){
             divider={<Divider orientation="horizontal" flexItem />}
         >
         
-        <img src={'/logo.svg'} />
         <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
         <Card>
            <CardContent>

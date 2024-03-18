@@ -49,6 +49,8 @@ Recursos especificos
 - paths de la organizacion
 - levels por organizacion.
 - levels de un padre (devolver aquellos que tienen tal id como parent)
+- activity por idlevel.
+
 
 Preguntas a resolver /(quizas alguna ya esta resuelta y no recuerdo)
 - como determinamos el flujo del camino?, por orden de level? configuracion? habilitamos por branch (si es asi como determinamos que un branch se completó, a mano en el front o agregamos un recurso de verificacion)?
