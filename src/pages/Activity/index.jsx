@@ -61,16 +61,36 @@ const Activity = () => {
 
   const fetchDynamicComponent = async () => {
     try {
+      const scriptText=`import { Box } from "@mui/material";
+      import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+      
+      const Login = () => {
+          return (
+          <Box>
+            <PsychologyAltIcon fontSize="large" />
+            <h1>Login</h1>
+            TODO: Resolver login con KC, luego definir vista de login y registro propias.
+          </Box>
+          )
+        };
+        
+        export default Login;`
       //const response = await axios.get('ruta/al/archivo/DynamicComponent.js');
-      const scriptText = activityTypeVersion.template;
-      const module = await eval(`(function() { return ${scriptText}; })()`); // Envuelve el script en una función para convertirlo en un módulo
-      setTemplate(module.default);
+     // const scriptText = activityTypeVersion.template;
+     const scriptBlob = new Blob([scriptText], { type: 'application/javascript' });
+     const scriptURL = URL.createObjectURL(scriptBlob, { type: 'text/jsx' });
+           const module = await import(/* @vite-ignore */scriptURL );
+      //  const module = await eval(`(function() { return ${scriptText}; })()`); // Envuelve el script en una función para convertirlo en un módulo
+     // const module = eval(scriptText)
+      setTemplate(module);
     } catch (error) {
       console.error('Error al cargar el componente dinámico:', error);
     }
   };
 
-  fetchDynamicComponent();
+  if(activityTypeVersion){
+    fetchDynamicComponent();
+  }
 }, [activityTypeVersion]);
  
  //5. obtengo los archivos del tipo de actividad.
@@ -80,8 +100,8 @@ const Activity = () => {
  return (
     <Box>
       <h1>Activity page</h1>
-      {template
-        && <template content={contentModel}/>
+      { template && 
+      template("TEXTO que le paso al template") 
       }
     </Box>
     )
