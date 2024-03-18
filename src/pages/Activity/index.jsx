@@ -7,6 +7,8 @@ import axios from "axios";
 /**
  * TODO: 
  * PROBAR CON UN TEMPLATE.js VALIDO!!!
+ * Probar con un componente de aceternity
+ * verificar dependencias de librerias
  * tiene mucha actividad con la api este componente (Y MUY ENCADENADA), pensar como reducirla, principalmente para minimizar el componente Y los tiempos de carga
  */
 const Activity = () => {

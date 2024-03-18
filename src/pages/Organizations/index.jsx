@@ -5,6 +5,7 @@ const Organizations = () => {
 
   /** TODO: obtener organizaciones desde la api 
    * - si el usuario pertenece a alguna, mostrar disponible? o solo traer las organizaciones del usuario?
+   * - Toda la configuracion de los levels la metemos por aca?
   */
 
     return (
@@ -15,7 +16,6 @@ const Organizations = () => {
         Muestro la organizacion
         <div>
           muestro sus paths(levels de mayor jerarquia) tenemos como identificarlos?
-          
         </div>
       </div>
     </Box>

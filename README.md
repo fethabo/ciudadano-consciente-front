@@ -60,4 +60,7 @@ Preguntas a resolver /(quizas alguna ya esta resuelta y no recuerdo)
 
 Estilos
 - Definir tema en mui o usar taildwind css y definir nuestros componentes. (o ambos???)
+
+
+Aceternity
  
