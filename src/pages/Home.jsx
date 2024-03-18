@@ -1,40 +1,48 @@
-//import reactLogo from '../assets/react.svg'
-//import viteLogo from '/vite.svg'
-import { Box, Card, CardContent, Typography } from "@mui/material"
+import { Stack, Card, CardContent, Typography, Divider, Button } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
+
+/**TODO: en estilos agregar acceso 
+ * - obtener levels del usuario (los paths que puede realizar)
+ * - armar carousel (se podria usar el stepper de mui)
+*/
+
 export default function Home (){
     const navigate= useNavigate();
 
     return(
-        <Box sx={{display:'flex', flexDirection:'column', justifyContent:'space-around', minHeight: '50%'}}>
+        <Stack 
+            direction='column' 
+            spacing={2}
+            divider={<Divider orientation="horizontal" flexItem />}
+        >
         
+        <img src={'/logo.svg'} />
         <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
         <Card>
            <CardContent>
+            <Typography>Tus caminos</Typography>
                 Levels carousel
-        </CardContent>
+                TODO:HACER CAROUSEL, un item por level (path)
+                <Button onClick={()=>navigate("/map/2")}>Ir a mapa de Path especifico</Button>
+            </CardContent>
          </Card>
 
-         <Card onClick={()=>navigate("/organizations")}>
+         <Card className="acceso" onClick={()=>navigate("/organizations")}>
             <CardContent>
                 <SettingsSuggestRoundedIcon/>
-                Gestioná tu organización
+                Crea tu propio camino
+            </CardContent>
+         </Card>
+         <Card className="acceso" onClick={()=>navigate("/pool")}>
+            <CardContent>
+                <SettingsSuggestRoundedIcon/>
+                Comparte tus inquietudes
             </CardContent>
          </Card>
          
             
-         </Box>
+         </Stack>
 
     )
 }
-
-
-{/*    
-            <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-            <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank" rel="noreferrer">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-            </a> */}
-        

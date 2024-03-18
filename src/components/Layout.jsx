@@ -5,6 +5,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useState } from "react";
 
+
+/**
+ * 
+ * TODO: tomar de la url el valor de los botones de navegacion.
+ */
 const Layout = () => {
   const navigate = useNavigate()
   const [bottomValue, setBottomValue] = useState()
@@ -22,7 +27,7 @@ const Layout = () => {
         >
           <BottomNavigationAction label="Pool" icon={<QuestionMarkIcon />}  value={"/pool"} />
           <BottomNavigationAction label="Inicio" icon={<HomeIcon />} value={"/"}/>
-          <BottomNavigationAction label="Perfil" icon={<PersonOutlineIcon />} value={"/perfil"} />
+          <BottomNavigationAction label="Perfil" icon={<PersonOutlineIcon />} value={"/profile"} />
         </BottomNavigation>
         </AppBar>
        

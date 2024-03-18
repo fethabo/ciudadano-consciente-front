@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 
-const Login = () => {
+const Pool = () => {
     return (
     <Box>
       <PsychologyAltIcon fontSize="large" />
-      <h1>Login</h1>
-      TODO: Resolver login con KC, luego definir vista de login y registro propias.
+      <h1>Pool page</h1>
     </Box>
     )
   };
   
-  export default Login;
+  export default Pool;
