@@ -17,4 +17,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  globals: {
+    __dirname: true
+  }
 }

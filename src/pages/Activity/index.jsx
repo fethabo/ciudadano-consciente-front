@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { URL_API } from "../../constants";
 import axios from "axios";
@@ -61,28 +61,43 @@ const Activity = () => {
 
   const fetchDynamicComponent = async () => {
     try {
-      const scriptText=`import { Box } from "@mui/material";
-      import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
-      
-      const Login = () => {
-          return (
-          <Box>
-            <PsychologyAltIcon fontSize="large" />
-            <h1>Login</h1>
-            TODO: Resolver login con KC, luego definir vista de login y registro propias.
-          </Box>
-          )
-        };
-        
-        export default Login;`
+      /* import("./utils").then((utils) => {
+        console.log(utils.capitalizeFirstLetter("nnamdi chidume"));
+      }); */
+     /*  const ruta = import.meta.env.DEV ? '/@templates/47/index' : '/public/templates/47/index';
+import(ruta).then((componente) => {
+  // Haz lo que necesites con el componente
+  console.log("componente",componente.default);
+  setTemplate(componente.default)
+}).catch(error => {
+  console.error("Error al cargar el componente dinámico:", error);
+}); */
+      /* const ruta = import.meta.resolve('@templates/47/index');
+      import(ruta).then((componente) => {
+        console.log("componente",componente.default);
+        setTemplate(componente.default)
+        // Haz lo que necesites con el componente
+      }).catch(error => {
+        console.error("Error al cargar el componente dinámico:", error);
+      });  */   
+      /*
+      import( '/templates/47/index').then((componente) => {
+          console.log("componente",componente.default);
+          setTemplate(componente.default)
+        })
+*/
+//      setTemplate(module.default);
+   //   console.log(module)
       //const response = await axios.get('ruta/al/archivo/DynamicComponent.js');
      // const scriptText = activityTypeVersion.template;
-     const scriptBlob = new Blob([scriptText], { type: 'application/javascript' });
-     const scriptURL = URL.createObjectURL(scriptBlob, { type: 'text/jsx' });
-           const module = await import(/* @vite-ignore */scriptURL );
-      //  const module = await eval(`(function() { return ${scriptText}; })()`); // Envuelve el script en una función para convertirlo en un módulo
-     // const module = eval(scriptText)
-      setTemplate(module);
+     //const scriptBlob = new Blob([scriptText], { type: 'application/javascript' });
+     //const scriptURL = URL.createObjectURL(scriptBlob, { type: 'text/jsx' });
+       //    const module = await import(/* @vite-ignore */scriptURL );
+       
+    //   const module = await eval(`${scriptText}`); // Envuelve el script en una función para convertirlo en un módulo
+       // setTemplate(scriptText)
+    // const module = eval(scriptText)
+  //    setTemplate(module.default);
     } catch (error) {
       console.error('Error al cargar el componente dinámico:', error);
     }
@@ -101,7 +116,7 @@ const Activity = () => {
     <Box>
       <h1>Activity page</h1>
       { template && 
-      template("TEXTO que le paso al template") 
+            template
       }
     </Box>
     )
