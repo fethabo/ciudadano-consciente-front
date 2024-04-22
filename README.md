@@ -11,6 +11,7 @@ Esta es la aplicación front-end del proyecto Ciudadano Consciente.
 - React-router V6.2
 - Axios V1.6.7
 - Formik V2.4.5
+- Keycloak-js V23.0
 
 ## Structure
 
