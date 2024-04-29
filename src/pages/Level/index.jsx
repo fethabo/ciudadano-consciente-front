@@ -6,6 +6,7 @@ import axios from 'axios';
 import { URL_API } from "../../constants";
 
 /* TODO:
+* ESTE COMPONENTE DEJA DE TENER SENTIDO AL IMPLEMENTAR LOS NODOS EN EL MAPA, POR EL MOMENTO LO DEJO
 * -definir contexto
 *- anidar mas? 
 */

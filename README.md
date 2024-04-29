@@ -31,6 +31,9 @@ TODO: definir estilos de layout para web
 #### Pages
 
 ##### Home
+- [] agregar carouseles para los datos obtenidos
+- [] reemplazar axios por reactQuery
+- [] 
 ##### Login
 ##### Pool
 ##### Organization
@@ -38,11 +41,26 @@ TODO: definir estilos de layout para web
 ##### Level
 
 #### TODO GENERAL:
-- implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
-- implementar formularios para carga de contenidos
+
+- [] implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
+- [] implementar formularios para carga de contenidos
+- [] corregir altura de contenido (jode el appBar)
+- [] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
+- [] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
+- [] activity
+- [] configuracion de caminos (gestion de organizaciones).
+- [] vista de home para usuarios no registrados (debe tener algunas diferencias)
+- [] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
+- [] probar elemento de aceternity
+- [] probar https://www.embla-carousel.com/ para los carouseles del home.
+
 
 
 ##### Nuevo para charlar:
+- *esto lo hablamos pero no lo anote* verificamos la 
+
+- la aplicacion deberia de soportar el acceso sin login, jugar a paths publicos y si quiere mas funcionalidad se debe registrar (para esto necesitamos generar el recurso de manejar respuestas de forma local y poder hacer un post luego con todas las respuestas que se hicieron, lo mismo que lo que planteamos para jugar offline aplicaría para jugar sin loguearse).
+
 - el recurso de paths recientes y favoritos si no tienen ninguno me devuelve un arreglo vacio y un OK, ¿deberia devolver un 204 ?.
 
 - los endpoints que buscar los niveles de un usuario no deberian pasarle el id, solo el tkn de keycloak, o, en su defecto, deberiamos tener un recurso para obtener el id del usuario a partir del token de keycloak para asi manejar esos endpoints. 

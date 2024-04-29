@@ -18,6 +18,7 @@ const Map = () => {
   const { idParentLevel } = useParams();
   const [path, setPath] = useState();
   const [childrens, setChildrens] = useState();
+  const [answers, setAnswers] = useState();
   
   useEffect(() => {
     if (idParentLevel){
@@ -29,25 +30,39 @@ const Map = () => {
       .then((response)=>{
         setChildrens(response?.data)
     })
+    axios.get(`${URL_API}/answers/levels/${idParentLevel}/childrens`)
+    .then((response)=>{
+      setAnswers(response?.data)
+      /*  {
+    "answer": 1,
+    "user": 5,
+    "created": "2024-01-09",
+    "lastModified": "2024-01-09",
+    "status": false,
+    "level": 5,
+    "parent": 2,
+    "activity": 5,
+    "content": 7
+  } */
+  })
     }
   }, [idParentLevel]);
 
     return (
     <Box>
       <PsychologyAltIcon fontSize="large" />
-      <h1>Map page</h1>
-      Aca listaremos todos los levels (branches y sus hijos) de un path
-      En principio los podemos mostrar listados en acordeones (a modo de vista simplificada), luego hacer una vista copada visualmente
-   
+      <h1>Mapa</h1>   
   {
    path?
     <div className="path" style={{background:'darkred'}}>
           <Typography className="nombre">{path.name}</Typography>
           <Typography className="descripcion">{path.description}</Typography>
           {childrens&&childrens?.length>0&&
-          childrens.map((level,index)=>
-            <div key={index}>{level.levelId}-{level.name}
-            <Button onClick={()=>navigate(`${location.pathname}/${level.levelId}`)}>Ir a level</Button> </div>
+            childrens.map((level,index)=>
+
+              <div key={index}>{level.levelId}-{level.name}
+              {/* TODO: BUSCAR RESPUESTA */}
+              <Button onClick={()=>navigate(`${location.pathname}/${level.levelId}`)}>Ir a level</Button> </div>
           )}
     </div>
     :<div>cargando</div>
