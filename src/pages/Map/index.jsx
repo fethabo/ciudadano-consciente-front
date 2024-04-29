@@ -17,6 +17,7 @@ const Map = () => {
   const location= useLocation();
   const { idParentLevel } = useParams();
   const [path, setPath] = useState();
+  const [childrens, setChildrens] = useState();
   
   useEffect(() => {
     if (idParentLevel){
@@ -24,6 +25,10 @@ const Map = () => {
         .then((response)=>{
           setPath(response?.data)
       })
+      axios.get(`${URL_API}/levels/${idParentLevel}/childrens`)
+      .then((response)=>{
+        setChildrens(response?.data)
+    })
     }
   }, [idParentLevel]);
 
@@ -39,12 +44,14 @@ const Map = () => {
     <div className="path" style={{background:'darkred'}}>
           <Typography className="nombre">{path.name}</Typography>
           <Typography className="descripcion">{path.description}</Typography>
-          <div>Listado agrupado de levels que lo tienen como padre(tengo recurso?)</div>
+          {childrens&&childrens?.length>0&&
+          childrens.map((level,index)=>
+            <div key={index}>{level.levelId}-{level.name}
+            <Button onClick={()=>navigate(`${location.pathname}/${level.levelId}`)}>Ir a level</Button> </div>
+          )}
     </div>
     :<div>cargando</div>
-  }
-   {/* TODO: EL /3 debe ser el id del nivel seleccionado */}
-    <Button onClick={()=>navigate(location.pathname+"/3")}>Ir a level especifico</Button>
+  }    
     </Box>
     )
   };

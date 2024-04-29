@@ -37,26 +37,42 @@ TODO: definir estilos de layout para web
 ##### Map
 ##### Level
 
+#### TODO GENERAL:
+- implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
+- implementar formularios para carga de contenidos
 
-###### Para poner en discusión:
+
+##### Nuevo para charlar:
+- el recurso de paths recientes y favoritos si no tienen ninguno me devuelve un arreglo vacio y un OK, ¿deberia devolver un 204 ?.
+
+- los endpoints que buscar los niveles de un usuario no deberian pasarle el id, solo el tkn de keycloak, o, en su defecto, deberiamos tener un recurso para obtener el id del usuario a partir del token de keycloak para asi manejar esos endpoints. 
+
+- como vamos a registrar los usuarios en nuestra base a partir del registro en keycloak?, quizas podria ser algo como que le pasamos el token, y si el usuario no existe en nuestra base lo creamos y lo vinculamos al usuario de keycloak.
+
+- ver vinculacion de keycloak con el authenticador de google (quizas podemos facilitar el registro)
+
+
+
+
+###### Ya Charlado:
 Definiciones de Levels:
 - un level sin parent es un path (se muestra como mapa y es accesible desde el home de la app)
 - un level con parent pero sin actividad es un clasificador (branch)
 
 
 Recursos especificos
-- Levels por usuario? (podrian ser todos o solo los paths )
-- paths disponibles (levels con parent en null)
-- paths de la organizacion
-- levels por organizacion.
-- levels de un padre (devolver aquellos que tienen tal id como parent)
+- [x] Levels por usuario? (podrian ser todos o solo los paths )
+- [x] paths disponibles (levels con parent en null)
+- [x] paths de la organizacion
+- levels por organizacion.=> a partir del path obtengo los levels
+- [x] levels de un padre (devolver aquellos que tienen tal id como parent)
 - activity por idlevel.
 
 
 Preguntas a resolver /(quizas alguna ya esta resuelta y no recuerdo)
 - como determinamos el flujo del camino?, por orden de level? configuracion? habilitamos por branch (si es asi como determinamos que un branch se completó, a mano en el front o agregamos un recurso de verificacion)?
 - esta bien el ruteo planteado? o especificamos mas?, actualmente el planteo es que todo este bajo /map/:idLevelPath
-- usar react query? nos beneficiaria en cuanto al uso de la cache de los datos, pero el uso se complejiza un poco
+- usar react query? nos beneficiaria en cuanto al uso de la cache de los datos, pero el uso se complejiza un poco(SI)
 
 
 Estilos
