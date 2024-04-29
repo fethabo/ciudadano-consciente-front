@@ -53,19 +53,24 @@ TODO: definir estilos de layout para web
 - [] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
 - [] probar elemento de aceternity
 - [] probar https://www.embla-carousel.com/ para los carouseles del home.
+- [] agregar boton de acceso/registro/logout.
+- [] agregar mapper de ID de usuario de keycloak (o averiguar como pasar el ID de usuario en el token.)
+- [] Agregar POST de usuario al registrar.
+- [] sacar autenticacion obligatoria.
+- [] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
 
 
 
 ##### Nuevo para charlar:
-- *esto lo hablamos pero no lo anote* verificamos la 
+- *esto lo hablamos pero no lo anote* verificamos la existencia de actividad en el mapa para cada nodo cuando se pulsa en el nodo. -->Cuando pulsamos el nodo verificamos si tiene actividad, si tiene actividad y no esta resuelta se debe resolver, una vez resuelta se muestran sus childrens.
 
-- la aplicacion deberia de soportar el acceso sin login, jugar a paths publicos y si quiere mas funcionalidad se debe registrar (para esto necesitamos generar el recurso de manejar respuestas de forma local y poder hacer un post luego con todas las respuestas que se hicieron, lo mismo que lo que planteamos para jugar offline aplicaría para jugar sin loguearse).
+- la aplicacion deberia de soportar el acceso sin login, jugar a paths publicos y si quiere mas funcionalidad se debe registrar (para esto necesitamos generar el recurso de manejar respuestas de forma local y poder hacer un post luego con todas las respuestas que se hicieron, lo mismo que lo que planteamos para jugar offline aplicaría para jugar sin loguearse).-->Saco el login obligatorio en la app y agrego el boton de acceso/registro/logout
 
-- el recurso de paths recientes y favoritos si no tienen ninguno me devuelve un arreglo vacio y un OK, ¿deberia devolver un 204 ?.
+- el recurso de paths recientes y favoritos si no tienen ninguno me devuelve un arreglo vacio y un OK, ¿deberia devolver un 204 ?.-->ya se agrego en el TODO de notion.
 
-- los endpoints que buscar los niveles de un usuario no deberian pasarle el id, solo el tkn de keycloak, o, en su defecto, deberiamos tener un recurso para obtener el id del usuario a partir del token de keycloak para asi manejar esos endpoints. 
+- los endpoints que buscar los niveles de un usuario no deberian pasarle el id, solo el tkn de keycloak, o, en su defecto, deberiamos tener un recurso para obtener el id del usuario a partir del token de keycloak para asi manejar esos endpoints. -->Ya se agrego en el TODO de notion
 
-- como vamos a registrar los usuarios en nuestra base a partir del registro en keycloak?, quizas podria ser algo como que le pasamos el token, y si el usuario no existe en nuestra base lo creamos y lo vinculamos al usuario de keycloak.
+- como vamos a registrar los usuarios en nuestra base a partir del registro en keycloak?, quizas podria ser algo como que le pasamos el token, y si el usuario no existe en nuestra base lo creamos y lo vinculamos al usuario de keycloak.-->Ya se agrego en el TODO de notion
 
 - ver vinculacion de keycloak con el authenticador de google (quizas podemos facilitar el registro)
 
