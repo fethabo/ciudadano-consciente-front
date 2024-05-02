@@ -4,6 +4,7 @@ import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRound
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL_API } from "../constants";
+import EmblaCarousel from "../components/Carousel/EmblaCarousel";
 
 /**TODO: en estilos agregar acceso 
  * - armar carousel (se podria usar el stepper de mui)
@@ -30,6 +31,16 @@ export default function Home (){
               setFavoritePaths(response?.data)
             })
         }, []);
+
+        const OPTIONS = {
+            align: 'start',
+            dragFree: true,
+            loop: true,
+            slidesToScroll: 'auto'
+          }
+          const SLIDE_COUNT = 5
+          const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+
     return(
         <Stack 
             direction='column' 
@@ -38,6 +49,8 @@ export default function Home (){
         >
         
         <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
+        <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+        
  {/* Recientes */}
  <Card>
            <CardContent>
