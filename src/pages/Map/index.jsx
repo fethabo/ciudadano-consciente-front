@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL_API } from "../../constants";
+import MapCytoscape from "../../components/MapCytoscape";
 
 /* TODO: abstraer funciones de axios? organizaria bastante el uso
 * - agregar loading a funciones de axios (ver doc)
@@ -48,10 +49,18 @@ const Map = () => {
     }
   }, [idParentLevel]);
 
+  const elements = [
+    { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
+    { data: { id: 'two', label: 'Node 2' }, position: { x: 0, y: 20 } },
+    { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
+ ];
+
+
     return (
     <Box>
       <PsychologyAltIcon fontSize="large" />
       <h1>Mapa</h1>   
+      <MapCytoscape elements={elements} />
   {
    path?
     <div className="path" style={{background:'darkred'}}>
