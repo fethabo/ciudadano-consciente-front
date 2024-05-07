@@ -18,8 +18,8 @@ export default function InitKeycloak({children, configKc}) {
         console.log("INITkeycloak",keycloak)
         if (keycloak === null || !keycloak || !keycloak.authenticated) {
             const kc = new Keycloak(configKc);
-            kc.init({
-                onLoad: 'login-required', enableLogging: true,
+            /* kc.init({
+                onLoad: 'check-sso', enableLogging: true,
             }).then((authenticated) => {// eslint-disable-line
                     setKeycloak(kc);
                     console.log("autenticacion exitosa")
@@ -27,7 +27,7 @@ export default function InitKeycloak({children, configKc}) {
                     // si la autenticacion fallo, redirigimos a formulario de login
                     console.error("Kc inicializacion: errorData index", errorData);// eslint-disable-line
                     kc.logout(true);
-                })
+                }) */
 
             kc.onTokenExpired = () => {
                 kc.updateToken(5).then(() => {
@@ -43,13 +43,11 @@ export default function InitKeycloak({children, configKc}) {
     }, [keycloak,configKc]);
 
     return (
-        keycloak !== null
-        ? (
+       
             <KeycloakContext.Provider value={keycloak}>
                 {children}
             </KeycloakContext.Provider>
-        )
-        : <div>cargando</div>
+       
     )
 }
 InitKeycloak.propTypes={
