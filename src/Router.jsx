@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
@@ -11,12 +11,15 @@ import Map from './pages/Map'
 import Level from './pages/Level'
 import Activity from './pages/Activity'
 import Profile from './pages/Profile'
+import ProtectedRoute from "./security/ProtectedRoute";
+import useObtenerToken from "./security/hooks/useObtenerToken";
 
 /* TODO: AGREGAR ERROR BOUNDARY 
 * VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
 */
 function Router() {
-
+ 
+  const token = useObtenerToken();
   return (
       <BrowserRouter>
         <Routes>
@@ -33,8 +36,10 @@ function Router() {
               <Route path=":idParentLevel/:level" element={<Level />} />
               <Route path=":idParentLevel/:level/activity/" element={<Activity />} />
             </Route>
-            <Route path="/profile" element={<Profile />} />
-          </Route>
+            <Route path="/profile" element={!!token?<Profile />:<Navigate to="/login" replace={true} />} />
+
+            {/* <ProtectedRoute path="/profile" componente={<Profile />}/> */}
+           </Route>
         </Routes>
       </BrowserRouter>
   )

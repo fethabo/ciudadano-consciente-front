@@ -15,9 +15,10 @@ export default function InitKeycloak({children, configKc}) {
     const [keycloak, setKeycloak] = useState(null);
     
     useEffect(() => {
-        console.log("INITkeycloak",keycloak)
-        if (keycloak === null || !keycloak || !keycloak.authenticated) {
-            const kc = new Keycloak(configKc);
+       // console.log("INITkeycloak",keycloak)
+        const kc = new Keycloak(configKc);
+        if (keycloak === null || !keycloak /* || !keycloak.authenticated */) {
+           setKeycloak(kc);
             /* kc.init({
                 onLoad: 'check-sso', enableLogging: true,
             }).then((authenticated) => {// eslint-disable-line
