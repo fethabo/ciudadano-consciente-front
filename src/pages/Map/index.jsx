@@ -48,36 +48,96 @@ const Map = () => {
   })
     }
   }, [idParentLevel]);
+/* useEffect(() => {
+  if (!!childrens && childrens?.length>0 ){
+    const newElements=[];
+    //TODO: calcular la posicion segun padre (Y) y por transición (parentID)
+    let position= { x:0, y:0}; //posicion del primero
+    childrens.map((level)=>{
+      newElements.push({data: level.levelId, label: level.name, position:position })
+      
+      position= {}
+    })
+  
+  }
+}, [childrens]); */
 
-  const elements = [
-    { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
+
+const [mapElements,setMapElements]=useState([]);
+
+useEffect(() => {
+  if (!!childrens && childrens.length > 0) {
+    const elements = [];
+
+    // Función para encontrar la posición de un elemento según su parentId
+    const getPosition = (parentId) => {
+      const parentElement = elements.find(el => el.data === parentId);
+      if (parentElement) {
+        // Si se encuentra el elemento padre, la posición será un poco más abajo
+        return { x: parentElement.position.x, y: parentElement.position.y + 20 };
+      } else {
+        // Si no hay elemento padre, posición inicial
+        return { x: 0, y: 0 };
+      }
+    };
+
+    // Iterar sobre los childrens
+    childrens.forEach(level => {
+      // Calcular la posición
+      const position = getPosition(level.parentId);
+
+      // Agregar el nuevo elemento
+
+      console.log(level)
+      elements.push({ data:{id:level.levelId, label: level.name}, position:position });
+
+      // Si hay parentId, agregar enlace desde el padre
+      if (level.parent) {
+        elements.push({
+          data: { source: level.parent, target: level.levelId }
+        });
+      }
+    });
+
+    // Actualizar el estado con los nuevos elementos
+    setMapElements(elements);
+  }
+}, [childrens]);
+
+  /* const elements = [
+    { data: { id: 'one', label: 'nana'}, position: { x: 0, y: 0 } },
     { data: { id: 'two', label: 'Node 2' }, position: { x: 0, y: 20 } },
     { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
- ];
-
+ ]; */
+console.log(mapElements)
 
     return (
     <Box>
       <PsychologyAltIcon fontSize="large" />
       <h1>Mapa</h1>   
-      <MapCytoscape elements={elements} />
-  {
-   path?
-    <div className="path" style={{background:'darkred'}}>
-          <Typography className="nombre">{path.name}</Typography>
-          <Typography className="descripcion">{path.description}</Typography>
-          {childrens&&childrens?.length>0&&
-            childrens.map((level,index)=>
-
-              <div key={index}>{level.levelId}-{level.name}
-              {/* TODO: BUSCAR RESPUESTA */}
-              <Button onClick={()=>navigate(`${location.pathname}/${level.levelId}`)}>Ir a level</Button> </div>
-          )}
-    </div>
-    :<div>cargando</div>
-  }    
+     
+            {
+            path
+             ? <div className="path" style={{background:'darkred'}}>
+                    <Typography className="nombre">{path.name}</Typography>
+                    <Typography className="descripcion">{path.description}</Typography>
+                    {mapElements&&mapElements?.length>0
+                    && <MapCytoscape elements={mapElements} />
+                    }
+                </div>            
+                  :<div>cargando</div>
+            }
+                
     </Box>
     )
   };
   
   export default Map;
+
+   /* childrens.map((level,index)=>
+
+              <div key={index}>{level.levelId}-{level.name}
+         
+              <Button onClick={()=>navigate(`${location.pathname}/${level.levelId}`)}>Ir a level</Button> </div>
+          )}
+    </div> */
