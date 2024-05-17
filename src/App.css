@@ -40,3 +40,7 @@
 .read-the-docs {
   color: #888;
 }
+
+.cytoscape-map div{
+  display:flex
+}

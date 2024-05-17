@@ -68,23 +68,28 @@ const [mapElements,setMapElements]=useState([]);
 useEffect(() => {
   if (!!childrens && childrens.length > 0) {
     const elements = [];
-
+    const auxParents=[];
     // Función para encontrar la posición de un elemento según su parentId
     const getPosition = (parentId) => {
-      const parentElement = elements.find(el => el.data === parentId);
+      console.log("parentId",parentId);
+      const parentElement = elements.find(el => el.data.id === parentId);
       if (parentElement) {
-        // Si se encuentra el elemento padre, la posición será un poco más abajo
-        return { x: parentElement.position.x, y: parentElement.position.y + 20 };
+        const childrenAuxSize= [...auxParents].filter(x => x===parentId).length;
+        console.log(childrenAuxSize)
+        auxParents.push(parentId);
+        // Si se encuentra el elemento padre, la posición será un poco más a la derecha
+        return { x: parentElement.position.x + 150, y: parentElement.position.y+ (childrenAuxSize*100) };
       } else {
         // Si no hay elemento padre, posición inicial
-        return { x: 0, y: 0 };
+        return { x: 50, y: 50 };
       }
     };
 
     // Iterar sobre los childrens
     childrens.forEach(level => {
       // Calcular la posición
-      const position = getPosition(level.parentId);
+      console.log("level", level)
+      const position = getPosition(level.parent);
 
       // Agregar el nuevo elemento
 
@@ -109,7 +114,7 @@ useEffect(() => {
     { data: { id: 'two', label: 'Node 2' }, position: { x: 0, y: 20 } },
     { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
  ]; */
-console.log(mapElements)
+console.log("mapElements",mapElements)
 
     return (
     <Box>
