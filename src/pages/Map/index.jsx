@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from "@mui/material";
-import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import { Box, Button, LinearProgress, Typography } from "@mui/material";
+//import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
@@ -92,11 +92,11 @@ useEffect(() => {
       const position = getPosition(level.parent);
 
       // Agregar el nuevo elemento
-
       console.log(level)
       elements.push({ data:{id:level.levelId, label: level.name}, position:position });
 
       // Si hay parentId, agregar enlace desde el padre
+      //falta reubicar los niveles inferiores en una linea (conviene armar una matriz?)
       if (level.parent) {
         elements.push({
           data: { source: level.parent, target: level.levelId }
@@ -118,7 +118,6 @@ console.log("mapElements",mapElements)
 
     return (
     <Box>
-      <PsychologyAltIcon fontSize="large" />
       <h1>Mapa</h1>   
      
             {
@@ -130,7 +129,7 @@ console.log("mapElements",mapElements)
                     && <MapCytoscape elements={mapElements} />
                     }
                 </div>            
-                  :<div>cargando</div>
+                  :<LinearProgress color={'secondary'}/>
             }
                 
     </Box>
