@@ -20,6 +20,23 @@ export default function MapCytoscape({elements, onSelect, ...rest}) {
       }
     });
 
+    const style =[
+      {
+        "selector": "node[label]",
+        "style": {
+          "label": "data(label)"
+        }
+      },
+      {
+        "selector": ".outline",
+        "style": {
+          "color": "#fff",
+          "text-outline-color": "#888",
+          "text-outline-width": 3
+        }
+      }
+    ]
+
     return ( 
             <CytoscapeComponent 
             elements={elements} 
@@ -30,7 +47,9 @@ export default function MapCytoscape({elements, onSelect, ...rest}) {
             panningEnabled={false}
             className="cytoscape-map" 
             cy={(cy) => { setCy(cy) }}
-      //      layout={layout}
+            stylesheet={style}
+
+            //      layout={layout}
             /* stylesheet={[
                 {
                   selector: 'node',
