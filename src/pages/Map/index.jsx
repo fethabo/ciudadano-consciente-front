@@ -108,25 +108,30 @@ useEffect(() => {
     setMapElements(elements);
   }
 }, [childrens]);
-
+const [levelSelected, setLevelSelected] = useState(null);
+//console.log("levelSelected",levelSelected)
   /* const elements = [
     { data: { id: 'one', label: 'nana'}, position: { x: 0, y: 0 } },
     { data: { id: 'two', label: 'Node 2' }, position: { x: 0, y: 20 } },
     { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
  ]; */
-console.log("mapElements",mapElements)
+//console.log("mapElements",mapElements)
+const handleSelect= (value)=>{
+  //console.log("handleSelect", value)
+  setLevelSelected(value)
+}
 
     return (
     <Box>
       <h1>Mapa</h1>   
-     
+     SELECCIONADO: {levelSelected}
             {
             path
              ? <div className="path" style={{background:'darkred'}}>
                     <Typography className="nombre">{path.name}</Typography>
                     <Typography className="descripcion">{path.description}</Typography>
                     {mapElements&&mapElements?.length>0
-                    && <MapCytoscape elements={mapElements} />
+                    && <MapCytoscape elements={mapElements} onSelect={handleSelect}/>
                     }
                 </div>            
                   :<LinearProgress color={'secondary'}/>

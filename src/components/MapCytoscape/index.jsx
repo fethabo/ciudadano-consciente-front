@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+import PropTypes from 'prop-types'
 
-
-export default function MapCytoscape({elements, ...rest}) {
+export default function MapCytoscape({elements, onSelect, ...rest}) {
 
     //const layout = { name: 'random' };
     const [cy, setCy] = useState();  
-    const [selectedNode, setSelectedNode] = useState(null)
-    console.log("selectedNode",selectedNode);
-
-    cy?.on('tap','node',(evt) => {
-      var node = evt.target;
-      console.log("evt", evt, node.id())
-      setSelectedNode(node.id());        
-    })
-    cy?.on('unselect', function(evt){
-      setSelectedNode(null)
+    //https://js.cytoscape.org/#cy.on
+    cy?.on('tap', function(event){
+      var evtTarget = event.target;
+    
+      if( evtTarget === cy ){
+        onSelect(null)
+      } else {
+        if( evtTarget?.id()){
+          onSelect(evtTarget.id());   
+        }
+     //   console.log('tap on some element');
+      }
     });
-
 
     return ( 
             <CytoscapeComponent 
@@ -48,4 +49,9 @@ export default function MapCytoscape({elements, ...rest}) {
               ]} */ 
               {...rest}/>
      );
+}
+
+MapCytoscape.propTypes={
+  elements: PropTypes.array.isRequired,
+  onSelect: PropTypes.func
 }
