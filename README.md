@@ -39,6 +39,14 @@ TODO: definir estilos de layout para web
 ##### Organization
 ##### Map
 ##### Level
+##### Activity
+Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON) y una funcion (onResponse) que devuelve true or false 
+- [] agregar ventana indicando respuesta correcta/incorrecta, con opcion para volver al mapa y cuando responde mal tambien permitirle reintentar
+- [x] agregar post de respuesta 
+- [] corregir ruteo e implementar contexto para el manejo de la actividad.
+##### formularios
+- [] terminar formulario autogenerado de activityContent  
+- [] implementar formularios de configuracion
 
 #### TODO GENERAL:
 
