@@ -1,6 +1,7 @@
 import './App.css'
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Router from './Router';
+import { MapProvider } from './components/Hooks/MapContext';
 
 
 /**
@@ -17,7 +18,9 @@ function App() {
    
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Router />
+        <MapProvider>
+          <Router />
+        </MapProvider>
       </ThemeProvider>
    
 

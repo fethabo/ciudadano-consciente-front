@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MultipleChoice from "../../components/Activities/MultipleChoice";
+import MultipleChoice from "../../components/Templates/MultipleChoice";
 import { Box } from "@mui/material";
 import { URL_API } from "../../constants";
 import axios from "axios";
@@ -52,16 +52,16 @@ useEffect(() => {
                 console.log("Content:", response.data)
             }
             )
-        setEnabledPost(false)
+        //setEnabledPost(false)
         }
-    
+    //TODO: usar el estado enabledPost para abrir la ventana, en la ventana poner un progress con el fetching del POST y en el reintentar setear el enablePost en false
 }, [answer, enabledPost]);
     return ( 
         <Box>
 
 <FormActivityContent />
             Respuesta:{String(answer)}
-        <h1>Activity page</h1>
+        <h1>Activity page</h1>{/* TODO: agregar descripcion /nombre de actividad (quizas la descripcion en un tooltip o similar) */}
         {!!activityContent&&
               <MultipleChoice content={activityContent} onResponse={handleResponse} />
     }
