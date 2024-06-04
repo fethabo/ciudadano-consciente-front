@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { URL_API } from '../../constants';
 
 
-function Campo ({field, value}){
-    
+function Campo ({field, value}){    
     return(
         <>
             {field}
@@ -23,10 +22,12 @@ function Campo ({field, value}){
         )
 }
 
+
 export default function FormActivityContent() {
     const [activityTypeVersionModel, setActivityTypeVersionModel] = useState(null);
     //const [fields, setFields] = useState([]);
     useEffect(() => {
+        /* TODO: cambiar id, que lo obtenga del contexto? */
             axios.get(`${URL_API}/activity-type-version/57`)
               .then((response)=>{
                 const model = JSON.parse(response.data.model)
