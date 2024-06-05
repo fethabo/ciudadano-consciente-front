@@ -11,8 +11,24 @@ export default function Activity() {
     const [answer, setAnswer] =useState(null);
     const [enabledPost, setEnabledPost] = useState(false);
     const [activity, setActivity] = useState(null)
+
+    /*
+    TODO: PARA IMPLEMENTAR REACT_QUERY
+    const { isPending, error, data, isFetching } = useQuery({
+      queryKey: ['repoData'],
+      queryFn: () =>
+        axios
+          .get('https://api.github.com/repos/tannerlinsley/react-query')
+          .then((res) => res.data),
+    })
+  
+    if (isPending) return 'Loading...'
+  
+    if (error) return 'An error has occurred: ' + error.message */
+  
+
     useEffect(() => {
-        console.warn("ESTAMOS PROBANDO CON EL ID de activity 5, porque no tengo forma de filtrar por level")
+        console.warn("ESTAMOS PROBANDO CON EL ID de activity 5, se debe tomar de la URL")
             axios.get(`${URL_API}/activities/5`)/* ACA NECESITAMOS FILTRAR POR LEVEL al pedirla, no tiene sentido traernos todas las actividades y filtrarlas */
               .then((response)=>{
                 setActivity(response.data)
