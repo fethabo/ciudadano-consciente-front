@@ -7,6 +7,8 @@ import axios from "axios";
 import { URL_API } from "../../constants";
 import MapCytoscape from "../../components/MapCytoscape";
 import WindowLevel from "../../components/WindowLevel";
+import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
+import { useGetAnswersFromLevel } from "../../components/Hooks/requests/Answer";
 
 /* TODO: abstraer funciones de axios? organizaria bastante el uso
 * - agregar loading a funciones de axios (ver doc)
@@ -18,37 +20,13 @@ import WindowLevel from "../../components/WindowLevel";
 const Map = () => {
 
   const { idParentLevel } = useParams();
-  const [path, setPath] = useState();
-  const [childrens, setChildrens] = useState();
-  const [answers, setAnswers] = useState();
-  
-  useEffect(() => {
-    if (idParentLevel){
-      axios.get(`${URL_API}/levels/${idParentLevel}`)
-        .then((response)=>{
-          setPath(response?.data)
-      })
-      axios.get(`${URL_API}/levels/${idParentLevel}/childrens`)
-      .then((response)=>{
-          setChildrens(response?.data)
-         })
-      axios.get(`${URL_API}/answers/levels/${idParentLevel}/childrens`)
-      .then((response)=>{
-        setAnswers(response?.data)
-            /*  {
-          "answer": 1,
-          "user": 5,
-          "created": "2024-01-09",
-          "lastModified": "2024-01-09",
-          "status": false,
-          "level": 5,
-          "parent": 2,
-          "activity": 5,
-          "content": 7
-        } */
-  })
-    }
-  }, [idParentLevel]);
+  //const [path, setPath] = useState();
+  //const [childrens, setChildrens] = useState();
+//  const [answers, setAnswers] = useState();
+  const {data: path, isFetching: isFetchingPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
+  const {data: childrens, isFetching: isFetchingChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
+  const {data: answers, isFetching: isFetchingAnswers}= useGetAnswersFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
+
 
 
 const [mapElements,setMapElements]=useState([]);

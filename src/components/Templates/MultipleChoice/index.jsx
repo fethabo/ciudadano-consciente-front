@@ -9,14 +9,15 @@ export default function MultipleChoice ({content, onResponse}) {
 
     useEffect(() => {
         //Evaluo si la respuesta es correcta
+        const correctAnswer= content?.correct_answer
         if(!!response){//eslint-disable-line
-            if(response===content?.correct_answer){
+            if(response===correctAnswer){
                 onResponse(true);
             }else{
                 onResponse(false);
             }
         }
-    }, [response]);
+    }, [response, content, onResponse]);
     /* {opciones:{...clave:valor},, question: 'value',correct_answer:''} */
     return ( 
         <Stack direction="column" spacing={2}>

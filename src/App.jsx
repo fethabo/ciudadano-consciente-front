@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Router from './Router';
 //import { MapProvider } from './components/Hooks/MapContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MapProvider } from './components/Hooks/MapContext';
 
 
 /**
@@ -22,7 +23,9 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <Router />
+          <MapProvider>
+            <Router />
+          </MapProvider>
         </QueryClientProvider>
       </ThemeProvider>
    

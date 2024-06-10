@@ -13,7 +13,6 @@ import Activity from './pages/Activity'
 import Profile from './pages/Profile'
 //import ProtectedRoute from "./security/ProtectedRoute";
 import useObtenerToken from "./security/hooks/useObtenerToken";
-import { MapProvider } from "./components/Hooks/MapContext";
 
 /* TODO: AGREGAR ERROR BOUNDARY 
 * VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
@@ -32,15 +31,13 @@ function Router() {
             <Route path="/pool" element={<Pool />} />
             <Route path="/organizations" element={<Organizations />} /> 
             <Route path="/settings" element={<Settings />} /> 
-            <MapProvider>
-              <Route path="/map"  >{/* Pantalla de vista dle mapa, se muestran los branches y sus levels agrupados */}
-                <Route path=":idParentLevel" index element={<Map />} />
-                <Route path=":idParentLevel/:level" element={<Level />} />
-                <Route path=":idParentLevel/:level/activity/" element={<Activity />} />
-              </Route>
-            </MapProvider>
-{console.log(token)}       
-              <Route path="/profile" element={token?<Profile />:<Navigate to="/login" replace={true} />} />
+            <Route path="/map"  >{/* Pantalla de vista dle mapa, se muestran los branches y sus levels agrupados */}
+              <Route path=":idParentLevel" index element={<Map />} />
+              <Route path=":idParentLevel/:level" element={<Level />} />
+              <Route path=":idParentLevel/:level/activity/" element={<Activity />} />
+            </Route>
+            {console.log(token)}       
+            <Route path="/profile" element={token?<Profile />:<Navigate to="/login" replace={true} />} />
 
             {/* <ProtectedRoute path="/profile" componente={<Profile />}/> */}
            </Route>
