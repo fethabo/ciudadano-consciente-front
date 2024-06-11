@@ -14,7 +14,7 @@ export default function Activity() {
     const [enabledPost, setEnabledPost] = useState(false);
     const { level } = useMap();//TODO: DEBERIA OBTENER LA ACTIVIDAD EN LA VENTANA DEL MAP, aca obtener el content solamente.
     const { data: activity, isFetching } = useGetActivity({activityId: 5})
-    const { data: content, isFetching: isFetchingContent, error: errorContent } = useGetContent({contentId:activity?.content, enabled:!!activity&&!!activity.content})
+    const { data: content, isFetching: isFetchingContent, isError: isErrorContent, error: errorContent } = useGetContent({contentId:activity?.content, enabled:!!activity&&!!activity.content})
   
     useEffect(() => {
       if (content && !!content.model){
