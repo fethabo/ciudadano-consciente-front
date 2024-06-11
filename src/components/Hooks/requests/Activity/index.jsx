@@ -13,6 +13,19 @@ export function useGetActivity({activityId, ...rest}){
         ...rest
       })
     )
-     
+}
+
+
+export function useGetActivityByLevel({levelId, ...rest}){
+  return( useQuery({
+      queryKey: ['useGetActivityByLevel'],
+      queryFn: () =>
+        axios
+          .get(`${URL_API}/activities/level/${levelId}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+   
 
 }

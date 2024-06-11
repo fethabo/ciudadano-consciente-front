@@ -12,12 +12,12 @@ Esta es la aplicación front-end del proyecto Ciudadano Consciente.
 - Axios V1.6.7
 - Formik V2.4.5
 - Keycloak-js V23.0
+- Tanstack-react-query V5.4
+- Embla-carousel 8.0.1
 
 ## Structure
 
 En el source organizamos en carpetas de pages(paginas y sus componentes específicos si los tuvieran) y components (componentes comunes a varias vistas)
-
-
 
 TODO: la doc de cada componente definirla en c/u
 
@@ -26,7 +26,10 @@ TODO: la doc de cada componente definirla en c/u
 Es el componente base para todas las rutas, el *Outlet* de React-Router nos permite que reciba como children los componentes que hacen de contenido de cada ruta.
 
 Se plantea un diseño mobile-first, con tres botones de navegación principales en un AppBar inferior
-TODO: definir estilos de layout para web
+
+TODO: 
+- [] rever layout
+- [] definir estilos de layout para web
 
 #### Pages
 
@@ -35,10 +38,30 @@ TODO: definir estilos de layout para web
 - [] reemplazar axios por reactQuery
 - [] 
 ##### Login
+- [] Implementar vista o acceso a login de kc
+
 ##### Pool
+- [] implementar vista
+
 ##### Organization
+- [] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
+- [] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
+- [] agregar configuracion de mapa
+- [] agregar formularios: 
+    - [] Level
+    - [] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
+    - [] References (se deben poder agregar y vincular referencias a una actividad)
+    - [] Tags (permitir agregar tag y vincularla a una actividad)
+
+##### DEV
+- [] agregar pagina de Dev. permitir aca la configuracion de activityTypes. (no esta atado a una organizacion)
+
 ##### Map
-##### Level
+
+- [] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
+- [] Mejorar estilos del mapa. 
+- [] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
+
 ##### Activity
 Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON) y una funcion (onResponse) que devuelve true or false 
 - [] agregar ventana indicando respuesta correcta/incorrecta, con opcion para volver al mapa y cuando responde mal tambien permitirle reintentar
@@ -65,19 +88,20 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [-] agregar mapper de ID de usuario de keycloak (o averiguar como pasar el ID de usuario en el token.)// se complicó -.-
 - [-] Agregar POST de usuario al registrar.
 - [x] sacar autenticacion obligatoria.
-- [] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
+- [ ] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
+- [ ] agregar alias para importaciones de hooks y componentes 
 
 
 
+## Reuniones
+***Junio 11
+- Agregar pagina de configuracion de DEV?.
+
+
+Previo a junio
 ##### Nuevo para charlar:
 - problemas con keycloak 
 - definicion de acceso directo a activity / uso de contexto y ruteo privado.
-
-
-
-
-
-
 
 
 ###### Ya Charlado:
@@ -127,7 +151,7 @@ IMPORTACIONES DE TEMPLATES:
 No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas de maña con la configuracion de babel, pero lo haria bastante pesado hacer la transpilacion en la app).
 - Opciones:
 1. La mejor seria un enfoque de microfrontends, es decir, que los componentes se guarden ya transpilados, de esa forma la importacion dinamica podria hacerse como se planteo desde un principio y sigue todo encaminado. Esto requeriria establecer la mecanica tanto de la conformacion de los templates como de la transpilacion (babel o similar) y el empaquetado en un bundle.js. Esto aun no me quita la duda sobre las dependencias, habria que ahondar en la arquitectura microfrontend para lograr lo requerido de forma completa. (Nuestra api esta preparada para esta arquitectura)
-2. La otra seria ser conservadores (y mas expeditivos), plantearlo como lo planteamos tambien en un principio, los templates se integran en el proyecto, el cual podria ser colaborativo (parcialmente) para facilitar la participacion de la comunidad de programadores, y solo se pondrian en servicio por medio de deploys. Esto no significaria que no sirva lo del activity-version, ya que esto puede ser una version previa a la implementacion de los micro-frontends, lo unico que no estariamos importando dinamicamente directamente desde el servidor, sino que obtendriamos la version aprobada y obtendriamos el template dinamicamente desde la carpeta dedicada a alojar los templates dentro del proyecto (usando como referencia ese idActivityTypeVersion guardado en la api)
+2. La otra seria ser conservadores (y mas expeditivos), plantearlo como lo planteamos tambien en un principio, los templates se integran en el proyecto, el cual podria ser colaborativo (parcialmente) para facilitar la participacion de la comunidad de programadores, y solo se pondrian en servicio por medio de deploys. Esto no significaria que no sirva lo del activity-version, ya que esto puede ser una version previa a la implementacion de los micro-frontends, lo unico que no estariamos importando dinamicamente directamente desde el servidor, sino que obtendriamos la version aprobada y obtendriamos el template dinamicamente desde la carpeta dedicada a alojar los templates dentro del proyecto (usando como referencia ese idActivityTypeVersion guardado en la api)********
 
 
  

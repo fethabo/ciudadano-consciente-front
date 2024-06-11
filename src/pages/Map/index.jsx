@@ -1,18 +1,14 @@
 import { Box, LinearProgress, Typography } from "@mui/material";
-//import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
-
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { URL_API } from "../../constants";
 import MapCytoscape from "../../components/MapCytoscape";
 import WindowLevel from "../../components/WindowLevel";
 import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
 import { useGetAnswersFromLevel } from "../../components/Hooks/requests/Answer";
+import { useGetActivityByLevel } from "../../components/Hooks/requests/Activity";
+import useMap from "../../components/Hooks/useMap";
 
-/* TODO: abstraer funciones de axios? organizaria bastante el uso
-* - agregar loading a funciones de axios (ver doc)
-* agregar alias para dirigir a funciones axios, constantes, componentes (y evitar la ruta relativa)
+/* TODO: 
 * cambiar estilo de nodo si tiene respuesta correcta 
 * agregar estilo a conexiones entre nodos si existe respuesta correcta en el parent,
 */
@@ -20,13 +16,9 @@ import { useGetAnswersFromLevel } from "../../components/Hooks/requests/Answer";
 const Map = () => {
 
   const { idParentLevel } = useParams();
-  //const [path, setPath] = useState();
-  //const [childrens, setChildrens] = useState();
-//  const [answers, setAnswers] = useState();
-  const {data: path, isFetching: isFetchingPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
-  const {data: childrens, isFetching: isFetchingChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
-  const {data: answers, isFetching: isFetchingAnswers}= useGetAnswersFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
-
+  const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
+  const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
+  const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers}= useGetAnswersFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
 
 
 const [mapElements,setMapElements]=useState([]);
@@ -54,13 +46,9 @@ useEffect(() => {
     // Iterar sobre los childrens
     childrens.forEach(level => {
       // Calcular la posición
-     // console.log("level", level)
       const position = getPosition(level.parent);
-
       // Agregar el nuevo elemento
-     // console.log(level)
       elements.push({ data:{id:level.levelId, label: level.name}, position:position, classes: 'outline' });
-
       // Si hay parentId, agregar enlace desde el padre
       //falta reubicar los niveles inferiores en una linea (conviene armar una matriz?)
       if (level.parent) {
@@ -75,29 +63,48 @@ useEffect(() => {
   }
 }, [childrens]);
 const [levelSelectedId, setLevelSelectedId] = useState(null);
-const [activity, setActivity] = useState(null);
-console.log(activity)
+//const [activity, setActivity] = useState(null);
+//console.log(activity)
 /* TODO: OBTENER EL LEVEL PARA VER SI TIENE ACTIVIDAD; SI TIENE ACTIVIDAD HABILITAR LA VENTANA,  */
 const handleSelect= (value)=>{
   //console.log("handleSelect", value)
   setLevelSelectedId(value)
 }
 
-//OBTENGO EL LEVEL SELECCIONADO
+const {activity, setActivity} = useMap();
+console.log(levelSelectedId, "levelSelectedId")
+
+const [habilitadoGetActivity, setHabilitadoGetActivity] =useState(true)
+const {data: activityFetched, isFetching: isFetchingActivity, isFetched: isFetchedActivity}= useGetActivityByLevel({levelId:levelSelectedId, enabled: !!levelSelectedId&&habilitadoGetActivity})
+
+
+/* TODO: actualizar contexto cuando actualizo la actividad */
 useEffect(() => {
+  console.log(activityFetched, "activityFetched", levelSelectedId)
+  if(isFetchedActivity){
+    setHabilitadoGetActivity(true);
+  }
+  if (activityFetched){
+    setActivity(activityFetched);
+  }
+}, [activityFetched, isFetchedActivity]);
+
+
+//OBTENGO EL LEVEL SELECCIONADO
+/* useEffect(() => {
   if (levelSelectedId){
     axios.get(`${URL_API}/activities/level/${levelSelectedId}`)
       .then((response)=>{
         setActivity(response?.data)
     })
   }
-}, [levelSelectedId]);
+}, [levelSelectedId]); */
 console.log(childrens?.find((level)=>level?.levelId===levelSelectedId), childrens, levelSelectedId)
     return (
     <Box>
       <h1>Mapa</h1>   
      SELECCIONADO: {levelSelectedId}
-     <WindowLevel open={!!activity&&!!levelSelectedId} activity={activity} level={childrens?.find((level)=>level?.levelId===Number(levelSelectedId))} handleClose={()=>setActivity(null)}/>
+     <WindowLevel open={!!activity&&!!levelSelectedId} activity={!!activity&&activity} level={childrens?.find((level)=>level?.levelId===Number(levelSelectedId))} handleClose={()=>setActivity(null)}/>
             {
             path
              ? <div className="path" style={{background:'darkred'}}>
@@ -115,11 +122,3 @@ console.log(childrens?.find((level)=>level?.levelId===levelSelectedId), children
   };
   
   export default Map;
-
-   /* childrens.map((level,index)=>
-
-              <div key={index}>{level.levelId}-{level.name}
-         
-              <Button onClick={()=>navigate(`${location.pathname}/${level.levelId}`)}>Ir a level</Button> </div>
-          )}
-    </div> */
