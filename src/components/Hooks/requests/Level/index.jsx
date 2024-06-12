@@ -122,9 +122,9 @@ PATCH /levels/{id}
 
 
 /*OBTENER LEVELS DE UNA ORGANIZACION DONDE UN USUARIO TIENE UN ROL ESPECIFICO*/
-export function useGetUserWithRoleInLevel({organizationId, roleId,userId, ...rest}){
+export function useGetLevelsOfUserInOrganization({organizationId, roleId,userId, ...rest}){
     return( useQuery({
-        queryKey: ['useGetUserWithRoleInLevel'],
+        queryKey: ['useGetLevelsOfUserInOrganization'],
         queryFn: () =>
           axios
             .get(`${URL_API}/levels/organizations/${organizationId}/users/${userId}/roles/${roleId}`)
