@@ -5,32 +5,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL_API } from "../constants";
 import EmblaCarousel from "../components/Carousel/EmblaCarousel";
+import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../components/Hooks/requests/Level";
 
-/**TODO: en estilos agregar acceso 
- * - armar carousel (se podria usar el stepper de mui)
-*/
 
 export default function Home (){
     const navigate= useNavigate();
-    const [paths,setPaths]= useState();
-    const [favoritePaths,setFavoritePaths]= useState();
-
-    const [recentPaths,setRecentPaths]= useState();
-    useEffect(() => {
-        //OBTENGO TODOS LOS PATHS
-        axios.get(`${URL_API}/levels/paths`)
-            .then((response)=>{
-              setPaths(response?.data)
-            })
-        axios.get(`${URL_API}/levels/paths/recently/users/8`)// usuario de s
-            .then((response)=>{
-              setRecentPaths(response?.data)
-            })
-        axios.get(`${URL_API}/levels/paths/favorites/users/8`)// usuario de s
-            .then((response)=>{
-              setFavoritePaths(response?.data)
-            })
-        }, []);
+    //TODO: OBTENER usuario! se usa el 8 para probar
+    const user= 8;
+    const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true});
+    const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({userId: user ,enabled:true});
+    const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({userId: user ,enabled:true});
+    
+ 
 
         const OPTIONS = {
             align: 'start',
@@ -49,6 +35,8 @@ export default function Home (){
         >
         
         <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
+       {/* TODO: PASAR ARREGLO DE PATHS A SLIDES (DEFINIR ANTES?) */}
+       
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
         
  {/* Recientes */}
