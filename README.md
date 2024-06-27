@@ -90,7 +90,9 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] sacar autenticacion obligatoria.
 - [ ] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
 - [ ] agregar alias para importaciones de hooks y componentes 
-
+- [ ] agregar post para marcar favorito (sobre el level (mapa y actividad) )
+- [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
+- [ ] busqueda de paths 
 
 
 ## Reuniones
@@ -100,8 +102,16 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 
 Previo a junio
 ##### Nuevo para charlar:
-- problemas con keycloak 
+- prolemas con keycloak 
 - definicion de acceso directo a activity / uso de contexto y ruteo privado.
+
+
+
+
+
+
+
+
 
 
 ###### Ya Charlado:

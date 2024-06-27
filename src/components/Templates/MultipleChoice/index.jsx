@@ -2,6 +2,11 @@ import { Button, Typography, Stack } from "@mui/material";
 import PropTypes from "prop-types"
 import { useEffect, useState } from "react";
 
+
+/* 
+* EL Content lo define el programador (modelo) para cumplir las necesidades de este componente. 
+* El onResponse es una funcion siempre igual que setea un estado true o false 
+*/
 export default function MultipleChoice ({content, onResponse}) {
 
    /* TODO: hacer que el orden de opciones sea aleatorio */
@@ -12,7 +17,7 @@ export default function MultipleChoice ({content, onResponse}) {
         const correctAnswer= content?.correct_answer
         if(!!response){//eslint-disable-line
             if(response===correctAnswer){
-                onResponse(true);
+                onResponse(true); //EL onResponse siempre debe setearse al responder (true/false)
             }else{
                 onResponse(false);
             }
@@ -30,6 +35,6 @@ export default function MultipleChoice ({content, onResponse}) {
      );
 }
 MultipleChoice.propTypes={
-    content:PropTypes.object,
-    onResponse: PropTypes.func
+    content:PropTypes.object, //DEPENDE DEL MODELO DEFINIDO DEL ACTIVITYTYPE
+    onResponse: PropTypes.func // FUNCION QUE SETEA ESTADO TRUE O FALSE 
 }

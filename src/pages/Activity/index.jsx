@@ -51,7 +51,7 @@ export default function Activity() {
             Respuesta:{String(answer)}
         <h1>Activity page</h1>{/* TODO: agregar descripcion /nombre de actividad (quizas la descripcion en un tooltip o similar) */}
          {isFetching&& <LinearProgress />}
-        
+        {/* ESTE CHILDREN PROBAR DE ARMAR UN SANDBOX PARA PRODUCIR TEMPLATES */}
         {!!activityContent&&
               <MultipleChoice content={activityContent} onResponse={handleResponse} />
     }

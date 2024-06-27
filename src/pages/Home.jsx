@@ -15,8 +15,6 @@ export default function Home (){
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true});
     const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({userId: user ,enabled:true});
     const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({userId: user ,enabled:true});
-    
- 
 
         const OPTIONS = {
             align: 'start',

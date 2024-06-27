@@ -28,7 +28,7 @@ function Router() {
             <Route path="*" element={<NoPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/init" element={<NotImplemented />} />  {/* INIT (pagina inicial, previo al home(loading?)) */}
-            <Route path="/pool" element={<Pool />} />
+            <Route path="/pool" element={<Pool />} /> {/* VISTA DE POOL DE PREGUNTAS, probablemente luego haya mas rutas */}
             <Route path="/organizations" element={<Organizations />} >{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
               <Route path=":idOrganization" element={<NotImplemented />}/>{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
               <Route path=":idOrganization/maps" element={<NotImplemented />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
@@ -50,7 +50,7 @@ function Router() {
               <Route path=":idParentLevel/:level/activity/" element={<Activity />} />
             </Route>
             {console.log(token)}       
-            <Route path="/profile" element={token?<Profile />:<Navigate to="/login" replace={true} />} />
+            <Route path="/profile" element={token? <Profile />:<Navigate to="/login" replace={true} />} />
 
             {/* <ProtectedRoute path="/profile" componente={<Profile />}/> */}
            </Route>
