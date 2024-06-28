@@ -8,7 +8,7 @@ import {
 import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
 import './embla.css'
-
+import PropTypes from 'prop-types'
 
 /* 
 usage: 
@@ -63,9 +63,9 @@ const EmblaCarousel = (props) => {
     <section className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {slides.map((index) => (
+          {slides.map((slide,index) => (
             <div className="embla__slide" key={index}>
-              <div className="embla__slide__number">{index + 1}</div>
+              {slide}
             </div>
           ))}
         </div>
@@ -94,3 +94,8 @@ const EmblaCarousel = (props) => {
 }
 
 export default EmblaCarousel
+
+EmblaCarousel.propTypes={
+  slides: PropTypes.array,
+  options: PropTypes.object,
+}
