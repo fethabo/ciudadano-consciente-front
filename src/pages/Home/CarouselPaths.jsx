@@ -8,7 +8,7 @@ function Slide({path}){
 
     const navigate= useNavigate();
     return (
-        <Card>
+        <Card >
             <CardContent>{path?.name}</CardContent>
             <CardContent>{path?.description}</CardContent>
             <Button onClick={()=>navigate(`/map/${path.levelId}`)}>Explorar</Button>
@@ -57,7 +57,7 @@ function CarouselPaths({paths, isLoading, isError}) {paths
     
     /* TODO; corregir posicion de botones */
     const OPTIONS = {
-        align: 'center',
+        align: 'start',
         dragFree: true,
         loop: true,
         slidesToScroll: 'auto'
