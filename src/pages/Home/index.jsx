@@ -21,7 +21,7 @@ export default function Home (){
         >
             <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
             
-            {/* TODOS los paths (paths disponibles) */}
+            {/* disponibles */}
             <Box >
                 <Typography variant="h5">Explora nuevos caminos!</Typography>
                 <CarouselPaths style={{maxWidth:'100%'}} paths={paths} isLoading={isFetchingPaths} isError={isErrorPaths}/>
@@ -32,7 +32,6 @@ export default function Home (){
             {/* Favoritos */}
             <Typography variant="h5">Tus Favoritos</Typography>
             <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>
-
 
             <Card className="acceso" onClick={()=>navigate("/organizations")}>
                 <CardContent>

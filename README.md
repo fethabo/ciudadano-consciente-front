@@ -34,8 +34,8 @@ TODO:
 #### Pages
 
 ##### Home
-- [] agregar carouseles para los datos obtenidos
-- [] reemplazar axios por reactQuery
+- [X] agregar carouseles para los datos obtenidos
+- [X] reemplazar axios por reactQuery
 - [] 
 ##### Login
 - [] Implementar vista o acceso a login de kc
@@ -93,7 +93,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] agregar post para marcar favorito (sobre el level (mapa y actividad) )
 - [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
 - [ ] busqueda de paths 
-
+- [ ] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
 
 ## Reuniones
 ***Junio 11

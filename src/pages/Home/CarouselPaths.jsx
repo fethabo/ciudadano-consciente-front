@@ -8,10 +8,9 @@ function Slide({path}){
 
     const navigate= useNavigate();
     return (
-        <Card >
+        <Card onClick={()=>navigate(`/map/${path.levelId}`)} >
             <CardContent>{path?.name}</CardContent>
             <CardContent>{path?.description}</CardContent>
-            <Button onClick={()=>navigate(`/map/${path.levelId}`)}>Explorar</Button>
         </Card>
     )
 }
