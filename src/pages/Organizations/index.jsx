@@ -1,5 +1,24 @@
-import { Box } from "@mui/material";
-import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import { Box, Card, CardContent,  Typography } from "@mui/material";
+import { useGetOrganizations } from "../../components/Hooks/requests/Organizations";
+import { Outlet, useNavigate } from "react-router-dom";
+//import { useGetOrganizationsOfUser } from "../../components/Hooks/requests/Organizations";
+import PropTypes from 'prop-types';
+
+function OrganizationCard({organization}) {
+  const navigate = useNavigate();
+  return ( 
+    <Card onClick={()=>navigate(`${organization?.organizationId}`)}>
+      <CardContent>
+        <Typography variant="h5">{organization?.name}</Typography>
+        <Typography variant="subtitle1">{organization?.description}</Typography>
+      </CardContent>
+    </Card>
+   );
+}
+OrganizationCard.propTypes = {
+  organization: PropTypes.object,
+}
+
 
 const Organizations = () => {
 
@@ -19,17 +38,22 @@ const Organizations = () => {
    *                      ->Abre ventana para edicion de level
    *          
   */
+//const user= 8; // TODO OBTENER USUARIO; SE USA 8 COMO PRUEBA
+
+//const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user, enabled: !!user})
+
+const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizations({enabled: true})
 
     return (
     <Box>
-      <PsychologyAltIcon fontSize="large" />
-      <h1>Organizations page</h1>
-      <div>
-        Muestro la organizacion
-        <div>
-          muestro sus paths(levels de mayor jerarquia) tenemos como identificarlos?
-        </div>
-      </div>
+      <h1>Tus organizaciones</h1>
+      <Typography variant="body1" >
+        Selecciona cuál de tus organizaciones quieres gestionar.
+      </Typography>
+      
+      TODO: PONER EN EMBLA CAROUSEL ESTAS ORGANIZACIONES:
+      {organizations?.map((organization,index) => <OrganizationCard key={index} organization={organization} />)}
+      <Outlet/> 
     </Box>
     )
   };

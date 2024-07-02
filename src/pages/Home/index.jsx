@@ -2,7 +2,7 @@ import { Stack, Card, CardContent, Typography, Divider, Box } from "@mui/materia
 import { useNavigate } from "react-router-dom"
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../components/Hooks/requests/Level";
-import CarouselPaths from "./CarouselPaths";
+import CarouselPaths from "../../components/CarouselPaths";
 
 
 export default function Home (){

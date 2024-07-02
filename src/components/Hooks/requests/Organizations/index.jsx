@@ -32,6 +32,22 @@ export function useGetOrganization({organizationId, ...rest}){
     )
 }
 
+/**
+ * 
+ * @param {*} userId 
+ * @returns 
+ */
+export function useGetOrganizationsOfUser({userId, ...rest}){
+  return( useQuery({
+      queryKey: ['useGetOrganizationsOfUser'],
+      queryFn: () =>
+        axios
+          .get(`${URL_API}/organizations/users/${userId}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
 /* TODO: 
 PROBAR POST, PUEDE QUE HAGA FALTA AGREGAR ALGUN HEADER
 */
@@ -96,16 +112,16 @@ export function usePatchOrganization({organizationId,form, ...rest}){
 /**
  * 
  * @param {*} organizationId 
- * @param role
- * @param user
+ * @param roleId
+ * @param userId
  * @returns users with Role in Organization
  */
-export function useGetUsersWithRoleOrganization({organizationId, role, user,...rest}){
+export function useGetUsersWithRoleOrganization({organizationId, roleId, userId,...rest}){
     return( useQuery({
         queryKey: ['useGetUsersWithRoleOrganization'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/organizations/${organizationId}/user/roles${role?`?role=${role}${user?`&user=${user}`:''}`: user? `?user=${user}` :'' }`)
+            .get(`${URL_API}/organizations/${organizationId}/user/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`)
             .then((res) => res.data),
         ...rest
       })

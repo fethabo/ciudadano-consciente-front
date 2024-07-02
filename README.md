@@ -28,61 +28,61 @@ Es el componente base para todas las rutas, el *Outlet* de React-Router nos perm
 Se plantea un diseño mobile-first, con tres botones de navegación principales en un AppBar inferior
 
 TODO: 
-- [] rever layout
-- [] definir estilos de layout para web
+- [ ] rever layout
+- [ ] definir estilos de layout para web
 
 #### Pages
 
 ##### Home
 - [X] agregar carouseles para los datos obtenidos
 - [X] reemplazar axios por reactQuery
-- [] 
+- [ ] 
 ##### Login
-- [] Implementar vista o acceso a login de kc
+- [ ] Implementar vista o acceso a login de kc
 
 ##### Pool
-- [] implementar vista
+- [ ] implementar vista
 
 ##### Organization
-- [] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
-- [] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
-- [] agregar configuracion de mapa
-- [] agregar formularios: 
-    - [] Level
-    - [] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
-    - [] References (se deben poder agregar y vincular referencias a una actividad)
-    - [] Tags (permitir agregar tag y vincularla a una actividad)
+- [ ] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
+- [ ] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
+- [ ] agregar configuracion de mapa
+- [ ] agregar formularios: 
+    - [ ] Level
+    - [ ] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
+    - [ ] References (se deben poder agregar y vincular referencias a una actividad)
+    - [ ] Tags (permitir agregar tag y vincularla a una actividad)
 
 ##### DEV
-- [] agregar pagina de Dev. permitir aca la configuracion de activityTypes. (no esta atado a una organizacion)
+- [ ] agregar pagina de Dev. permitir aca la configuracion de activityTypes. (no esta atado a una organizacion)
 
 ##### Map
 
-- [] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
-- [] Mejorar estilos del mapa. 
-- [] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
+- [ ] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
+- [ ] Mejorar estilos del mapa. 
+- [ ] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
 
 ##### Activity
 Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON) y una funcion (onResponse) que devuelve true or false 
-- [] agregar ventana indicando respuesta correcta/incorrecta, con opcion para volver al mapa y cuando responde mal tambien permitirle reintentar
+- [ ] agregar ventana indicando respuesta correcta/incorrecta, con opcion para volver al mapa y cuando responde mal tambien permitirle reintentar
 - [x] agregar post de respuesta 
-- [] corregir ruteo e implementar contexto para el manejo de la actividad.
+- [ ] corregir ruteo e implementar contexto para el manejo de la actividad.
 ##### formularios
-- [] terminar formulario autogenerado de activityContent  
-- [] implementar formularios de configuracion
+- [ ] terminar formulario autogenerado de activityContent  
+- [ ] implementar formularios de configuracion
 
 #### TODO GENERAL:
 
-- [] implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
-- [] implementar formularios para carga de contenidos
-- [] corregir altura de contenido (jode el appBar)
-- [] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
+- [ ] implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
+- [ ] implementar formularios para carga de contenidos
+- [ ] corregir altura de contenido (jode el appBar)
+- [ ] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
 - [x] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
-- [] activity
-- [] configuracion de caminos (gestion de organizaciones).
-- [] vista de home para usuarios no registrados (debe tener algunas diferencias)
-- [] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
-- [] probar elemento de aceternity
+- [ ] activity
+- [ ] configuracion de caminos (gestion de organizaciones).
+- [ ] vista de home para usuarios no registrados (debe tener algunas diferencias)
+- [ ] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
+- [ ] probar elemento de aceternity
 - [x] probar https://www.embla-carousel.com/ para los carouseles del home.
 - [-] agregar boton de acceso/registro/logout.
 - [-] agregar mapper de ID de usuario de keycloak (o averiguar como pasar el ID de usuario en el token.)// se complicó -.-
@@ -94,7 +94,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
 - [ ] busqueda de paths 
 - [ ] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
-
+- [ ] en EmblaCarousel definir vista movil (un slide en la pantalla)
 ## Reuniones
 ***Junio 11
 - Agregar pagina de configuracion de DEV?.

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
-import EmblaCarousel from "../../components/Carousel/EmblaCarousel"
-import { Button, Card, CardContent } from "@mui/material";
+import EmblaCarousel from "./Carousel/EmblaCarousel"
+import { Card, CardContent } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 
@@ -8,7 +8,7 @@ function Slide({path}){
 
     const navigate= useNavigate();
     return (
-        <Card onClick={()=>navigate(`/map/${path.levelId}`)} >
+        <Card onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} >
             <CardContent>{path?.name}</CardContent>
             <CardContent>{path?.description}</CardContent>
         </Card>
