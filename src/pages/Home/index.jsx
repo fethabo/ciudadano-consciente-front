@@ -4,7 +4,6 @@ import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRound
 import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
 
-
 export default function Home (){
     const navigate= useNavigate();
     //TODO: OBTENER usuario! se usa el 8 para probar
@@ -20,7 +19,7 @@ export default function Home (){
             divider={<Divider orientation="horizontal" flexItem />}
         >
             <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
-            
+
             {/* disponibles */}
             <Box >
                 <Typography variant="h5">Explora nuevos caminos!</Typography>
@@ -32,11 +31,17 @@ export default function Home (){
             {/* Favoritos */}
             <Typography variant="h5">Tus Favoritos</Typography>
             <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>
-
             <Card className="acceso" onClick={()=>navigate("/organizations")}>
                 <CardContent>
                     <SettingsSuggestRoundedIcon/>
-                    Crea tu propio camino
+                    Gestión de organizaciones
+                </CardContent>
+            </Card>
+            
+            <Card className="acceso" onClick={()=>navigate("/contents")}>
+                <CardContent>
+                    <SettingsSuggestRoundedIcon/>
+                    Crea tu contenido
                 </CardContent>
             </Card>
             <Card className="acceso" onClick={()=>navigate("/pool")}>

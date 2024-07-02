@@ -95,6 +95,20 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] busqueda de paths 
 - [ ] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
 - [ ] en EmblaCarousel definir vista movil (un slide en la pantalla)
+- [ ] Agregar creacion de contenidos:
+        - Un usuario cualquiera puede crear contenidos, habilitandolos como publicos o privados.
+            - si el contenido se genera desde la configuracionde la organización este se vincula a la misma, creando como propiedad de esta.
+            - si el contenido lo crea un usario desde fuera de la organización es del usuario, puede ponerlo publico y editarlo cuando quiere.
+        - puede editarlo/eliminarlo un moderador o el creador (si tiene organizacion relacionada el usuario debe ser divulgador de la misma o moderador para poder editarlo). 
+        - Agregar tags de forma obligatoria en el contenido (1 o 2)?
+- [ ] Agregar en el home la creacion de contenidos y la vista de contenidos publicos.
+- [ ] en el pool permitir la creacion de contenidos como respuesta a una pregunta.
+- [ ] en el pool agregar modo de juego sobre los contenidos publicos (directamente desde las respuestas del pool, esto seria una actividad sin level).
+- [ ] Agregar modo de juego random con los contenidos publicos, (con configuraciones de tags, pertenecientesde organizacion o no).
+- [ ] Idea: modo de juego competitivo. 
+- [ ] Idea: ranking por racha de victorias en modo de juego random
+- [ ] implementar o utilizar un tagPicker
+
 ## Reuniones
 ***Junio 11
 - Agregar pagina de configuracion de DEV?.
