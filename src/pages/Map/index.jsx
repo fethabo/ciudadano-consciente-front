@@ -20,7 +20,6 @@ const Map = () => {
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
   const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers}= useGetAnswersFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
 
-
 const [mapElements,setMapElements]=useState([]);
 
 useEffect(() => {
@@ -89,16 +88,6 @@ useEffect(() => {
   }
 }, [activityFetched, isFetchedActivity]);
 
-
-//OBTENGO EL LEVEL SELECCIONADO
-/* useEffect(() => {
-  if (levelSelectedId){
-    axios.get(`${URL_API}/activities/level/${levelSelectedId}`)
-      .then((response)=>{
-        setActivity(response?.data)
-    })
-  }
-}, [levelSelectedId]); */
 console.log(childrens?.find((level)=>level?.levelId===levelSelectedId), childrens, levelSelectedId)
     return (
     <Box>

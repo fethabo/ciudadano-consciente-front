@@ -93,32 +93,67 @@ export function useGetRecentlyPaths({userId, ...rest}){
     ) 
 }       
 
-/* TODO: 
-POST LEVEL:/levels
-
+/**
+ * 
+ * @param {*} form =  
 {
   "name": "",
   "description": "",
   "organization": "",
   "parent": ""
 }
-*/
+ * @returns 
+ */
+export function usePostLevel({form,...rest}){
+  return( useQuery({
+      queryKey: ['usePostLevel'],
+      queryFn: () =>
+        axios
+          .post(`${URL_API}/levels`, form)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}
 
-/* TODO:
-DELETE  /levels/{id}
-*/
 
-/* TODO:
-PATCH /levels/{id}
-{
+
+export function useDeleteLevel({levelId, ...rest}){
+  return( useQuery({
+      queryKey: ['useDeleteLevel'],
+      queryFn: () =>
+        axios
+          .delete(`${URL_API}/levels/${levelId}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
+
+/**
+ * 
+ * @param {*} levelId
+ * @param form = {
   "levelId": "",
   "name": "",
   "description": "",
   "organization": "",
   "parent": ""
+} 
+ * @returns 
+ */
+export function usePatchLevel({levelId,form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePatchLevel'],
+      queryFn: () =>
+        axios
+          .patch(`${URL_API}/levels/${levelId}`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
 }
-*/
-/* TODO  */
+
 
 
 /*OBTENER LEVELS DE UNA ORGANIZACION DONDE UN USUARIO TIENE UN ROL ESPECIFICO*/
@@ -133,3 +168,99 @@ export function useGetLevelsOfUserInOrganization({organizationId, roleId,userId,
       })
     ) 
 }  
+
+
+
+export function useGetUsersWithRoleInLevel({levelId, roleId,userId, ...rest}){
+  return( useQuery({
+      queryKey: ['useGetUsersWithRoleInLevel'],
+      queryFn: () =>
+        axios
+          .get(`${URL_API}/levels/organizations/${levelId}/users/roles${userId? `?user=${userId} ${roleId? `&role=${roleId}`:''}`: roleId?`?role=${roleId}`:''}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}  
+
+
+/**
+ * assign Role to user in level
+ * @param {*} levelId
+ * @param form =  {
+  "user": "",
+  "role": "",
+  "level": ""
+}
+ * @returns 
+ */
+export function usePostUserRoleLevel({levelId,form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePostUserRoleLevel'],
+      queryFn: () =>
+        axios
+          .post(`${URL_API}/levels/${levelId}/users/roles`, form)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}  
+
+/**
+ * update Role of user in level
+ * @param {*} levelId
+ * @param form =  {
+  "user": "",
+  "role": "",
+  "level": ""
+}
+ * @returns 
+ */
+export function usePatchUserRoleLevel({levelId,form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePatchUserRoleLevel'],
+      queryFn: () =>
+        axios
+          .patch(`${URL_API}/levels/${levelId}/users/roles`, form)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}  
+
+/**
+ * 
+ * @param {*} levelId
+ * @param userId 
+ * @returns 
+ */
+export function useDeleteAllRolesUserLevel({levelId,userId,...rest}){
+  return( useQuery({
+      queryKey: ['useDeleteAllRolesUserLevel'],
+      queryFn: () =>
+        axios
+          .delete(`${URL_API}/levels/${levelId}/users/${userId}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}
+
+/**
+ * 
+ * @param {*} levelId
+ * @param userId
+ * @param roleId 
+ * @returns 
+ */
+export function useDeleteRoleUserLevel({levelId,userId,roleId, ...rest}){
+  return( useQuery({
+      queryKey: ['useDeleteRoleUserLevel'],
+      queryFn: () =>
+        axios
+          .delete(`${URL_API}/levels/${levelId}/users/${userId}/roles/${roleId}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}

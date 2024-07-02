@@ -4,8 +4,20 @@ import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 const Organizations = () => {
 
   /** TODO: obtener organizaciones desde la api 
-   * - si el usuario pertenece a alguna, mostrar disponible? o solo traer las organizaciones del usuario?
-   * - Toda la configuracion de los levels la metemos por aca?
+   * - si el usuario pertenece a alguna, mostrar organizaciones a las que pertenece
+   * -> Selecciona la organizacion:
+   *    ->Acceso a edicion de Organizacion 
+   *       
+   *     ->Mapas disponibles de la organizacion (o nuevo mapa)
+   *        ->Mapa de configuracion
+   *          ->Agregar level -Abre ventana para carga de level (intentar configuracion visual con el cytoscape, 
+   *                cada nodo tendra la opcion de editar level,agregar actividad y de agregar hijos, 
+   *                las hojas tendran la opcion de ser eliminadas)
+   *                ->Agregar Actividad
+   *                      ->Abre ventana para carga de actividad.
+   *                ->Modificar Level
+   *                      ->Abre ventana para edicion de level
+   *          
   */
 
     return (
