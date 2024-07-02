@@ -108,6 +108,9 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] Idea: modo de juego competitivo. 
 - [ ] Idea: ranking por racha de victorias en modo de juego random
 - [ ] implementar o utilizar un tagPicker
+- [ ] unificar el uso del useQuery para posibles modificaciones masivas sobre todas las consultas de la aplicacion. (por ejemplo el staleTime)
+- [ ] agregar staleTime a todos los useQuery
+
 
 ## Reuniones
 ***Junio 11

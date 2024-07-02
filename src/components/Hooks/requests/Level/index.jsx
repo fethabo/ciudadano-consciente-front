@@ -51,6 +51,7 @@ export function useGetOrganizationPaths({organizationId, ...rest}){
           axios
             .get(`${URL_API}/levels/organizations/${organizationId}/paths`)
             .then((res) => res.data),
+            staleTime: 3000,
         ...rest
       })
     ) 

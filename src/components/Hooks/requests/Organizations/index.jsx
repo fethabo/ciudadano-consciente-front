@@ -27,6 +27,7 @@ export function useGetOrganization({organizationId, ...rest}){
           axios
             .get(`${URL_API}/organizations/${organizationId}`)
             .then((res) => res.data),
+        staleTime: 3000,
         ...rest
       })
     )
