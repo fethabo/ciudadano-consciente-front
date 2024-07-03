@@ -29,6 +29,38 @@ export function useGetActivityByLevel({levelId, ...rest}){
    
 
 }
-/* TODO: Post de Activity */
 
-/* TODO: PATCH de Activity */
+/**
+ * 
+ * @param {*} form 
+ * @returns 
+ */
+export function usePostActivity({form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePostActivity'],
+      queryFn: () =>
+        axios
+          .post(`${URL_API}/activities`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
+
+/**
+ * 
+ * @param {*} activityId
+ * @param form 
+ * @returns 
+ */
+export function usePatchActivity({activityId,form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePatchActivity'],
+      queryFn: () =>
+        axios
+          .patch(`${URL_API}/activities/${activityId}`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}

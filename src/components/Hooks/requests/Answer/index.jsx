@@ -15,16 +15,27 @@ export function useGetAnswers({...rest}){
     )
 }
 
-/* POST answers 
-/answers
- */
-/* payload: {
+/**
+ * 
+ * @param {*} form = {
   "activity": 0,
   "userId": 0,
   "status": true
-} */
+} 
+ * @returns 
+ */
+export function usePostAnswer({form,...rest}){
+  return( useQuery({
+      queryKey: ['usePostAnswers'],
+      queryFn: () =>
+        axios
+          .post(`${URL_API}/answers`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
 
-/*  */
 export function useGetAnswersFromLevel({levelId, ...rest}){
   return( useQuery({
       queryKey: ['useGetAnswersFromLevel'],
@@ -37,6 +48,12 @@ export function useGetAnswersFromLevel({levelId, ...rest}){
   )
 }
 
+
+/**
+ * 
+ * @param {*} answerId 
+ * @returns 
+ */
 export function useGetAnswer({answerId, ...rest }){
   return( useQuery({
       queryKey: ['useGetAnswer'],
@@ -48,12 +65,23 @@ export function useGetAnswer({answerId, ...rest }){
     })
   )
 }
-
-
-/* PATCH answers:
-  /answers/{id}/status
-{
+ /**
+  * 
+  * @param {*} answerId
+  * @param form = {
   "answerStatusId": "",
   "status": true
+} 
+  * @returns 
+  */
+export function usePatchAnswer({answerId,form, ...rest }){
+  return( useQuery({
+      queryKey: ['usePatchAnswer'],
+      queryFn: () =>
+        axios
+          .patch(`${URL_API}/answers/${answerId}/status`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
 }
-*/

@@ -15,6 +15,27 @@ export function useGetContent({contentId, ...rest}){
     )
 }
 
-/* TODO: POST CONTENT */
+export function usePostContent({form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePostContent'],
+      queryFn: () =>
+        axios
+          .post(`${URL_API}/contents/`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
 
-/* TODO: PATCH CONTENT */
+
+export function usePatchContent({form, ...rest}){
+  return( useQuery({
+      queryKey: ['usePatchContent'],
+      queryFn: () =>
+        axios
+          .patch(`${URL_API}/contents/`,form)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
