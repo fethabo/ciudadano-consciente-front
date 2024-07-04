@@ -1,7 +1,7 @@
 import { Box, Card, CardContent,  Typography } from "@mui/material";
-import { useGetOrganizations } from "../../components/Hooks/requests/Organizations";
+//import { useGetOrganizations } from "../../components/Hooks/requests/Organizations";
 import { Outlet, useNavigate } from "react-router-dom";
-//import { useGetOrganizationsOfUser } from "../../components/Hooks/requests/Organizations";
+import { useGetOrganizationsOfUser } from "../../components/Hooks/requests/Organizations";
 import PropTypes from 'prop-types';
 
 function OrganizationCard({organization}) {
@@ -38,11 +38,11 @@ const Organizations = () => {
    *                      ->Abre ventana para edicion de level
    *          
   */
-//const user= 8; // TODO OBTENER USUARIO; SE USA 8 COMO PRUEBA
+const user= 5; // TODO OBTENER USUARIO; SE USA 8 COMO PRUEBA
 
-//const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user, enabled: !!user})
+const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user, enabled: !!user})
 
-const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizations({enabled: true})
+//const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizations({enabled: true})
 
     return (
     <Box>

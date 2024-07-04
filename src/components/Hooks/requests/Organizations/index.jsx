@@ -122,7 +122,7 @@ export function useGetUsersWithRoleOrganization({organizationId, roleId, userId,
         queryKey: ['useGetUsersWithRoleOrganization'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/organizations/${organizationId}/user/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`)
+            .get(`${URL_API}/organizations/${organizationId}/users/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`)
             .then((res) => res.data),
         ...rest
       })
