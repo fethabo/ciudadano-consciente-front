@@ -13,7 +13,13 @@ export default function Organization() {
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization}= useGetOrganization({organizationId:idOrganization, enabled:!!idOrganization})
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetOrganizationPaths({organizationId:idOrganization, enabled:!!idOrganization})
    
-   //TODO: VER SI EN VERDAD ESTA FUNCIONANDO
+
+/* TODO:
+4	Divulgator
+5	Moderator
+3	Admin
+7	Tester 
+*/
     const {data: roles, isFetching: rolesOrganization, isError: isErrorRolesOrganization} = useGetUsersWithRoleOrganization({organizationId:idOrganization, userId:user, enabled: !!idOrganization&&!!user})
     const navigate = useNavigate();
     return ( 
@@ -31,7 +37,7 @@ export default function Organization() {
             <CarouselPaths paths={paths} isError={isErrorPaths} isLoading={isFetchingPaths||isFetchingOrganization} />
 
             <Typography variant="h6" align="left">Contenidos de la organización</Typography>
-            <Typography variant="h6" align="left">TODO: acceso a contenidos de la organizacion</Typography>
+            <Button onClick={()=> navigate(`./contents`, {relative: 'path'})}>Ver contenidos</Button> 
             
         </div>
      );
