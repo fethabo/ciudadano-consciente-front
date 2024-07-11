@@ -2,7 +2,7 @@ import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';//admin 3
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';//moderator 5
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';//divulgator 4
 import { useParams } from 'react-router-dom';
-import { useGetUsersWithRoleOrganization } from '../../components/Hooks/requests/Organizations';
+import { useDeleteUserRoleOrganization, useGetUsersWithRoleOrganization } from '../../components/Hooks/requests/Organizations';
 import { useGetRoles } from '../../components/Hooks/requests/Roles';
 import { useEffect, useState } from 'react';
 import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Tooltip } from '@mui/material';
@@ -14,12 +14,15 @@ import { useGetUsersOfOrganization } from '../../components/Hooks/requests/Users
   function convertData(data, roleIdToName, usersIdToName) {
     const result = data.map(entry => ({
         user: usersIdToName[entry.user],
-        role: roleIdToName[entry.role]
+        userId: entry.user,
+        role: roleIdToName[entry.role],
+        roleId: entry.roleId
     }));
     return result;
  }
 
 
+ /* TODO: SACAR IDORGANIZATION DE LA URL o COMPROBEMOS EL ROL DEL USUARIO QUE LO ACCEDE) */
 export default function OrganizationUsers() {
     const {idOrganization} =useParams();
     const {data: uros, isFetching: isFetchingUros, isError: isErrorUros} = useGetUsersWithRoleOrganization({organizationId: idOrganization, enabled: !!idOrganization});
@@ -28,7 +31,9 @@ export default function OrganizationUsers() {
     const [parsedUsers, setParsedUsers] = useState(null);
     console.log(uros, users, roles, parsedUsers)
     
-    
+    const [deleteData, setDeleteData] = useState(null);
+    const {isFetching: isFetchingDelete}= useDeleteUserRoleOrganization({organizationId:idOrganization, ...deleteData, enabled:!!deleteData});
+
     useEffect(() => {
         if(uros &&roles && users && !pending && !parsedUsers){
             const roleIdToName = {};
@@ -58,7 +63,7 @@ export default function OrganizationUsers() {
                     <ListItem
                     key={index}
                     secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
+                    <IconButton edge="end" aria-label="delete" onClick={()=>setDeleteData({roleId: user?.roleId, userId: user?.userId})}>
                         <DeleteIcon />
                     </IconButton>
                     }
