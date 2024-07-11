@@ -8,7 +8,7 @@ import CarouselPaths from "../../components/CarouselPaths";
 
 export default function Organization() {
     
-    const user= 5 //TODO Obtener usuario (8 es prueba)
+    const user= 8 //TODO Obtener usuario (8 es prueba)
     const { idOrganization } = useParams();    
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization}= useGetOrganization({organizationId:idOrganization, enabled:!!idOrganization})
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetOrganizationPaths({organizationId:idOrganization, enabled:!!idOrganization})

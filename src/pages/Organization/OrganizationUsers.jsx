@@ -16,24 +16,27 @@ import { useGetUsersOfOrganization } from '../../components/Hooks/requests/Users
         user: usersIdToName[entry.user],
         userId: entry.user,
         role: roleIdToName[entry.role],
-        roleId: entry.roleId
+        roleId: entry.role
     }));
     return result;
  }
 
 
- /* TODO: SACAR IDORGANIZATION DE LA URL o COMPROBEMOS EL ROL DEL USUARIO QUE LO ACCEDE) */
+ /* TODO: SACAR IDORGANIZATION DE LA URL o COMPROBEMOS EL ROL DEL USUARIO QUE LO ACCEDE)
+ TODO: Agregar boton para agregar usuario en la organizacion
+ TODO: AGREGAR REFETCH de users al eliminar*/
 export default function OrganizationUsers() {
     const {idOrganization} =useParams();
-    const {data: uros, isFetching: isFetchingUros, isError: isErrorUros} = useGetUsersWithRoleOrganization({organizationId: idOrganization, enabled: !!idOrganization});
-    const {data:users, pending} = useGetUsersOfOrganization({users: uros || [], enabled: !!uros})
-    const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled: true});
     const [parsedUsers, setParsedUsers] = useState(null);
-    console.log(uros, users, roles, parsedUsers)
-    
-    const [deleteData, setDeleteData] = useState(null);
-    const {isFetching: isFetchingDelete}= useDeleteUserRoleOrganization({organizationId:idOrganization, ...deleteData, enabled:!!deleteData});
 
+    const [deleteData, setDeleteData] = useState(null);
+    const {isFetching: isFetchingDelete}= useDeleteUserRoleOrganization({organizationId:idOrganization, userId:deleteData?.userId, roleId:deleteData?.roleId, enabled:!!deleteData});
+    const {data: uros, isFetching: isFetchingUros, isError: isErrorUros} = useGetUsersWithRoleOrganization({organizationId: idOrganization, enabled: (!!idOrganization&&!isFetchingDelete)});
+    const {data: users, pending} = useGetUsersOfOrganization({users: uros || [], enabled: !!uros})
+    const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled: true});
+  
+   
+console.log(parsedUsers)
     useEffect(() => {
         if(uros &&roles && users && !pending && !parsedUsers){
             const roleIdToName = {};

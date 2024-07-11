@@ -198,7 +198,8 @@ export function useDeleteAllUserRoleOrganization({organizationId, userId, ...res
  * @returns 
  */
 export function useDeleteUserRoleOrganization({organizationId, userId,roleId, ...rest}){
-    return( useQuery({
+  
+  return( useQuery({
         queryKey: ['useDeleteUserRoleOrganization'],
         queryFn: () =>
           axios

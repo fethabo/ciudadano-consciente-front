@@ -38,7 +38,7 @@ const Organizations = () => {
    *                      ->Abre ventana para edicion de level
    *          
   */
-const user= 5; // TODO OBTENER USUARIO; SE USA 8 COMO PRUEBA
+const user= 8; // TODO OBTENER USUARIO; SE USA 8 COMO PRUEBA
 
 const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user, enabled: !!user})
 

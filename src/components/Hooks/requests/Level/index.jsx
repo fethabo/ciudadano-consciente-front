@@ -75,7 +75,7 @@ export function useGetFavoritePaths({userId, ...rest}){
         queryKey: ['useGetFavoritePaths'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/levels/paths/favorites/${userId}`)
+            .get(`${URL_API}/levels/paths/favorites/users/${userId}`)
             .then((res) => res.data),
         ...rest
       })
@@ -87,7 +87,7 @@ export function useGetRecentlyPaths({userId, ...rest}){
         queryKey: ['useGetRecentlyPaths'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/levels/paths/recently/${userId}`)
+            .get(`${URL_API}/levels/paths/recently/users/${userId}`)
             .then((res) => res.data),
         ...rest
       })
