@@ -5,12 +5,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDeleteUserRoleOrganization, useGetUsersWithRoleOrganization } from '../../components/Hooks/requests/Organizations';
 import { useGetRoles } from '../../components/Hooks/requests/Roles';
 import { useEffect, useState } from 'react';
-import {  Avatar, Dialog, DialogTitle, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Tooltip } from '@mui/material';
+import {  Avatar, Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 import PersonIcon from '@mui/icons-material/Person'
 import { useGetUsersOfOrganization } from '../../components/Hooks/requests/Users/Index';
 
 import AddIcon from '@mui/icons-material/Add';
+import FormBase from '../../components/Forms/FormBase';
+import * as Yup from 'yup';
 
   function convertData(data, roleIdToName, usersIdToName, usersIdToEmail) {
     
@@ -45,12 +47,17 @@ export default function OrganizationUsers() {
     const [parsedUsers, setParsedUsers] = useState(null);
     const navigate = useNavigate();
     const [deleteData, setDeleteData] = useState(null);
-    const {isFetching: isFetchingDelete}= useDeleteUserRoleOrganization({organizationId:idOrganization, userId:deleteData?.userId, roleId:deleteData?.roleId, enabled:!!deleteData});
+    const {isFetching: isFetchingDelete, isFetched: isFetchedDelete}= useDeleteUserRoleOrganization({organizationId:idOrganization, userId:deleteData?.userId, roleId:deleteData?.roleId, enabled:!!deleteData});
     const [enabledUROS, setEnabledUROS] = useState(!!idOrganization);
-    const {data: uros, isFetching: isFetchingUros, isError: isErrorUros} = useGetUsersWithRoleOrganization({organizationId: idOrganization, enabled: enabledUROS||!isFetchingDelete});
+    const {data: uros, isFetching: isFetchingUros, isError: isErrorUros} = useGetUsersWithRoleOrganization({organizationId: idOrganization, enabled: enabledUROS});
     const {data: users, pending} = useGetUsersOfOrganization({users: uros || [], enabled: !!uros})
     const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled: true});
     
+    useEffect(() => {
+        if(isFetchedDelete&&!isFetchingDelete){
+            setEnabledUROS(true);
+        }
+    }, [isFetchedDelete,isFetchingDelete]);
 
     useEffect(() => {
         if(uros &&roles && users && !pending && !parsedUsers){
@@ -65,15 +72,68 @@ export default function OrganizationUsers() {
                 userIdToEmail[user.userId]= user.email;
             })
             setParsedUsers(convertData(uros,roleIdToName, userIdToName, userIdToEmail))
+            setEnabledUROS(false);
         }
     },[uros, roles,users, pending, parsedUsers])
 
     const handleClose = () => {
         navigate(-1)
     }
+    
+    const rolesRefactor = (roles)=>{
+        const options= [];
+        if(roles?.length>0){
+        roles.map((role) =>
+            options.push({value:role.roleId, label: role.name})
+        )
+    }
+        return options
+    }
+
+    const [formOpen, setFormOpen] = useState(false);
+    const handleCloseForm = () => {
+        setFormOpen(false)
+    }
+    
+    const fields = [
+        { name: 'user', type: 'text', placeholder: 'Enter your username', label:"User" },
+        { name: 'role', type: 'select', placeholder: 'Select Role', options:rolesRefactor(roles) },
+        { name: 'organization',props:{hidden:true}},
+      ];
+    
+      // Definir los valores iniciales
+      const initialValues = {
+        user: '',
+        role: '',
+        organization: idOrganization,
+      };
+    
+      // Definir el esquema de validación con Yup
+      const validationSchema = Yup.object().shape({
+        user: Yup.number().required('Required'),
+        role: Yup.number().required('Required'),
+        //organization: Yup.string().required('Required'),
+      });
+    
+      // Manejar el submit del formulario
+      const handleSubmit = (values) => {
+        console.log('Form values:', values);
+      };
+
     return ( 
         <Dialog onClose={handleClose} open>
         <DialogTitle>Usuarios en la organización</DialogTitle>
+            <Dialog onClose={handleCloseForm} open={formOpen}>
+                <DialogTitle>Agregar usuario</DialogTitle>
+                <DialogContent>
+                <FormBase
+                        fields={fields}
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={handleSubmit}
+                    />
+                </DialogContent>
+            </Dialog>
         <List dense>
             {parsedUsers?.length>0
             &&parsedUsers.map((user,index) => (
@@ -101,14 +161,14 @@ export default function OrganizationUsers() {
            <ListItem disableGutters>
           <ListItemButton
             autoFocus
-            onClick={() => console.log('addAccount')}
+            onClick={() => setFormOpen(true)}
           >
             <ListItemAvatar>
               <Avatar>
                 <AddIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary="Add account" />
+            <ListItemText primary="Agregar usuario" />
           </ListItemButton>
         </ListItem>
       </List>

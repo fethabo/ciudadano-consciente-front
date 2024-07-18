@@ -113,8 +113,10 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 
 
 ## Reuniones
-julio 17
-- 
+julio 17/18
+- agregar recurso de busqueda de usuario por correo electronico? la busqueda por username es la primera necesaria, para aplicar un filtro y no traer todos los users.
+- agregar invitacion de usuarios con correo electronico? al agregar un usuario en una org o un level, podriamos agregar un user inactivo al cual se le envie una notificacion al correo ingresado.
+- AGREGADO AL TODO DEL NOTION
 
 ***Julio 11
 - Un usuario puede tener mas de un rol en una organizacion? no esta teniendo sentido manejarlo asi, 

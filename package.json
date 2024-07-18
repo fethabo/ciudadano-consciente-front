@@ -24,7 +24,8 @@
     "keycloak-js": "23.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-cytoscapejs": "^2.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@rollup/plugin-dynamic-import-vars": "^2.1.2",
