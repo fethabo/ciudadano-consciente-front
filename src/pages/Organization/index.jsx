@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetOrganization, useGetUsersWithRoleOrganization } from "../../components/Hooks/requests/Organizations";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useGetOrganization, useGetUserRolesInOrganization, useGetUsersWithRoleOrganization } from "../../components/Hooks/requests/Organizations";
 import { Button, Typography } from "@mui/material";
 import { useGetOrganizationPaths } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
@@ -20,7 +20,7 @@ export default function Organization() {
 3	Admin
 7	Tester 
 */
-    const {data: roles, isFetching: rolesOrganization, isError: isErrorRolesOrganization} = useGetUsersWithRoleOrganization({organizationId:idOrganization, userId:user, enabled: !!idOrganization&&!!user})
+    const {data: roles, isFetching: rolesOrganization, isError: isErrorRolesOrganization} = useGetUserRolesInOrganization({organizationId:idOrganization, userId:user, enabled: !!idOrganization&&!!user})
     const navigate = useNavigate();
     return ( 
        ( isFetchingOrganization)?
@@ -38,7 +38,7 @@ export default function Organization() {
 
             <Typography variant="h6" align="left">Contenidos de la organización</Typography>
             <Button onClick={()=> navigate(`./contents`, {relative: 'path'})}>Ver contenidos</Button> 
-            
+            <Outlet />
         </div>
      );
 }

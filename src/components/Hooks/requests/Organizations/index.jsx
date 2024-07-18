@@ -128,6 +128,25 @@ export function useGetUsersWithRoleOrganization({organizationId, roleId, userId,
       })
     ) 
 }
+/**
+ * 
+ * @param {*} organizationId 
+ * @param roleId
+ * @param userId
+ * @returns users with Role in Organization
+ * OBS: es la misma query que la anterior, la duplico por que el uso del mismo queryKey me esta generando problemas con los cambios de estado
+ */
+export function useGetUserRolesInOrganization({organizationId, roleId, userId,...rest}){
+  return( useQuery({
+      queryKey: ['useGetUserRolesInOrganization'],
+      queryFn: () =>
+        axios
+          .get(`${URL_API}/organizations/${organizationId}/users/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`)
+          .then((res) => res.data),
+      ...rest
+    })
+  ) 
+}
 
 /**
  * Assign Role to User in Organization

@@ -113,6 +113,8 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 
 
 ## Reuniones
+julio 17
+- 
 
 ***Julio 11
 - Un usuario puede tener mas de un rol en una organizacion? no esta teniendo sentido manejarlo asi, 

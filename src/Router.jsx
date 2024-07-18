@@ -35,9 +35,11 @@ function Router() {
             <Route path="/pool/content/:idContent/play" element={<NotImplemented />} /> {/* VISTA juego de contenido */}
             <Route path="/random-play" element={<NotImplemented />} />{/* Vista de Modo de juego random (contenido publico) */}
             <Route path="/organizations"  element={<Organizations />} />{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
-              <Route path="/organizations/:idOrganization" element={<Organization />}/>{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
+              <Route path="/organizations/:idOrganization" element={<Organization />} >{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
+                <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
+              
+              </Route>
               <Route path="/organizations/:idOrganization/edit" element={<NotImplemented />}/>{/* Edicion de organizacion, pagina o ventana???*/}
-              <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
               <Route path="/organizations/:idOrganization/maps" element={<NotImplemented />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
               <Route path="/organizations/:idOrganization/map/:idMap" element={<NotImplemented />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
               <Route path="/organizations/:idOrganization/level" element={<NotImplemented />}/>{/* EN EL FORMULARIO TAMBIEN PODEMOS AGREGAR DIVULGADORES (USUARIOS DE LA ORGANIZACION) */}
