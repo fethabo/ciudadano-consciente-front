@@ -23,7 +23,7 @@ OrganizationCard.propTypes = {
 const Organizations = () => {
 
   /** TODO: obtener organizaciones desde la api 
-   * - si el usuario pertenece a alguna, mostrar organizaciones a las que pertenece
+   * - si el usuario pertenece a alguna, mostrar organizaciones a las que pertenece(LISTO)
    * -> Selecciona la organizacion:
    *    ->Acceso a edicion de Organizacion 
    *       
