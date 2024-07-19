@@ -1,27 +1,27 @@
-import { AppBar, BottomNavigation, BottomNavigationAction,  } from "@mui/material";
-import { Outlet, useNavigate } from "react-router-dom";
+import { AppBar, BottomNavigation, BottomNavigationAction, Button} from "@mui/material";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import HomeIcon from '@mui/icons-material/Home';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { useState } from "react";
+import ReplyIcon from '@mui/icons-material/Reply';
 
 
-/**
- * 
- * TODO: tomar de la url el valor de los botones de navegacion.
- */
 const Layout = () => {
-  const navigate = useNavigate()
-  const [bottomValue, setBottomValue] = useState()
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
       < >  
+      {!(location.pathname==='/')&&
+        <AppBar position='fixed' sx={{top:0, bottom:'auto'}}>
+          <Button onClick={()=>navigate(-1)}><ReplyIcon /> </Button>
+        </AppBar>
+      }
         <Outlet />
         <AppBar position='fixed' sx={{ bottom:0,top:'auto' }}>
         <BottomNavigation
-          value={bottomValue}
+          value={location.pathname}
           showLabels
           onChange={(event, newValue) => {
-            setBottomValue(newValue)
             newValue==="" ? navigate(-1) : navigate(newValue);
           }}
         >
