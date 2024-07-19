@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState } from 'react';
 import { URL_API } from '../../constants';
+import { useGetActivityTypeVersion } from '../Hooks/requests/ActivityTypeVersion';
+import useMap from '../Hooks/useMap';
 
 
 function Campo ({field, value}){    
@@ -24,10 +26,21 @@ function Campo ({field, value}){
 
 
 export default function FormActivityContent() {
+    //const {activityTypeVersionId}= useMap();
+      /* TODO: cambiar id, que lo obtenga del contexto? */
+      
+    const activityTypeVersionId= 57;
+    const [data,isFetching,isError] = useGetActivityTypeVersion({activityTypeVersionId: activityTypeVersionId, enabled:!!activityTypeVersionId})
     const [activityTypeVersionModel, setActivityTypeVersionModel] = useState(null);
-    //const [fields, setFields] = useState([]);
+    
     useEffect(() => {
-        /* TODO: cambiar id, que lo obtenga del contexto? */
+        if (!!data){
+            const model = JSON.parse(data.model)
+            setActivityTypeVersionModel(model)
+        }
+    }, [data]);
+    //const [fields, setFields] = useState([]);
+    /* useEffect(() => {
             axios.get(`${URL_API}/activity-type-version/57`)
               .then((response)=>{
                 const model = JSON.parse(response.data.model)
@@ -35,7 +48,7 @@ export default function FormActivityContent() {
                 console.log("ActivityTypeVersion:", response.data)
               }
               )
-       }, []);
+       }, []); */
 console.log(activityTypeVersionModel)
 
 
