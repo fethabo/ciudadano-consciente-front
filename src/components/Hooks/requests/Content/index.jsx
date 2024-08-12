@@ -39,3 +39,15 @@ export function usePatchContent({form, ...rest}){
     })
   )
 }
+
+export function useGetContentsOfOrganization({organizationId, ...rest}){
+  return( useQuery({
+      queryKey: ['useGetContentsOfOrganization'],
+      queryFn: () =>
+        axios
+          .get(`${URL_API}/contents/organizations/${organizationId}`)
+          .then((res) => res.data),
+      ...rest
+    })
+  )
+}
