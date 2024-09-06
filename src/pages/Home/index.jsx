@@ -1,8 +1,9 @@
-import { Stack, Card, CardContent, Typography, Divider, Box } from "@mui/material"
+import { Stack, Card, CardContent, Typography, Divider, Box, Button } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
+import { generateForm } from "../../components/Forms/generateForm";
 
 export default function Home (){
     const navigate= useNavigate();
@@ -18,6 +19,7 @@ export default function Home (){
             spacing={2}
             divider={<Divider orientation="horizontal" flexItem />}
         >
+          {/*   {generateForm('Activity',{name:'Un nombre'}, ()=>console.log("SUBMIT"), <Button type="submit">GUARDAR</Button> )} */}
             <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
 
             {/* disponibles */}

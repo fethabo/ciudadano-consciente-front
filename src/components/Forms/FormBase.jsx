@@ -2,7 +2,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PropTypes from "prop-types"
 
 // Este componente recibirá una lista de campos y otras propiedades de Formik
-export default function FormBase({ fields, initialValues, validationSchema, onSubmit }){
+/**
+ * @todo Agregar control de POST, que reciba la funcion por props
+ * @description children debe contener el button submit
+ * @param {*} param0 
+ * @returns 
+ */
+export default function FormBase({ fields, initialValues, validationSchema, onSubmit, children }){
 
   return (
     <Formik
@@ -37,7 +43,7 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
               <ErrorMessage name={field.name} component="div" className="error" />
             </div>
           ))}
-          <button type="submit">Submit</button>
+          {children}
         </Form>
       )}
     </Formik>
@@ -49,6 +55,7 @@ FormBase.propTypes = {
     initialValues: PropTypes.object,
     validationSchema: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
+    children: PropTypes.element
 }
 
 //import * as Yup from 'yup';

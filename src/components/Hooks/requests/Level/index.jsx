@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { URL_API } from "../../../../constants";
-
+import useObtenerToken from "../../../../security/hooks/useObtenerToken";
 
 export function useGetLevel({levelId, ...rest}){
     return( useQuery({
@@ -58,11 +58,17 @@ export function useGetOrganizationPaths({organizationId, ...rest}){
 }
 
 export function useGetPaths({...rest}){
+  
+const token = useObtenerToken()
     return( useQuery({
         queryKey: ['useGetPaths'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/levels/paths`)
+            .get(`${URL_API}/levels/paths`,{
+              headers: {
+                Authorization: `Bearer ${token}` // Incluye el token en los encabezados
+              }
+            })
             .then((res) => res.data),
         ...rest
       })
@@ -71,11 +77,17 @@ export function useGetPaths({...rest}){
 
 
 export function useGetFavoritePaths({userId, ...rest}){
+  
+const token = useObtenerToken()
     return( useQuery({
         queryKey: ['useGetFavoritePaths'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/levels/paths/favorites/users/${userId}`)
+            .get(`${URL_API}/levels/paths/favorites/users/${userId}`,{
+              headers: {
+                Authorization: `Bearer ${token}` // Incluye el token en los encabezados
+              }
+            })
             .then((res) => res.data),
         ...rest
       })

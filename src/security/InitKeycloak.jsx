@@ -15,20 +15,19 @@ export default function InitKeycloak({children, configKc}) {
     const [keycloak, setKeycloak] = useState(null);
     
     useEffect(() => {
-       // console.log("INITkeycloak",keycloak)
+        console.log("INITkeycloak",keycloak)
         const kc = new Keycloak(configKc);
-        if (keycloak === null || !keycloak /* || !keycloak.authenticated */) {
-           setKeycloak(kc);
-            /* kc.init({
-                onLoad: 'check-sso', enableLogging: true,
+        if (keycloak === null || !keycloak || !keycloak.authenticated) {
+            kc.init({
+                onLoad: 'login-required'
             }).then((authenticated) => {// eslint-disable-line
                     setKeycloak(kc);
-                    console.log("autenticacion exitosa")
+                    console.log("autenticacion exitosa", authenticated)
                 }).catch((errorData) => {
                     // si la autenticacion fallo, redirigimos a formulario de login
                     console.error("Kc inicializacion: errorData index", errorData);// eslint-disable-line
                     kc.logout(true);
-                }) */
+                })
 
             kc.onTokenExpired = () => {
                 kc.updateToken(5).then(() => {
