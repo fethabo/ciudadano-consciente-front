@@ -1,4 +1,5 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Button, MenuItem, TextField } from '@mui/material';
+import { Formik, Form, Field, /* ErrorMessage */ } from 'formik';
 import PropTypes from "prop-types"
 
 // Este componente recibirá una lista de campos y otras propiedades de Formik
@@ -16,34 +17,70 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      {() => (
+      {(formState) => (
           <Form>
+            {/* console.log(formState) */}
           {fields.map((field) => (
-            <div key={field.name}>
-              <label htmlFor={field.name}>{field.label}</label>
+            <div key={field.name} style={{ marginBottom: '16px' }}>
+             {/*  <label htmlFor={field.name}>{field.label}</label> */}
               {field.type === 'select' ? (
-                <Field as="select" id={field.name} name={field.name} {...field.props}>
+                 <Field
+                 name={field.name}
+                 as={TextField}
+                 select
+                 label={field.label || field.name}
+                 fullWidth
+                 variant="outlined"
+                 error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
+                 helperText={formState.touched[field.name] && formState.errors[field.name]}
+                 {...field.props}
+               >
+                 {field.options.map((option) => (
+                   <MenuItem key={option.value} value={option.value}>
+                     {option.label}
+                   </MenuItem>
+                 ))}
+               </Field>
+                /* <Field as="select" id={field.name} name={field.name} {...field.props}>
                   <option value="">Select an option</option>
                   {field.options.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
-                </Field>
+                </Field> */
               ) : (
                 <Field
+                  as={TextField}
+                  name={field.name}
+                  type={field.type}
+                  label={field.label || field.name}
+                  placeholder={field.placeholder}
+                  fullWidth
+                  variant="outlined"
+                  error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
+                  helperText={formState.touched[field.name] && formState.errors[field.name]}
+                  {...field.props}
+                />
+               /*  <Field
                   id={field.name}
                   name={field.name}
                   type={field.type}
                   component={field.component || 'input'}
                   placeholder={field.placeholder}
                   {...field.props}
-                />
+                /> */
               )}
-              <ErrorMessage name={field.name} component="div" className="error" />
+              {/* <ErrorMessage name={field.name} component="div" className="error" /> */}
             </div>
           ))}
+<<<<<<< Updated upstream
           {children}
+=======
+           <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
+>>>>>>> Stashed changes
         </Form>
       )}
     </Formik>

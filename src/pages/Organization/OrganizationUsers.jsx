@@ -11,8 +11,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import { useGetUsersOfOrganization } from '../../components/Hooks/requests/Users/Index';
 
 import AddIcon from '@mui/icons-material/Add';
-import FormBase from '../../components/Forms/FormBase';
-import * as Yup from 'yup';
+import FormSearchUsers from './FormSearchUser';
 
   function convertData(data, roleIdToName, usersIdToName, usersIdToEmail) {
     
@@ -27,7 +26,6 @@ import * as Yup from 'yup';
     return result;
  }
  function getIcon(role){
-    console.log("ROLE:", role)
     switch(role){
         case "Admin": return <MilitaryTechIcon />;
         case "Moderator": return <KeyboardDoubleArrowUpIcon />;
@@ -37,10 +35,10 @@ import * as Yup from 'yup';
 }
 
  /* 
- TODO: SACAR IDORGANIZATION DE LA URL o COMPROBEMOS EL ROL DEL USUARIO QUE LO ACCEDE)
- TODO: Agregar boton para agregar usuario en la organizacion
- TODO: AGREGAR REFETCH de users al eliminar
- TODO: navegar correctamente a la ruta anterior
+    TODO: SACAR IDORGANIZATION DE LA URL o COMPROBEMOS EL ROL DEL USUARIO QUE LO ACCEDE)
+    TODO: AGREGAR REFETCH de users al eliminar
+    TODO: navegar correctamente a la ruta anterior
+    TODO: atajar errores de hooks no atajados
  */
 export default function OrganizationUsers() {
     const {idOrganization} =useParams();
@@ -76,102 +74,66 @@ export default function OrganizationUsers() {
         }
     },[uros, roles,users, pending, parsedUsers])
 
+    /* CERRADO DE VENTANA DE USUARIOS */
     const handleClose = () => {
         navigate(-1)
     }
     
-    const rolesRefactor = (roles)=>{
-        const options= [];
-        if(roles?.length>0){
-        roles.map((role) =>
-            options.push({value:role.roleId, label: role.name})
-        )
-    }
-        return options
-    }
-
+    /* APERTURA/CIERRE DE VENTANA AGREGAR USUARIO */
     const [formOpen, setFormOpen] = useState(false);
     const handleCloseForm = () => {
         setFormOpen(false)
     }
     
-    const fields = [
-        { name: 'user', type: 'text', placeholder: 'Enter your username', label:"User" },
-        { name: 'role', type: 'select', placeholder: 'Select Role', options:rolesRefactor(roles) },
-        { name: 'organization',props:{hidden:true}},
-      ];
-    
-      // Definir los valores iniciales
-      const initialValues = {
-        user: '',
-        role: '',
-        organization: idOrganization,
-      };
-    
-      // Definir el esquema de validación con Yup
-      const validationSchema = Yup.object().shape({
-        user: Yup.number().required('Required'),
-        role: Yup.number().required('Required'),
-        //organization: Yup.string().required('Required'),
-      });
-    
-      // Manejar el submit del formulario
-      const handleSubmit = (values) => {
-        console.log('Form values:', values);
-      };
+   
 
     return ( 
         <Dialog onClose={handleClose} open>
-        <DialogTitle>Usuarios en la organización</DialogTitle>
+            <DialogTitle>Usuarios en la organización</DialogTitle>
             <Dialog onClose={handleCloseForm} open={formOpen}>
                 <DialogTitle>Agregar usuario</DialogTitle>
                 <DialogContent>
-                <FormBase
-                        fields={fields}
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                        onSubmit={handleSubmit}
-                    />
+                    <FormSearchUsers/>
                 </DialogContent>
             </Dialog>
-        <List dense>
-            {parsedUsers?.length>0
-            &&parsedUsers.map((user,index) => (
-                    <ListItem
-                        key={index}
-                        secondaryAction={
-                        <IconButton edge="end" aria-label="delete" onClick={()=>setDeleteData({roleId: user?.roleId, userId: user?.userId})}>
-                            <DeleteIcon />
-                        </IconButton>
-                        }
-                    >
-                        <Tooltip title={user?.role}>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    {getIcon(user.role)}
-                                </Avatar>
-                            </ListItemAvatar>
-                        </Tooltip>
-                        <ListItemText
-                            primary={user?.user}
-                            secondary={user?.email}
-                        />
-                    </ListItem>
-            ))}
-           <ListItem disableGutters>
-          <ListItemButton
-            autoFocus
-            onClick={() => setFormOpen(true)}
-          >
-            <ListItemAvatar>
-              <Avatar>
-                <AddIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Agregar usuario" />
-          </ListItemButton>
-        </ListItem>
-      </List>
+            <List dense>
+                {parsedUsers?.length>0
+                &&parsedUsers.map((user,index) => (
+                        <ListItem
+                            key={index}
+                            secondaryAction={
+                            <IconButton edge="end" aria-label="delete" onClick={()=>setDeleteData({roleId: user?.roleId, userId: user?.userId})}>
+                                <DeleteIcon />
+                            </IconButton>
+                            }
+                        >
+                            <Tooltip title={user?.role}>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        {getIcon(user.role)}
+                                    </Avatar>
+                                </ListItemAvatar>
+                            </Tooltip>
+                            <ListItemText
+                                primary={user?.user}
+                                secondary={user?.email}
+                            />
+                        </ListItem>
+                ))}
+            <ListItem disableGutters>
+            <ListItemButton
+                autoFocus
+                onClick={() => setFormOpen(true)}
+            >
+                <ListItemAvatar>
+                <Avatar>
+                    <AddIcon />
+                </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Agregar usuario" />
+            </ListItemButton>
+            </ListItem>
+        </List>
       </Dialog>
      );
 }
