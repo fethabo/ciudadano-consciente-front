@@ -1,4 +1,4 @@
-import { Button, MenuItem, TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
 import { Formik, Form, Field, /* ErrorMessage */ } from 'formik';
 import PropTypes from "prop-types"
 
@@ -35,7 +35,7 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
                  helperText={formState.touched[field.name] && formState.errors[field.name]}
                  {...field.props}
                >
-                 {field.options.map((option) => (
+                 {field.options?.map((option) => (
                    <MenuItem key={option.value} value={option.value}>
                      {option.label}
                    </MenuItem>
@@ -74,13 +74,7 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
               {/* <ErrorMessage name={field.name} component="div" className="error" /> */}
             </div>
           ))}
-<<<<<<< Updated upstream
           {children}
-=======
-           <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
->>>>>>> Stashed changes
         </Form>
       )}
     </Formik>

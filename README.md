@@ -44,7 +44,8 @@ TODO:
 - [ ] implementar vista
 
 ##### Organization
-- [ ] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
+- [x] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
+- [ ] mejorar embla carousel de las organizaciones del usuario
 - [ ] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
 - [ ] agregar configuracion de mapa
 - [ ] agregar formularios: 
@@ -190,5 +191,3 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 1. La mejor seria un enfoque de microfrontends, es decir, que los componentes se guarden ya transpilados, de esa forma la importacion dinamica podria hacerse como se planteo desde un principio y sigue todo encaminado. Esto requeriria establecer la mecanica tanto de la conformacion de los templates como de la transpilacion (babel o similar) y el empaquetado en un bundle.js. Esto aun no me quita la duda sobre las dependencias, habria que ahondar en la arquitectura microfrontend para lograr lo requerido de forma completa. (Nuestra api esta preparada para esta arquitectura)
 2. La otra seria ser conservadores (y mas expeditivos), plantearlo como lo planteamos tambien en un principio, los templates se integran en el proyecto, el cual podria ser colaborativo (parcialmente) para facilitar la participacion de la comunidad de programadores, y solo se pondrian en servicio por medio de deploys. Esto no significaria que no sirva lo del activity-version, ya que esto puede ser una version previa a la implementacion de los micro-frontends, lo unico que no estariamos importando dinamicamente directamente desde el servidor, sino que obtendriamos la version aprobada y obtendriamos el template dinamicamente desde la carpeta dedicada a alojar los templates dentro del proyecto (usando como referencia ese idActivityTypeVersion guardado en la api)********
 
-
- 

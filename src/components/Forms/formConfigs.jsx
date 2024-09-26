@@ -56,9 +56,12 @@ export const formConfigs = {
     
     Content: {
         fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
+            { name: 'activityTypeVersionId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad', options: [{value:'multiple-choice', label:'multiple-choice'}] },
+            { name: 'creator', label: 'Creador', type: 'text', placeholder: 'Ingrese el creador' },
+            { name: 'organization', label: 'Organizacion', type: 'select', placeholder: 'Seleccione la organizacion' },
+            { name: 'publicContent', label: 'Público', type: 'checkbox', placeholder: '¿Es público?' },
+            { name: 'model', label: 'CONTENIDO', type: 'textArea', placeholder: 'ESTE FIELD DEBE TENER EL MODELO CON DATOS' },
+           
         ],
         validationSchema: Yup.object({
             name: Yup.string().required('El nombre es obligatorio'),

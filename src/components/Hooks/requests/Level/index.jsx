@@ -59,16 +59,12 @@ export function useGetOrganizationPaths({organizationId, ...rest}){
 
 export function useGetPaths({...rest}){
   
-const token = useObtenerToken()
+//const token = useObtenerToken()
     return( useQuery({
         queryKey: ['useGetPaths'],
         queryFn: () =>
           axios
-            .get(`${URL_API}/levels/paths`,{
-              headers: {
-                Authorization: `Bearer ${token}` // Incluye el token en los encabezados
-              }
-            })
+            .get(`${URL_API}/levels/paths`)
             .then((res) => res.data),
         ...rest
       })

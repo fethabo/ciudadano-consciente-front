@@ -22,5 +22,9 @@ export default defineConfig({
         '@templates': path.resolve(__dirname, 'public/templates')
         
       }
+    },
+    server: {
+      host: true,
+      port: 5173
     }
 })

@@ -17,9 +17,11 @@ export default function InitKeycloak({children, configKc}) {
     useEffect(() => {
         console.log("INITkeycloak",keycloak)
         const kc = new Keycloak(configKc);
-        if (keycloak === null || !keycloak || !keycloak.authenticated) {
+        if (keycloak === null || !keycloak || !keycloak?.authenticated) {
             kc.init({
-                onLoad: 'login-required'
+                onLoad: 'login-required',
+                flow: 'standard',
+
             }).then((authenticated) => {// eslint-disable-line
                     setKeycloak(kc);
                     console.log("autenticacion exitosa", authenticated)

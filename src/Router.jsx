@@ -15,6 +15,8 @@ import Profile from './pages/Profile'
 import useObtenerToken from "./security/hooks/useObtenerToken";
 import Organization from "./pages/Organization";
 import OrganizationUsers from "./pages/Organization/OrganizationUsers";
+import OrganizationForm from "./pages/Organization/OrganizationForm";
+import ContentsPage from "./pages/Contents";
 
 /* TODO: AGREGAR ERROR BOUNDARY 
 * VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
@@ -39,7 +41,7 @@ function Router() {
                 <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
               
               </Route>
-              <Route path="/organizations/:idOrganization/edit" element={<NotImplemented />}/>{/* Edicion de organizacion, pagina o ventana???*/}
+              <Route path="/organizations/:idOrganization/edit" element={<OrganizationForm />}/>{/* Edicion de organizacion, pagina o ventana???*/}
               <Route path="/organizations/:idOrganization/maps" element={<NotImplemented />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
               <Route path="/organizations/:idOrganization/map/:idMap" element={<NotImplemented />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
               <Route path="/organizations/:idOrganization/level" element={<NotImplemented />}/>{/* EN EL FORMULARIO TAMBIEN PODEMOS AGREGAR DIVULGADORES (USUARIOS DE LA ORGANIZACION) */}
@@ -58,7 +60,7 @@ function Router() {
             </Route>
             {/* {console.log(token)}   */}     
             <Route path="/profile" element={token? <Profile />:<Navigate to="/login" replace={true} />} />
-            <Route path="/contents" element={<NotImplemented />} /> {/* VISTA DE Contenidos del usuario */}
+            <Route path="/contents" element={<ContentsPage />} /> {/* VISTA DE Contenidos del usuario */}
             <Route path="/dev" element={<NotImplemented />} /> {/* VISTA DE creacion de activities types */}
 
             {/* <ProtectedRoute path="/profile" componente={<Profile />}/> */}

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import CloseIcon from '@mui/icons-material/Close';
 import { useLocation, useNavigate } from "react-router-dom";
-export default function WindowLevel({open,level,activity,handleClose, ...rest}) {
+export default function WindowLevel({open,level,activity,handleClose, config, ...rest}) {
     const location= useLocation();
     const navigate=useNavigate();
 
@@ -19,7 +19,10 @@ console.log("windowLevel", level,activity)
                     {activity?.description}
                </DialogContent>
                <DialogActions>
-                {/* DEFINIR SI LA RUTA para acceder a la actividad puede ser directa, o si si o si tenemos que entrar desde el mapa. (manejando qué actividad manejar desde un contexto) */}
+                {/* {DEFINIR SI LA RUTA para acceder a la actividad puede ser directa, o si si o si tenemos que entrar desde el mapa. (manejando qué actividad manejar desde un contexto) */}
+                    {config && 
+                      <Button onClick={()=>navigate(`${location.pathname}/activity/config`)}>Configurar</Button>
+                    }
                     <Button onClick={()=>navigate(`${location.pathname}/activity`)}>Iniciar</Button>
                </DialogActions>
             </Dialog> );
@@ -30,5 +33,6 @@ WindowLevel.propTypes = {
     handleClose: PropTypes.func.isRequired,
     level: PropTypes.object,
     activity: PropTypes.object,
+    config: PropTypes.bool
 }
 
