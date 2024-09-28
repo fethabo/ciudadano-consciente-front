@@ -1,9 +1,10 @@
-import { Stack, Card, CardContent, Typography, Divider, Box, Button } from "@mui/material"
+import { Stack, Card, CardContent, Typography, Divider, Box, CardActions, Button } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
-import { generateForm } from "../../components/Forms/generateForm";
+import ContentAccess from "./ContentAccess";
+import { FrostedGlassCard } from "../../components/Cards";
 
 export default function Home (){
     const navigate= useNavigate();
@@ -33,25 +34,19 @@ export default function Home (){
             {/* Favoritos */}
             <Typography variant="h5">Tus Favoritos</Typography>
             <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>
-            <Card className="acceso" onClick={()=>navigate("/organizations")}>
+           
+            <FrostedGlassCard onClick={()=>navigate("/organizations")}>
                 <CardContent>
-                    <SettingsSuggestRoundedIcon/>
-                    Gestión de organizaciones
+                    <Typography variant="h5" color="#ffffff">
+                      Organizaciones
+                    </Typography>
+                    <Typography variant="body2" color="#ffffff">
+                        Gestiona el contenido de tus organizaciones.
+                    </Typography>
+
                 </CardContent>
-            </Card>
-            
-            <Card className="acceso" onClick={()=>navigate("/contents")}>
-                <CardContent>
-                    <SettingsSuggestRoundedIcon/>
-                    Crea tu contenido
-                </CardContent>
-            </Card>
-            <Card className="acceso" onClick={()=>navigate("/pool")}>
-                <CardContent>
-                    <SettingsSuggestRoundedIcon/>
-                    Comparte tus inquietudes
-                </CardContent>
-            </Card>
+               </FrostedGlassCard>
+            <ContentAccess />
          </Stack>
 
     )
