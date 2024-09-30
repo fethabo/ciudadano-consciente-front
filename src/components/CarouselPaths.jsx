@@ -1,16 +1,19 @@
 import PropTypes from "prop-types"
 import EmblaCarousel from "./Carousel/EmblaCarousel"
-import { Card, CardContent } from "@mui/material";
+import { Alert, Card, CardContent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
+import { NeonCard } from "./Cards";
 
 function Slide({path}){
 
     const navigate= useNavigate();
     return (
         <Card onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} >
-            <CardContent>{path?.name}</CardContent>
-            <CardContent>{path?.description}</CardContent>
+            <CardContent>
+                <Typography variant="h6">{path?.name}</Typography>
+                <Typography variant="body2">{path?.description}</Typography>
+            </CardContent>
         </Card>
     )
 }
@@ -29,10 +32,10 @@ function LoadingSlide(){
 
 function ErrorSlide(){
     return (
-        <Card>
+        <NeonCard>
             <CardContent>ERROR</CardContent>
-            <CardContent>AGREGAR MENSAJE DE ERROR BONITO</CardContent>
-        </Card>
+            <Alert severity="error" title="ups..">Parece que hubo un error al obtener los datos, intenta nuevamente</Alert>
+        </NeonCard>
     )
 }
 

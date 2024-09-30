@@ -1,6 +1,5 @@
-import { Stack, Card, CardContent, Typography, Divider, Box, CardActions, Button } from "@mui/material"
+import { Stack,  CardContent, Typography, Divider, Box} from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
