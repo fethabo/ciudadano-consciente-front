@@ -1,9 +1,8 @@
 import { Box, Button } from "@mui/material";
 import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import { URL_API } from "../../constants";
+import { useEffect} from 'react';
+import { useGetLevel } from "../../components/Hooks/requests/Level";
 
 /* TODO:
 * ESTE COMPONENTE DEJA DE TENER SENTIDO AL IMPLEMENTAR LOS NODOS EN EL MAPA, POR EL MOMENTO LO DEJO
@@ -14,17 +13,13 @@ const Level = () => {
   const { level } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const [levelData, setLevelData] = useState(null);
-
-  useEffect(() => {
-    if (level){
-      axios.get(`${URL_API}/levels/${level}`)
-        .then((response)=>{
-          setLevelData(response?.data)
-      })
-    }
-  }, [level]);
-
+  
+  const {data: levelData} = useGetLevel({levelId: level, enabled: !!level})
+ useEffect(() => {
+  if (levelData){
+    //SET en el useMAP?
+  }
+ }, [levelData]);
   return (
     <Box>
       <PsychologyAltIcon fontSize="large" />

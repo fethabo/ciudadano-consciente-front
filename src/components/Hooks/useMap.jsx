@@ -1,7 +1,6 @@
 import { useContext, useCallback } from 'react';
 import { MapContext } from './MapContext';
 
-// Hook personalizado para obtener los procesos por módulo
 export default function useMap() {
 
     const { state, dispatch } = useContext(MapContext);
@@ -15,15 +14,15 @@ export default function useMap() {
     ), [dispatch]);
 
     const setAnswers = useCallback((answers) => (
-        dispatch({ type: 'SET_CHILDRENS', payload: answers })
+        dispatch({ type: 'SET_ANSWERS', payload: answers })
     ), [dispatch]);
 
     const setLevelSelected = useCallback((level) => (
-        dispatch({ type: 'SET_LEVEL', payload: level })
+        dispatch({ type: 'SET_LEVEL_SELECTED', payload: level })
     ), [dispatch]);
 
     const setActivityTypeVersion = useCallback((activityTypeVersion) => (
-        dispatch({ type: 'SET_INSTANCIAR_PROCESO', payload: activityTypeVersion })
+        dispatch({ type: 'SET_ACTIVITY_TYPE_VERSION', payload: activityTypeVersion })
     ), [dispatch]);
 
     const setActivity = useCallback((activity) => (

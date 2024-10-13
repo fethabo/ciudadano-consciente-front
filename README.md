@@ -38,7 +38,7 @@ TODO:
 - [X] reemplazar axios por reactQuery
 - [ ] 
 ##### Login
-- [ ] Implementar vista o acceso a login de kc
+- [ ] Implementar vista o acceso a login de kc (TEMIFICARLO con https://www.keycloakify.dev/)
 
 ##### Pool
 - [ ] implementar vista
@@ -52,7 +52,7 @@ TODO:
     - [ ] Level
     - [ ] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
     - [ ] References (se deben poder agregar y vincular referencias a una actividad)
-    - [ ] Tags (permitir agregar tag y vincularla a una actividad)
+    - [ ] Tags (permitir agregar tag y vincularla a una actividad) (ALLOW ADDITIONS IN SELECT)
 
 ##### DEV
 - [ ] agregar pagina de Dev. permitir aca la configuracion de activityTypes. (no esta atado a una organizacion)

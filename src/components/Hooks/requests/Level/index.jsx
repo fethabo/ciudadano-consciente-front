@@ -5,7 +5,7 @@ import useObtenerToken from "../../../../security/hooks/useObtenerToken";
 
 export function useGetLevel({levelId, ...rest}){
     return( useQuery({
-        queryKey: ['useGetLevel'],
+        queryKey: ['useGetLevel', levelId],
         queryFn: () =>
           axios
             .get(`${URL_API}/levels/${levelId}`)
@@ -62,6 +62,8 @@ export function useGetPaths({...rest}){
 //const token = useObtenerToken()
     return( useQuery({
         queryKey: ['useGetPaths'],
+        refetchOnWindowFocus: false,
+        retry:false,
         queryFn: () =>
           axios
             .get(`${URL_API}/levels/paths`)

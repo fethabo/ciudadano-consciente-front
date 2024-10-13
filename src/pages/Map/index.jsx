@@ -65,12 +65,14 @@ const [levelSelectedId, setLevelSelectedId] = useState(null);
 //const [activity, setActivity] = useState(null);
 //console.log(activity)
 /* TODO: OBTENER EL LEVEL PARA VER SI TIENE ACTIVIDAD; SI TIENE ACTIVIDAD HABILITAR LA VENTANA,  */
+
+const {data: levelSelectedData} = useGetLevel({levelId:levelSelectedId, enabled: !!levelSelectedId})
 const handleSelect= (value)=>{
   //console.log("handleSelect", value)
   setLevelSelectedId(value)
 }
 
-const {activity, setActivity} = useMap();
+const {activity, setActivity, setLevelSelected} = useMap();
 console.log(levelSelectedId, "levelSelectedId")
 
 const [habilitadoGetActivity, setHabilitadoGetActivity] =useState(true)

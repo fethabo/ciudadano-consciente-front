@@ -9,7 +9,7 @@ export default function Home (){
     const navigate= useNavigate();
     //TODO: OBTENER usuario! se usa el 8 para probar
     const user= 8;
-    const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true});
+    const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
     const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({userId: user ,enabled:true});
     const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({userId: user ,enabled:true});
   
@@ -34,6 +34,8 @@ export default function Home (){
             <Typography variant="h5">Tus Favoritos</Typography>
             <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>
            
+           
+            <ContentAccess />
             <FrostedGlassCard onClick={()=>navigate("/organizations")}>
                 <CardContent>
                     <Typography variant="h5" color="#ffffff">
@@ -45,7 +47,6 @@ export default function Home (){
 
                 </CardContent>
                </FrostedGlassCard>
-            <ContentAccess />
          </Stack>
 
     )

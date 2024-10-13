@@ -1,20 +1,31 @@
 import PropTypes from "prop-types"
 import EmblaCarousel from "./Carousel/EmblaCarousel"
-import { Alert, Card, CardContent, Typography } from "@mui/material";
+import { Alert, Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
-import { NeonCard } from "./Cards";
+import { DiagonalGradientCard, NeonCard } from "./Cards";
 
 function Slide({path}){
 
     const navigate= useNavigate();
     return (
-        <Card onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} >
+        <DiagonalGradientCard onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} >
+            <CardMedia>
+                <Box
+                    component="img"
+                    sx={{
+                        maxWidth:"100%",
+                    }}
+                    alt={path?.name}
+                    /* TODO: AGREGAR RUTA A IMAGEN DE PATH */
+                    src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                    />
+            </CardMedia>
             <CardContent>
                 <Typography variant="h6">{path?.name}</Typography>
                 <Typography variant="body2">{path?.description}</Typography>
             </CardContent>
-        </Card>
+        </DiagonalGradientCard>
     )
 }
 Slide.propTypes = {
@@ -47,7 +58,8 @@ function CarouselPaths({paths, isLoading, isError}) {paths
             setSlides([<LoadingSlide key={0} />])
         }else{
             if (isError){
-                setSlides([<ErrorSlide key={0}/>])
+              //setSlides([<Slide key="0" path={{name:"TITULO", description:"Descripcion del level"}} />])
+              setSlides([<ErrorSlide key={0}/>])
             } else if(paths){
                 const slidesPaths=[];
                 paths.map((path,index) => {                
