@@ -22,15 +22,16 @@ export default function InitKeycloak({children, configKc}) {
                 onLoad: 'login-required',
                 flow: 'standard',
 
-            }).then((authenticated) => {// eslint-disable-line
+            }).then((authenticated) => {
                     setKeycloak(kc);
                     console.log("autenticacion exitosa", authenticated)
                 }).catch((errorData) => {
                     // si la autenticacion fallo, redirigimos a formulario de login
-                    console.error("Kc inicializacion: errorData index", errorData);// eslint-disable-line
+                    console.error("Kc inicializacion: errorData index", errorData);
                     kc.logout(true);
                 })
 
+                //esto no es util, si coincide una request cuando expira el token ya no sirve. Refrescarlo antes de que expire para evitarlo
             kc.onTokenExpired = () => {
                 kc.updateToken(5).then(() => {
                     const kcAux = { ...kc };

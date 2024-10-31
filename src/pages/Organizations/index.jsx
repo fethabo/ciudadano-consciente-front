@@ -1,8 +1,9 @@
-import { Box, Card, CardContent,  Typography } from "@mui/material";
+import { Alert, Box, Card, CardContent,  LinearProgress,  Typography } from "@mui/material";
 //import { useGetOrganizations } from "../../components/Hooks/requests/Organizations";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetOrganizationsOfUser } from "../../components/Hooks/requests/Organizations";
 import PropTypes from 'prop-types';
+import useUserApi from "../../components/Hooks/useUserApi";
 
 function OrganizationCard({organization}) {
   const navigate = useNavigate();
@@ -38,22 +39,30 @@ const Organizations = () => {
    *                      ->Abre ventana para edicion de level
    *          
   */
-const user= 8; // TODO OBTENER USUARIO; SE USA 8 COMO PRUEBA
-
-const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user, enabled: !!user})
+const user = useUserApi();
+console.log("user del contexto", user)
+const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user?.userId, enabled: !!user?.userId})
 
 //const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizations({enabled: true})
 
     return (
     <Box>
-      <h1>Tus organizaciones</h1>
-      <Typography variant="body1" >
-        Selecciona cuál de tus organizaciones quieres gestionar.
-      </Typography>
-      
-      TODO: PONER EN EMBLA CAROUSEL ESTAS ORGANIZACIONES:
-      {organizations?.map((organization,index) => <OrganizationCard key={index} organization={organization} />)}
-      <Outlet/> 
+      <Typography variant="h5">Tus organizaciones</Typography>
+      {(isFetchingOrganizations)?
+      <LinearProgress />
+      :
+      (isErrorOrganizations
+        ?<Alert severity="error">Hubo un error al obtener tus organizaciones</Alert>
+        :<Box> 
+          <Typography variant="body1" >
+            Selecciona cuál de tus organizaciones quieres gestionar.
+          </Typography>
+          
+          TODO: PONER EN EMBLA CAROUSEL ESTAS ORGANIZACIONES:
+          {organizations?.map((organization,index) => <OrganizationCard key={index} organization={organization} />)}
+          <Outlet/> 
+        </Box>)  
+    }
     </Box>
     )
   };

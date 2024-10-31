@@ -36,8 +36,8 @@ TODO:
 ##### Home
 - [X] agregar carouseles para los datos obtenidos
 - [X] reemplazar axios por reactQuery
-- [ ] 
-##### Login
+
+##### Login/registro
 - [ ] Implementar vista o acceso a login de kc (TEMIFICARLO con https://www.keycloakify.dev/)
 
 ##### Pool
@@ -62,39 +62,43 @@ TODO:
 - [ ] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
 - [ ] Mejorar estilos del mapa. 
 - [ ] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
+- [ ] vincular respuestas a los levels.. 
+- [ ] cambiar estilo de nodo si tiene respuesta correcta 
+- [ ] agregar estilo a conexiones entre nodos si existe respuesta correcta en el parent,
+- [ ] habilitar levels children solo si el padre tiene respuesta correcta (segun configuracion)
 
 ##### Activity
 Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON) y una funcion (onResponse) que devuelve true or false 
-- [ ] agregar ventana indicando respuesta correcta/incorrecta, con opcion para volver al mapa y cuando responde mal tambien permitirle reintentar
+- [x] agregar ventana indicando respuesta correcta/incorrecta, con opcion para volver al mapa y cuando responde mal tambien permitirle reintentar
 - [x] agregar post de respuesta 
-- [ ] corregir ruteo e implementar contexto para el manejo de la actividad.
+- [x] corregir ruteo e implementar contexto para el manejo de la actividad.
 ##### formularios
 - [ ] terminar formulario autogenerado de activityContent  
 - [ ] implementar formularios de configuracion
 
 #### TODO GENERAL:
 
-- [ ] implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
+- [x] implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
 - [ ] implementar formularios para carga de contenidos
 - [ ] corregir altura de contenido (jode el appBar)
 - [ ] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
 - [x] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
-- [ ] activity
+- [x] activity
 - [ ] configuracion de caminos (gestion de organizaciones).
 - [ ] vista de home para usuarios no registrados (debe tener algunas diferencias)
 - [ ] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
 - [ ] probar elemento de aceternity
 - [x] probar https://www.embla-carousel.com/ para los carouseles del home.
 - [-] agregar boton de acceso/registro/logout.
-- [-] agregar mapper de ID de usuario de keycloak (o averiguar como pasar el ID de usuario en el token.)// se complicó -.-
-- [-] Agregar POST de usuario al registrar.
+- [x] agregar mapper de ID de usuario de keycloak (o averiguar como pasar el ID de usuario en el token.)// se complicó -.-
+- [x] Agregar POST de usuario al registrar.
 - [x] sacar autenticacion obligatoria.
 - [ ] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
 - [ ] agregar alias para importaciones de hooks y componentes 
 - [ ] agregar post para marcar favorito (sobre el level (mapa y actividad) )
 - [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
 - [ ] busqueda de paths 
-- [ ] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
+- [x] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
 - [ ] en EmblaCarousel definir vista movil (un slide en la pantalla)
 - [ ] Agregar creacion de contenidos:
         - Un usuario cualquiera puede crear contenidos, habilitandolos como publicos o privados.
@@ -109,8 +113,18 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] Idea: modo de juego competitivo. 
 - [ ] Idea: ranking por racha de victorias en modo de juego random
 - [ ] implementar o utilizar un tagPicker
-- [ ] unificar el uso del useQuery para posibles modificaciones masivas sobre todas las consultas de la aplicacion. (por ejemplo el staleTime)
+- [x] unificar el uso del useQuery para posibles modificaciones masivas sobre todas las consultas de la aplicacion. (por ejemplo el staleTime)
 - [ ] agregar staleTime a todos los useQuery
+- [ ] quitar retry en requests de escritura
+- [x] Agregar un USER PROVIDER global, que intente obtener el usuario de la api a partir del userName o el email de kc, si no existe debe realizar un POST y disponibilizar el userId en la aplicacion.
+- [ ] idea: probar userGuests de kc, la app siempre autenticada, pero el registro en la api (POST) debe realizarse solo cuando se registra efectivamente en KC.
+
+## IMPORTANTE
+API:
+- (comenté el allow de los endpoint que me parecieron que debian estar libres) Quitar la verificacion del rol CIUCO_ADMIN, un usuario que recien se registra no puede obtener nada por esto. Al menos todo lo que sea publico se debe poder obtener solo con tener un token valido, sin roles asignados.
+- Endpoints que usan el userId como pathParam (o en el body como en el caso del POST de answer) deberian de obtener el userId a partir de los datos del token para no exponer las peticiones ni que se puedan trucar.
+- Contents de la organizacion (agregar filtrado al /contents)
+- Contents publicos (agregar filtrado al /contents)
 
 
 ## Reuniones

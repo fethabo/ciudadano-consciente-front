@@ -1,18 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { URL_API } from "../../../../constants";
+import useApiQuery from "../useApiQuery";
 
 
 export function useGetAnswers({...rest}){
-    return( useQuery({
-        queryKey: ['useGetAnswers'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/answers`)
-            .then((res) => res.data),
-        ...rest
-      })
-    )
+  return(useApiQuery({
+    queryKey:['useGetAnswers'],
+    endpoint: `/answers`,
+    options: {...rest},
+    }
+  ))  
 }
 
 /**
@@ -25,27 +20,36 @@ export function useGetAnswers({...rest}){
  * @returns 
  */
 export function usePostAnswer({form,...rest}){
-  return( useQuery({
-      queryKey: ['usePostAnswers'],
-      queryFn: () =>
-        axios
-          .post(`${URL_API}/answers`,form)
-          .then((res) => res.data),
-      ...rest
-    })
+ console.log("POSTANSWER", form)
+  return( 
+    useApiQuery({
+      queryKey:['usePostAnswers'],
+      endpoint: `/answers`,
+      method: 'POST', 
+      options: {...rest},
+      form:form 
+      }
+    )
   )
 }
 
 export function useGetAnswersFromLevel({levelId, ...rest}){
-  return( useQuery({
-      queryKey: ['useGetAnswersFromLevel'],
-      queryFn: () =>
-        axios
-          .get(`${URL_API}/answers/levels/${levelId}/childrens`)
-          .then((res) => res.data),
-      ...rest
-    })
-  )
+  return(useApiQuery({
+    queryKey:['useGetAnswersFromLevel', levelId],
+    endpoint: `/answers/levels/${levelId}/childrens`,
+    options: {...rest},
+    }
+  ))  
+}
+
+
+export function useGetAnswersOfUserFromLevel({levelId, userId, ...rest}){
+  return(useApiQuery({
+    queryKey:['useGetAnswersOfUserFromLevel', levelId, userId],
+    endpoint: `/answers/levels/${levelId}/childrens/user`,
+    options: {...rest},
+    }
+  ))  
 }
 
 
@@ -56,15 +60,12 @@ export function useGetAnswersFromLevel({levelId, ...rest}){
  * @returns 
  */
 export function useGetAnswer({answerId, ...rest }){
-  return( useQuery({
-      queryKey: ['useGetAnswer'],
-      queryFn: () =>
-        axios
-          .get(`${URL_API}/answers/${answerId}`)
-          .then((res) => res.data),
-      ...rest
-    })
-  )
+  return(useApiQuery({
+    queryKey:['useGetAnswer', answerId],
+    endpoint: `/answers/${answerId}`,
+    options: {...rest},
+    }
+  ))  
 }
  /**
   * 
@@ -76,13 +77,14 @@ export function useGetAnswer({answerId, ...rest }){
   * @returns 
   */
 export function usePatchAnswer({answerId,form, ...rest }){
-  return( useQuery({
-      queryKey: ['usePatchAnswer'],
-      queryFn: () =>
-        axios
-          .patch(`${URL_API}/answers/${answerId}/status`,form)
-          .then((res) => res.data),
-      ...rest
-    })
+  return( 
+    useApiQuery({
+      queryKey:['usePatchAnswer', answerId],
+      endpoint: `/answers/${answerId}/status`,
+      method: 'PATCH', 
+      options: {...rest},
+      form:form 
+      }
+    )
   )
 }

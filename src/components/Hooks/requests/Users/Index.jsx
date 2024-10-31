@@ -1,41 +1,103 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
 import { URL_API } from "../../../../constants";
+import useApiQuery from "../useApiQuery";
+import useGetToken from "../../../../security/hooks/useGetToken";
+/*
+useApiQuery({
+      queryKey:['',],
+      endpoint: ``,
+//      method: '', //Usar solo si no es GET
+      options: {...rest},
+      }
+    )
+*/
 
 /**
  * 
  * @returns  all users
  */
 export function useGetUsers({...rest}){
-    return( useQuery({
-        queryKey: ['useGetUsers'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/users`)
-            .then((res) => res.data),
-        ...rest
-      })
+  return(
+    useApiQuery({
+      queryKey:['useGetUsers'],
+      endpoint: `/users`,
+      options: {...rest},
+      }
     )
-  }
+  ) 
+}
 
-
-  /* TODO: POST (la version actual espera password, evaluar cuando se implemtnte kc) */
-
-  /**
+/**
  * @param userId
  * @returns  user
  */
 export function useGetUser({userId,...rest}){
-    return( useQuery({
-        queryKey: ['useGetUser', userId],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/users/${userId}`)
-            .then((res) => res.data),
-        ...rest
-      })
+  return(
+    useApiQuery({
+      queryKey:['useGetUser', userId],
+      endpoint: `/users/${userId}`,
+      options: {...rest},
+      }
     )
+  )  
   }
+
+/**
+ * @param userEmail
+ * @returns  user
+ */
+export function useGetUserByEmail({userEmail, ...rest}){
+  return useApiQuery({
+    queryKey: ['useGetUserByEmail', userEmail],
+    endpoint: `/users/email/${userEmail}`,
+    options: { ...rest },
+  });
+}
+
+/**
+ * @param userName
+ * @returns  user
+ */
+export function useGetUserByUsername({userName, ...rest}){
+  return useApiQuery({
+    queryKey: ['useGetUserByUsername', userName],
+    endpoint: `/users/username/${userName}`,
+    options: { ...rest },
+  });
+}
+
+
+
+ /**
+ * @param userId
+ * @returns  votes of user
+ */
+    export function useGetUserVotes({userId,...rest}){
+      return useApiQuery({
+        queryKey: ['useGetUserVotes', userId],
+        endpoint: `/users/${userId}/votes`,
+        options: { ...rest },
+      });
+    }
+
+
+/**
+ * @param userId
+ * @returns  user
+ */
+export function usePostUser({...rest}){
+  return(
+    useApiQuery({
+      queryKey:['usePostUser'],
+      endpoint: `/users`,
+      method:"POST",
+      options: {...rest},
+      }
+    )
+  )  
+  }
+
 
 
   /**
@@ -55,10 +117,11 @@ export function useGetUser({userId,...rest}){
     },
   }) */
   export function useGetUsersOfOrganization({users,...rest}){
+    const token = useGetToken();
     const result= useQueries({
         queries: users.map((user) => ({
             queryKey: ['useGetUser', user.user],
-            queryFn: () => axios.get(`${URL_API}/users/${user.user}`).then((res) => res.data)
+            queryFn: () => axios.get(`${URL_API}/users/${user.user}`, {headers: {Authorization: `Bearer ${token}`} } ).then((res) => res.data)
             })),
             ...rest,
             combine: (results) => {
@@ -72,20 +135,3 @@ export function useGetUser({userId,...rest}){
     return result
   }
 
-
-
-    /**
- * @param userId
- * @returns  votes of user
- */
-export function useGetUserVotes({userId,...rest}){
-    return( useQuery({
-        queryKey: ['useGetUserVotes', userId],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/users/${userId}/votes`)
-            .then((res) => res.data),
-        ...rest
-      })
-    )
-  }

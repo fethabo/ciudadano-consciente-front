@@ -1,46 +1,42 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { URL_API } from "../../../../constants";
+import useApiQuery from "../useApiQuery";
 
 /**
  * 
  * @returns 
  */
 export function useGetVotes({...rest}){
-    return( useQuery({
-        queryKey: ['useGetVotes'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/votes`)
-            .then((res) => res.data),
-        ...rest
-      })
-    ) 
+  return( 
+    useApiQuery({
+      queryKey:['useGetVotes'],
+      endpoint: `/votes`,
+      options: {...rest},
+      }
+    )
+  )  
 }
 
 
 export function useGetVote({voteId,...rest}){
-    return( useQuery({
-        queryKey: ['useGetVote'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/votes/${voteId}`)
-            .then((res) => res.data),
-        ...rest
-      })
-    ) 
+  return( 
+    useApiQuery({
+      queryKey:['useGetVote', voteId],
+      endpoint: `/votes/${voteId}`,
+      options: {...rest},
+      }
+    )
+  )   
 }
 
 export function usePatchVoteStatus({voteId,...rest}){
-    return( useQuery({
-        queryKey: ['usePatchVoteStatus'],
-        queryFn: () =>
-          axios
-            .patch(`${URL_API}/votes/${voteId}`)
-            .then((res) => res.data),
-        ...rest
-      })
-    ) 
+  return( 
+    useApiQuery({
+      queryKey:['usePatchVoteStatus', voteId],
+      endpoint: `/votes/${voteId}`,
+      method: 'PATCH',
+      options: {...rest},
+      }
+    )
+  )  
 }
 
 /**
@@ -51,13 +47,13 @@ export function usePatchVoteStatus({voteId,...rest}){
  * @returns 
  */
 export function usePostVote({userId,entityTypeId,entityId,...rest}){
-    return( useQuery({
-        queryKey: ['usePostVote'],
-        queryFn: () =>
-          axios
-            .post(`${URL_API}/votes/${userId}/${entityTypeId}/${entityId}`)
-            .then((res) => res.data),
-        ...rest
-      })
-    ) 
+  return( 
+    useApiQuery({
+      queryKey:['usePostVote', userId,entityTypeId,entityId],
+      endpoint: `/votes/${userId}/${entityTypeId}/${entityId}`,
+      method: 'POST',
+      options: {...rest},
+      }
+    )
+  )    
 }

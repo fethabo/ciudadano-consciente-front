@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState } from 'react';
-import { URL_API } from '../../constants';
 import { useGetActivityTypeVersion } from '../Hooks/requests/ActivityTypeVersion';
 import useMap from '../Hooks/useMap';
 
@@ -39,16 +37,7 @@ export default function FormActivityContent() {
             setActivityTypeVersionModel(model)
         }
     }, [data]);
-    //const [fields, setFields] = useState([]);
-    /* useEffect(() => {
-            axios.get(`${URL_API}/activity-type-version/57`)
-              .then((response)=>{
-                const model = JSON.parse(response.data.model)
-                setActivityTypeVersionModel(model)
-                console.log("ActivityTypeVersion:", response.data)
-              }
-              )
-       }, []); */
+    
 console.log(activityTypeVersionModel)
 
 

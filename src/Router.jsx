@@ -12,7 +12,7 @@ import Level from './pages/Level'
 import Activity from './pages/Activity'
 import Profile from './pages/Profile'
 //import ProtectedRoute from "./security/ProtectedRoute";
-import useObtenerToken from "./security/hooks/useObtenerToken";
+import useObtenerToken from "./security/hooks/useGetToken";
 import Organization from "./pages/Organization";
 import OrganizationUsers from "./pages/Organization/OrganizationUsers";
 import OrganizationForm from "./pages/Organization/OrganizationForm";
@@ -39,7 +39,6 @@ function Router() {
             <Route path="/organizations"  element={<Organizations />} />{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
               <Route path="/organizations/:idOrganization" element={<Organization />} >{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
                 <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
-              
               </Route>
               <Route path="/organizations/:idOrganization/edit" element={<OrganizationForm />}/>{/* Edicion de organizacion, pagina o ventana???*/}
               <Route path="/organizations/:idOrganization/maps" element={<NotImplemented />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
@@ -55,8 +54,8 @@ function Router() {
             <Route path="/settings" element={<Settings />} /> 
             <Route path="/map"  >{/* Pantalla de vista dle mapa, se muestran los branches y sus levels agrupados */}
               <Route path=":idParentLevel" index element={<Map />} />
-              <Route path=":idParentLevel/:level" element={<Level />} />
-              <Route path=":idParentLevel/:level/activity/" element={<Activity />} />
+             {/*  <Route path=":idParentLevel/:level" element={<Level />} /> */}
+              <Route path=":idParentLevel/activity/" element={<Activity />} />
             </Route>
             {/* {console.log(token)}   */}     
             <Route path="/profile" element={token? <Profile />:<Navigate to="/login" replace={true} />} />

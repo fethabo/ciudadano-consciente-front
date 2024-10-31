@@ -1,17 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { URL_API } from "../../../../constants";
-
+import useApiQuery from "../useApiQuery"
 
 export function useGetOrganizations({...rest}){
-    return( useQuery({
-        queryKey: ['useGetOrganizations'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/organizations`)
-            .then((res) => res.data),
-        ...rest
-      })
+    return(
+      useApiQuery({
+        queryKey:['useGetOrganizations'],
+        endpoint: `/organizations`,
+        options: {...rest},
+        }
+      )
     ) 
 }
 
@@ -21,16 +17,13 @@ export function useGetOrganizations({...rest}){
  * @returns 
  */
 export function useGetOrganization({organizationId, ...rest}){
-    return( useQuery({
-        queryKey: ['useGetOrganization'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/organizations/${organizationId}`)
-            .then((res) => res.data),
-        staleTime: 3000,
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['useGetOrganization',organizationId],
+      endpoint: `/organizations/${organizationId}`,
+      options: {...rest},
+    }
     )
+  )
 }
 
 /**
@@ -39,14 +32,12 @@ export function useGetOrganization({organizationId, ...rest}){
  * @returns 
  */
 export function useGetOrganizationsOfUser({userId, ...rest}){
-  return( useQuery({
-      queryKey: ['useGetOrganizationsOfUser'],
-      queryFn: () =>
-        axios
-          .get(`${URL_API}/organizations/users/${userId}`)
-          .then((res) => res.data),
-      ...rest
-    })
+  return( useApiQuery({
+    queryKey:['useGetOrganizationsOfUser',userId],
+    endpoint: `/organizations/users/${userId}`,
+    options: {...rest},
+    }
+  ) 
   )
 }
 /* TODO: 
@@ -62,27 +53,26 @@ PROBAR POST, PUEDE QUE HAGA FALTA AGREGAR ALGUN HEADER
  * @returns 
  */
 export function usePostOrganization({form, ...rest}){
-    return( useQuery({
-        queryKey: ['usePostOrganization'],
-        queryFn: () =>
-          axios
-            .post(`${URL_API}/organizations`, form)
-            .then((res) => res.data),
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['usePostOrganization'],
+      endpoint: `/organizations`,
+      method: 'POST',
+      options: {...rest},
+      form: form,
+      }
     ) 
+  )
 }
 
 export function useDeleteOrganization({organizationId, ...rest}){
-    return( useQuery({
-        queryKey: ['useDeleteOrganization'],
-        queryFn: () =>
-          axios
-            .delete(`${URL_API}/organizations/${organizationId}`)
-            .then((res) => res.data),
-        ...rest
-      })
-    )
+    return( useApiQuery({
+      queryKey:['useDeleteOrganization',organizationId],
+      endpoint: `/organizations/${organizationId}`,
+      method: 'DELETE',
+      options: {...rest},
+      }
+
+        )    )
 }
 
 
@@ -98,14 +88,14 @@ export function useDeleteOrganization({organizationId, ...rest}){
  * @returns 
  */
 export function usePatchOrganization({organizationId,form, ...rest}){
-    return( useQuery({
-        queryKey: ['usePatchOrganization'],
-        queryFn: () =>
-          axios
-            .patch(`${URL_API}/organizations/${organizationId}`,form)
-            .then((res) => res.data),
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['usePatchOrganization',organizationId],
+      endpoint: `/organizations/${organizationId}`,
+      method: 'PATCH',
+      options: {...rest},
+      form: form,
+      }
+    ) 
     )
 }
 
@@ -118,14 +108,12 @@ export function usePatchOrganization({organizationId,form, ...rest}){
  * @returns users with Role in Organization
  */
 export function useGetUsersWithRoleOrganization({organizationId, roleId, userId,...rest}){
-    return( useQuery({
-        queryKey: ['useGetUsersWithRoleOrganization'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/organizations/${organizationId}/users/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`)
-            .then((res) => res.data),
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['useGetUsersWithRoleOrganization',organizationId,roleId,userId],
+      endpoint: `/organizations/${organizationId}/users/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`,
+      options: {...rest},
+      }
+     ) 
     ) 
 }
 /**
@@ -137,14 +125,12 @@ export function useGetUsersWithRoleOrganization({organizationId, roleId, userId,
  * OBS: es la misma query que la anterior, la duplico por que el uso del mismo queryKey me esta generando problemas con los cambios de estado
  */
 export function useGetUserRolesInOrganization({organizationId, roleId, userId,...rest}){
-  return( useQuery({
-      queryKey: ['useGetUserRolesInOrganization'],
-      queryFn: () =>
-        axios
-          .get(`${URL_API}/organizations/${organizationId}/users/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`)
-          .then((res) => res.data),
-      ...rest
-    })
+  return(  useApiQuery({
+    queryKey:['useGetUserRolesInOrganization',organizationId,roleId,userId],
+    endpoint: `/organizations/${organizationId}/users/roles${roleId?`?role=${roleId}${userId?`&user=${userId}`:''}`: userId? `?user=${userId}` :'' }`,
+    options: {...rest},
+    }
+  )
   ) 
 }
 
@@ -158,14 +144,14 @@ export function useGetUserRolesInOrganization({organizationId, roleId, userId,..
  * @returns 
  */
 export function usePostRoleUserOrganization({organizationId,form, ...rest}){
-    return( useQuery({
-        queryKey: ['usePostRoleUserOrganization'],
-        queryFn: () =>
-          axios
-            .post(`${URL_API}/organizations/${organizationId}/users/roles`, form)
-            .then((res) => res.data),
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['usePostRoleUserOrganization',organizationId],
+      endpoint: `/organizations/${organizationId}/users/roles`,
+      method: 'POST',
+      options: {...rest},
+      form: form,
+      }
+    ) 
     ) 
 }
 
@@ -179,14 +165,14 @@ export function usePostRoleUserOrganization({organizationId,form, ...rest}){
  * @returns 
  */
 export function usePatchRoleUserOrganization({organizationId,form, ...rest}){
-    return( useQuery({
-        queryKey: ['usePatchRoleUserOrganization'],
-        queryFn: () =>
-          axios
-            .patch(`${URL_API}/organizations/${organizationId}/users/roles`, form)
-            .then((res) => res.data),
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['usePatchRoleUserOrganization',organizationId],
+      endpoint: `/organizations/${organizationId}/users/roles`,
+      method: 'PATCH',
+      options: {...rest},
+      form: form,
+      }
+    ) 
     ) 
 }
 
@@ -198,14 +184,13 @@ export function usePatchRoleUserOrganization({organizationId,form, ...rest}){
  * @returns 
  */
 export function useDeleteAllUserRoleOrganization({organizationId, userId, ...rest}){
-    return( useQuery({
-        queryKey: ['useDeleteAllUserRoleOrganization'],
-        queryFn: () =>
-          axios
-            .delete(`${URL_API}/organizations/${organizationId}/users/${userId}`)
-            .then((res) => res.data),
-        ...rest
-      })
+    return( useApiQuery({
+      queryKey:['useDeleteAllUserRoleOrganization', organizationId],
+      endpoint: `/organizations/${organizationId}/users/${userId}`,
+      method: 'DELETE',
+      options: {...rest},
+      }
+    ) 
     )
 }
 
@@ -218,13 +203,12 @@ export function useDeleteAllUserRoleOrganization({organizationId, userId, ...res
  */
 export function useDeleteUserRoleOrganization({organizationId, userId,roleId, ...rest}){
   
-  return( useQuery({
-        queryKey: ['useDeleteUserRoleOrganization'],
-        queryFn: () =>
-          axios
-            .delete(`${URL_API}/organizations/${organizationId}/users/${userId}/roles/${roleId}`)
-            .then((res) => res.data),
-        ...rest
-      })
+  return(  useApiQuery({
+    queryKey:['useDeleteUserRoleOrganization',organizationId, userId,roleId],
+    endpoint: `/organizations/${organizationId}/users/${userId}/roles/${roleId}`,
+    method: 'DELETE',
+    options: {...rest},
+    }
+  )
     )
 }

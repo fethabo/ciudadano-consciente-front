@@ -1,6 +1,8 @@
-import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, Button, IconButton } from '@mui/material';
 import { styled } from '@mui/system';
-
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useContext } from 'react';
+import { KeycloakContext } from '../../security/KeycloakContext';
 const Logo = styled('img')({
   width: '50px',  // Ajusta el tamaño del logo según sea necesario
   margin: '0 10px',
@@ -12,7 +14,10 @@ const HeaderBar = styled(AppBar)({
     padding: '10px 20px',
   });
 
+  /* TODO: hacer Sticky el header? podriamos descartar los botones , me resultan poco practicos */
 const Header = () => {
+  const keycloakContext = useContext(KeycloakContext)
+  console.log(keycloakContext)
   return (
     <HeaderBar position="static">
       <Toolbar>
@@ -25,6 +30,8 @@ const Header = () => {
             CONSCIENTE
           </Typography>
         </Box>
+        <IconButton sx={{position:'absolute', right:0}} onClick={()=> keycloakContext?.logout()}><ExitToAppIcon /></IconButton>
+       
       </Toolbar>
     </HeaderBar>
   );

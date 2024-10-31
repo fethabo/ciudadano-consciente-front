@@ -4,24 +4,27 @@ import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../com
 import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
+import useUserApi from "../../components/Hooks/useUserApi";
 
 export default function Home (){
     const navigate= useNavigate();
-    //TODO: OBTENER usuario! se usa el 8 para probar
-    const user= 8;
+    const user = useUserApi();
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
-    const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({userId: user ,enabled:true});
-    const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({userId: user ,enabled:true});
-  
+    const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({userId: user?.userId ,enabled:!!user?.userId});
+    const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({userId: user?.userId ,enabled:!!user?.userId});
+  /* Encabezado: "¿Listo para comenzar tu aventura educativa?"
+
+Descripción: "Elige entre nuestras opciones de juego y descubre un mundo de aprendizaje interactivo. Desde situaciones cotidianas hasta decisiones importantes, cada partida es una oportunidad para mejorar tus habilidades como ciudadano. */
     return(
         <Stack 
             direction='column' 
             spacing={2}
             divider={<Divider orientation="horizontal" flexItem />}
         >
-          {/*   {generateForm('Activity',{name:'Un nombre'}, ()=>console.log("SUBMIT"), <Button type="submit">GUARDAR</Button> )} */}
-            <Typography position='top' variant='h3'>¡Bienvenido, ciudadano! </Typography>
-
+            <Box>
+            <Typography position='top' variant='h6'>¿Listo para comenzar tu aventura educativa? </Typography>
+            <Typography variant="body2">Abre tu camino entre nuestras opciones de juego y descubre un mundo de aprendizaje interactivo. Cada partida es una oportunidad para mejorar tus habilidades como ciudadano.</Typography>
+            </Box>
             {/* disponibles */}
             <Box >
                 <Typography variant="h5">Explora nuevos caminos!</Typography>

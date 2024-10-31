@@ -5,11 +5,13 @@ import HomeIcon from '@mui/icons-material/Home';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 //import ReplyIcon from '@mui/icons-material/Reply';
 import Header from "./Header";
+import useObtenerToken from "../security/hooks/useGetToken";
 
 
 const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const token = useObtenerToken();
   return (
     <>
     <Header />
@@ -20,8 +22,9 @@ const Layout = () => {
           <Button onClick={()=>navigate(-1)}><ReplyIcon /> </Button>
         </AppBar>
       } */}
+      {token &&
         <Outlet />
-        <AppBar position='fixed' sx={{ bottom:0,top:'auto' }}>
+      }  <AppBar position='fixed' sx={{ bottom:0,top:'auto' }}>
         <BottomNavigation
           value={location.pathname}
           showLabels

@@ -1,19 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { URL_API } from "../../../../constants";
+import useApiQuery from "../useApiQuery";
 
 /**
  * 
  * @returns  all roles
  */
 export function useGetRoles({...rest}){
-    return( useQuery({
-        queryKey: ['useGetRoles'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/roles`)
-            .then((res) => res.data),
-        ...rest
-      })
-    )
+   return( useApiQuery({
+    queryKey:['useGetRoles'],
+    endpoint: `/roles`,
+    options: {...rest},
+    }
+  ))
   }

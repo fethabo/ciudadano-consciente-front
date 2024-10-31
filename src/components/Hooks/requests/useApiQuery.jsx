@@ -1,0 +1,44 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from 'axios';
+import useGetToken from '../../../security/hooks/useGetToken';
+import { URL_API } from "../../../constants";
+
+/**
+ * @example return( 
+    useApiQuery({
+      queryKey:['',],
+      endpoint: ``,
+      method: '',
+      options: {...rest},
+      form: form,
+      requiresAuth: true
+      }
+    )
+  )
+ * @param {*} param0 
+ * @returns 
+ */
+export default function useApiQuery({ queryKey, endpoint, method = 'GET', form, requiresAuth = true, options = {} }) {
+  const token = useGetToken();
+
+  function isWriting(){
+    return (method==="POST" || method==="PUT" || method==="DELETE" || method=="PATCH")
+  }
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      const config = {
+        method,
+        url: `${URL_API}${endpoint}`,
+        data: (((method === 'POST' || method === 'PUT' || method === 'PATCH') && form) ? form : undefined ), // agregamos el form solo en los POST y PUT
+        headers: requiresAuth ? { Authorization: `Bearer ${token}` } : undefined,
+      };
+      const response = await axios(config);
+      return response.data;
+    },
+    retry: isWriting() ? false: 2,
+    refetchOnWindowFocus: false,
+    ...options,
+  });
+}

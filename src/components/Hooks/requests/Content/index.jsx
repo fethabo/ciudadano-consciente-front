@@ -1,53 +1,51 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { URL_API } from "../../../../constants";
+import useApiQuery from "../useApiQuery";
 
 
 export function useGetContent({contentId, ...rest}){
-    return( useQuery({
-        queryKey: ['useGetContent'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/contents/${contentId}`)
-            .then((res) => res.data),
-        ...rest
-      })
+    return(
+      useApiQuery({
+        queryKey:['useGetContent',contentId],
+        endpoint: `/contents/${contentId}`,
+        options: {...rest},
+        }
+      )
     )
 }
 
 export function usePostContent({form, ...rest}){
-  return( useQuery({
-      queryKey: ['usePostContent'],
-      queryFn: () =>
-        axios
-          .post(`${URL_API}/contents/`,form)
-          .then((res) => res.data),
-      ...rest
-    })
+  return( 
+    useApiQuery({
+      queryKey:['usePostContent'],
+      endpoint: `/contents`,
+      method: 'POST',
+      options: {...rest},
+      form:form
+    }
+    )
   )
 }
 
 
-export function usePatchContent({form, ...rest}){
-  return( useQuery({
-      queryKey: ['usePatchContent'],
-      queryFn: () =>
-        axios
-          .patch(`${URL_API}/contents/`,form)
-          .then((res) => res.data),
-      ...rest
-    })
+export function usePatchContent({form,contentId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['usePatchContent',contentId],
+      endpoint: `/contents/${contentId}`,
+      method: 'PATCH',
+      form:form,
+      options: {...rest},
+      }
+    )
   )
 }
 
 export function useGetContentsOfOrganization({organizationId, ...rest}){
-  return( useQuery({
-      queryKey: ['useGetContentsOfOrganization'],
-      queryFn: () =>
-        axios
-          .get(`${URL_API}/contents/organizations/${organizationId}`)
-          .then((res) => res.data),
-      ...rest
-    })
+  return( 
+    useApiQuery({
+      queryKey:['useGetContentsOfOrganization',organizationId],
+      endpoint: `/contents/organizations/${organizationId}`,
+      options: {...rest},
+      }
+    )
   )
 }

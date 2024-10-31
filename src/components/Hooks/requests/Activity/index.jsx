@@ -1,32 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { URL_API } from "../../../../constants";
+
+import useApiQuery from "../useApiQuery";
+
+
 
 
 export function useGetActivity({activityId, ...rest}){
-    return( useQuery({
-        queryKey: ['useGetActivity'],
-        queryFn: () =>
-          axios
-            .get(`${URL_API}/activities/${activityId}`)
-            .then((res) => res.data),
-        ...rest
-      })
+    return(
+      useApiQuery({
+        queryKey:['useGetActivity',activityId],
+        endpoint: `/activities/${activityId}`,
+        options: {...rest},
+        }
+      )
     )
 }
 
 
 export function useGetActivityByLevel({levelId, ...rest}){
-  return( useQuery({
-      queryKey: ['useGetActivityByLevel'],
-      queryFn: () =>
-        axios
-          .get(`${URL_API}/activities/level/${levelId}`)
-          .then((res) => res.data),
-      ...rest
-    })
-  )
-   
+  return(
+    useApiQuery({
+      queryKey:['useGetActivityByLevel',levelId],
+      endpoint: `/activities/level/${levelId}`,
+      options: {...rest},
+      }
+    )
+  )   
 
 }
 
@@ -36,15 +34,16 @@ export function useGetActivityByLevel({levelId, ...rest}){
  * @returns 
  */
 export function usePostActivity({form, ...rest}){
-  return( useQuery({
-      queryKey: ['usePostActivity'],
-      queryFn: () =>
-        axios
-          .post(`${URL_API}/activities`,form)
-          .then((res) => res.data),
-      ...rest
-    })
-  )
+  return(
+    useApiQuery({
+      queryKey:['usePostActivity'],
+      form: form,
+      method: 'POST',
+      endpoint: `/activities`,
+      options: {...rest},
+      }
+    )
+  )   
 }
 
 /**
@@ -54,13 +53,14 @@ export function usePostActivity({form, ...rest}){
  * @returns 
  */
 export function usePatchActivity({activityId,form, ...rest}){
-  return( useQuery({
-      queryKey: ['usePatchActivity'],
-      queryFn: () =>
-        axios
-          .patch(`${URL_API}/activities/${activityId}`,form)
-          .then((res) => res.data),
-      ...rest
-    })
-  )
+  return(
+    useApiQuery({
+      queryKey:['usePatchActivity', activityId],
+      form: form,
+      method: 'PATCH',
+      endpoint: `/activities/${activityId}`,
+      options: {...rest},
+      }
+    )
+  )   
 }

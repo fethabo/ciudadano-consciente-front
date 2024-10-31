@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
 import WindowLevel from "../../components/WindowLevel";
 import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
-import { useGetAnswersFromLevel } from "../../components/Hooks/requests/Answer";
+import {  useGetAnswersOfUserFromLevel } from "../../components/Hooks/requests/Answer";
 import { useGetActivityByLevel } from "../../components/Hooks/requests/Activity";
 import useMap from "../../components/Hooks/useMap";
 
 /* TODO: 
 * cambiar estilo de nodo si tiene respuesta correcta 
 * agregar estilo a conexiones entre nodos si existe respuesta correcta en el parent,
+* vincular answers
 */
 
 const Map = () => {
@@ -18,8 +19,9 @@ const Map = () => {
   const { idParentLevel } = useParams();
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
-  const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers}= useGetAnswersFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
+  const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers}= useGetAnswersOfUserFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
 
+  const {activity, setActivity, setLevelSelected} = useMap();
 const [mapElements,setMapElements]=useState([]);
 
 useEffect(() => {
@@ -61,44 +63,38 @@ useEffect(() => {
     setMapElements(elements);
   }
 }, [childrens]);
+
+
 const [levelSelectedId, setLevelSelectedId] = useState(null);
-//const [activity, setActivity] = useState(null);
-//console.log(activity)
-/* TODO: OBTENER EL LEVEL PARA VER SI TIENE ACTIVIDAD; SI TIENE ACTIVIDAD HABILITAR LA VENTANA,  */
 
-const {data: levelSelectedData} = useGetLevel({levelId:levelSelectedId, enabled: !!levelSelectedId})
 const handleSelect= (value)=>{
-  //console.log("handleSelect", value)
   setLevelSelectedId(value)
+  setLevelSelected(childrens?.find((level)=>level?.levelId===Number(levelSelectedId)))
 }
-
-const {activity, setActivity, setLevelSelected} = useMap();
-console.log(levelSelectedId, "levelSelectedId")
 
 const [habilitadoGetActivity, setHabilitadoGetActivity] =useState(true)
 const {data: activityFetched, isFetching: isFetchingActivity, isFetched: isFetchedActivity}= useGetActivityByLevel({levelId:levelSelectedId, enabled: !!levelSelectedId&&habilitadoGetActivity})
 
 
-/* TODO: actualizar contexto cuando actualizo la actividad */
 useEffect(() => {
-  console.log(activityFetched, "activityFetched", levelSelectedId)
-  if(isFetchedActivity){
-    setHabilitadoGetActivity(true);
-  }
-  if (activityFetched){
-    setActivity(activityFetched);
-  }
-}, [activityFetched, isFetchedActivity]);
+  console.log(activityFetched, "activityFetched")
+  if(!isFetchingActivity){
+      if(isFetchedActivity){
+        setHabilitadoGetActivity(true);
+      }
+      if (activityFetched){
+        setActivity(activityFetched);
+  }}
+}, [activityFetched, isFetchedActivity, isFetchingActivity]);
 
-console.log(childrens?.find((level)=>level?.levelId===levelSelectedId), childrens, levelSelectedId)
     return (
     <Box>
-      <h1>Mapa</h1>   
-     SELECCIONADO: {levelSelectedId}
+     <Typography variant="h5">Mapa</Typography>   
+     LEVEL SELECCIONADO: {levelSelectedId}
      <WindowLevel open={!!activity&&!!levelSelectedId} activity={!!activity&&activity} level={childrens?.find((level)=>level?.levelId===Number(levelSelectedId))} handleClose={()=>setActivity(null)}/>
             {
             path
-             ? <div className="path" style={{background:'darkred'}}>
+             ? <div className="path" style={{    justifyContent: 'center', display: 'flex',flexDirection: 'column', alignItems: 'center'}} >
                     <Typography className="nombre">{path.name}</Typography>
                     <Typography className="descripcion">{path.description}</Typography>
                     {mapElements&&mapElements?.length>0
