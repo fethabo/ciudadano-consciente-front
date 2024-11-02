@@ -7,6 +7,19 @@ import PropTypes from "prop-types"
  * @todo Agregar control de POST, que reciba la funcion por props
  * @description children debe contener el button submit
  * @param {*} param0 
+ * @example: 
+ *      <FormBase
+            fields={config.fields}
+            initialValues={ { name: organization?.name, description: organization?.description, email: organization?.email }}
+            validationSchema={config.validationSchema}
+            onSubmit={onSubmit}
+        >
+        {isFetchingPatch && <LinearProgress />}
+             <Box display={"flex"} justifyContent={"space-around"}>
+                <Button key="volver" onClick={()=>navigate(`/organizations/${idOrganization}`)} disabled={isFetchingPatch}>Volver</Button>
+                <Button key="submit" type="submit" disabled={isFetchingPatch||isFetchingOrganization}>GUARDAR</Button>
+            </Box>
+        </FormBase> 
  * @returns 
  */
 export default function FormBase({ fields, initialValues, validationSchema, onSubmit, children }){
@@ -19,10 +32,8 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
     >
       {(formState) => (
           <Form>
-            {/* console.log(formState) */}
           {fields.map((field) => (
             <div key={field.name} style={{ marginBottom: '16px' }}>
-             {/*  <label htmlFor={field.name}>{field.label}</label> */}
               {field.type === 'select' ? (
                  <Field
                  name={field.name}
@@ -41,14 +52,6 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
                    </MenuItem>
                  ))}
                </Field>
-                /* <Field as="select" id={field.name} name={field.name} {...field.props}>
-                  <option value="">Select an option</option>
-                  {field.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Field> */
               ) : (
                 <Field
                   as={TextField}
@@ -62,16 +65,7 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
                   helperText={formState.touched[field.name] && formState.errors[field.name]}
                   {...field.props}
                 />
-               /*  <Field
-                  id={field.name}
-                  name={field.name}
-                  type={field.type}
-                  component={field.component || 'input'}
-                  placeholder={field.placeholder}
-                  {...field.props}
-                /> */
               )}
-              {/* <ErrorMessage name={field.name} component="div" className="error" /> */}
             </div>
           ))}
           {children}

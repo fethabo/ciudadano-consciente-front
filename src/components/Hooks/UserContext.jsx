@@ -20,8 +20,7 @@ export function UserProvider({children}) {
 
 
     useEffect(() => {
-
-        if(!!userPost){
+        if(userPost){
             setContextValue(userPost)
         }
     }, [userPost]);

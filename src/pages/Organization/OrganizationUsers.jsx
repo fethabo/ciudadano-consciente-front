@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDeleteUserRoleOrganization, useGetUsersWithRoleOrganization } from '../../components/Hooks/requests/Organizations';
 import { useGetRoles } from '../../components/Hooks/requests/Roles';
 import { useEffect, useState } from 'react';
-import {  Avatar, Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Tooltip } from '@mui/material';
+import {  Avatar, Dialog, DialogContent, DialogTitle, IconButton, LinearProgress, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 import PersonIcon from '@mui/icons-material/Person'
 import { useGetUsersOfOrganization } from '../../components/Hooks/requests/Users/Index';
@@ -35,9 +35,7 @@ import FormSearchUsers from './FormSearchUser';
 }
 
  /* 
-    TODO: SACAR IDORGANIZATION DE LA URL o COMPROBEMOS EL ROL DEL USUARIO QUE LO ACCEDE)
     TODO: AGREGAR REFETCH de users al eliminar
-    TODO: navegar correctamente a la ruta anterior
     TODO: atajar errores de hooks no atajados
  */
 export default function OrganizationUsers() {
@@ -48,9 +46,8 @@ export default function OrganizationUsers() {
     const {isFetching: isFetchingDelete, isFetched: isFetchedDelete}= useDeleteUserRoleOrganization({organizationId:idOrganization, userId:deleteData?.userId, roleId:deleteData?.roleId, enabled:!!deleteData});
     const [enabledUROS, setEnabledUROS] = useState(!!idOrganization);
     const {data: uros, isFetching: isFetchingUros, isError: isErrorUros} = useGetUsersWithRoleOrganization({organizationId: idOrganization, enabled: enabledUROS});
-    const {data: users, pending} = useGetUsersOfOrganization({users: uros || [], enabled: !!uros})
+    const {data: users,pending} = useGetUsersOfOrganization({users: uros || [], enabled: !!uros})
     const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled: true});
-    
     useEffect(() => {
         if(isFetchedDelete&&!isFetchingDelete){
             setEnabledUROS(true);
@@ -58,7 +55,8 @@ export default function OrganizationUsers() {
     }, [isFetchedDelete,isFetchingDelete]);
 
     useEffect(() => {
-        if(uros &&roles && users && !pending && !parsedUsers){
+        if(uros && roles && users  &&!pending && !parsedUsers){
+            console.log(uros,roles,users,parsedUsers)
             const roleIdToName = {};
             roles.forEach(role => {
                 roleIdToName[role.roleId] = role.name;
@@ -72,11 +70,11 @@ export default function OrganizationUsers() {
             setParsedUsers(convertData(uros,roleIdToName, userIdToName, userIdToEmail))
             setEnabledUROS(false);
         }
-    },[uros, roles,users, pending, parsedUsers])
+    },[uros, roles,users, parsedUsers])
 
     /* CERRADO DE VENTANA DE USUARIOS */
     const handleClose = () => {
-        navigate(-1)
+        navigate(`/organizations/${idOrganization}`)
     }
     
     /* APERTURA/CIERRE DE VENTANA AGREGAR USUARIO */
@@ -84,44 +82,51 @@ export default function OrganizationUsers() {
     const handleCloseForm = () => {
         setFormOpen(false)
     }
-    
+    const handleSubmit = ({v}) =>{
+        console.log("handleSubmit de OrganizationsUSERS", v)
+    }
    
 
     return ( 
         <Dialog onClose={handleClose} open>
             <DialogTitle>Usuarios en la organización</DialogTitle>
             <Dialog onClose={handleCloseForm} open={formOpen}>
-                <DialogTitle>Agregar usuario</DialogTitle>
+                <DialogTitle>Agregar usuario a la organizacion</DialogTitle>
                 <DialogContent>
-                    <FormSearchUsers/>
+                    <FormSearchUsers handleSubmit={handleCloseForm}/>
                 </DialogContent>
             </Dialog>
             <List dense>
-                {parsedUsers?.length>0
-                &&parsedUsers.map((user,index) => (
-                        <ListItem
-                            key={index}
-                            secondaryAction={
-                            <IconButton edge="end" aria-label="delete" onClick={()=>setDeleteData({roleId: user?.roleId, userId: user?.userId})}>
-                                <DeleteIcon />
-                            </IconButton>
-                            }
-                        >
-                            <Tooltip title={user?.role}>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        {getIcon(user.role)}
-                                    </Avatar>
-                                </ListItemAvatar>
-                            </Tooltip>
-                            <ListItemText
-                                primary={user?.user}
-                                secondary={user?.email}
-                            />
-                        </ListItem>
-                ))}
+                {(isFetchingUros || pending || isFetchingRoles)
+                ?<LinearProgress />
+                : parsedUsers?.length>0
+                    ?(parsedUsers.map((user,index) => (
+                            <ListItem
+                                key={index}
+                                secondaryAction={
+                                <IconButton edge="end" aria-label="delete" onClick={()=>setDeleteData({roleId: user?.roleId, userId: user?.userId})}>
+                                    <DeleteIcon />
+                                </IconButton>
+                                }
+                            >
+                                <Tooltip title={user?.role}>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            {getIcon(user.role)}
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                </Tooltip>
+                                <ListItemText
+                                    primary={user?.user}
+                                    secondary={user?.email}
+                                />
+                            </ListItem>
+                    ))
+                ):<LinearProgress />
+                }
             <ListItem disableGutters>
             <ListItemButton
+                disabled={isFetchingUros|| isFetchingDelete}
                 autoFocus
                 onClick={() => setFormOpen(true)}
             >

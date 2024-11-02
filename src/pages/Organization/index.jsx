@@ -12,8 +12,7 @@ export default function Organization() {
     const { idOrganization } = useParams();    
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization}= useGetOrganization({organizationId:idOrganization, enabled:!!idOrganization})
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetOrganizationPaths({organizationId:idOrganization, enabled:!!idOrganization})
-   console.log(organization)
-   // const {data: roles, isFetching: rolesOrganization, isError: isErrorRolesOrganization} = useGetUserRolesInOrganization({organizationId:idOrganization, userId:user?.userId, enabled: !!idOrganization&&!!user})
+    // const {data: roles, isFetching: rolesOrganization, isError: isErrorRolesOrganization} = useGetUserRolesInOrganization({organizationId:idOrganization, userId:user?.userId, enabled: !!idOrganization&&!!user})
     const navigate = useNavigate();
     const role = useGetOrganizationRole({organizationId:idOrganization})
 

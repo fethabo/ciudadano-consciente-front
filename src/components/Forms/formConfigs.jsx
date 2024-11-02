@@ -100,11 +100,12 @@ export const formConfigs = {
         fields: [
             { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
             { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
+            { name: 'email', label: 'Correo', type: 'email', placeholder: 'Ingrese el correo' },
         ],
         validationSchema: Yup.object({
             name: Yup.string().required('El nombre es obligatorio'),
             description: Yup.string().required('La descripción es obligatoria'),
+            email: Yup.string().email('Invalid email').required('Required'),
             // Añadir más validaciones aquí según sea necesario
         }),
     },

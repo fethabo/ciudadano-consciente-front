@@ -118,6 +118,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] quitar retry en requests de escritura
 - [x] Agregar un USER PROVIDER global, que intente obtener el usuario de la api a partir del userName o el email de kc, si no existe debe realizar un POST y disponibilizar el userId en la aplicacion.
 - [ ] idea: probar userGuests de kc, la app siempre autenticada, pero el registro en la api (POST) debe realizarse solo cuando se registra efectivamente en KC.
+- [ ] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
 
 ## IMPORTANTE
 API:
@@ -125,6 +126,7 @@ API:
 - Endpoints que usan el userId como pathParam (o en el body como en el caso del POST de answer) deberian de obtener el userId a partir de los datos del token para no exponer las peticiones ni que se puedan trucar.
 - Contents de la organizacion (agregar filtrado al /contents)
 - Contents publicos (agregar filtrado al /contents)
+- el Patch de organizations no funciona porque verifica la existencia del nombre y el email, si estoy actualizando cualquiera de los otros campos los verifica igual
 
 
 ## Reuniones

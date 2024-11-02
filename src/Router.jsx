@@ -15,7 +15,7 @@ import Profile from './pages/Profile'
 import useObtenerToken from "./security/hooks/useGetToken";
 import Organization from "./pages/Organization";
 import OrganizationUsers from "./pages/Organization/OrganizationUsers";
-import OrganizationForm from "./pages/Organization/OrganizationForm";
+import OrganizationForm from "./pages/Organization/FormOrganization";
 import ContentsPage from "./pages/Contents";
 
 /* TODO: AGREGAR ERROR BOUNDARY 

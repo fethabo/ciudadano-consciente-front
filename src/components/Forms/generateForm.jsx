@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  * @param {*} onSubmit 
  * @returns 
  */
-export const generateForm = (entityName, initialValues, onSubmit, button) => {
+export const generateForm = (entityName, initialValues, onSubmit, buttons) => {
     const config = formConfigs[entityName];
     if (!config) {
       console.error(`No hay configuración de formulario para la entidad: ${entityName}`);
@@ -23,7 +23,7 @@ export const generateForm = (entityName, initialValues, onSubmit, button) => {
         validationSchema={config.validationSchema}
         onSubmit={onSubmit}
       >
-        {button}
+        {buttons}
       </FormBase>
     );
   };
