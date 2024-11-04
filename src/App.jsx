@@ -1,13 +1,14 @@
 import './App.css'
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Router from './Router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MapProvider } from './components/Hooks/MapContext';
 import { UserProvider } from './components/Hooks/UserContext';
+import { SnackbarProvider} from 'notistack'
+import WrapperClientProvider from './components/WrapperClientProvider';
 
 
 /**
- * TODO: definir tema / o irnos por tailwindCss (habria que reemplazar todo lo realizado actualmente con material)
+ * TODO: definir tema )
  */
 function App() {
   const darkTheme = createTheme({
@@ -16,20 +17,18 @@ function App() {
     },
   });
 
-  const queryClient = new QueryClient()
-
   return (
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-      
-          <QueryClientProvider client={queryClient}>
-            <UserProvider>
-            <MapProvider>
-              <Router />
-            </MapProvider>
-            </UserProvider>
-          </QueryClientProvider>
-                 
+          <SnackbarProvider autoHideDuration={5000}>
+            <WrapperClientProvider>
+              <UserProvider>
+              <MapProvider>
+                <Router />
+              </MapProvider>
+              </UserProvider>
+              </WrapperClientProvider>
+          </SnackbarProvider>
       </ThemeProvider>
    
 

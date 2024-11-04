@@ -114,11 +114,13 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] Idea: ranking por racha de victorias en modo de juego random
 - [ ] implementar o utilizar un tagPicker
 - [x] unificar el uso del useQuery para posibles modificaciones masivas sobre todas las consultas de la aplicacion. (por ejemplo el staleTime)
-- [ ] agregar staleTime a todos los useQuery
-- [ ] quitar retry en requests de escritura
+- [x] agregar staleTime a todos los useQuery
+- [x] quitar staleTime en requests de escritura
+- [x] quitar retry en requests de escritura
 - [x] Agregar un USER PROVIDER global, que intente obtener el usuario de la api a partir del userName o el email de kc, si no existe debe realizar un POST y disponibilizar el userId en la aplicacion.
 - [ ] idea: probar userGuests de kc, la app siempre autenticada, pero el registro en la api (POST) debe realizarse solo cuando se registra efectivamente en KC.
 - [ ] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
+- [ ] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
 
 ## IMPORTANTE
 API:

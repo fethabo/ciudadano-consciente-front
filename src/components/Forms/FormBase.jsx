@@ -22,13 +22,14 @@ import PropTypes from "prop-types"
         </FormBase> 
  * @returns 
  */
-export default function FormBase({ fields, initialValues, validationSchema, onSubmit, children }){
+export default function FormBase({ fields, initialValues, validationSchema, onSubmit, children, disableForm }){
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      
     >
       {(formState) => (
           <Form>
@@ -44,6 +45,7 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
                  variant="outlined"
                  error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
                  helperText={formState.touched[field.name] && formState.errors[field.name]}
+                 disabled={disableForm}
                  {...field.props}
                >
                  {field.options?.map((option) => (
@@ -63,6 +65,7 @@ export default function FormBase({ fields, initialValues, validationSchema, onSu
                   variant="outlined"
                   error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
                   helperText={formState.touched[field.name] && formState.errors[field.name]}
+                  disabled={disableForm}
                   {...field.props}
                 />
               )}
@@ -80,7 +83,8 @@ FormBase.propTypes = {
     initialValues: PropTypes.object,
     validationSchema: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
-    children: PropTypes.element
+    children: PropTypes.element,
+    disableForm: PropTypes.bool
 }
 
 //import * as Yup from 'yup';

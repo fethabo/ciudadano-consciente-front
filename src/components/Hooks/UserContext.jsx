@@ -25,8 +25,8 @@ export function UserProvider({children}) {
         }
     }, [userPost]);
 
-    console.log("status", status)
-    console.log("error", error)
+  //  console.log("status", status)
+  //  console.log("error", error)
     useEffect(() => {
         if(isFetched && !isFetching){
             if(isError){

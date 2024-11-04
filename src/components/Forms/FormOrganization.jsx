@@ -1,10 +1,10 @@
 import { Box, Button, LinearProgress } from "@mui/material";
 //import { generateForm } from "../../components/Forms/generateForm";
-import { useGetOrganization, usePatchOrganization, usePostOrganization } from "../../components/Hooks/requests/Organizations";
+import { useGetOrganization, usePatchOrganization, usePostOrganization } from "../Hooks/requests/Organizations";
 import {  useEffect,  useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import FormBase from "../../components/Forms/FormBase";
-import formConfigs from "../../components/Forms/formConfigs";
+import FormBase from "./FormBase";
+import formConfigs from "./formConfigs";
 
 
 /**

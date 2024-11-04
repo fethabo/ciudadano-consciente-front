@@ -15,7 +15,7 @@ import useMap from "../../components/Hooks/useMap";
  * @returns 
  */
 
-export default function OrganizationMap() {
+export default function MapConfig() {
 
   const { idParentLevel, idOrganization } = useParams();
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});

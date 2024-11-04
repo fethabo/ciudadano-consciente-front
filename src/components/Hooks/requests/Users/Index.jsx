@@ -124,13 +124,15 @@ export function usePostUser({...rest}){
             queryFn: () => axios.get(`${URL_API}/users/${user.user}`, {headers: {Authorization: `Bearer ${token}`} } ).then((res) => res.data)
             })),
             ...rest,
+            refetchOnWindowFocus: false,//TODO: ver que onda estoooo
             combine: (results) => {
                 return {
                   data: results.map((result) => result.data),
                   pending: results.some((result) => result.isPending),
                 }
               }
-        })
+       
+      })
         console.log(result, "result")
     return result
   }

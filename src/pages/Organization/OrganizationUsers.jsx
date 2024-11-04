@@ -11,7 +11,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import { useGetUsersOfOrganization } from '../../components/Hooks/requests/Users/Index';
 
 import AddIcon from '@mui/icons-material/Add';
-import FormSearchUsers from './FormSearchUser';
+import FormSearchUsers from '../../components/Forms/FormSearchUser';
 
   function convertData(data, roleIdToName, usersIdToName, usersIdToEmail) {
     

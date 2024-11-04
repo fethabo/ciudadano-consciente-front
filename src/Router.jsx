@@ -8,15 +8,16 @@ import Pool from './pages/Pool'
 import Organizations from './pages/Organizations'
 import Settings from './pages/Settings'
 import Map from './pages/Map'
-import Level from './pages/Level'
 import Activity from './pages/Activity'
 import Profile from './pages/Profile'
 //import ProtectedRoute from "./security/ProtectedRoute";
 import useObtenerToken from "./security/hooks/useGetToken";
 import Organization from "./pages/Organization";
 import OrganizationUsers from "./pages/Organization/OrganizationUsers";
-import OrganizationForm from "./pages/Organization/FormOrganization";
+import OrganizationForm from "./components/Forms/FormOrganization";
 import ContentsPage from "./pages/Contents";
+import OrganizationMaps from "./pages/OrganizationMaps";
+import FormMap from "./components/Forms/FormMap";
 
 /* TODO: AGREGAR ERROR BOUNDARY 
 * VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
@@ -41,8 +42,9 @@ function Router() {
                 <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
               </Route>
               <Route path="/organizations/:idOrganization/edit" element={<OrganizationForm />}/>{/* Edicion de organizacion, pagina o ventana???*/}
-              <Route path="/organizations/:idOrganization/maps" element={<NotImplemented />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
-              <Route path="/organizations/:idOrganization/map/:idMap" element={<NotImplemented />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
+              <Route path="/organizations/:idOrganization/maps" element={<OrganizationMaps />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
+              <Route path="/organizations/:idOrganization/maps/add" element={<FormMap />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
+              <Route path="/organizations/:idOrganization/maps/:idLevel" element={<NotImplemented />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
               <Route path="/organizations/:idOrganization/level" element={<NotImplemented />}/>{/* EN EL FORMULARIO TAMBIEN PODEMOS AGREGAR DIVULGADORES (USUARIOS DE LA ORGANIZACION) */}
               <Route path="/organizations/:idOrganization/level/:idLevel" element={<NotImplemented />}/>{/* VISTA DE EDICION DE UN LEVEL */}
               

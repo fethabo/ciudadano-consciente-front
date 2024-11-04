@@ -37,7 +37,8 @@ export default function useApiQuery({ queryKey, endpoint, method = 'GET', form, 
       const response = await axios(config);
       return response.data;
     },
-    retry: isWriting() ? false: 2,
+    retry: isWriting() ? false: 1,
+    staleTime: isWriting()? 0 : 30*1000,
     refetchOnWindowFocus: false,
     ...options,
   });
