@@ -1,76 +1,130 @@
-import { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { useState, useRef, useEffect } from 'react';
+import { Backdrop, CircularProgress } from '@mui/material';
+  //https://js.cytoscape.org/#cy.on
+export default function MapCytoscape({ elements, onSelect,loading, ...rest }) {
+  const [cy, setCy] = useState();
+  const containerRef = useRef(null);
 
-export default function MapCytoscape({elements, onSelect, ...rest}) {
-
-    //const layout = { name: 'random' };
-    const [cy, setCy] = useState();  
-    //https://js.cytoscape.org/#cy.on
-    cy?.on('tap', function(event){
-      var evtTarget = event.target;
+/*   // Maneja el evento de clic en el nodo
+  cy?.on('tap', 'node', function (event) {
+    const node = event.target;
+    const position = node.renderedPosition();
+    // Obtén la posición del contenedor en la pantalla
+    const containerRect = containerRef.current.getBoundingClientRect();
     
-      if( evtTarget === cy ){
-        onSelect(null)
-      } else {
-        if( evtTarget?.id()){
-          onSelect(evtTarget.id());   
-        }
-     //   console.log('tap on some element');
-      }
-    });
+    // Calcula la posición absoluta del nodo en la pantalla
+    const absoluteX = containerRect.left + position.x;
+    const absoluteY = containerRect.top + position.y;
 
-    const style =[
-      {
-        "selector": "node[label]",
-        "style": {
-          "label": "data(label)"
-        }
+   
+    onSelect({data: node.data(), positionNode: {x:absoluteX, y: absoluteY}});
+  });
+
+  // Oculta el menú cuando se hace clic en el fondo del gráfico
+  cy?.on('tap', function (event) {
+    if (event.target === cy) {
+      onSelect(null);
+    }
+  }); */
+  useEffect(() => {
+    if (!cy) return; // Salir si cy no está inicializado aún
+    // Función para manejar el clic en el nodo
+    const handleNodeClick = (event) => {
+      const node = event.target;
+      const position = node.renderedPosition();
+      // Obtenemos la posición del contenedor en la pantalla
+      const containerRect = containerRef.current.getBoundingClientRect();
+      // Calculamos la posición absoluta del nodo en la pantalla
+      const absoluteX = containerRect.left + position.x;
+      const absoluteY = containerRect.top + position.y;
+      onSelect({ data: node.data(), positionNode: { x: absoluteX, y: absoluteY } });
+    };
+    // Deseleccionamos cuando hacemos click fuera
+    const handleBackgroundClick = (event) => {
+      if (event.target === cy) {
+        onSelect(null);
+      }
+    };
+    
+
+    cy.on('tap', 'node', handleNodeClick);
+    cy.on('tap', handleBackgroundClick);
+
+    // Limpieza de los eventos al desmontar el componente o al cambiar cy
+    return () => {
+      cy.off('tap', 'node', handleNodeClick);
+      cy.off('tap', handleBackgroundClick);
+    };
+  }, [cy, onSelect]);
+
+  const style = [
+    {
+      selector: 'node[label]',
+      style: {
+        label: 'data(label)',
+     //   color: '#000',
+        'text-outline-color': '#888',
+        'text-outline-width': 3,
+        "cursor": "pointer",
       },
-      {
-        "selector": ".outline",
-        "style": {
-          "color": "#fff",
-          "text-outline-color": "#888",
-          "text-outline-width": 3
-        }
-      }
-    ]
+    },
+    {
+      selector: '.outline',
+      style: {
+        color: '#fff',
+        "cursor": "pointer",
+       // 'background-color': '#666',
+        'text-outline-color': '#888',
+        'text-outline-width': 3,
+      },
+    },
+    {
+      selector: '.highlight',
+      style: {
+      //  'background-color': '#ff0',
+        'border-width': 2,
+        "cursor": "pointer",
+        'border-color': '#333',
+      },
+    },
+  ];
 
-    return ( 
-            <CytoscapeComponent 
-            elements={elements} 
-            style={ {display: 'flex', background:'white', width:'600px', height:'300px' } } 
-            minZoom={0.5}
-            maxZoom={2}
-            zoomingEnabled
-            panningEnabled={false}
-            className="cytoscape-map" 
-            cy={(cy) => { setCy(cy) }}
-            stylesheet={style}
-
-            //      layout={layout}
-            /* stylesheet={[
-                {
-                  selector: 'node',
-                  style: {
-                    width: 20,
-                    height: 20,
-                    shape: 'rectangle'
-                  }
-                },
-                {
-                  selector: 'edge',
-                  style: {
-                    width: 15
-                  }
-                }
-              ]} */ 
-              {...rest}/>
-     );
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      maxWidth: '100vw',
+      maxHeight: '80vh', // Opcional, para limitar el alto en pantallas grandes
+    //  overflow: 'hidden', // Oculta cualquier desbordamiento
+    }} ref={containerRef}>
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        open={loading}
+      >
+  <CircularProgress color="inherit" />
+</Backdrop>
+      <CytoscapeComponent
+        elements={elements}
+        style={{ display: 'flex', background: 'white', width:"100%",minWidth: '300px',height:'100%', minHeight: '300px' }}
+        minZoom={0.5}
+        maxZoom={2}
+        zoomingEnabled
+        panningEnabled={false}
+        className="cytoscape-map"
+        boxSelectionEnabled={false}
+        cy={(cyInstance) => setCy(cyInstance)}
+        stylesheet={style}
+        {...rest}
+      />
+    </div>
+  );
 }
 
-MapCytoscape.propTypes={
+MapCytoscape.propTypes = {
   elements: PropTypes.array.isRequired,
-  onSelect: PropTypes.func
-}
+  onSelect: PropTypes.func,
+  loading: PropTypes.bool
+};

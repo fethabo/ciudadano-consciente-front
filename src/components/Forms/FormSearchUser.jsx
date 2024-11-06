@@ -6,7 +6,7 @@ import { useGetUserByEmail } from "../Hooks/requests/Users/Index";
 import { useEffect, useState } from "react";
 import { usePostRoleUserOrganization } from "../Hooks/requests/Organizations";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+//import { useQueryClient } from "@tanstack/react-query";
 
 /* TODO: ATAJAR ERROR y progreso DE FETCH */
 function FormSearchUsers({handleSubmit}) {

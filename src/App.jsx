@@ -23,11 +23,11 @@ function App() {
           <SnackbarProvider autoHideDuration={5000}>
             <WrapperClientProvider>
               <UserProvider>
-              <MapProvider>
-                <Router />
-              </MapProvider>
+                <MapProvider>
+                  <Router />
+                </MapProvider>
               </UserProvider>
-              </WrapperClientProvider>
+            </WrapperClientProvider>
           </SnackbarProvider>
       </ThemeProvider>
    

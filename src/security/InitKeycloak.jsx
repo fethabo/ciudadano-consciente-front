@@ -15,7 +15,6 @@ export default function InitKeycloak({children, configKc}) {
     const [keycloak, setKeycloak] = useState(null);
     
     useEffect(() => {
-        console.log("INITkeycloak",keycloak)
         const kc = new Keycloak(configKc);
         if (keycloak === null || !keycloak || !keycloak?.authenticated) {
             kc.init({

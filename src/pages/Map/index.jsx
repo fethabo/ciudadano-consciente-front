@@ -5,7 +5,7 @@ import MapCytoscape from "../../components/MapCytoscape";
 import WindowLevel from "../../components/WindowLevel";
 import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
 import {  useGetAnswersOfUserFromLevel } from "../../components/Hooks/requests/Answer";
-import { useGetActivityByLevel } from "../../components/Hooks/requests/Activity";
+import { useGetActivitiesOfLevels, useGetActivityByLevel } from "../../components/Hooks/requests/Activity";
 import useMap from "../../components/Hooks/useMap";
 
 /* TODO: 
@@ -20,12 +20,12 @@ const Map = () => {
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
   const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers}= useGetAnswersOfUserFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
-
+  const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
   const {activity, setActivity, setLevelSelected} = useMap();
 const [mapElements,setMapElements]=useState([]);
 
 useEffect(() => {
-  if (!!childrens && childrens.length > 0) {
+  if (!!childrens && childrens.length > 0 && !isPending) {
     const elements = [];
     const auxParents=[];
     // Función para encontrar la posición de un elemento según su parentId
@@ -49,7 +49,7 @@ useEffect(() => {
       // Calcular la posición
       const position = getPosition(level.parent);
       // Agregar el nuevo elemento
-      elements.push({ data:{id:level.levelId, label: level.name}, position:position, classes: 'outline' });
+      elements.push({ data:{id:level.levelId, label: level.name, activity: activities?.find((act)=> act?.level==level.levelId) }, position:position, classes: 'outline' });
       // Si hay parentId, agregar enlace desde el padre
       //falta reubicar los niveles inferiores en una linea (conviene armar una matriz?)
       if (level.parent) {
@@ -62,30 +62,16 @@ useEffect(() => {
     // Actualizar el estado con los nuevos elementos
     setMapElements(elements);
   }
-}, [childrens]);
+}, [childrens, isPending]);
 
 
 const [levelSelectedId, setLevelSelectedId] = useState(null);
 
 const handleSelect= (value)=>{
-  setLevelSelectedId(value)
+  setLevelSelectedId(value?.data?.id)
+  setActivity(value?.data?.activity)  
   setLevelSelected(childrens?.find((level)=>level?.levelId===Number(levelSelectedId)))
 }
-
-const [habilitadoGetActivity, setHabilitadoGetActivity] =useState(true)
-const {data: activityFetched, isFetching: isFetchingActivity, isFetched: isFetchedActivity}= useGetActivityByLevel({levelId:levelSelectedId, enabled: !!levelSelectedId&&habilitadoGetActivity})
-
-
-useEffect(() => {
-  console.log(activityFetched, "activityFetched")
-  if(!isFetchingActivity){
-      if(isFetchedActivity){
-        setHabilitadoGetActivity(true);
-      }
-      if (activityFetched){
-        setActivity(activityFetched);
-  }}
-}, [activityFetched, isFetchedActivity, isFetchingActivity]);
 
     return (
     <Box>

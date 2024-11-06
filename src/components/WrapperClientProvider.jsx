@@ -2,13 +2,18 @@ import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-qu
 import { useSnackbar } from "notistack"
 import PropTypes from "prop-types"
 
+
+/**
+ * @todo: agregar mensaje en metadatos de query
+ * @param {*} param0 
+ * @returns 
+ */
 export default function WrapperClientProvider({children}){
   
     const { enqueueSnackbar } = useSnackbar()
     const queryClient = new QueryClient({
       queryCache: new QueryCache({
         onError: (error) => {
-          console.log("atrapo el error en el QueryClient")
           enqueueSnackbar(`Error: ${error}`, {variant:"error"})
         }
       }),}

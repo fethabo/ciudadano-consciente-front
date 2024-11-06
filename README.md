@@ -121,15 +121,17 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] idea: probar userGuests de kc, la app siempre autenticada, pero el registro en la api (POST) debe realizarse solo cuando se registra efectivamente en KC.
 - [ ] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
 - [ ] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
-
+- [ ] agregar pristine para submit en formularioBase
+- [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
 ## IMPORTANTE
 API:
 - (comenté el allow de los endpoint que me parecieron que debian estar libres) Quitar la verificacion del rol CIUCO_ADMIN, un usuario que recien se registra no puede obtener nada por esto. Al menos todo lo que sea publico se debe poder obtener solo con tener un token valido, sin roles asignados.
 - Endpoints que usan el userId como pathParam (o en el body como en el caso del POST de answer) deberian de obtener el userId a partir de los datos del token para no exponer las peticiones ni que se puedan trucar.
 - Contents de la organizacion (agregar filtrado al /contents)
 - Contents publicos (agregar filtrado al /contents)
-- el Patch de organizations no funciona porque verifica la existencia del nombre y el email, si estoy actualizando cualquiera de los otros campos los verifica igual
-
+- (done)el Patch de organizations no funcionba porque verifica la existencia del nombre y el email, si estoy actualizando cualquiera de los otros campos los verifica igual
+- (done) mismo problema del patch con el nombre de los levels..
+- los levels no deberian verificar si existe el nombre (no deberia de ser clave), mas de una organizacion deberia poder llamar igual a sus levels, por què la condicion de unico?
 
 ## Reuniones
 julio 17/18

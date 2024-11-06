@@ -1,5 +1,9 @@
 
+import { useQueries } from "@tanstack/react-query";
+import useGetToken from "../../../../security/hooks/useGetToken";
 import useApiQuery from "../useApiQuery";
+import axios from "axios";
+import { URL_API } from "../../../../constants";
 
 
 
@@ -63,4 +67,27 @@ export function usePatchActivity({activityId,form, ...rest}){
       }
     )
   )   
+}
+
+
+export function useGetActivitiesOfLevels({levels,...rest}){
+  const token = useGetToken();
+  const result= useQueries({
+      queries: levels.map((level) => ({
+          queryKey: ['useGetActivityByLevel', level.levelId],
+          queryFn: () => axios.get(`${URL_API}/activities/level/${level.levelId}`, {headers: {Authorization: `Bearer ${token}`} } ).then((res) => res.data)
+          })),
+          refetchOnWindowFocus: false,
+          staleTime: 300*10000,
+          ...rest,
+          combine: (results) => {
+              return {
+                data: results.map((result) => result.data),
+                pending: results.some((result) => result.isPending),
+              }
+            }
+     
+    })
+     // console.log(result, "result")
+  return result
 }
