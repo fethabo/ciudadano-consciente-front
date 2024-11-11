@@ -1,18 +1,20 @@
 import { Box, Button, LinearProgress } from "@mui/material";
 import FormBase from "./FormBase";
-import formConfigs from "./formConfigs";
 import PropTypes from "prop-types"
+import formConfigs from "./formConfigs";
 
-function FormLevel({onSubmit, loading, ...rest}) {
+function FormContent({onSubmit, loading, ...rest}) {
 
-    const config = formConfigs['Level'];
+    const config = formConfigs['Content'];
+    const jsonTemplate = {model: {"options": {"A": "", "B": "", "C": "", "D": ""}, "question": "", "correct_answer": ""}}
     return (  
       <FormBase
             fields={config.fields}
-            initialValues={ { name: null, description: null }}
+            initialValues={ { publicContent: false, activityTypeVersionId: "" }}
             validationSchema={config.validationSchema}
             onSubmit={onSubmit}
             disableForm={loading}
+            jsonTemplate={jsonTemplate}
             {...rest}
         >
         {loading && <LinearProgress />}
@@ -23,9 +25,11 @@ function FormLevel({onSubmit, loading, ...rest}) {
     );
 }
 
-export default FormLevel;
 
-FormLevel.propTypes={
+export default FormContent;
+
+
+FormContent.propTypes={
     onSubmit: PropTypes.func,
     loading: PropTypes.bool
 }

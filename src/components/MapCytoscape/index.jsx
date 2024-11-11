@@ -67,14 +67,14 @@ export default function MapCytoscape({ elements, onSelect,loading, ...rest }) {
      //   color: '#000',
         'text-outline-color': '#888',
         'text-outline-width': 3,
-        "cursor": "pointer",
+        //"cursor": "pointer",
       },
     },
     {
       selector: '.outline',
       style: {
         color: '#fff',
-        "cursor": "pointer",
+       // "cursor": "pointer",
        // 'background-color': '#666',
         'text-outline-color': '#888',
         'text-outline-width': 3,
@@ -85,7 +85,7 @@ export default function MapCytoscape({ elements, onSelect,loading, ...rest }) {
       style: {
       //  'background-color': '#ff0',
         'border-width': 2,
-        "cursor": "pointer",
+     //   "cursor": "pointer",
         'border-color': '#333',
       },
     },

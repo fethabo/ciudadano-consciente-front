@@ -132,7 +132,7 @@ API:
 - (done)el Patch de organizations no funcionba porque verifica la existencia del nombre y el email, si estoy actualizando cualquiera de los otros campos los verifica igual
 - (done) mismo problema del patch con el nombre de los levels..
 - los levels no deberian verificar si existe el nombre (no deberia de ser clave), mas de una organizacion deberia poder llamar igual a sus levels, por què la condicion de unico?
-
+- getContents of organizations devuelve 404 si no encuentra nada, evaluarlo -.-
 ## Reuniones
 julio 17/18
 - agregar recurso de busqueda de usuario por correo electronico? la busqueda por username es la primera necesaria, para aplicar un filtro y no traer todos los users.

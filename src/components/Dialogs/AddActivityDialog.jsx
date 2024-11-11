@@ -1,25 +1,22 @@
 import {  Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import PropTypes from "prop-types";
 import CloseIcon from '@mui/icons-material/Close';
-import {  useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { usePostLevel } from "../Hooks/requests/Level";
-import FormLevel from "../Forms/FormLevel";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePostActivity } from "../Hooks/requests/Activity";
+import FormActivity from "../Forms/FormActivity";
 
-export default function AddLevelDialog({open, idParent , handleClose, path,...rest}) {
-    const {idOrganization} = useParams();
+export default function AddActivityDialog({open, idLevel , handleClose, path,...rest}) {
     const [formPost, setFormPost] = useState(null);
-    const {data, isFetching, isError} = usePostLevel({form: formPost, enabled: !!formPost})
+    const {data, isFetching, isError} = usePostActivity({form: formPost, enabled: !!formPost})
     const queryClient = useQueryClient()
    
-   
-    
     useEffect(() => {
         if (data){
             setFormPost(null);
-            queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) 
-            queryClient.resetQueries({ queryKey: "usePostLevel", exact: true }) 
+            queryClient.resetQueries({ queryKey: ['useGetActivityByLevel', idLevel], exact: true }) 
+            //queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) 
+            queryClient.resetQueries({ queryKey: ['usePostActivity'], exact: true }) 
             handleClose();
         }else if(isError){
             setFormPost(null)
@@ -28,8 +25,8 @@ export default function AddLevelDialog({open, idParent , handleClose, path,...re
 
     const handleSubmit = (v) =>{
         console.log("handleSubmit en dialog", v)
-        const form = {...v, parent: idParent, organization: idOrganization}
-        console.log("handleSubmit en dialog", v, form)
+//Description y content viene del formulario, solo debo agregar level
+        const form = {...v, level: idLevel}
         setFormPost(form);
     }
 
@@ -39,17 +36,17 @@ export default function AddLevelDialog({open, idParent , handleClose, path,...re
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
                 {...rest}
             >
-               <DialogTitle> Agregar nivel  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
+               <DialogTitle> Agregar Actividad  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
-                    <FormLevel onSubmit={handleSubmit} loading={isFetching}/>
+                    <FormActivity onSubmit={handleSubmit} loading={isFetching}/>
                </DialogContent>
             </Dialog> );
 }
 
-AddLevelDialog.propTypes = {
+AddActivityDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    idParent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    idLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     path: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }
 

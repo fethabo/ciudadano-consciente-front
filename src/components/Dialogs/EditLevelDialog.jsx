@@ -46,6 +46,6 @@ EditLevelDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     level: PropTypes.object,
-    path: PropTypes.number
+    path: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }
 

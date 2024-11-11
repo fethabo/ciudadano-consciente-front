@@ -1,5 +1,5 @@
 import { Grid, Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
-import FormContent from './FormContent';
+import FormContent from '../../components/Forms/FormContent';
 import { useState } from 'react';
 
 const actividades = [

@@ -4,14 +4,12 @@ export const formConfigs = {
 
     Activity: {
         fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
             { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
+            { name: 'content', label: 'Contenido', type: 'select', placeholder: 'Selecciona el contenido', allowAdditions: true },
         ],
         validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
             description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
+            content: Yup.string().required('El contenido es obligatorio'),
         }),
     },
     
@@ -56,16 +54,15 @@ export const formConfigs = {
     
     Content: {
         fields: [
-            { name: 'activityTypeVersionId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad', options: [{value:'multiple-choice', label:'multiple-choice'}] },
-            { name: 'creator', label: 'Creador', type: 'text', placeholder: 'Ingrese el creador' },
-            { name: 'organization', label: 'Organizacion', type: 'select', placeholder: 'Seleccione la organizacion' },
+            { name: 'activityTypeVersionId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad', options: [{value: 46, label: 'Multiple choice'}] },
             { name: 'publicContent', label: 'Público', type: 'checkbox', placeholder: '¿Es público?' },
-            { name: 'model', label: 'CONTENIDO', type: 'textArea', placeholder: 'ESTE FIELD DEBE TENER EL MODELO CON DATOS' },
+         //   { name: 'model', label: 'Datos del contenido', type: 'textArea', placeholder: 'ESTE FIELD DEBE TENER EL MODELO CON DATOS' }, debe ser un subForm
            
         ],
         validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
+            activityTypeVersionId: Yup.string().required('El tipo de actividad es obligatorio'),
+            publicContent: Yup.string().required('Indica si el contenido es público'),
+          
             // Añadir más validaciones aquí según sea necesario
         }),
     },

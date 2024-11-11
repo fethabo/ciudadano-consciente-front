@@ -12,6 +12,11 @@ export default function WrapperClientProvider({children}){
   
     const { enqueueSnackbar } = useSnackbar()
     const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+        },
+      },
       queryCache: new QueryCache({
         onError: (error) => {
           enqueueSnackbar(`Error: ${error}`, {variant:"error"})

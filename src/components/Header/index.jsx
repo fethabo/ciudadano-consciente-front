@@ -17,7 +17,6 @@ const HeaderBar = styled(AppBar)({
   /* TODO: hacer Sticky el header? podriamos descartar los botones , me resultan poco practicos */
 const Header = () => {
   const keycloakContext = useContext(KeycloakContext)
-  console.log(keycloakContext)
   return (
     <HeaderBar position="static">
       <Toolbar>

@@ -49,3 +49,14 @@ export function useGetContentsOfOrganization({organizationId, ...rest}){
     )
   )
 }
+
+export function useGetContents({...rest}){
+  return( 
+    useApiQuery({
+      queryKey:['useGetContents'],
+      endpoint: `/contents`,
+      options: {...rest},
+      }
+    )
+  )
+}

@@ -1,14 +1,15 @@
-import { Box, Fade, LinearProgress, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Fade, LinearProgress, Menu, MenuItem,  Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
-import { useDeleteLevel, useGetLevel, useGetLevelChildrens, usePostLevel } from "../../components/Hooks/requests/Level";
-//import { useGetAnswersFromLevel } from "../../components/Hooks/requests/Answer";
+import { useDeleteLevel, useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
 import AddLevelDialog from "../../components/Dialogs/AddLevelDialog";
 import ConfirmDialog from "../../components/Dialogs/ConfirmDialog";
 import { useQueryClient } from "@tanstack/react-query";
 import EditLevelDialog from "../../components/Dialogs/EditLevelDialog";
-import { useGetActivitiesOfLevels, useGetActivity } from "../../components/Hooks/requests/Activity";
+import { useGetActivitiesOfLevels } from "../../components/Hooks/requests/Activity";
+import ActivityInfo from "./ActivityInfo";
+import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
 
 
 /**
@@ -27,6 +28,7 @@ export default function MapConfig() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mapElements,setMapElements]=useState([]);
   const [activity,setActivity]= useState(null);
+  
   useEffect(() => {
     if (!!childrens && childrens.length > 0) {
       const elements = [];
@@ -114,8 +116,11 @@ const handleEdit=()=>{
 }
 
 //handling add Activity
+const [openAddActivity, setOpenAddActivity] = useState(false);
 const handleAddActivity = ()=>{
   console.log("DEBO AGREGAR ACTIVIDAD")
+  setOpenAddActivity(true);
+  handleClose();
 }
 
 //handling edit Activity
@@ -155,6 +160,12 @@ const handleEditActivity = ()=>{
                       <AddLevelDialog open={openAddLevel} idParent={levelSelectedId} handleClose={()=> setOpenAddLevel(false)} path={idParentLevel}/>
                       <EditLevelDialog open={openEditLevel} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditLevel(false)} path={idParentLevel} />
                       <ConfirmDialog   open={openDelete} onClose={()=>setOpenDelete(false)} onConfirm={()=>setDeleteLevel(levelSelectedId)} title="Eliminar el nivel" message={`Eliminando el nivel ${levelSelectedId}. ¿Está seguro?`} loading={isFetchingDelete}/>
+                      <AddActivityDialog open={openAddActivity} idLevel={levelSelectedId} handleClose={()=> setOpenAddActivity(false)} path={idParentLevel}/>
+                      {activity &&
+                        <ActivityInfo activity={activity} />
+                      }
+                      
+                    
                     </>
                     }
                 </div>            
