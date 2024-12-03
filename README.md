@@ -123,6 +123,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
 - [ ] agregar pristine para submit en formularioBase
 - [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
+- [ ] agregar search a la seleccion de contenidos.
 ## IMPORTANTE
 API:
 - (comenté el allow de los endpoint que me parecieron que debian estar libres) Quitar la verificacion del rol CIUCO_ADMIN, un usuario que recien se registra no puede obtener nada por esto. Al menos todo lo que sea publico se debe poder obtener solo con tener un token valido, sin roles asignados.
@@ -132,7 +133,8 @@ API:
 - (done)el Patch de organizations no funcionba porque verifica la existencia del nombre y el email, si estoy actualizando cualquiera de los otros campos los verifica igual
 - (done) mismo problema del patch con el nombre de los levels..
 - los levels no deberian verificar si existe el nombre (no deberia de ser clave), mas de una organizacion deberia poder llamar igual a sus levels, por què la condicion de unico?
-- getContents of organizations devuelve 404 si no encuentra nada, evaluarlo -.-
+- getContents devuelve 404 si no encuentra nada, evaluarlo -.-
+- descripcion de contents?? esto seria solo para los labels de la seleccion.
 ## Reuniones
 julio 17/18
 - agregar recurso de busqueda de usuario por correo electronico? la busqueda por username es la primera necesaria, para aplicar un filtro y no traer todos los users.

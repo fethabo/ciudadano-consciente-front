@@ -2,10 +2,16 @@ import { Box, Button, LinearProgress } from "@mui/material";
 import FormBase from "./FormBase";
 import formConfigs from "./formConfigs";
 import PropTypes from "prop-types"
-import { useGetContents, useGetContentsOfOrganization } from "../Hooks/requests/Content";
+import { useGetContents } from "../Hooks/requests/Content";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AddContentDialog from "../Dialogs/AddContentDialog";
+
+/**
+ * @todo agregar search en seleccion de content
+ * @param {*} param0 
+ * @returns 
+ */
 function FormActivity({onSubmit, loading, ...rest}) {
 
     const {idOrganization} = useParams();
@@ -13,15 +19,20 @@ function FormActivity({onSubmit, loading, ...rest}) {
     const config = formConfigs['Activity'];
     useEffect(() => {
         const field = config?.fields?.find((f) => f?.name === 'content');
+        
         if (field) {
             if (data) {
-                    field.options = data.map(item => ({
-                        value: item.contentId,        
-                        label: item.contentId
-                    }));
+                const options = [];
+                data.map(item =>{if((item.organization==idOrganization) || (item.publicContent===false) ){ // me quedo solo con los contenidos de la orgnaizacion o los publicos
+                    options.push({
+                    value: item.contentId,        
+                    label: item.contentId
+                     })}});    
+                     console.log(options)
+                     field.options = options
             }
         }
-    }, [data, config]);
+    }, [data, config, idOrganization]);
     const [initialContent, setInitialContent] = useState('')
 
     const [openAddContent, setOpenAddContent] = useState(false)

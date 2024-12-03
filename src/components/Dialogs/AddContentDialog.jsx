@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import CloseIcon from '@mui/icons-material/Close';
 import {  useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { usePostLevel } from "../Hooks/requests/Level";
-import FormLevel from "../Forms/FormLevel";
 import { useQueryClient } from "@tanstack/react-query";
 import useUserApi from "../Hooks/useUserApi";
 import { usePostContent } from "../Hooks/requests/Content";
@@ -34,8 +32,8 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
     useEffect(() => {
         if (data){
             setFormPost(null);
-            queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
-            queryClient.resetQueries({ queryKey: ['usePostContent'], exact: true }) 
+            queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
+            //     queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
             handleClose();
         }else if(isError){
             setFormPost(null)

@@ -1,4 +1,4 @@
-import {  Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import {  Dialog, DialogContent, DialogTitle, IconButton, LinearProgress } from "@mui/material";
 import PropTypes from "prop-types";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
@@ -14,10 +14,10 @@ export default function AddActivityDialog({open, idLevel , handleClose, path,...
     useEffect(() => {
         if (data){
             setFormPost(null);
-            queryClient.resetQueries({ queryKey: ['useGetActivityByLevel', idLevel], exact: true }) 
-            //queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) 
-            queryClient.resetQueries({ queryKey: ['usePostActivity'], exact: true }) 
+            queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) // fuerzo la lectura del mapa actualizado
+            queryClient.resetQueries({ queryKey: "usePostActivity", exact: true }) 
             handleClose();
+      
         }else if(isError){
             setFormPost(null)
         }
@@ -39,7 +39,9 @@ export default function AddActivityDialog({open, idLevel , handleClose, path,...
                <DialogTitle> Agregar Actividad  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
                     <FormActivity onSubmit={handleSubmit} loading={isFetching}/>
+                {isFetching && <LinearProgress />}
                </DialogContent>
+               
             </Dialog> );
 }
 

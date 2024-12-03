@@ -21,7 +21,7 @@ export default function MapConfig() {
   const { idParentLevel, idOrganization } = useParams();
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
-  //TODO: OBTENER ACTIVITIES DE TODOS LOS CHILDRENS...
+//obtengo activities de todos los childrens. (ojo con la key de la query, es activityByLevel)
   const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
   const [levelSelectedId, setLevelSelectedId] = useState(null);
   const [menuPosition, setMenuPosition] = useState({ x: null, y: null });
@@ -30,7 +30,64 @@ export default function MapConfig() {
   const [activity,setActivity]= useState(null);
   
   useEffect(() => {
-    if (!!childrens && childrens.length > 0) {
+    if (!!childrens && childrens.length > 0 && !isPending) {
+      const elements = [];
+      const childrenCountMap = new Map(); // Para contar los hijos procesados por cada nodo
+  
+      // Función para encontrar la posición de un nodo según su parentId
+      const getPosition = (parentId) => {
+        if (!parentId) {
+          // Nodo raíz: posición inicial
+          return { x: 50, y: 50 };
+        }
+  
+        const parentElement = elements.find(el => el.data.id === parentId);
+        if (parentElement) {
+          // Si ya tiene hijos, calcular posición en línea recta hacia abajo
+          const count = childrenCountMap.get(parentId) || 0;
+          const newPosition = {
+            x: parentElement.position.x + 150, // Desplazamiento horizontal por rama
+            y: parentElement.position.y + count * 100 // Desplazamiento vertical incremental
+          };
+  
+          // Actualiza el contador de hijos procesados para este nodo
+          childrenCountMap.set(parentId, count + 1);
+  
+          return newPosition;
+        } else {
+          // Si el padre no está encontrado (caso borde), posición inicial
+          return { x: 50, y: 50 };
+        }
+      };
+  
+      // Construye los elementos del mapa
+      childrens.forEach(level => {
+        const position = getPosition(level.parent);
+  
+        elements.push({
+          data: {
+            id: level.levelId,
+            label: level.name,
+            activity: activities?.find(act => act?.level === level.levelId)
+          },
+          position,
+          classes: 'outline'
+        });
+  
+        // Agregar conexión padre-hijo
+        if (level.parent) {
+          elements.push({
+            data: { source: level.parent, target: level.levelId }
+          });
+        }
+      });
+  
+      setMapElements(elements);
+    }
+  }, [childrens, activities, isPending]);
+  
+  /* useEffect(() => {
+    if (!!childrens && childrens.length > 0 && !isPending) {
       const elements = [];
       const auxParents=[];
       // Función para encontrar la posición de un elemento según su parentId
@@ -67,12 +124,12 @@ export default function MapConfig() {
     // Actualizar el estado con los nuevos elementos
     setMapElements(elements);
   }
-}, [childrens]);
+}, [childrens, activities,isPending]); */
 
 const handleSelect= (value)=>{
   setLevelSelectedId(value?.data?.id)
-  setActivity(value?.data?.activity)
-  setMenuPosition(value?.positionNode ??{x:null, y:null})
+  setActivity(value?.data?.activity ?? null)
+  setMenuPosition(value?.positionNode ?? {x:null, y:null})
   if (value?.data?.id) { setMenuOpen(true)}
 }
 const handleClose = () => {
@@ -118,7 +175,6 @@ const handleEdit=()=>{
 //handling add Activity
 const [openAddActivity, setOpenAddActivity] = useState(false);
 const handleAddActivity = ()=>{
-  console.log("DEBO AGREGAR ACTIVIDAD")
   setOpenAddActivity(true);
   handleClose();
 }
@@ -126,6 +182,9 @@ const handleAddActivity = ()=>{
 //handling edit Activity
 const handleEditActivity = ()=>{
   console.log("DEBO Editar ACTIVIDAD", activity)
+}
+const handleDeleteActivity = ()=>{
+  console.log("DEBO ELIMINAR ACTIVIDAD", activity)
 }
 
     return (
@@ -135,7 +194,7 @@ const handleEditActivity = ()=>{
      SELECCIONADO: {levelSelectedId}
             {
             path
-             ? <div className="path" style={{background:'darkred'}}>
+             ? <div className="path" >
                     
                     {mapElements&&mapElements?.length>0
                     &&<> <MapCytoscape elements={mapElements} onSelect={handleSelect} loading={isFetchingChildrens} />
@@ -151,10 +210,10 @@ const handleEditActivity = ()=>{
                       }
                     >
                      {!activity ? <MenuItem onClick={() => handleAddActivity()}>Agregar Actividad</MenuItem>
-                     :<MenuItem onClick={() => handleEditActivity()}>Editar Actividad</MenuItem>
+                     :([<MenuItem key="edit-activity" onClick={() => handleEditActivity()}>Editar Actividad</MenuItem>,<MenuItem key="delete-activity"onClick={() => handleDeleteActivity()}>Eliminar Actividad</MenuItem>])
                      }
                       <MenuItem onClick={() => handleAddLevel()}>Agregar Level</MenuItem>
-                      <MenuItem onClick={() => handleDelete()}>Eliminar</MenuItem>
+                      <MenuItem onClick={() => handleDelete()} disabled={!!activity}>Eliminar</MenuItem>
                       <MenuItem onClick={() => handleEdit()}>Editar</MenuItem>
                     </Menu>
                       <AddLevelDialog open={openAddLevel} idParent={levelSelectedId} handleClose={()=> setOpenAddLevel(false)} path={idParentLevel}/>

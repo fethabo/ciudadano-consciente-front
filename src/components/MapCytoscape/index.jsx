@@ -59,6 +59,21 @@ export default function MapCytoscape({ elements, onSelect,loading, ...rest }) {
     };
   }, [cy, onSelect]);
 
+  const layout = {
+    name: 'breadthfirst',
+    directed: true, // Asegura que el árbol respete direcciones (padre-hijo)
+    spacingFactor: 1.5, // Ajusta la separación entre nodos
+    avoidOverlap: true, // Evita que los nodos se superpongan
+    animate: true, // Anima el reordenamiento
+    fit: true, // Ajusta el gráfico al contenedor
+  };/* 
+  useEffect(() => {
+    if (cy) {
+      cy.layout(layout).run(); // Ejecuta el layout en los elementos actuales
+    }
+  }, [cy, elements]); // Recalcula cuando cambien los nodos o el grafo
+  
+ */
   const style = [
     {
       selector: 'node[label]',
@@ -90,7 +105,7 @@ export default function MapCytoscape({ elements, onSelect,loading, ...rest }) {
       },
     },
   ];
-
+ 
   return (
     <div style={{
       position: 'relative',
@@ -107,6 +122,7 @@ export default function MapCytoscape({ elements, onSelect,loading, ...rest }) {
   <CircularProgress color="inherit" />
 </Backdrop>
       <CytoscapeComponent
+      layout={layout}
         elements={elements}
         style={{ display: 'flex', background: 'white', width:"100%",minWidth: '300px',height:'100%', minHeight: '300px' }}
         minZoom={0.5}

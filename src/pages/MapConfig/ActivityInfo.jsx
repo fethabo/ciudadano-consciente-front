@@ -8,9 +8,9 @@ function ActivityInfo({activity}) {
 
     return (  
     <Stack>
-        <Typography>Actividad del level: </Typography>
-        <Typography>Descripción: {activity?.description}</Typography>
-        <Typography>Contenido: {activity?.content}</Typography>
+        <Typography variant="h6">Actividad del level: </Typography>
+        <Typography variant="body1">Descripción: {activity?.description}</Typography>
+        <Typography variant="body1">Contenido: {activity?.content}</Typography>
     </Stack>);
 }
 
