@@ -24,6 +24,7 @@
     "keycloak-js": "25.0.1",
     "notistack": "^3.0.1",
     "react": "^17.0.0 || ^18.0.0",
+    "react-confetti": "^6.2.2",
     "react-cytoscapejs": "^2.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "yup": "^1.4.0"

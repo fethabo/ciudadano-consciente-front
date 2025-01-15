@@ -34,7 +34,7 @@ export function useGetOrganization({organizationId, ...rest}){
 export function useGetOrganizationsOfUser({userId, ...rest}){
   return( useApiQuery({
     queryKey:['useGetOrganizationsOfUser',userId],
-    endpoint: `/organizations/users/${userId}`,
+    endpoint: `/organizations/users`,
     options: {...rest},
     }
   ) 

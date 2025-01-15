@@ -11,24 +11,26 @@ export default function Organization() {
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization}= useGetOrganization({organizationId:idOrganization, enabled:!!idOrganization})
     const navigate = useNavigate();
     const role = useGetOrganizationRole({organizationId:idOrganization})
+    console.log(role)
     const {pathname} = useLocation();
 return ( 
-       role !=="none" ?(
+       role !=="none" 
+       ?(
         <Container>
          { ( isFetchingOrganization)?
-        <LinearProgress />
-        :<>
-            <Typography variant="h5">{organization?.name}</Typography>
-            <Typography variant="subtitle1">{organization?.description}</Typography>
-            <Box>
-                {pathname!==`/organizations/${idOrganization}` && <Button onClick={()=> navigate(`/organizations/${idOrganization}`)} >Volver</Button>       }
-                <Button onClick={()=> navigate(`./edit`, {relative: 'path'})} disabled={role !== "moderator"} >Editar</Button>          
-                <Button onClick={()=> navigate(`./users`, {relative: 'path'})} disabled={role !== "moderator"} >Permisos</Button>       
-            </Box>
-            </>
-}            
-            <Outlet />
-        </Container>)
+                <LinearProgress />
+                :<>
+                    <Typography variant="h5">{organization?.name}</Typography>
+                    <Typography variant="subtitle1">{organization?.description}</Typography>
+                    <Box>
+                        {pathname!==`/organizations/${idOrganization}` && <Button onClick={()=> navigate(`/organizations/${idOrganization}`)} >Volver</Button>       }
+                        <Button onClick={()=> navigate(`./edit`, {relative: 'path'})} disabled={role !== "moderator"} >Editar</Button>          
+                        <Button onClick={()=> navigate(`./users`, {relative: 'path'})} disabled={role !== "moderator"} >Permisos</Button>       
+                    </Box>
+                    </>
+        }            
+                    <Outlet />
+                </Container>)
         : <img src={noAuth}/>
      );
 }

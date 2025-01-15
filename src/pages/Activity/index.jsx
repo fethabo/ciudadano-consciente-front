@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import MultipleChoice from "../../components/Templates/MultipleChoice";
+import { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, LinearProgress, Typography } from "@mui/material";
 import useMap from "../../components/Hooks/useMap";
 import { useGetContent } from "../../components/Hooks/requests/Content";
 import { usePostAnswer } from "../../components/Hooks/requests/Answer";
 import { useNavigate, useParams } from "react-router-dom";
 import useUserApi from "../../components/Hooks/useUserApi";
+import { useGetActivityTypeVersion } from "../../components/Hooks/requests/ActivityTypeVersion";
+import Confetti from 'react-confetti'
 
 export default function Activity() {
 
@@ -24,11 +25,13 @@ export default function Activity() {
     }, [activity, idParentLevel, navigate]);
 
     const { data: content, isFetching: isFetchingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content, enabled:!!activity&&!!activity.content})
+    const { data: activityTypeVersion, isFetching: isFetchingActivityTypeVersion, isError: isErrorActivityTypeVersion}= useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content})
     const { data: response, isFetching: isFetchingAnswer, isError: isErrorAnswer} = usePostAnswer({form: answer, enabled:(!!answer && enabledPost)})
-    
+    console.log(content)
     //Obtengo el contenido de la respuesta del content
     useEffect(() => {
       if (content && !!content.model){
+        console.log("modelo que llega" , content.model)
         const modelObject = JSON.parse(content.model); 
         setActivityContent(modelObject)
       }
@@ -47,6 +50,15 @@ export default function Activity() {
             setAnswer(null)
         }
     }, [response, isFetchingAnswer]);
+
+    const [ActivityType, setActivityType] = useState(null);
+    useEffect(() => {
+        if(activityTypeVersion?.template&& ActivityType===null){
+            const aux = lazy(() => import(`../../components/Templates/${activityTypeVersion.template}`))
+            setActivityType(aux)
+        }
+    }, [activityTypeVersion, ActivityType]);
+
     return ( 
         <Box>
         <Typography variant="h5">{activity?.description}</Typography>{/* TODO: agregar descripcion /nombre de actividad (quizas la descripcion en un tooltip o similar) */}
@@ -55,20 +67,25 @@ export default function Activity() {
             :   (isErrorContent
                     ? <Alert severity="error">Hubo un error al obtener la actividad</Alert>
                     :(!!activityContent&&
-                                   /* TODO: oobtener el componentes segun el tipo de actividad  */
-                         <MultipleChoice content={activityContent} onResponse={handleResponse} />
+                         <Suspense fallback={<LinearProgress/>}>
+                            {ActivityType && <ActivityType content={activityContent} onResponse={handleResponse}/>}
+                         </Suspense>
+                        /*  <MultipleChoice content={activityContent} onResponse={handleResponse} /> */
                     )
                 )
-        }
-         {/* TODO: ESTE CHILDREN PROBAR DE ARMAR UN SANDBOX PARA PRODUCIR TEMPLATES */}
-       
+        }    
     <Dialog  disableEscapeKeyDown open={enabledPost} >
         <DialogContent>
             {isFetchingAnswer 
                 ? <LinearProgress />
-                : isErrorAnswer? <Alert severity="error">Fallo al guardar la respuesta, vuelve a intentarlo</Alert> 
-                /* TODO:  Animacion de RESPUESTA CORRECTA/INCORRECTA, si es correcta redirigir en x segundos a la siguiente (¿obtener siguiente actividad del mapa?) */
-                :<div>{response?.status ? "¡CORRECTO!" : "ups.. es incorrecto, intenta nuevamente"}</div>}
+                : isErrorAnswer
+                    ? <Alert severity="error">Fallo al guardar la respuesta, vuelve a intentarlo</Alert> 
+                    :<div>
+                    <Confetti
+                        width={"100%"}
+                        height={"100%"}
+                        />
+                    {response?.status ? "¡CORRECTO!" : "ups.. es incorrecto, intenta nuevamente"}</div>}
         </DialogContent>
         <DialogActions>
                 <Button onClick={()=> navigate(`/map/${idParentLevel}`)} disabled={isFetchingAnswer}>Volver al mapa</Button>

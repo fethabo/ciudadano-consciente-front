@@ -2,7 +2,7 @@ import { Box, Button, LinearProgress } from "@mui/material";
 import FormBase from "./FormBase";
 import formConfigs from "./formConfigs";
 import PropTypes from "prop-types"
-import { useGetContents } from "../Hooks/requests/Content";
+import { useGetContents, useGetContentsOfOrganization } from "../Hooks/requests/Content";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AddContentDialog from "../Dialogs/AddContentDialog";
@@ -15,7 +15,7 @@ import AddContentDialog from "../Dialogs/AddContentDialog";
 function FormActivity({onSubmit, loading, ...rest}) {
 
     const {idOrganization} = useParams();
-    const {data, isFetching, isError} = useGetContents({organizationId: idOrganization, enabled: !!idOrganization})
+    const {data, isFetching, isError} = useGetContentsOfOrganization({organizationId: idOrganization, enabled: !!idOrganization})
     const config = formConfigs['Activity'];
     useEffect(() => {
         const field = config?.fields?.find((f) => f?.name === 'content');
@@ -26,7 +26,7 @@ function FormActivity({onSubmit, loading, ...rest}) {
                 data.map(item =>{if((item.organization==idOrganization) || (item.publicContent===false) ){ // me quedo solo con los contenidos de la orgnaizacion o los publicos
                     options.push({
                     value: item.contentId,        
-                    label: item.contentId
+                    label: item.description
                      })}});    
                      console.log(options)
                      field.options = options

@@ -10,7 +10,8 @@ import formConfigs from "./formConfigs";
 /**
  * 
  * @returns 
- * @todo: get de datos iniciales para la edicion (o crear otro form para edicion)
+ * @todo: no se tiene que poder editar el nombre de la org.
+ *  - BUG: si falla el patch no permite realizar otro
  */
 export default function FormOrganization() {
     const navigate= useNavigate();

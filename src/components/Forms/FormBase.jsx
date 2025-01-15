@@ -1,10 +1,18 @@
 import { MenuItem, TextField } from '@mui/material';
-import { Formik, Form, Field, /* ErrorMessage */ } from 'formik';
+import { Formik, Form, Field, useFormikContext, /* ErrorMessage */ } from 'formik';
 import PropTypes from "prop-types"
 
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { DynamicSubForm } from './DynamicSubForm';
+import { useEffect } from 'react';
 
+const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
+  const { values } = useFormikContext();
+
+  useEffect(() => {
+    onFieldChange(values); // Notifica los cambios al padre
+  }, [values, onFieldChange]);
+}
 // Este componente recibirá una lista de campos y otras propiedades de Formik
 /**
  * @todo Agregar control de POST, que reciba la funcion por props
@@ -34,7 +42,8 @@ import { DynamicSubForm } from './DynamicSubForm';
           children,
           disableForm,
           onAddition,
-          jsonTemplate // Agregamos el template JSON como prop adicional
+          jsonTemplate, // Agregamos el template JSON como prop adicional
+          onFieldChange
         }) {
           const combinedInitialValues = { ...initialValues };
         
@@ -46,6 +55,7 @@ import { DynamicSubForm } from './DynamicSubForm';
             >
               {(formState) => (
                 <Form>
+                  <ValuesListener onFieldChange={onFieldChange} />
                   {fields.map((field) => (
                     <div key={field.name} style={{ marginBottom: '16px' }}>
                       {field.type === 'select' ? (
@@ -171,6 +181,7 @@ FormBase.propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
     disableForm: PropTypes.bool,
     onAddition: PropTypes.func,
-    jsonTemplate: PropTypes.object
+    jsonTemplate: PropTypes.object,
+    onFieldChange: PropTypes.func
 }
  

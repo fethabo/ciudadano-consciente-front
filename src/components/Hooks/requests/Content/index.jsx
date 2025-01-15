@@ -50,6 +50,20 @@ export function useGetContentsOfOrganization({organizationId, ...rest}){
   )
 }
 
+
+export function useGetContentsOfUser({userId, ...rest}){
+  return( 
+    useApiQuery({
+      queryKey:['useGetContentsOfUser', userId],
+      endpoint: `/contents/users/${userId}`,
+      options: {...rest},
+      }
+    )
+  )
+}
+
+
+//DEVUELVE TODOS LOS PUBLICOS
 export function useGetContents({...rest}){
   return( 
     useApiQuery({
@@ -60,3 +74,5 @@ export function useGetContents({...rest}){
     )
   )
 }
+
+

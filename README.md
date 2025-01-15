@@ -124,6 +124,13 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] agregar pristine para submit en formularioBase
 - [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
 - [ ] agregar search a la seleccion de contenidos.
+
+##### modificaciones por normalizacion de la api:
+- [ ] Quitar requests de usuarios de la organizacion en paralelo.
+- [ ] quitar idUser de requests, probar e identificar cuales faltan quitar. 
+- [ ] POR AHORA NO HACER NADA- Se agrego el hidden en los levels, por el momento suponer que la api devuelve lo que necesito segun los roles. 
+- [ ] hacer fullwidth las ventanas de formularios
+
 ## IMPORTANTE
 API:
 - (comenté el allow de los endpoint que me parecieron que debian estar libres) Quitar la verificacion del rol CIUCO_ADMIN, un usuario que recien se registra no puede obtener nada por esto. Al menos todo lo que sea publico se debe poder obtener solo con tener un token valido, sin roles asignados.

@@ -37,6 +37,7 @@ import FormSearchUsers from '../../components/Forms/FormSearchUser';
  /* 
     TODO: AGREGAR REFETCH de users al eliminar
     TODO: atajar errores de hooks no atajados
+    TODO: Quitar las opciones de Level en el selector de roles de la organizacion
  */
 export default function OrganizationUsers() {
     const {idOrganization} =useParams();

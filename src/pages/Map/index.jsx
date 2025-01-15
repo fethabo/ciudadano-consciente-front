@@ -21,6 +21,7 @@ const Map = () => {
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
   const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers}= useGetAnswersOfUserFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
   const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
+  console.log(activities)
   const {activity, setActivity, setLevelSelected} = useMap();
 const [mapElements,setMapElements]=useState([]);
 
@@ -62,7 +63,7 @@ useEffect(() => {
     // Actualizar el estado con los nuevos elementos
     setMapElements(elements);
   }
-}, [childrens, isPending]);
+}, [childrens, isPending, activities]);
 
 
 const [levelSelectedId, setLevelSelectedId] = useState(null);

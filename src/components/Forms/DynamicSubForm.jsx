@@ -1,10 +1,16 @@
-import React from 'react';
 import { Field } from 'formik';
-import { TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, Switch, TextField } from '@mui/material';
+import PropTypes from 'prop-types'
 
+/**
+ * 
+ * @param {*} key 
+ * @param {*} path 
+ * @param {*} value 
+ * @returns 
+ */
 const renderField = (key, path, value) => {
   const fieldName = path ? `${path}.${key}` : key;
-
   if (typeof value === 'object' && !Array.isArray(value)) {
     // Si el valor es un objeto, renderiza los campos de forma recursiva
     return (
@@ -17,8 +23,26 @@ const renderField = (key, path, value) => {
     );
   } else {
     // Si el valor es un campo simple, renderiza el campo de texto
-    return (
-      <div key={fieldName} style={{ marginBottom: '16px' }}>
+    console.log(fieldName,value)
+    //
+    switch(value) {
+      case "boolean": 
+        return  (<div key={fieldName} style={{ marginBottom: '16px' }}>
+                <FormControlLabel  name={fieldName} fullWidth control={<Switch />} label={key}/>
+         </div>)
+      case "number":return  (<div key={fieldName} style={{ marginBottom: '16px' }}>
+        <Field
+          as={TextField}
+          type="number"
+          name={fieldName}
+          label={key}
+          placeholder={`Ingrese ${key}`}
+          fullWidth
+          variant="outlined"
+        />
+      </div>)
+      default : 
+      return  (<div key={fieldName} style={{ marginBottom: '16px' }}>
         <Field
           as={TextField}
           name={fieldName}
@@ -27,12 +51,14 @@ const renderField = (key, path, value) => {
           fullWidth
           variant="outlined"
         />
-      </div>
-    );
+      </div>)
+      
+    }
   }
 };
 
 export const DynamicSubForm = ({ jsonTemplate }) => {
+  console.log("jsonTemplate", jsonTemplate)
   return (
     <>
       {Object.entries(jsonTemplate).map(([key, value]) =>
@@ -41,3 +67,6 @@ export const DynamicSubForm = ({ jsonTemplate }) => {
     </>
   );
 };
+DynamicSubForm.propTypes= {
+  jsonTemplate: PropTypes.object
+}

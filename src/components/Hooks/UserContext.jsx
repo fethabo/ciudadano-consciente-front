@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import useUserName from "../../security/hooks/useUserName";
-import { useGetUserByUsername, usePostUser } from "./requests/Users/Index";
+import { useGetUserByEmail, usePostUser } from "./requests/Users/Index";
 import { LinearProgress } from "@mui/material";
+import useEmail from "../../security/hooks/useEmail";
 
 /**
  * - Genera un contexto para guardar los datos del usuario en la api ciuco
@@ -11,11 +12,12 @@ import { LinearProgress } from "@mui/material";
 export const UserContext = React.createContext('');
 export function UserProvider({children}) {
 
-    const userName= useUserName();
+    //const userName= useUserName();
+    const userEmail = useEmail();
     const [contextValue, setContextValue] = useState(null);
     const [newUser, setNewUser] = useState(false);
     
-    const { data: user , isFetching, isFetched, isError, status, error} = useGetUserByUsername({userName: userName, enabled: !!userName})
+    const { data: user , isFetching, isFetched, isError, status, error} = useGetUserByEmail({userEmail: userEmail, enabled: !!useEmail})
     const { data: userPost, isFetching: isFetchingPost, isError: isErrorPost} = usePostUser({enabled: newUser})
 
 
