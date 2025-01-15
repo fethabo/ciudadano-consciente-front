@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import { Checkbox, FormControlLabel, Switch, TextField } from '@mui/material';
+import { FormControlLabel, Switch, TextField } from '@mui/material';
 import PropTypes from 'prop-types'
 
 /**

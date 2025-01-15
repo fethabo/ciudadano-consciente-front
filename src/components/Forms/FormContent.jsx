@@ -25,18 +25,18 @@ function FormContent({onSubmit, loading, ...rest}) {
 
     useEffect(() => {
         if (data?.length>0&&data[data.length-1]?.model){
-            setJsonTemplate(JSON.parse(data[data.length-1].model))
+            setJsonTemplate({model: JSON.parse(data[data.length-1].model)})
         }
     }, [data]);
 
     const handleSelection = (values)=> {
-        setOption(values.activityTypeVersionId)
+        setOption(values.activityTypeId)
     }
 
     return (  
       <FormBase
             fields={config.fields}
-            initialValues={ { publicContent: false, activityTypeVersionId: "" }}
+            initialValues={ { publicContent: false, activityTypeId: "" }}
             validationSchema={config.validationSchema}
             onSubmit={onSubmit}
             disableForm={loading}

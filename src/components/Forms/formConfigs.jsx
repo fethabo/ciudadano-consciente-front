@@ -54,14 +54,14 @@ export const formConfigs = {
     
     Content: {
         fields: [
-            { name: 'activityTypeVersionId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad', options: [{value: 3, label: 'Elección múltiple'},{value: 2, label: 'Selección múltiple'},{value: 5, label: 'Ordenar secuencia'},{value: 4, label: 'Verdadero o falso'}] },
+            { name: 'activityTypeId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad', options: [{value: 3, label: 'Elección múltiple'},{value: 2, label: 'Selección múltiple'},{value: 5, label: 'Ordenar secuencia'},{value: 4, label: 'Verdadero o falso'}] },
             { name: 'publicContent', label: 'Público', type: 'checkbox', placeholder: '¿Es público?' },
             { name: 'description', label: 'Descripcion', type: 'text',  placeholder: 'Ingrese una descripción'},
             //   { name: 'model', label: 'Datos del contenido', type: 'textArea', placeholder: 'ESTE FIELD DEBE TENER EL MODELO CON DATOS' }, debe ser un subForm
            
         ],
         validationSchema: Yup.object({
-            activityTypeVersionId: Yup.string().required('El tipo de actividad es obligatorio'),
+            activityTypeId: Yup.string().required('El tipo de actividad es obligatorio'),
             publicContent: Yup.string().required('Indica si el contenido es público'),
           
             // Añadir más validaciones aquí según sea necesario
