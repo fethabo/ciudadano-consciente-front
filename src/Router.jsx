@@ -20,6 +20,7 @@ import OrganizationMaps from "./pages/OrganizationMaps";
 import FormMap from "./components/Forms/FormMap";
 import OrganizationAccess from "./pages/Organization/OrganizationAccess";
 import MapConfig from "./pages/MapConfig";
+import OrganizationContents from "./pages/OrganizationContents";
 
 /* TODO: AGREGAR ERROR BOUNDARY 
 * VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
@@ -46,7 +47,7 @@ function Router() {
                 <Route path="/organizations/:idOrganization/maps" element={<OrganizationMaps />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
                 <Route path="/organizations/:idOrganization/maps/add" element={<FormMap />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
                 <Route path="/organizations/:idOrganization/maps/:idParentLevel" element={<MapConfig />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
-                <Route path="/organizations/:idOrganization/contents" element={<NotImplemented />}/>{/* VISTA PARA CREACION DE CONTENIDO, ACCESIBLE DESDE EL FORMULARIO DE creacion de ACTIVIDAD Y DESDE LA RAIZ DE LA ORGANIZACION*/}
+                <Route path="/organizations/:idOrganization/contents" element={<OrganizationContents />}/>{/* VISTA PARA CREACION DE CONTENIDO, ACCESIBLE DESDE EL FORMULARIO DE creacion de ACTIVIDAD Y DESDE LA RAIZ DE LA ORGANIZACION*/}
                 <Route path="/organizations/:idOrganization/references" element={<NotImplemented />}/>{/* VISTA PARA CREACION DE Referencias*/}
                 <Route path="/organizations/:idOrganization/stadistics" element={<NotImplemented />}/>{/* VISTA De dashboard de org*/} 
               </Route>

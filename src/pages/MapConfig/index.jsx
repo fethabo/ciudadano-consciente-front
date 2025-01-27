@@ -10,6 +10,7 @@ import EditLevelDialog from "../../components/Dialogs/EditLevelDialog";
 import { useDeleteActivity, useGetActivitiesOfLevels } from "../../components/Hooks/requests/Activity";
 import ActivityInfo from "./ActivityInfo";
 import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
+import EditActivityDialog from "../../components/Dialogs/EditActivityDialog";
 
 /**
  * CONFIGURACION DE MAPA DE LA ORGANIZACION.
@@ -198,7 +199,7 @@ useEffect(() => {
                       <ConfirmDialog   open={openDeleteLevel} onClose={()=>setOpenDeleteLevel(false)} onConfirm={()=>setDeleteLevel(levelSelectedId)} title="Eliminar el nivel" message={`Eliminando el nivel ${levelSelectedId}. ¿Está seguro?`} loading={isFetchingDelete}/>
                       <AddActivityDialog open={openAddActivity} idLevel={levelSelectedId} handleClose={()=> setOpenAddActivity(false)} path={idParentLevel}/>
                       <ConfirmDialog   open={openDeleteActivityDialog} onClose={()=>setOpenDeleteActivityDialog(false)} onConfirm={()=>setDeleteActivity(activity?.activityId)} title="Eliminar la actividad" message={`Eliminando la actividad ${activity?.activityId} del level ${levelSelectedId}. Esta acción no borrará el contenido que ejecuta la actividad de este nivel ¿Está seguro?`} loading={isFetchingDeleteActivity}/>
-                      
+                      <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> setOpenEditActivity(false)} path={idParentLevel}/>
                       {activity &&
                         <ActivityInfo activity={activity} />
                       
