@@ -10,6 +10,7 @@ import PropTypes from "prop-types"
         {children}
     </InitKeycloak>
  */
+/**TODO: cambiar refresco de token, no debe ser cuando expira, debe realizarse antes */
 export default function InitKeycloak({children, configKc}) {
 
     const [keycloak, setKeycloak] = useState(null);
@@ -45,11 +46,12 @@ export default function InitKeycloak({children, configKc}) {
     }, [keycloak,configKc]);
 
     return (
-       
+        keycloak !== null
+        && (
             <KeycloakContext.Provider value={keycloak}>
                 {children}
             </KeycloakContext.Provider>
-       
+        )
     )
 }
 InitKeycloak.propTypes={

@@ -101,6 +101,7 @@ export function usePostUser({...rest}){
 
 
   /**
+   * @deprecated use useGetUsersWithRoleOrganization, ahora devuelve los datos de los usuarios con el rol
  * @param users
  * @returns  users of organization {}
  */

@@ -91,3 +91,15 @@ export function useGetActivitiesOfLevels({levels,...rest}){
      // console.log(result, "result")
   return result
 }
+
+export function useDeleteActivity({activityId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['useDeleteActivity',activityId],
+      method: 'DELETE',
+      endpoint: `/activities/${activityId}`,
+      options: {...rest},
+      }
+    )
+  )   
+}

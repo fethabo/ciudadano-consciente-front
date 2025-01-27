@@ -1,4 +1,4 @@
-import { Box, Fade, LinearProgress, Menu, MenuItem,  Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fade, LinearProgress, Menu, MenuItem,  Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
@@ -7,10 +7,9 @@ import AddLevelDialog from "../../components/Dialogs/AddLevelDialog";
 import ConfirmDialog from "../../components/Dialogs/ConfirmDialog";
 import { useQueryClient } from "@tanstack/react-query";
 import EditLevelDialog from "../../components/Dialogs/EditLevelDialog";
-import { useGetActivitiesOfLevels } from "../../components/Hooks/requests/Activity";
+import { useDeleteActivity, useGetActivitiesOfLevels } from "../../components/Hooks/requests/Activity";
 import ActivityInfo from "./ActivityInfo";
 import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
-
 
 /**
  * CONFIGURACION DE MAPA DE LA ORGANIZACION.
@@ -18,29 +17,31 @@ import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
  */
 export default function MapConfig() {
 
-  const { idParentLevel, idOrganization } = useParams();
+  const { idParentLevel } = useParams();
+  //Obtengo el path y los childrens del nivel padre
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
 //obtengo activities de todos los childrens. (ojo con la key de la query, es activityByLevel)
   const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
+  const queryClient = useQueryClient()
+  
   const [levelSelectedId, setLevelSelectedId] = useState(null);
   const [menuPosition, setMenuPosition] = useState({ x: null, y: null });
   const [menuOpen, setMenuOpen] = useState(false);
   const [mapElements,setMapElements]=useState([]);
   const [activity,setActivity]= useState(null);
   
+  //useEffect para construir el mapa
   useEffect(() => {
     if (!!childrens && childrens.length > 0 && !isPending) {
       const elements = [];
       const childrenCountMap = new Map(); // Para contar los hijos procesados por cada nodo
-  
       // Función para encontrar la posición de un nodo según su parentId
       const getPosition = (parentId) => {
         if (!parentId) {
           // Nodo raíz: posición inicial
           return { x: 50, y: 50 };
-        }
-  
+        }  
         const parentElement = elements.find(el => el.data.id === parentId);
         if (parentElement) {
           // Si ya tiene hijos, calcular posición en línea recta hacia abajo
@@ -52,7 +53,6 @@ export default function MapConfig() {
   
           // Actualiza el contador de hijos procesados para este nodo
           childrenCountMap.set(parentId, count + 1);
-  
           return newPosition;
         } else {
           // Si el padre no está encontrado (caso borde), posición inicial
@@ -63,7 +63,6 @@ export default function MapConfig() {
       // Construye los elementos del mapa
       childrens.forEach(level => {
         const position = getPosition(level.parent);
-  
         elements.push({
           data: {
             id: level.levelId,
@@ -85,62 +84,22 @@ export default function MapConfig() {
       setMapElements(elements);
     }
   }, [childrens, activities, isPending]);
-  
-  /* useEffect(() => {
-    if (!!childrens && childrens.length > 0 && !isPending) {
-      const elements = [];
-      const auxParents=[];
-      // Función para encontrar la posición de un elemento según su parentId
-      const getPosition = (parentId) => {
-        console.log("parentId",parentId);
-        const parentElement = elements.find(el => el.data.id === parentId);
-        if (parentElement) {
-          const childrenAuxSize= [...auxParents].filter(x => x===parentId).length;
-        // console.log(childrenAuxSize)
-          auxParents.push(parentId);
-          // Si se encuentra el elemento padre, la posición será un poco más a la derecha
-          return { x: parentElement.position.x + 150, y: parentElement.position.y+ (childrenAuxSize*100) };
-        } else {
-          // Si no hay elemento padre, posición inicial
-          return { x: 50, y: 50 };
-        }
-      };
-
-    // Iterar sobre los childrens
-    childrens.forEach(level => {
-      // Calcular la posición
-      const position = getPosition(level.parent);
-      // Agregar el nuevo elemento
-      elements.push({ data:{id:level.levelId, label: level.name, activity: activities?.find((act)=> act?.level==level.levelId)}, position:position, classes: 'outline' });
-      // Si hay parentId, agregar enlace desde el padre
-      //falta reubicar los niveles inferiores en una linea (conviene armar una matriz?)
-      if (level.parent) {
-        elements.push({
-          data: { source: level.parent, target: level.levelId }
-        });
-      }
-    });
-
-    // Actualizar el estado con los nuevos elementos
-    setMapElements(elements);
-  }
-}, [childrens, activities,isPending]); */
-
+    
+//Handling select nodo
 const handleSelect= (value)=>{
   setLevelSelectedId(value?.data?.id)
   setActivity(value?.data?.activity ?? null)
   setMenuPosition(value?.positionNode ?? {x:null, y:null})
   if (value?.data?.id) { setMenuOpen(true)}
 }
+
+//handling close del menu de seleccion de nodo
 const handleClose = () => {
   setMenuOpen(false);
 };
 
 //handling add level
 const [openAddLevel, setOpenAddLevel]= useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-  const queryClient = useQueryClient()
-
 const handleAddLevel=()=>{
   setOpenAddLevel(true)
   handleClose();
@@ -148,19 +107,19 @@ const handleAddLevel=()=>{
 
 //Handling delete action
 const [deleteLevel, setDeleteLevel] = useState(null);
+const [openDeleteLevel, setOpenDeleteLevel] = useState(false);
 const {data: responseDelete, isFetching: isFetchingDelete, isError: isErrorDelete} = useDeleteLevel({levelId: deleteLevel, enabled: !!deleteLevel});
 useEffect(() => {
   if (responseDelete && !isFetchingDelete){
     setDeleteLevel(null)
     queryClient.resetQueries({ queryKey: ['useDeleteLevel', levelSelectedId], exact: true })   //la reseteo para que me permita borrar otro
-    setOpenDelete(false);
+    setOpenDeleteLevel(false);
     queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', idParentLevel], exact: true }) 
-
   }
-}, [responseDelete, isFetchingDelete]);
+}, [responseDelete, isFetchingDelete, queryClient, levelSelectedId, idParentLevel]);
 
-const handleDelete=()=>{
-  setOpenDelete(true)
+const handleDeleteLevel=()=>{
+  setOpenDeleteLevel(true)
   handleClose();
 }
 
@@ -180,18 +139,35 @@ const handleAddActivity = ()=>{
 }
 
 //handling edit Activity
-const handleEditActivity = ()=>{
-  console.log("DEBO Editar ACTIVIDAD", activity)
+const [openEditActivity, setOpenEditActivity] = useState(false);
+const handleEditActivity = () => {
+  setOpenEditActivity(true);
+  handleClose();
 }
-const handleDeleteActivity = ()=>{
-  console.log("DEBO ELIMINAR ACTIVIDAD", activity)
+
+//handling delete Activity
+const [openDeleteActivityDialog, setOpenDeleteActivityDialog] = useState(false);
+const [deleteActivity, setDeleteActivity] = useState(null);
+const { data: responseDeleteActivity, isError: isErrorDeleteActivity,isFeching: isFetchingDeleteActivity } = useDeleteActivity({activityId: deleteActivity, enabled: !!deleteActivity});
+
+const handleDeleteActivity = () => {
+  setOpenDeleteActivityDialog(true);
+  handleClose();
 }
+useEffect(() => {
+  if (responseDeleteActivity && !isFetchingDeleteActivity){
+    setDeleteActivity(null)
+    queryClient.resetQueries({ queryKey: ['useDeleteActivity', activity?.activityId], exact: true })   //la reseteo para que me permita borrar otro
+    setOpenDeleteActivityDialog(false);
+    queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', idParentLevel], exact: true }) 
+  }
+}, [ queryClient, levelSelectedId, idParentLevel, responseDeleteActivity, isFetchingDeleteActivity, activity]);
+
 
     return (
     <Box>
       <Typography className="nombre">Mapa: {path?.name}</Typography>
       <Typography className="descripcion">{path?.description}</Typography>   
-     SELECCIONADO: {levelSelectedId}
             {
             path
              ? <div className="path" >
@@ -210,18 +186,22 @@ const handleDeleteActivity = ()=>{
                       }
                     >
                      {!activity ? <MenuItem onClick={() => handleAddActivity()}>Agregar Actividad</MenuItem>
-                     :([<MenuItem key="edit-activity" onClick={() => handleEditActivity()}>Editar Actividad</MenuItem>,<MenuItem key="delete-activity"onClick={() => handleDeleteActivity()}>Eliminar Actividad</MenuItem>])
+                     :([<MenuItem key="edit-activity" onClick={() => handleEditActivity()}>Editar Actividad</MenuItem>,
+                     <MenuItem key="delete-activity"onClick={() => handleDeleteActivity()}>Eliminar Actividad</MenuItem>])
                      }
                       <MenuItem onClick={() => handleAddLevel()}>Agregar Level</MenuItem>
-                      <MenuItem onClick={() => handleDelete()} disabled={!!activity}>Eliminar</MenuItem>
+                      <MenuItem onClick={() => handleDeleteLevel()} disabled={!!activity}>Eliminar</MenuItem>
                       <MenuItem onClick={() => handleEdit()}>Editar</MenuItem>
                     </Menu>
                       <AddLevelDialog open={openAddLevel} idParent={levelSelectedId} handleClose={()=> setOpenAddLevel(false)} path={idParentLevel}/>
                       <EditLevelDialog open={openEditLevel} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditLevel(false)} path={idParentLevel} />
-                      <ConfirmDialog   open={openDelete} onClose={()=>setOpenDelete(false)} onConfirm={()=>setDeleteLevel(levelSelectedId)} title="Eliminar el nivel" message={`Eliminando el nivel ${levelSelectedId}. ¿Está seguro?`} loading={isFetchingDelete}/>
+                      <ConfirmDialog   open={openDeleteLevel} onClose={()=>setOpenDeleteLevel(false)} onConfirm={()=>setDeleteLevel(levelSelectedId)} title="Eliminar el nivel" message={`Eliminando el nivel ${levelSelectedId}. ¿Está seguro?`} loading={isFetchingDelete}/>
                       <AddActivityDialog open={openAddActivity} idLevel={levelSelectedId} handleClose={()=> setOpenAddActivity(false)} path={idParentLevel}/>
+                      <ConfirmDialog   open={openDeleteActivityDialog} onClose={()=>setOpenDeleteActivityDialog(false)} onConfirm={()=>setDeleteActivity(activity?.activityId)} title="Eliminar la actividad" message={`Eliminando la actividad ${activity?.activityId} del level ${levelSelectedId}. Esta acción no borrará el contenido que ejecuta la actividad de este nivel ¿Está seguro?`} loading={isFetchingDeleteActivity}/>
+                      
                       {activity &&
                         <ActivityInfo activity={activity} />
+                      
                       }
                       
                     

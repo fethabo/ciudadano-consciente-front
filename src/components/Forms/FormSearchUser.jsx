@@ -1,30 +1,30 @@
 import FormBase from "./FormBase";
 import * as Yup from 'yup';
 import { useGetRoles } from "../Hooks/requests/Roles";
-import { Alert, Button } from "@mui/material";
+import { Alert, Box, Button, LinearProgress, Skeleton, Stack } from "@mui/material";
 import { useGetUserByEmail } from "../Hooks/requests/Users/Index";
 import { useEffect, useState } from "react";
 import { usePostRoleUserOrganization } from "../Hooks/requests/Organizations";
-import { useNavigate, useParams } from "react-router-dom";
-//import { useQueryClient } from "@tanstack/react-query";
+import {  useParams } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-/* TODO: ATAJAR ERROR y progreso DE FETCH */
+//TODO: evaluar uso de useMutation para evitar el doble POST
 function FormSearchUsers({handleSubmit}) {
-    const {data: roles, /* isFetching: isFetchingRoles, isError: isErrorRoles */}= useGetRoles({enabled: true});
+    const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled: true});
     const [values, setValues]= useState(null);
     const {data: user, isFetching: isFetchingUser, isError: isErrorUser}= useGetUserByEmail({userEmail:values?.user, enabled: !!values})
-    //OBTENGO EL USUARIO, se lo paso en el handleSumbit al padre
     const [dataPost, setDataPost]= useState(null);
     const {idOrganization} = useParams();
     const {data: responsePost, isFetching: isFetchingPost, isError: isErrorPost} = usePostRoleUserOrganization({organizationId: idOrganization, form: dataPost, enabled: !!dataPost &&!!idOrganization})
-    const navigate= useNavigate();
+    
     //Habilitamos el post
     useEffect(() => {
       if (user&& values && dataPost===null){
+       // console.log("UEF DE SETDATAPOST")
         setDataPost({
           "user": user?.userId,
           "role": values?.role,
-          "organization": idOrganization
+          "organization": parseInt(idOrganization)
         })
         setValues(null)//lo reseteo para permitir otro envio si llega a fallar
       }
@@ -37,25 +37,26 @@ function FormSearchUsers({handleSubmit}) {
       }
       if(responsePost){
          setDataPost(null);
+         setValues(null)
          handleSubmit();
       }
     }, [responsePost, isErrorPost, handleSubmit]);
 
-    const rolesRefactor = (roles)=>{
-        const options= [];
-        if(roles?.length>0){
-        roles.map((role) =>
-            options.push({value:role.roleId, label: role.name})
-        )
-    }
-        return options
-    }
+    //Refactorizo los roles para el select
+    const rolesRefactor = (roles) => {
+      const options = [];
+      if (roles?.length > 0) {
+          roles.filter(role => role.name === "O-Moderator" || role.name === "O-Divulgator")
+               .map((role) => options.push({ value: role.roleId, label: role.name }));
+      }
+      return options;
+  }
+    
     const fields = [
         { name: 'user', type: 'email', placeholder: 'Enter the email', label:"Email", required: true },
         { name: 'role', type: 'select', placeholder: 'Select Role', label: "Rol", options:rolesRefactor(roles), required: true },
       ];
     
-      // Definir los valores iniciales
       const initialValues = {
         user: '',
         role: '',
@@ -72,33 +73,61 @@ function FormSearchUsers({handleSubmit}) {
         setValues(values);
       };
    
-    return ( 
+    return ( isFetchingRoles ? (
+      <Box>
+          <Skeleton variant="text" width="80%" height={40} />
+          <Skeleton variant="text" width="80%" height={40} />
+          <Skeleton variant="rectangular" width="100%" height={56} />
+          <Skeleton variant="rectangular" width="100%" height={56} />
+      </Box>
+  ) : (
                     <FormBase
                         fields={fields}
                         initialValues={initialValues}
                         validationSchema={validationSchema}
                         onSubmit={searchUser}
                     >
-                      {isErrorUser&&
-                      <Alert severity="error">Hubo un error al buscar el usuario</Alert>
-                      }
-                      
-                      {isErrorPost&&
-                      <Alert severity="error">Hubo un error al agregar al usuario</Alert>
-                      }
+                      <Stack spacing={2}>
+                      {isErrorRoles && (
+                <Alert severity="error">Hubo un error al obtener los roles disponibles</Alert>
+            )}
+                      {isErrorUser && (
+                <Alert severity="error">Hubo un error al buscar el usuario</Alert>
+            )}
+            {isErrorPost && (
+                <Alert severity="error">Hubo un error al agregar al usuario</Alert>
+            )}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button
-                      disabled={isFetchingUser}
-                      loading={isFetchingUser}     
-                      onClick={()=>navigate(`/organizations/${idOrganization}`)}                 
-                      >cancelar</Button>
-                    <Button
-                      type="submit"
-                      disabled={isFetchingUser}
-                      loading={isFetchingUser}                      
-                      >Agregar</Button>
+                            variant="contained"
+                            color="secondary"
+                            disabled={isFetchingUser || isFetchingPost}
+                            onClick={() => handleSubmit()}
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            disabled={isFetchingUser || isFetchingPost}
+                        >
+                            Agregar
+                        </Button>
+            </Box>
+            {(isFetchingUser || isFetchingPost) && (
+                <Box sx={{ width: '100%', mt: 2 }}>
+                    <LinearProgress />
+                </Box>
+            )}
+            </Stack>
                     </FormBase>
 
-     );
+     ));
 }
 
 export default FormSearchUsers;
+
+FormSearchUsers.propTypes = {
+    handleSubmit: PropTypes.func,
+}
