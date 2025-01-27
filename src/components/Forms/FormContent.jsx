@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 function FormContent({onSubmit, loading, ...rest}) {
 
     const config = formConfigs['Content'];
-
+    const { initialValues } = rest;
     const [jsonTemplate, setJsonTemplate]= useState(null)
     const [option, setOption] = useState(null)
     const { data, isFetching, isError} = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
@@ -36,7 +36,7 @@ function FormContent({onSubmit, loading, ...rest}) {
     return (  
       <FormBase
             fields={config.fields}
-            initialValues={ { publicContent: false, activityTypeId: "" }}
+            initialValues={ initialValues  || { publicContent: false, activityTypeId: "" }}
             validationSchema={config.validationSchema}
             onSubmit={onSubmit}
             disableForm={loading}

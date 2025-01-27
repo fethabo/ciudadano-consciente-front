@@ -8,7 +8,7 @@ import { useGetContentsOfOrganization } from '../../components/Hooks/requests/Co
  *  CRUD de content
  *   TODO: AGREGAR IMAGENES , agregar columna de creador, agregar columna de publico, agregar columna de activityType, AGREGAR EDICION, AGREGAR BOTON DE CREACION, AGREGAR FILTROS, AGREGAR PAGINACION, AGREGAR BUSQUEDA, AGREGAR ORDENAMIENTO, AGREGAR VISTA DE DETALLE, CAMBIAR BOTONES POR ICONBUTTONS, AGREGAR CONFIRMDIALOG PARA ELIMinar
  * @returns PageOrganizationContents
- */
+ **/
 const OrganizationContents = () => {
     const { idOrganization } = useParams();
     const { data } = useGetContentsOfOrganization({ organizationId: idOrganization, enabled: !!idOrganization });

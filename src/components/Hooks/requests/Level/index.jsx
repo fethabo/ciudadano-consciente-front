@@ -148,11 +148,12 @@ export function useGetLevelsOfUserInOrganization({organizationId, roleId,userId,
 
 
 
+//*OBTENER LOS USUARIOS DE UN NIVEL CON UN ROL ESPECIFICO*/
 export function useGetUsersWithRoleInLevel({levelId, roleId,userId, ...rest}){
   return( 
     useApiQuery({
       queryKey:['useGetUsersWithRoleInLevel',levelId,userId,roleId],
-      endpoint: `/levels/organizations/${levelId}/users/roles${userId? `?user=${userId} ${roleId? `&role=${roleId}`:''}`: roleId?`?role=${roleId}`:''}`,
+      endpoint: `/levels/${levelId}/users/roles${userId? `?user=${userId} ${roleId? `&role=${roleId}`:''}`: roleId?`?role=${roleId}`:''}`,
       options: {...rest},
       }
     )
@@ -213,10 +214,10 @@ export function usePatchUserRoleLevel({levelId,form, ...rest}){
  * @param userId 
  * @returns 
  */
-export function useDeleteAllRolesUserLevel({levelId,userId,...rest}){
+export function useDeleteAllUserRoleLevel({levelId,userId,...rest}){
   return( 
     useApiQuery({
-      queryKey:['useDeleteAllRolesUserLevel',levelId],
+      queryKey:['useDeleteAllUserRoleLevel',levelId],
       endpoint: `/levels/${levelId}/users/${userId}`,
       options: {...rest},
       method: 'DELETE'
@@ -232,10 +233,10 @@ export function useDeleteAllRolesUserLevel({levelId,userId,...rest}){
  * @param roleId 
  * @returns 
  */
-export function useDeleteRoleUserLevel({levelId,userId,roleId, ...rest}){
+export function useDeleteUserRoleLevel({levelId,userId,roleId, ...rest}){
   return( 
     useApiQuery({
-      queryKey:['useDeleteRoleUserLevel',levelId, userId,roleId],
+      queryKey:['useDeleteUserRoleLevel',levelId, userId,roleId],
       endpoint: `/levels/${levelId}/users/${userId}/roles/${roleId}`,
       options: {...rest},
       method: 'DELETE'

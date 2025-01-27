@@ -11,6 +11,7 @@ import { useDeleteActivity, useGetActivitiesOfLevels } from "../../components/Ho
 import ActivityInfo from "./ActivityInfo";
 import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
 import EditActivityDialog from "../../components/Dialogs/EditActivityDialog";
+import EditLevelPermissionsDialog from "../../components/Dialogs/EditLevelPermissionsDialog";
 
 /**
  * CONFIGURACION DE MAPA DE LA ORGANIZACION.
@@ -165,6 +166,12 @@ useEffect(() => {
 }, [ queryClient, levelSelectedId, idParentLevel, responseDeleteActivity, isFetchingDeleteActivity, activity]);
 
 
+const [openEditPermissions, setOpenEditPermissions] = useState(false);
+const handleEditPermissions = () => {
+  setOpenEditPermissions(true);
+  handleClose();
+}
+
     return (
     <Box>
       <Typography className="nombre">Mapa: {path?.name}</Typography>
@@ -193,6 +200,7 @@ useEffect(() => {
                       <MenuItem onClick={() => handleAddLevel()}>Agregar Level</MenuItem>
                       <MenuItem onClick={() => handleDeleteLevel()} disabled={!!activity}>Eliminar</MenuItem>
                       <MenuItem onClick={() => handleEdit()}>Editar</MenuItem>
+                      <MenuItem onClick={() => handleEditPermissions()}>Editar permisos</MenuItem>
                     </Menu>
                       <AddLevelDialog open={openAddLevel} idParent={levelSelectedId} handleClose={()=> setOpenAddLevel(false)} path={idParentLevel}/>
                       <EditLevelDialog open={openEditLevel} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditLevel(false)} path={idParentLevel} />
@@ -200,6 +208,7 @@ useEffect(() => {
                       <AddActivityDialog open={openAddActivity} idLevel={levelSelectedId} handleClose={()=> setOpenAddActivity(false)} path={idParentLevel}/>
                       <ConfirmDialog   open={openDeleteActivityDialog} onClose={()=>setOpenDeleteActivityDialog(false)} onConfirm={()=>setDeleteActivity(activity?.activityId)} title="Eliminar la actividad" message={`Eliminando la actividad ${activity?.activityId} del level ${levelSelectedId}. Esta acción no borrará el contenido que ejecuta la actividad de este nivel ¿Está seguro?`} loading={isFetchingDeleteActivity}/>
                       <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> setOpenEditActivity(false)} path={idParentLevel}/>
+                      <EditLevelPermissionsDialog open={openEditPermissions} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditPermissions(false)} path={idParentLevel} />
                       {activity &&
                         <ActivityInfo activity={activity} />
                       
