@@ -1,8 +1,8 @@
-import { Grid, Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton } from '@mui/material';
+import { Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton } from '@mui/material';
 import FormContent from '../../components/Forms/FormContent';
 import { useState } from 'react';
 import { useGetContents } from '@components/Hooks/requests/Content';
-import { PhoneEnabled } from '@mui/icons-material';
+import useUserApi from '@components/Hooks/useUserApi';
 
 
 /**
@@ -11,13 +11,19 @@ import { PhoneEnabled } from '@mui/icons-material';
  * - Permite al usuario Agregar Contenidos
  * - Ver otros contenidos y votarlos
  * - Jugar contenidos de forma aleatoria (o por categoría).
- */
+ * TODO: agregar filtrado y paginado
+  obtener votos del usuario
+  cambiar boton de voto por icono vacio/relleno 
+*/
 function ContentsPage(){
 
+  //Obtengo los contenidos publicos para mostrarlos
   const{ data: contents, isFetching, isError} = useGetContents({enabled: true})
+  const { userId } = useUserApi()
 
   const handleVotar = (id) => {
     // Lógica para votar (incrementar el número de votos)
+    //ESTO DEBERIA ESTAR DENTRO DEL CONTENIDO? 
     console.log(`Votar por actividad con id: ${id}`);
   };
 
