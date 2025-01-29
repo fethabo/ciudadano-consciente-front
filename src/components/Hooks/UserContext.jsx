@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
-import useUserName from "../../security/hooks/useUserName";
 import { useGetUserByEmail, usePostUser } from "./requests/Users/Index";
-import { LinearProgress } from "@mui/material";
 import useEmail from "../../security/hooks/useEmail";
+import { useSnackbar } from "notistack";
 
 /**
  * - Genera un contexto para guardar los datos del usuario en la api ciuco
@@ -12,31 +11,30 @@ import useEmail from "../../security/hooks/useEmail";
 export const UserContext = React.createContext('');
 export function UserProvider({children}) {
 
-    //const userName= useUserName();
     const userEmail = useEmail();
     const [contextValue, setContextValue] = useState(null);
     const [newUser, setNewUser] = useState(false);
     
-    const { data: user , isFetching, isFetched, isError, status, error} = useGetUserByEmail({userEmail: userEmail, enabled: !!useEmail})
+    const { data: user , isFetching, isFetched, isError, error} = useGetUserByEmail({userEmail: userEmail, enabled: !!userEmail})
     const { data: userPost, isFetching: isFetchingPost, isError: isErrorPost} = usePostUser({enabled: newUser})
 
-
+    const { enqueueSnackbar } = useSnackbar()
+    
     useEffect(() => {
-        if(userPost){
+        //si se da de alta el usuario seteamos el valor en el contexto
+        if(userPost && !isFetchingPost && !isErrorPost){
             setContextValue(userPost)
         }
-    }, [userPost]);
+    }, [userPost, isFetchingPost, isErrorPost]);
 
-  //  console.log("status", status)
-  //  console.log("error", error)
     useEffect(() => {
         if(isFetched && !isFetching){
             if(isError){
                 if(error?.status===403){
-                    console.log("DEBO HACER EL POST")
+                    console.log("Usuario no existente en ciuco")
                     setNewUser(true)
                 }else{
-                    console.log("TODO: agregar mensaje flotante de error??? no se me ocurre otra para atajar en este caso")
+                    enqueueSnackbar(`Error: ${error}`, {variant:"error"})
                     setContextValue(null)
                  }
             }else if(user){
@@ -45,11 +43,11 @@ export function UserProvider({children}) {
                     setNewUser(true)
                 }
         }
-    }, [user,isFetched,isFetching, isError, error]);
+    }, [user,isFetched,isFetching, isError, error, enqueueSnackbar]);
 
     return (
             <UserContext.Provider value={contextValue}>
-                {children}
+                {contextValue && children} {/* TODO: evaluar si esto no jode mucho, si es notorio hay que agregar un cargando */}
             </UserContext.Provider>       
     )
 }
