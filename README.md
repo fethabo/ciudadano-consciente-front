@@ -84,7 +84,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
 - [x] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
 - [x] activity
-- [ ] configuracion de caminos (gestion de organizaciones).
+- [x] configuracion de caminos (gestion de organizaciones).
 - [ ] vista de home para usuarios no registrados (debe tener algunas diferencias)
 - [ ] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
 - [ ] probar elemento de aceternity
@@ -94,7 +94,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] Agregar POST de usuario al registrar.
 - [x] sacar autenticacion obligatoria.
 - [ ] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
-- [ ] agregar alias para importaciones de hooks y componentes 
+- [x] agregar alias para importaciones de hooks y componentes 
 - [ ] agregar post para marcar favorito (sobre el level (mapa y actividad) )
 - [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
 - [ ] busqueda de paths 

@@ -54,7 +54,7 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
               onSubmit={onSubmit}
             >
               {(formState) => (
-                <Form>
+                <Form style={{marginTop:'1em'}}>
                   <ValuesListener onFieldChange={onFieldChange} />
                   {fields.map((field) => (
                     <div key={field.name} style={{ marginBottom: '16px' }}>

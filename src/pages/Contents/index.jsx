@@ -1,24 +1,10 @@
-import { Grid, Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Grid, Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton } from '@mui/material';
 import FormContent from '../../components/Forms/FormContent';
 import { useState } from 'react';
+import { useGetContents } from '@components/Hooks/requests/Content';
+import { PhoneEnabled } from '@mui/icons-material';
 
-const actividades = [
-  {
-    id: 1,
-    usuario: 'Organización A',
-    tematica: 'Medio Ambiente',
-    fechaCreacion: '2024-09-01',
-    votos: 42,
-  },
-  {
-    id: 2,
-    usuario: 'Usuario B',
-    tematica: 'Educación',
-    fechaCreacion: '2024-08-25',
-    votos: 30,
-  },
-  // Agrega más actividades aquí
-];
+
 /**
  * 
  * PAGINA DE CONTENIDOS: 
@@ -28,6 +14,7 @@ const actividades = [
  */
 function ContentsPage(){
 
+  const{ data: contents, isFetching, isError} = useGetContents({enabled: true})
 
   const handleVotar = (id) => {
     // Lógica para votar (incrementar el número de votos)
@@ -43,37 +30,56 @@ function ContentsPage(){
   const handleClose = ()=>{
     setFormOpen(false)
   }
+  
   return (
-    <Box sx={{ flexGrow: 1, padding: 2 }}>
-            <Dialog onClose={handleClose} open={formOpen}>
+    <Box sx={{ flexGrow: 1, padding: 2, justifyContent: 'center', alignItems: 'center' }}>
+            <Dialog onClose={handleClose} open={formOpen} fullWidth>
                 <DialogTitle>Agregar contenido</DialogTitle>
-                <DialogContent>
-                    <FormContent/>
+                <DialogContent >
+                    <FormContent  public/>
                 </DialogContent>
             </Dialog>
       <Button onClick={()=>setFormOpen(true)}>Nuevo contenido</Button>
-      <Grid container spacing={3}>
-        {actividades.map((actividad) => (
-          <Grid item xs={12} sm={6} key={actividad.id}>
-            <Card>
+<Stack sx={{display:'flex', flexWrap:'wrap', flexDirection:'row', gap: "1em"}} >
+  {isFetching ? (
+  [1, 2, 3, 4].map((_, index) => (
+    <Card key={index} sx={{ marginBottom: 2, width: {xs:'100%', sm: "48%"} }}>
+      <CardContent>
+        <Skeleton variant="text" width="60%" />
+        <Skeleton variant="text" width="40%" />
+        <Skeleton variant="text" width="80%" />
+        <Skeleton variant="text" width="50%" />
+        <Skeleton variant="text" width="70%" />
+      </CardContent>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}>
+        <Skeleton variant="rectangular" width="45%" height={36} />
+        <Skeleton variant="rectangular" width="45%" height={36} />
+      </Box>
+    </Card>
+  ))
+   
+  ):
+        contents?.map((content, index) => (
+            <Card key={index} sx={{ marginBottom: 2, width: {xs:'100%', sm: "48%"} }}>
               <CardContent>
-                <Typography variant="h6">{actividad.usuario}</Typography>
-                <Typography variant="body2">Temática: {actividad.tematica}</Typography>
-                <Typography variant="body2">Fecha de creación: {actividad.fechaCreacion}</Typography>
-                <Typography variant="body2">Votos: {actividad.votos}</Typography>
+                <Typography variant="h6">{content.description}</Typography>
+                <Typography variant="body2">Usuario: {content.creator}</Typography>
+                <Typography variant="body2">Organization: {content.organization}</Typography>
+                <Typography variant="body2">Activity type version (CAMBIAR por nombre de tipo de actividad): {content.activityTypeVersionId}</Typography>
+                <Typography variant="body2">Temática(tags): Obtener tags y mostrarlos</Typography>
+                <Typography variant="body2">Votos: obtener votos y mostrarlos</Typography>
               </CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}>
-                <Button variant="contained" color="primary" onClick={() => handleEntrar(actividad.id)}>
+                <Button variant="contained" color="primary" onClick={() => handleEntrar(content.contentId)}>
                   Entrar
                 </Button>
-                <Button variant="contained" color="secondary" onClick={() => handleVotar(actividad.id)}>
+                <Button variant="contained" color="secondary" onClick={() => handleVotar(content.contentId)}>
                   Votar
                 </Button>
               </Box>
             </Card>
-          </Grid>
         ))}
-      </Grid>
+        </Stack>
     </Box>
   );
 }
