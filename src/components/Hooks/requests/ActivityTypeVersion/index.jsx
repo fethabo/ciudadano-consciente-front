@@ -31,3 +31,14 @@ export function useGetActivityTypeVersionsOfActivityType({activityTypeId, ...res
     )
   )
 }
+
+export function useGetActivityTypeVersionFile({activityTypeVersionId,fileName, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['useGetActivityTypeVersionFile',activityTypeVersionId],
+      endpoint: `/activity-type-versions/${activityTypeVersionId}/${fileName}`,
+      options: {...rest},
+      }
+    )
+  )
+}

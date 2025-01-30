@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton } from '@mui/material';
 import FormContent from '../../components/Forms/FormContent';
 import { useState } from 'react';
-import { useGetContents } from '@components/Hooks/requests/Content';
+import { useGetContentImages, useGetContents } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
 
 
@@ -20,6 +20,7 @@ function ContentsPage(){
   //Obtengo los contenidos publicos para mostrarlos
   const{ data: contents, isFetching, isError} = useGetContents({enabled: true})
   const { userId } = useUserApi()
+//  const { data: images, isLoading: isLoadingImages, isError: isErrorImages } = useGetContentImages({contentId: activity?.content, enabled: !!activity?.content});
 
   const handleVotar = (id) => {
     // Lógica para votar (incrementar el número de votos)

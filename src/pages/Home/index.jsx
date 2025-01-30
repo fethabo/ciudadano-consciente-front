@@ -8,10 +8,9 @@ import useUserApi from "../../components/Hooks/useUserApi";
 
 export default function Home (){
     const navigate= useNavigate();
-    const user = useUserApi();
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
-    const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({userId: user?.userId ,enabled:!!user?.userId});
-    const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({userId: user?.userId ,enabled:!!user?.userId});
+    const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({enabled:true});
+    const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({enabled:true});
   /* Encabezado: "¿Listo para comenzar tu aventura educativa?"
 
 Descripción: "Elige entre nuestras opciones de juego y descubre un mundo de aprendizaje interactivo. Desde situaciones cotidianas hasta decisiones importantes, cada partida es una oportunidad para mejorar tus habilidades como ciudadano. */
@@ -39,7 +38,7 @@ Descripción: "Elige entre nuestras opciones de juego y descubre un mundo de apr
            
            
             <ContentAccess />
-            <FrostedGlassCard onClick={()=>navigate("/organizations")}>
+            <FrostedGlassCard onClick={()=>navigate("/organizations")} sx={{cursor:'pointer', '&:hover':{backgroundColor:'rgba(0,0,0,0.1)'}}}>
                 <CardContent>
                     <Typography variant="h5" color="#ffffff">
                       Organizaciones

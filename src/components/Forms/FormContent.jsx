@@ -33,12 +33,16 @@ function FormContent({onSubmit, loading, ...rest}) {
         setOption(values.activityTypeId)
     }
 
+    const handleSubmit = (values) => {
+        const form = {...values, activityTypeVersionId: data[data.length-1].activityTypeVersionId}
+        onSubmit(form)
+    }
     return (  
       <FormBase
             fields={config.fields}
             initialValues={ initialValues  || { publicContent: false, activityTypeId: "" }}
             validationSchema={config.validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             disableForm={loading}
             jsonTemplate={jsonTemplate}
             onFieldChange={handleSelection}

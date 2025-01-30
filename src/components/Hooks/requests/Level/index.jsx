@@ -59,19 +59,19 @@ export function useGetPaths(options) {
   });
 }
 
-export function useGetFavoritePaths({ userId, ...options }) {
+export function useGetFavoritePaths({...options }) {
   return useApiQuery({
-    queryKey: ['useGetFavoritePaths', userId],
-    endpoint: `/levels/paths/favorites/users/${userId}`,
+    queryKey: ['useGetFavoritePaths'],
+    endpoint: `/levels/paths/favorites/users`,
     requiresAuth: true,
     options,
   });
 }
 
-export function useGetRecentlyPaths({ userId, ...options }) {
+export function useGetRecentlyPaths({  ...options }) {
   return useApiQuery({
-    queryKey: ['useGetRecentlyPaths', userId],
-    endpoint: `/levels/paths/recently/users/${userId}`,
+    queryKey: ['useGetRecentlyPaths'],
+    endpoint: `/levels/paths/recently/users`,
     requiresAuth: true,
     options,
   });

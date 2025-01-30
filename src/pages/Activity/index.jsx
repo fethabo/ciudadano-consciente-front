@@ -13,9 +13,9 @@ export default function Activity() {
     const [activityContent, setActivityContent] = useState(null);
     const user = useUserApi();
     const navigate= useNavigate();
-    const {idParentLevel} = useParams();
-    const [answer, setAnswer] =useState(null);
-    const [enabledPost, setEnabledPost] = useState(false);
+    const { idParentLevel } = useParams();
+    const [ answer, setAnswer ] =useState(null);
+    const [ enabledPost, setEnabledPost ] = useState(false);
     const { activity } = useMap();
     
     useEffect(() => {
@@ -81,11 +81,16 @@ export default function Activity() {
                 : isErrorAnswer
                     ? <Alert severity="error">Fallo al guardar la respuesta, vuelve a intentarlo</Alert> 
                     :<div>
-                    <Confetti
-                        width={"100%"}
-                        height={"100%"}
-                        />
-                    {response?.status ? "¡CORRECTO!" : "ups.. es incorrecto, intenta nuevamente"}</div>}
+                   
+                    {response?.status 
+                        ? <div> 
+                                <Confetti
+                                    width={"100%"}
+                                    height={"100%"}
+                                />
+                                    ¡Correcto!
+                            </div>
+                         : "ups.. es incorrecto, intenta nuevamente"}</div>}
         </DialogContent>
         <DialogActions>
                 <Button onClick={()=> navigate(`/map/${idParentLevel}`)} disabled={isFetchingAnswer}>Volver al mapa</Button>

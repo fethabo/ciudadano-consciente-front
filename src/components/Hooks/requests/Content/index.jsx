@@ -75,4 +75,19 @@ export function useGetContents({...rest}){
   )
 }
 
+/**
+ *  Get content images
+ * @param {*} param0 
+ * @returns 
+ */
+export function useGetContentImages({contentId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['useGetContentImages',contentId],
+      endpoint: `/contents/${contentId}/images`,
+      options: {...rest},
+      }
+    )
+  )
+}
 

@@ -4,12 +4,21 @@ import { Alert, Box, Card, CardContent, CardMedia, Typography } from "@mui/mater
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { DiagonalGradientCard, NeonCard } from "./Cards";
+import { useGetActivityByLevel } from "./Hooks/requests/Activity";
+import { useGetActivityTypeVersion, useGetActivityTypeVersionFile } from "./Hooks/requests/ActivityTypeVersion";
+import { useGetContent, useGetContentImages } from "./Hooks/requests/Content";
 
 function Slide({path}){
-
-    const navigate= useNavigate();
+    
+    const { data: activity, isLoading: isLoadingActivity, isError: isErrorActivity } = useGetActivityByLevel({levelId:path.levelId, enabled: !!path.levelId});
+    const { data: images, isLoading: isLoadingImages, isError: isErrorImages } = useGetContentImages({contentId: activity?.content, enabled: !!activity?.content});
+    /*     const { data: content, isLoading: isLoadingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content, enabled: !!activity?.content});
+    const { data: activityTypeVersion, isLoading: isLoadingActivityTypeVersion, isError: isErrorActivityTypeVersion } = useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content?.activityTypeVersionId});
+    const { data: thumbnail, isLoading: isLoadingThumbnail, isError: isErrorThumbnail } = useGetActivityTypeVersionFile({activityTypeVersionId:activityTypeVersion?.activityTypeVersionId, fileName: "thumbnail", enabled: !!activityTypeVersion?.activityTypeVersionId});
+ */    const navigate= useNavigate();
+    
     return (
-        <DiagonalGradientCard onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} >
+        <DiagonalGradientCard onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} sx={{ cursor:'pointer' }} >
             <CardMedia>
                 <Box
                     component="img"
@@ -17,8 +26,8 @@ function Slide({path}){
                         maxWidth:"100%",
                     }}
                     alt={path?.name}
-                    /* TODO: AGREGAR RUTA A IMAGEN DE PATH */
-                    src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                    src={""}
+                   // src={thumbnail}
                     />
             </CardMedia>
             <CardContent>
