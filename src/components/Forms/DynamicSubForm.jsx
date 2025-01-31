@@ -1,6 +1,7 @@
-import { Field } from 'formik';
-import { FormControlLabel, Switch, TextField } from '@mui/material';
+import { Field, FieldArray } from 'formik';
+import { Button, FormControlLabel, Switch, TextField } from '@mui/material';
 import PropTypes from 'prop-types'
+import { useCallback } from 'react';
 
 /**
  * 
@@ -9,7 +10,12 @@ import PropTypes from 'prop-types'
  * @param {*} value 
  * @returns 
  */
-const renderField = (key, path, value) => {
+
+
+export const DynamicSubForm = ({ jsonTemplate, formState }) => {
+//  console.log("jsonTemplate", jsonTemplate)
+const renderField = useCallback((key, path, value ) => {
+  const { values } = formState;
   const fieldName = path ? `${path}.${key}` : key;
   if (typeof value === 'object' && !Array.isArray(value)) {
     // Si el valor es un objeto, renderiza los campos de forma recursiva
@@ -23,10 +29,52 @@ const renderField = (key, path, value) => {
     );
   } else {
     // Si el valor es un campo simple, renderiza el campo de texto
-    console.log(fieldName,value)
+    console.log(fieldName,value, values,values[fieldName], values["options"])
+   
+    const getNestedValue = (obj, path) => {
+      return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+    };
+
+   // const nestedValue = getNestedValue(values, fieldName);
     //
     switch(value) {
-      case "boolean": 
+      case "string[]":
+      {        
+        const nestedValue = getNestedValue(values, fieldName);
+        console.log(nestedValue)
+        return  <FieldArray
+                  label={fieldName}
+                  name={fieldName}
+                  render={arrayHelpers => (
+                    <div>
+                      {nestedValue && nestedValue?.length > 0 ? (
+                        nestedValue.map((unit, index) => (
+                          <div key={index}>
+                            <Field  as={TextField} name={`${fieldName}.${index}`} />
+                            <Button
+                              type="button"
+                              onClick={() => arrayHelpers.remove(index)} // remove a unit from the list
+                            >
+                              -
+                            </Button>
+                            <Button
+                              type="button"
+                              onClick={() => arrayHelpers.insert(index, '')} // insert an empty string at a position
+                            >
+                              +
+                            </Button>
+                          </div>
+                        ))
+                      ) : (
+                        <Button type="button" onClick={() => arrayHelpers.push('')}>
+                            Add
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                />
+      }     
+       case "boolean": 
         return  (<div key={fieldName} style={{ marginBottom: '16px' }}>
                 <FormControlLabel  name={fieldName} fullWidth control={<Switch />} label={key}/>
          </div>)
@@ -55,18 +103,17 @@ const renderField = (key, path, value) => {
       
     }
   }
-};
+},[formState]);
 
-export const DynamicSubForm = ({ jsonTemplate }) => {
-  console.log("jsonTemplate", jsonTemplate)
-  return (
+return (
     <>
       {Object.entries(jsonTemplate).map(([key, value]) =>
-        renderField(key, '', value)
+        renderField(key, '', value,formState.values)
       )}
     </>
   );
 };
 DynamicSubForm.propTypes= {
-  jsonTemplate: PropTypes.object
+  jsonTemplate: PropTypes.object,
+  formState: PropTypes.object
 }

@@ -101,7 +101,7 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                   ))}
         
                   {/* Renderizar el subformulario dinámico */}
-                  {jsonTemplate && <DynamicSubForm jsonTemplate={jsonTemplate} />}
+                  {jsonTemplate && <DynamicSubForm jsonTemplate={jsonTemplate} formState={formState}/>}
         
                   {/* Renderizar los elementos hijos, como los botones de submit */}
                   {children}

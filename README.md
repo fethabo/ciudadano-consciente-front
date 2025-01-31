@@ -126,7 +126,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] agregar search a la seleccion de contenidos.
 
 ##### modificaciones por normalizacion de la api:
-- [ ] Quitar requests de usuarios de la organizacion en paralelo.
+- [x] Quitar requests de usuarios de la organizacion en paralelo.
 - [ ] quitar idUser de requests, probar e identificar cuales faltan quitar. 
 - [ ] POR AHORA NO HACER NADA- Se agrego el hidden en los levels, por el momento suponer que la api devuelve lo que necesito segun los roles. 
 - [ ] hacer fullwidth las ventanas de formularios

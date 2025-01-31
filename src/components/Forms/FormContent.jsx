@@ -2,8 +2,9 @@ import { Box, Button, LinearProgress } from "@mui/material";
 import FormBase from "./FormBase";
 import PropTypes from "prop-types"
 import formConfigs from "./formConfigs";
-import { useGetActivityTypeVersion, useGetActivityTypeVersionsOfActivityType } from "../Hooks/requests/ActivityTypeVersion";
+import { useGetActivityTypeVersionsOfActivityType } from "../Hooks/requests/ActivityTypeVersion";
 import { useEffect, useState } from "react";
+import { useGetActivityTypes } from "@components/Hooks/requests/ActivityType";
 
 
 /**
@@ -21,8 +22,21 @@ function FormContent({onSubmit, loading, ...rest}) {
     const { initialValues } = rest;
     const [jsonTemplate, setJsonTemplate]= useState(null)
     const [option, setOption] = useState(null)
+    const {data: activityTypes, isFetching: isFetchingActivityTypes, isError: isErrorActivityTypes} = useGetActivityTypes({enabled: true})
     const { data, isFetching, isError} = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
 
+    useEffect(() => {
+        if (activityTypes) {
+            const activityTypeOptions = activityTypes.map(type => ({
+                label: type.name,
+                value: type.activityTypeId
+            }));
+            console.log(activityTypeOptions)
+            config.fields = config.fields.map(field => 
+                field.name === 'activityTypeId' ? { ...field, options: activityTypeOptions } : field
+            );
+        }
+    }, [activityTypes,config]);
     useEffect(() => {
         if (data?.length>0&&data[data.length-1]?.model){
             setJsonTemplate({model: JSON.parse(data[data.length-1].model)})
@@ -38,6 +52,9 @@ function FormContent({onSubmit, loading, ...rest}) {
         onSubmit(form)
     }
     return (  
+        (loading || isFetchingActivityTypes )
+            ? <LinearProgress />
+            :
       <FormBase
             fields={config.fields}
             initialValues={ initialValues  || { publicContent: false, activityTypeId: "" }}
@@ -49,8 +66,9 @@ function FormContent({onSubmit, loading, ...rest}) {
             loading= {isFetching}
             {...rest}
         >
-        {loading && <LinearProgress />}
-             <Box display={"flex"} justifyContent={"right"}>
+       
+             <Box display={"flex"} justifyContent={"right"} mt={2}>    
+
                 <Button key="submit" type="submit" disabled={loading}>Guardar</Button>
             </Box>
         </FormBase> 

@@ -1,4 +1,4 @@
-import {  Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import {  Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import CloseIcon from '@mui/icons-material/Close';
 import {  useParams } from "react-router-dom";
@@ -42,6 +42,7 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
 
     const handleSubmit = (v) =>{
         console.log("handleSubmit en dialog", v)
+        /* TODO: JSON.stringify no esta escapando el arreglo de opciones del FieldArray (y si lo convierto a string en el submit?) */
         const form = {...v, model: JSON.stringify(v.model),  creator: userId, organization: Number(idOrganization)}
         const formData = new FormData();
         Object.keys(form).forEach(key => {
@@ -51,12 +52,13 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
     }
 
     return ( <Dialog
+                fullScreen
                 open={open}
                 aria-labelledby="add-level-dialog"
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
                 {...rest}
             >
-               <DialogTitle> Agregar contenido  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
+               <DialogTitle sx={{justifyContent:'space-between', display:'flex'}}><Typography variant="h5"> Agregar contenido</Typography>  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
                     <FormContent onSubmit={handleSubmit} loading={isFetching}/>
                </DialogContent>

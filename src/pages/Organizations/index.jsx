@@ -1,19 +1,20 @@
-import { Alert, Box, Card, CardContent,  LinearProgress,  Typography } from "@mui/material";
-//import { useGetOrganizations } from "../../components/Hooks/requests/Organizations";
+import { Alert, Box, Card, CardContent,  Skeleton,  Typography } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetOrganizationsOfUser } from "../../components/Hooks/requests/Organizations";
 import PropTypes from 'prop-types';
 import useUserApi from "../../components/Hooks/useUserApi";
+import { GradientCard } from "@components/Cards";
 
 function OrganizationCard({organization}) {
   const navigate = useNavigate();
   return ( 
-    <Card onClick={()=>navigate(`${organization?.organizationId}`)}>
+    
+    <GradientCard onClick={()=>navigate(`${organization?.organizationId}`)} sx={{cursor:"pointer", width: '48%', marginBottom: '1rem'}}>
       <CardContent>
         <Typography variant="h5">{organization?.name}</Typography>
         <Typography variant="subtitle1">{organization?.description}</Typography>
       </CardContent>
-    </Card>
+    </GradientCard>
    );
 }
 OrganizationCard.propTypes = {
@@ -22,47 +23,46 @@ OrganizationCard.propTypes = {
 
 
 const Organizations = () => {
-
-  /** TODO: obtener organizaciones desde la api 
-   * - si el usuario pertenece a alguna, mostrar organizaciones a las que pertenece(LISTO)
-   * -> Selecciona la organizacion:
-   *    ->Acceso a edicion de Organizacion 
-   *       
-   *     ->Mapas disponibles de la organizacion (o nuevo mapa)
-   *        ->Mapa de configuracion
-   *          ->Agregar level -Abre ventana para carga de level (intentar configuracion visual con el cytoscape, 
-   *                cada nodo tendra la opcion de editar level,agregar actividad y de agregar hijos, 
-   *                las hojas tendran la opcion de ser eliminadas)
-   *                ->Agregar Actividad
-   *                      ->Abre ventana para carga de actividad.
-   *                ->Modificar Level
-   *                      ->Abre ventana para edicion de level
-   *          
-  */
-const user = useUserApi();
-console.log("user del contexto", user)
-const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user?.userId, enabled: !!user?.userId})
-
-//const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizations({enabled: true})
+    
+  const user = useUserApi();
+  const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user?.userId, enabled: !!user?.userId})
+  const navigate = useNavigate();
 
     return (
     <Box>
       <Typography variant="h5">Tus organizaciones</Typography>
-      {(isFetchingOrganizations)?
-      <LinearProgress />
+      {isFetchingOrganizations ?
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      {[...Array(3)].map((_, index) => (
+      <Card key={index} style={{ marginBottom: '1rem', width:'48%' }}>
+        <CardContent>
+        <Skeleton variant="text" width="80%" />
+        <Skeleton variant="text" width="60%" />
+        </CardContent>
+      </Card>
+      ))}
+      </Box>
       :
       (isErrorOrganizations
-        ?<Alert severity="error">Hubo un error al obtener tus organizaciones</Alert>
-        :<Box> 
-          <Typography variant="body1" >
-            Selecciona cuál de tus organizaciones quieres gestionar.
-          </Typography>
-          
-          TODO: PONER EN EMBLA CAROUSEL ESTAS ORGANIZACIONES:
-          {organizations?.map((organization,index) => <OrganizationCard key={index} organization={organization} />)}
-          <Outlet/> 
-        </Box>)  
-    }
+      ? <Alert severity="error">Hubo un error al obtener tus organizaciones</Alert>
+      : <Box>
+      <Typography variant="body1">
+        Selecciona cuál de tus organizaciones quieres gestionar.
+      </Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap:'1em' }}>
+        {organizations?.length>0
+        ? organizations?.map((organization, index) => <OrganizationCard key={index} organization={organization} />)
+        : <Alert severity="info">No perteneces a ninguna organización. Puedes iniciar la creación de una, nuestro equipo deberá aprobarla para que puedas comenzar a crear contenido.</Alert>
+      }
+        <GradientCard onClick={() => navigate('/new-organization')} sx={{ cursor: "pointer", width: '48%', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CardContent>
+            <Typography variant="h5" align="center">+ Crear organización</Typography>
+          </CardContent>
+        </GradientCard>
+      </Box>
+      <Outlet />
+      </Box>)
+      }
     </Box>
     )
   };

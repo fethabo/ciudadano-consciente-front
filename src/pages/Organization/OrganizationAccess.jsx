@@ -1,14 +1,30 @@
-import { Card, CardContent, Container, Stack, Typography } from "@mui/material";
+import { CardContent, Container, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types"
-/* TODO: agregar backgrounds a los cards */
+import { FrostedGlassCard } from "@components/Cards";
+
+const backgroundImages = {
+    maps: 'url(/images/maps.jpg)',
+    contents: 'url(/images/activities.jpg)',
+    references: 'url(/images/references.jpg)',
+    stadistics: 'url(/images/statistics.jpg)',
+};
 function AccessCard({text, url, ...rest}){
     const navigate = useNavigate();
-    return(
+    const backgroundImage = backgroundImages[url] || 'none';
+
+    return (
        <Container sx={{display:'flex',width:'50%',flexGrow:1, padding:'0.5em'}}>
-       <Card onClick={()=>navigate(url)} sx={{cursor:'pointer', width:'100%', height:'100%'}} {...rest}>
+       <FrostedGlassCard onClick={()=>navigate(url)} sx={{ 
+                    cursor: 'pointer', 
+                    width: '100%', 
+                    height: '100%', 
+                    backgroundImage: backgroundImage, 
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center' 
+                }}  {...rest}>
             <CardContent><Typography>{text}</Typography></CardContent>
-        </Card>
+        </FrostedGlassCard>
         </Container>
     )
 }
