@@ -1,4 +1,4 @@
-import { Box, Button, LinearProgress } from "@mui/material";
+import { Box, Button, LinearProgress, Skeleton, Stack } from "@mui/material";
 import FormBase from "./FormBase";
 import PropTypes from "prop-types"
 import formConfigs from "./formConfigs";
@@ -8,7 +8,6 @@ import { useGetActivityTypes } from "@components/Hooks/requests/ActivityType";
 
 
 /**
- * @todo Cambiar config de opciones de activityType, obtener los activityType de la api
  * @todo agregar skeleton con el fetching de los activityTypeVersion
  * @todo mostrar mensaje de error en el caso de que haya error -.-
  * @todo en el caso de que venga mas de un activityTypeVersion, habilitar la seleccion de aquellos que esten en estado "stashed"
@@ -23,7 +22,7 @@ function FormContent({onSubmit, loading, ...rest}) {
     const [jsonTemplate, setJsonTemplate]= useState(null)
     const [option, setOption] = useState(null)
     const {data: activityTypes, isFetching: isFetchingActivityTypes, isError: isErrorActivityTypes} = useGetActivityTypes({enabled: true})
-    const { data, isFetching, isError} = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
+    const { data: activityTypeVersions, isFetching: isFetchingActivityTypeVersion, isError} = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
 
     useEffect(() => {
         if (activityTypes) {
@@ -38,22 +37,26 @@ function FormContent({onSubmit, loading, ...rest}) {
         }
     }, [activityTypes,config]);
     useEffect(() => {
-        if (data?.length>0&&data[data.length-1]?.model){
-            setJsonTemplate({model: JSON.parse(data[data.length-1].model)})
+        if (activityTypeVersions?.length>0&&activityTypeVersions[activityTypeVersions.length-1]?.model){
+            setJsonTemplate({model: JSON.parse(activityTypeVersions[activityTypeVersions.length-1].model)})
         }
-    }, [data]);
+    }, [activityTypeVersions]);
 
     const handleSelection = (values)=> {
         setOption(values.activityTypeId)
     }
 
     const handleSubmit = (values) => {
-        const form = {...values, activityTypeVersionId: data[data.length-1].activityTypeVersionId}
+        const form = {...values, activityTypeVersionId: activityTypeVersions[activityTypeVersions.length-1].activityTypeVersionId}
         onSubmit(form)
     }
     return (  
         (loading || isFetchingActivityTypes )
-            ? <LinearProgress />
+            ? <Stack spacing={2} display={"flex"}>
+                {[...Array(5)].map((_, index) => (
+                    <Skeleton key={index} variant="rectangular" width="100%" height={16} />
+                ))}
+              </Stack>
             :
       <FormBase
             fields={config.fields}
@@ -62,8 +65,9 @@ function FormContent({onSubmit, loading, ...rest}) {
             onSubmit={handleSubmit}
             disableForm={loading}
             jsonTemplate={jsonTemplate}
+            isLoadingTemplate={isFetchingActivityTypeVersion}
             onFieldChange={handleSelection}
-            loading= {isFetching}
+            loading= {isFetchingActivityTypeVersion}
             {...rest}
         >
        

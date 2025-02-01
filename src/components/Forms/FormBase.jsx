@@ -1,4 +1,4 @@
-import { MenuItem, TextField } from '@mui/material';
+import { MenuItem, Skeleton, TextField } from '@mui/material';
 import { Formik, Form, Field, useFormikContext, /* ErrorMessage */ } from 'formik';
 import PropTypes from "prop-types"
 
@@ -43,7 +43,8 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
           disableForm,
           onAddition,
           jsonTemplate, // Agregamos el template JSON como prop adicional
-          onFieldChange
+          onFieldChange,
+          isLoadingTemplate
         }) {
           const combinedInitialValues = { ...initialValues };
         
@@ -100,10 +101,20 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                     </div>
                   ))}
         
-                  {/* Renderizar el subformulario dinámico */}
-                  {jsonTemplate && <DynamicSubForm jsonTemplate={jsonTemplate} formState={formState}/>}
-        
-                  {/* Renderizar los elementos hijos, como los botones de submit */}
+                 { /* Renderizar el subformulario dinámico */}
+                  {
+                    isLoadingTemplate ? (
+                      <div>
+                        {[...Array(3)].map((_, index) => (
+                          <Skeleton key={index} variant="rectangular" width="100%" height={56} style={{ marginBottom: '16px' }} />
+                        ))}
+                      </div>
+                    ) : (
+                      jsonTemplate && <DynamicSubForm jsonTemplate={jsonTemplate} formState={formState} />
+                    )
+                  }
+
+                {  /* Renderizar los elementos hijos, como los botones de submit */}
                   {children}
                 </Form>
               )}
@@ -182,6 +193,7 @@ FormBase.propTypes = {
     disableForm: PropTypes.bool,
     onAddition: PropTypes.func,
     jsonTemplate: PropTypes.object,
-    onFieldChange: PropTypes.func
+    onFieldChange: PropTypes.func,
+    isLoadingTemplate: PropTypes.bool
 }
  

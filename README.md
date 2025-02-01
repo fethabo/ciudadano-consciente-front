@@ -125,6 +125,9 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
 - [ ] agregar search a la seleccion de contenidos.
 
+##### bugs
+- [ ] reintento no permite volver a seleccionar la ultima respuesta (deberia limpiarlo completo)
+
 ##### modificaciones por normalizacion de la api:
 - [x] Quitar requests de usuarios de la organizacion en paralelo.
 - [ ] quitar idUser de requests, probar e identificar cuales faltan quitar. 

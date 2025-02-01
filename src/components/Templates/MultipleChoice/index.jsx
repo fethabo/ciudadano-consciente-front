@@ -17,7 +17,6 @@ function shuffle(array) {
 */
 export default function MultipleChoice ({content, onResponse}) {
 
-   /* TODO: hacer que el orden de opciones sea aleatorio */
     const [response, setResponse] =useState(null);
     
     const optionsKeys= shuffle(Object.keys(content.options))
@@ -25,7 +24,9 @@ export default function MultipleChoice ({content, onResponse}) {
 
     useEffect(() => {
         //Evaluo si la respuesta es correcta
+        
         const correctAnswer= content?.correct_answer
+        console.log("UEF DE RESPOUESTA",correctAnswer, response)
         if(!!response){//eslint-disable-line
             if(response===correctAnswer){
                 onResponse(true); //EL onResponse siempre debe setearse al responder (true/false)
@@ -39,7 +40,7 @@ export default function MultipleChoice ({content, onResponse}) {
         <Stack direction="column" spacing={2}>
             <Typography variant="h4">{content?.question}</Typography>
             {optionsKeys.map((option, index)=>
-                <Button key={index}  onClick={()=> setResponse(option)} variant="text">{index}-{content?.options[option]}</Button>
+                <Button key={index}  onClick={()=> setResponse(option)} variant="text">{/* {index}- */}{content?.options[option]}</Button>
             )}
            
         </Stack>
