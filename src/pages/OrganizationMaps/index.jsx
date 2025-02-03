@@ -1,11 +1,10 @@
 import { Alert, AlertTitle, Box, Button, Card, CardActions, CardContent,  Container,  IconButton, LinearProgress, Stack, Typography } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetOrganization } from "../../components/Hooks/requests/Organizations";
 import useGetOrganizationRole from "../../security/hooks/useGetOrganizationRole";
-import { useDeleteLevel, useGetLevelsOfUserInOrganization, useGetOrganizationPaths } from "../../components/Hooks/requests/Level";
+import { useDeleteLevel, /* useGetLevelsOfUserInOrganization, */ useGetOrganizationPaths } from "../../components/Hooks/requests/Level";
 import useUserApi from "../../components/Hooks/useUserApi";
 import { useGetRoles } from "../../components/Hooks/requests/Roles";
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,6 +13,8 @@ import { useEffect, useState } from "react";
 import ConfirmDialog from "../../components/Dialogs/ConfirmDialog";
 import { useQueryClient } from "@tanstack/react-query";
 
+
+/* TODO: ver de mejorar la visibilidad del divulgator */
 function OrganizationMaps() {
     
     const { idOrganization } = useParams();
@@ -23,10 +24,11 @@ function OrganizationMaps() {
     const user=useUserApi()
     const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled:true});
     //Si es divulgador Rquest de los levels en los que es divulgador, para esto la asignacion de los user-role-level deben ser en un nodo especifico, impactando sin persisitir en los levels children.
-    const {data: userMaps, isFetching: isFetchingUserMaps, isError: isErrorUserMaps} = useGetLevelsOfUserInOrganization({organizationId: idOrganization, userId:user?.userId, roleId: roles?.find((r)=>r?.name==role)?.roleId, enabled: role=="divulgator" &&!!idOrganization&&!!user?.userId &&  !!roles?.find((r)=>r?.name==role)?.roleId})    
+  // console.log( role=="divulgator", idOrganization,!!user?.userId ,  !!roles?.find((r)=>r?.name==role)?.roleId)
+  //  const {data: userMaps, isFetching: isFetchingUserMaps, isError: isErrorUserMaps} = useGetLevelsOfUserInOrganization({organizationId: idOrganization, userId:user?.userId, roleId: 6, enabled: role=="divulgator" &&!!idOrganization&&!!user?.userId })    
    
     //si es moderador REQUEST de PATHS DE LA ORGANIZACION (en el peor de los casos el divulgador vera esto pero deshabilitado, si es que no funciona lo otro)
-    const {data: organizationMaps, isFetching: isFetchingOrganizationMaps, isError: isErrorOrganizationMaps} = useGetOrganizationPaths({organizationId:idOrganization, enabled: (role=="moderator" && !!idOrganization)})
+    const {data: organizationMaps, isFetching: isFetchingOrganizationMaps, isError: isErrorOrganizationMaps} = useGetOrganizationPaths({organizationId:idOrganization, enabled: (!!idOrganization)})
 
     const [deleteLevel, setDeleteLevel] = useState(null);
     const {data: deleteResponse, isFetching: isFetchingDelete, isError: isErrorDelete} = useDeleteLevel({levelId: deleteLevel, enabled: !!deleteLevel})

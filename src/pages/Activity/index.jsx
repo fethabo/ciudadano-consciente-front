@@ -54,14 +54,14 @@ export default function Activity() {
     const [ActivityType, setActivityType] = useState(null);
     useEffect(() => {
         if(activityTypeVersion?.template&& ActivityType===null){
-            const aux = lazy(() => import(`../../components/Templates/${activityTypeVersion.template}`))
+            const aux = lazy(() => import(/* @vite-ignore */ `../../components/Templates/${activityTypeVersion.template}`))
             setActivityType(aux)
         }
     }, [activityTypeVersion, ActivityType]);
 
     return ( 
         <Box>
-        <Typography variant="h5">{activity?.description}</Typography>{/* TODO: agregar descripcion /nombre de actividad (quizas la descripcion en un tooltip o similar) */}
+       {/*  <Typography variant="h5">{activity?.description}</Typography> */}{/* TODO: agregar descripcion /nombre de actividad (quizas la descripcion en un tooltip o similar) */}
          {(isFetchingContent)
              ? <LinearProgress />
             :   (isErrorContent
@@ -81,16 +81,17 @@ export default function Activity() {
                 : isErrorAnswer
                     ? <Alert severity="error">Fallo al guardar la respuesta, vuelve a intentarlo</Alert> 
                     :<div>
-                   
-                    {response?.status 
-                        ? <div> 
-                                <Confetti
-                                    width={"100%"}
-                                    height={"100%"}
-                                />
-                                    ¡Correcto!
-                            </div>
-                         : "ups.. es incorrecto, intenta nuevamente"}</div>}
+                        {response?.status 
+                            ? <div> 
+                                    <Confetti
+                                        width={"100%"}
+                                        height={"100%"}
+                                    >
+                                        ¡Correcto!
+                                    </Confetti>
+                                </div>
+                            : "ups.. es incorrecto, intenta nuevamente"}
+                            </div>}
         </DialogContent>
         <DialogActions>
                 <Button onClick={()=> navigate(`/map/${idParentLevel}`)} disabled={isFetchingAnswer}>Volver al mapa</Button>

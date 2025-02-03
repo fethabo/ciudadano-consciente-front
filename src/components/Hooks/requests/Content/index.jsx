@@ -39,6 +39,18 @@ export function usePatchContent({form,contentId, ...rest}){
   )
 }
 
+export function useDeleteContent({contentId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['useDeleteContent',contentId],
+      endpoint: `/contents/${contentId}`,
+      method: 'DELETE',
+      options: {...rest},
+      }
+    )
+  )
+}
+
 export function useGetContentsOfOrganization({organizationId, ...rest}){
   return( 
     useApiQuery({
@@ -91,3 +103,23 @@ export function useGetContentImages({contentId, ...rest}){
   )
 }
 
+
+/**
+ * 
+ * @param {*} form: content *integer($int32)
+                    imageName *string
+                    image *string($binary) 
+ * @returns 
+ */
+export function usePostContentImage({form,contentId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['usePostContentImage',contentId],
+      endpoint: `/contents/images`,
+      method: 'POST',
+      form:form,
+      options: {...rest},
+      }
+    )
+  )
+}

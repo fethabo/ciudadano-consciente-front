@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, Paper, Box, Button, ButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Card, CardContent, CardActions, Tooltip } from '@mui/material';
-import { useGetContentsOfOrganization } from '../../components/Hooks/requests/Content';
+import { useDeleteContent, useGetContentsOfOrganization } from '../../components/Hooks/requests/Content';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,8 +11,11 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import DetailContentOrganization from '@components/Dialogs/DetailContentOrganization';
 import AddContentDialog from '@components/Dialogs/AddContentDialog';
+import EditContentDialog from '@components/Dialogs/EditContentDialog';
+import PropTypes from 'prop-types';
+import ConfirmDialog from '@components/Dialogs/ConfirmDialog';
 
-const MenuAcciones=({content})=>{
+const MenuAcciones=({content, handleDeleteContent})=>{
     const [anchorEl, setAnchorEl] = useState(null);
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -22,11 +25,21 @@ const MenuAcciones=({content})=>{
     };
 
     const [openDetails, setOpenDetails] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    
+    
+
     return(<>
         <IconButton onClick={handleMenuOpen}>
         <MoreVertIcon />
     </IconButton>
-   {content && <DetailContentOrganization open={openDetails} content={content} handleClose={()=>setOpenDetails(false)} />}
+   {content &&
+   <>
+        <EditContentDialog open={openEdit} content={content} handleClose={()=>setOpenEdit(false)} />
+        <ConfirmDialog open={openDelete} message='Está eliminando el contenido' content={content} onClose={()=>setOpenDelete(false)} onConfirm={()=> {handleDeleteContent(content?.contentId);setOpenDelete(false)}} />
+        <DetailContentOrganization open={openDetails} content={content} handleClose={()=>setOpenDetails(false)} />
+    </>}
     <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -45,6 +58,10 @@ const MenuAcciones=({content})=>{
     </Menu></>
     )
 }
+MenuAcciones.propTypes={
+    content: PropTypes.object,
+    handleDeleteContent: PropTypes.func
+}
 /**
  *  Permite gestionar los contenidos de una organizacion
  *  CRUD de content
@@ -61,7 +78,15 @@ const OrganizationContents = () => {
         setView(newView);
     };
     const [openAddContent, setOpenAddContent] = useState(false);
+    const [enabledDelete, setEnabledDelete] = useState(null);
 
+    const {data: contentDeleted, isFetching, isError} = useDeleteContent({contentId: enabledDelete, enabled: !!enabledDelete});
+
+    const handleDeleteContent = (contentId) => {
+      if (!isFetching){
+        console.log('Eliminando contenido', contentId);
+        setEnabledDelete(contentId);}
+    };
     
     return (
         <Container>
@@ -80,6 +105,7 @@ const OrganizationContents = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell>Tipo de actividad</TableCell>
                                 <TableCell>Description</TableCell>
                              {/*    <TableCell>Model</TableCell> */}
                                 <TableCell>Public</TableCell>
@@ -90,6 +116,7 @@ const OrganizationContents = () => {
                         <TableBody>
                             {data && data.map(content => (
                                 <TableRow key={content.contentId}>
+                                    <TableCell>{content.activityType}</TableCell>
                                     <TableCell>{content.description}</TableCell>
                                 {/*     <TableCell><pre>{JSON.stringify(JSON.parse(content.model), null, 2)}</pre></TableCell>
                                  */}    <TableCell>
@@ -97,7 +124,7 @@ const OrganizationContents = () => {
                                     </TableCell>
                                     <TableCell>{content.username}</TableCell>
                                     <TableCell>
-                                        <MenuAcciones content={content} />
+                                        <MenuAcciones content={content} handleDeleteContent={handleDeleteContent} />
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -117,7 +144,7 @@ const OrganizationContents = () => {
                                 </Box>
                                 {content.publicContent ? <Tooltip title="Público, cualquier usuario puede utilizarlo"><LockOpenIcon color="success" /></Tooltip> : <Tooltip title="Privado, sólo puede utilizarlo la organización en sus niveles"><LockIcon color="error" /></Tooltip>}
                            
-                                <Typography>Creador:</Typography>
+                                <Typography>Creador: {content.username}</Typography>
                                 
                                 
                             </CardContent>

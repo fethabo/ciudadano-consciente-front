@@ -4,7 +4,7 @@ import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../com
 import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
-import useUserApi from "../../components/Hooks/useUserApi";
+//import useUserApi from "../../components/Hooks/useUserApi";
 
 export default function Home (){
     const navigate= useNavigate();
