@@ -9,7 +9,7 @@ export function useGetActivityTypes({ ...rest}){
     return(
       useApiQuery({
         queryKey:['useGetActivityTypes'],
-        endpoint: `/activity-type`,
+        endpoint: `/activity-types`,
         options: {...rest},
         }
       )

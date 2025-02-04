@@ -1,38 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, CircularProgress, Skeleton } from '@mui/material';
+import { Alert, Button, CircularProgress, Skeleton, Tooltip } from '@mui/material';
 import ImageControlList from './ImageList';
 
 export default function ImageControl({ useUploadImage, useFetchImages, paramsGet, paramsUpload, uploadeable= true }) {
     const [selectedFile, setSelectedFile] = useState(null);
-    const { uploadImage, isUploading } = useUploadImage({...paramsUpload, file: selectedFile, enabled: !!paramsUpload && !!selectedFile});
+    const { data: uploaded, isFetching: isUploading, isError: isErrorUpload } = useUploadImage({...paramsUpload, file: selectedFile, enabled: !!paramsUpload && !!selectedFile});
     const { data: images, isFetching: isFetchingImages, isError: isErrorFetch } = useFetchImages({...paramsGet, enabled: !!paramsGet });
 
+    const ref= useRef(null);
+    
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     };
 
-    const handleUpload = async () => {
-        if (selectedFile) {
-            await uploadImage(selectedFile);
-            setSelectedFile(null);
+    useEffect(() => {
+            if(!isUploading){
+                if(uploaded){
+                    setSelectedFile(null)
+                    console.log("limpia el campo")
+                }else{
+                    if(isErrorUpload){
+                        console.log("error al subir, debo limpiar el POST?")
+                        setSelectedFile(null)
+                    }
+                }
+                
+            }
 
-        }
-    };
+    }, [uploaded, isUploading, isErrorUpload]);
+
+  
 
     return (
         <div>
             {uploadeable &&
                 <>
-                    <input type="file" onChange={handleFileChange} />
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={handleUpload} 
-                        disabled={isUploading || !selectedFile}
-                    >
-                        {isUploading ? <CircularProgress size={24} /> : 'Upload'}
-                    </Button>
+                    <input ref={ref} hidden type="file"  onChange={handleFileChange} />
+                    <Tooltip title="Add image" arrow >
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={()=>ref?.current?.click()} 
+                            disabled={isUploading || !selectedFile}
+                        >
+                            {isUploading ? <CircularProgress size={24} /> : '+'}
+                        </Button>
+                    </Tooltip>
                 </>
             }
             {isFetchingImages ? (

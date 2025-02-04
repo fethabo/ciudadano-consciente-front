@@ -2,7 +2,6 @@
 import useApiQuery from "../useApiQuery";
 
 
-/*TODO: ver si se van a usar mas que el get*/
 /**
  * 
  * @returns 
