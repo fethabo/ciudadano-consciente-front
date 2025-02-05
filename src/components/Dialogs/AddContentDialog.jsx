@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import useUserApi from "../Hooks/useUserApi";
 import { usePostContent } from "../Hooks/requests/Content";
-import FormContent from "../Forms/FormContent";
+import FormAddContent from "@components/Forms/FormAddContent";
 /**
  * activityTypeVersionId *
 publicContent *
@@ -60,7 +60,7 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
             >
                <DialogTitle sx={{justifyContent:'space-between', display:'flex'}}><Typography variant="h5"> Agregar contenido</Typography>  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
-                    <FormContent onSubmit={handleSubmit} loading={isFetching}/>
+                    <FormAddContent onSubmit={handleSubmit} loading={isFetching}/>
                </DialogContent>
             </Dialog> );
 }

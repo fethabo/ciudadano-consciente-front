@@ -48,10 +48,10 @@ const MenuAcciones=({content, handleDeleteContent})=>{
         <MenuItem onClick={()=> {setOpenDetails(true);handleMenuClose()}}>
             <FeedIcon sx={{ marginRight: 1 }} color="secondary" /> Details
         </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
+        <MenuItem onClick={()=> {setOpenEdit(true);handleMenuClose()}}>
             <EditIcon sx={{ marginRight: 1 }} color="primary" /> Edit
         </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
+        <MenuItem onClick={()=> {handleDeleteContent(content?.contentId);handleMenuClose();}}>
             <DeleteIcon sx={{ marginRight: 1 }} color="error" /> Delete
         </MenuItem>
         
