@@ -1,4 +1,8 @@
+import useGetToken from "@security/hooks/useGetToken";
 import useApiQuery from "../useApiQuery";
+import { useQueries } from "@tanstack/react-query";
+import axios from "axios";
+import { URL_API } from "@constants";
 
 
 export function useGetContent({contentId, ...rest}){
@@ -117,9 +121,54 @@ export function usePostContentImage({form,contentId, ...rest}){
       queryKey:['usePostContentImage',contentId],
       endpoint: `/contents/images`,
       method: 'POST',
+      headers: { 'content-type': 'multipart/form-data'},
       form:form,
       options: {...rest},
       }
     )
   )
+}
+
+
+/**
+ *  Get content images
+ * @param {*} param0 
+ * @returns 
+ */
+export function useGetContentImage({contentId, imageId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['useGetContentImage',contentId, imageId],
+      endpoint: `/contents/${contentId}/images/${imageId}`,
+      options: {...rest},
+      }
+    )
+  )
+}
+export function useGetImagesFilesOfContent({images,...rest}){
+  const token = useGetToken();
+  const result= useQueries({
+      queries: images.map((image) => ({
+          queryKey: ['useGetContentImage',image.contentId, image.imageId],
+          queryFn: () => axios.get(`${URL_API}/contents/${image.contentId}/images/${image.imageId}`, {
+            responseType: 'arraybuffer',
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          }).then((res) => res.data)
+          })),
+          ...rest,
+          refetchOnWindowFocus: false,//TODO: ver que onda estoooo
+          combine: (results) => {
+                return {
+                data: results.map((result, index) => ({
+                  data: URL.createObjectURL(new Blob([result.data], { type: 'image/png' })),
+                  image: images[index]
+                })),
+                pending: results.some((result) => result.isPending),
+                }
+            }
+     
+    })
+  return result
 }

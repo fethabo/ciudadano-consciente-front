@@ -15,7 +15,7 @@ import { useGetActivityTypes } from "@components/Hooks/requests/ActivityType";
  * @param {*} param0 
  * @returns 
  */
-function FormContent({onSubmit, loading, ...rest}) {
+function FormEditContent({onSubmit, loading, ...rest}) {
 
     const config = formConfigs['Content'];
     const { initialValues } = rest;
@@ -80,10 +80,10 @@ function FormContent({onSubmit, loading, ...rest}) {
 }
 
 
-export default FormContent;
+export default FormEditContent;
 
 
-FormContent.propTypes={
+FormEditContent.propTypes={
     onSubmit: PropTypes.func,
     loading: PropTypes.bool
 }

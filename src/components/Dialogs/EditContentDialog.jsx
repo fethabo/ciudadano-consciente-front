@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePatchActivity } from "../Hooks/requests/Activity";
-import FormActivity from "../Forms/FormActivity";
-import { usePatchContent } from "../Hooks/requests/Content";
-import FormContent from "../Forms/FormContent";
+import { useGetContentImages, usePatchContent, usePostContentImage } from "../Hooks/requests/Content";
+import FormEditContent from "@components/Forms/FormEditContent";
+import ImageControl from "@components/ImageControl";
 
 export default function EditContentDialog({open, content, handleClose, path,...rest}) {
     const [formPatch, setFormPatch] = useState(null);
@@ -29,6 +28,7 @@ export default function EditContentDialog({open, content, handleClose, path,...r
     }
 
     return ( <Dialog
+    fullScreen
                 open={open}
                 aria-labelledby="edit-content-dialog"
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
@@ -36,7 +36,9 @@ export default function EditContentDialog({open, content, handleClose, path,...r
             >
                <DialogTitle> Editar content  <IconButton type='button'  onClick={handleClose} disabled={isFetching} ><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
-                    <FormContent onSubmit={handleSubmit} loading={isFetching} initialValues={content}/>
+                    <FormEditContent onSubmit={handleSubmit} loading={isFetching} initialValues={content}/>
+                    <ImageControl useFetchImages={useGetContentImages} useUploadImage={usePostContentImage} paramsGet={{contentId:content?.contentId}} paramsUpload={{contentId:content?.contentId}}/>
+
                </DialogContent>
             </Dialog> );
 }

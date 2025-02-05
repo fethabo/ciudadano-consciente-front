@@ -1,8 +1,8 @@
 import { Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton } from '@mui/material';
-import FormContent from '../../components/Forms/FormContent';
 import { useState } from 'react';
 import { useGetContentImages, useGetContents } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
+import FormAddContent from '@components/Forms/FormAddContent';
 
 
 /**
@@ -43,7 +43,7 @@ function ContentsPage(){
             <Dialog onClose={handleClose} open={formOpen} fullWidth>
                 <DialogTitle>Agregar contenido</DialogTitle>
                 <DialogContent >
-                    <FormContent  public/>
+                    <FormAddContent  public/>
                 </DialogContent>
             </Dialog>
       <Button onClick={()=>setFormOpen(true)}>Nuevo contenido</Button>

@@ -18,7 +18,7 @@ import { URL_API } from "../../../constants";
  * @param {*} param0 
  * @returns 
  */
-export default function useApiQuery({ queryKey, endpoint, method = 'GET', form, requiresAuth = true, options = {} }) {
+export default function useApiQuery({ queryKey, endpoint, method = 'GET', form, requiresAuth = true, options = {}, headers }) {
   const token = useGetToken();
 
   function isWriting(){
@@ -31,8 +31,11 @@ export default function useApiQuery({ queryKey, endpoint, method = 'GET', form, 
       const config = {
         method,
         url: `${URL_API}${endpoint}`,
-        data: (((method === 'POST' || method === 'PUT' || method === 'PATCH') && form) ? form : undefined ), // agregamos el form solo en los POST y PUT
-        headers: requiresAuth ? { Authorization: `Bearer ${token}` } : undefined,
+        data: (((method === 'POST' || method === 'PUT' || method === 'PATCH') && form) ? form : undefined), // agregamos el form solo en los POST y PUT
+        headers: {
+          ...(requiresAuth && { Authorization: `Bearer ${token}` }),
+          ...headers
+        },
       };
       const response = await axios(config);
       return response.data;

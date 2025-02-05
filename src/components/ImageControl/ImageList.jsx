@@ -2,19 +2,14 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import PropTypes from 'prop-types'
+import  DeleteOutlineIcon  from '@mui/icons-material/DeleteOutline';
 
-function srcset(image, width, height, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${width * cols}&h=${
-      height * rows
-    }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
 
 export default function ImageControlList({images}) {
+  const handleDeleteImage = (image) => {
+    console.log(image)
+  }
   return (
     <ImageList
       sx={{
@@ -26,15 +21,14 @@ export default function ImageControlList({images}) {
       rowHeight={200}
       gap={1}
     >
-      {images.map((item) => {
+      {images.map((item, index) => {
         const cols = item.featured ? 2 : 1;
         const rows = item.featured ? 2 : 1;
-
         return (
-          <ImageListItem key={item.img} cols={cols} rows={rows}>
+          <ImageListItem key={index} cols={cols} rows={rows}>
             <img
-              {...srcset(item.img, 250, 200, rows, cols)}
-              alt={item.title}
+              src={item.data}
+              alt={item?.image?.imageName}
               loading="lazy"
             />
             <ImageListItemBar
@@ -43,17 +37,18 @@ export default function ImageControlList({images}) {
                   'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
                   'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
               }}
-              title={item.title}
+              title={item.image.imageName}
               position="top"
               actionIcon={
                 <IconButton
+                  onClick={() => handleDeleteImage(item.image)}
                   sx={{ color: 'white' }}
-                  aria-label={`star ${item.title}`}
+                  aria-label={`delete ${item.image.imageName}`}
                 >
-                  <StarBorderIcon />
+                  <DeleteOutlineIcon />
                 </IconButton>
               }
-              actionPosition="left"
+              actionPosition="right"
             />
           </ImageListItem>
         );

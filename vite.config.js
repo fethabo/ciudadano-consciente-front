@@ -19,7 +19,11 @@ export default defineConfig({
         '@utils': path.resolve(__dirname, 'src/utils'),
         // También puedes definir alias para rutas específicas
         '@pages': path.resolve(__dirname, 'src/pages'),
-        '@templates': path.resolve(__dirname, 'public/templates')
+        '@templates': path.resolve(__dirname, 'public/templates'),
+        '@hooks': path.resolve(__dirname, 'src/hooks'),
+        '@constants': path.resolve(__dirname, 'src/constants'),
+        '@security': path.resolve(__dirname, 'src/security'),
+        
         
       }
     },
