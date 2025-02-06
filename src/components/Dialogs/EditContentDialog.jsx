@@ -6,12 +6,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetContentImages, usePatchContent, usePostContentImage } from "../Hooks/requests/Content";
 import FormEditContent from "@components/Forms/FormEditContent";
 import ImageControl from "@components/ImageControl";
+import TagsControl from "@components/TagsControl";
 
 export default function EditContentDialog({open, content, handleClose, path,...rest}) {
     const [formPatch, setFormPatch] = useState(null);
     const {data, isFetching, isError} = usePatchContent({form: formPatch, contentId: content?.contentId, enabled: !!formPatch && !!content?.contentId})
     const queryClient = useQueryClient()
-    
+
     useEffect(() => {
         if (data){
             setFormPatch(null);
@@ -37,7 +38,8 @@ export default function EditContentDialog({open, content, handleClose, path,...r
                <DialogTitle> Editar content  <IconButton type='button'  onClick={handleClose} disabled={isFetching} ><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
                     <FormEditContent onSubmit={handleSubmit} loading={isFetching} initialValues={content}/>
-                    <ImageControl useFetchImages={useGetContentImages} useUploadImage={usePostContentImage} paramsGet={{contentId:content?.contentId}} paramsUpload={{contentId:content?.contentId}}/>
+                    <TagsControl entityId={content?.contentId} entityType={"contents"} />
+                    <ImageControl contentId={content?.contentId}/>
 
                </DialogContent>
             </Dialog> );

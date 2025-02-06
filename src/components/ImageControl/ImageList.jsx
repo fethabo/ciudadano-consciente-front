@@ -6,10 +6,9 @@ import PropTypes from 'prop-types'
 import  DeleteOutlineIcon  from '@mui/icons-material/DeleteOutline';
 
 
-export default function ImageControlList({images}) {
-  const handleDeleteImage = (image) => {
-    console.log(image)
-  }
+export default function ImageControlList({images, handleDeleteImage, deletable}) {
+  
+
   return (
     <ImageList
       sx={{
@@ -39,7 +38,7 @@ export default function ImageControlList({images}) {
               }}
               title={item.image.imageName}
               position="top"
-              actionIcon={
+              actionIcon={deletable &&
                 <IconButton
                   onClick={() => handleDeleteImage(item.image)}
                   sx={{ color: 'white' }}
@@ -58,5 +57,7 @@ export default function ImageControlList({images}) {
 }
 
 ImageControlList.propTypes = {
-    images: PropTypes.array
+    images: PropTypes.array,
+    handleDeleteImage: PropTypes.func,
+    deletable: PropTypes.bool
 }

@@ -145,6 +145,24 @@ export function useGetContentImage({contentId, imageId, ...rest}){
     )
   )
 }
+
+/**
+ *  Get content images
+ * @param {*} param0 
+ * @returns 
+ */
+export function useDeleteContentImage({contentId, imageId, ...rest}){
+  return(
+    useApiQuery({
+      queryKey:['useDeleteContentImage',contentId, imageId],
+      endpoint: `/contents/${contentId}/images/${imageId}`,
+      options: {...rest},
+      method: "DELETE"
+      }
+    )
+  )
+}
+
 export function useGetImagesFilesOfContent({images,...rest}){
   const token = useGetToken();
   const result= useQueries({
@@ -158,7 +176,7 @@ export function useGetImagesFilesOfContent({images,...rest}){
           }).then((res) => res.data)
           })),
           ...rest,
-          refetchOnWindowFocus: false,//TODO: ver que onda estoooo
+          refetchOnWindowFocus: false,
           combine: (results) => {
                 return {
                 data: results.map((result, index) => ({

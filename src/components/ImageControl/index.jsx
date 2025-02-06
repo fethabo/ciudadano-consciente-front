@@ -1,52 +1,49 @@
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, CircularProgress, Skeleton, Tooltip } from '@mui/material';
+import { Alert, Button, CircularProgress, Skeleton, Tooltip, Typography } from '@mui/material';
 import ImageControlList from './ImageList';
-import { useGetImagesFilesOfContent } from '@components/Hooks/requests/Content';
+import { useDeleteContentImage, useGetContentImages, useGetImagesFilesOfContent, usePostContentImage } from '@components/Hooks/requests/Content';
+import { useQueryClient } from '@tanstack/react-query';
+import TagsControl from '@components/TagsControl';
+import { useGetTagged } from '@components/Hooks/requests/Tags';
 
-export default function ImageControl({ useUploadImage, useFetchImages, paramsGet, paramsUpload, uploadeable= true }) {
-    console.log(paramsGet,paramsUpload  )
+export default function ImageControl({ contentId, uploadeable }) {
+    const ref= useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [formPost, setFormPost] = useState(null);
-    const { data: uploaded, isFetching: isUploading, isError: isErrorUpload } = useUploadImage({...paramsUpload, form: formPost, enabled: !!paramsUpload && !!formPost});
-    const { data: images, isFetching: isFetchingImages, isError: isErrorFetch } = useFetchImages({...paramsGet, enabled: !!paramsGet });
-    const ref= useRef(null);
+    const [deleteImage, setDeleteImage] = useState(null);
+   
+    const queryClient = useQueryClient()
+   
+    const { data: uploaded, isFetching: isUploading, isError: isErrorUpload } = usePostContentImage({contentId:contentId, form: formPost, enabled: !!contentId && !!formPost});
+    const { data: images, isFetching: isFetchingImages, isError: isErrorFetch } = useGetContentImages({contentId:contentId, enabled: !!contentId });
     const { data: imagesFiles, isPending } = useGetImagesFilesOfContent({images: images || [], enabled: !!images && images?.length>0});
-  
-    const handleFileChange = (event) => {
-        const f = Array.from(event?.target?.files);
-        const form= {content: paramsUpload.contentId, image: f[0], imageName: event.target.files[0].name}
-        console.log(f[0])
-        setFormPost(form)
-        //setSelectedFile(event.target.files[0]);
-    };
+    const { data: deleted, isFetching: isDeleting, isError: isErrorDelete } = useDeleteContentImage({contentId: deleteImage?.contentId, imageId: deleteImage?.imageId, enabled: !!deleteImage});
+
+    useEffect(() => {
+        if(deleted || isErrorDelete){
+            setDeleteImage(null)
+            queryClient.resetQueries({ queryKey: ['useGetContentImages', contentId], exact: true })
+        }
+    }, [deleted, isErrorDelete, contentId, queryClient]);
 
     useEffect(() => {
         if(!isUploading){
             setFormPost(null)
+            setSelectedFile(null)
+            queryClient.resetQueries({ queryKey: ['useGetContentImages', contentId], exact: true })
         }
-    }, [uploaded, isUploading, isErrorUpload]);
+    }, [uploaded, isUploading, isErrorUpload, contentId, queryClient]);
 
-    useEffect(() => {
-            if(!isUploading){
-                if(uploaded){
-                    setSelectedFile(null)
-                    console.log("limpia el campo")
-                }else{
-                    if(isErrorUpload){
-                        console.log("error al subir, debo limpiar el POST?")
-                        setSelectedFile(null)
-                    }
-                }
-                
-            }
-
-    }, [uploaded, isUploading, isErrorUpload]);
-
-  
+    const handleFileChange = (event) => {
+        const f = Array.from(event?.target?.files);
+        const form= {content: contentId, image: f[0], imageName: event.target.files[0].name}
+        setFormPost(form)
+    };
 
     return (
         <div>
+            <Typography variant="h6" >Images</Typography>
             {uploadeable &&
                 <>
                     <input ref={ref} hidden type="file"  onChange={handleFileChange} />
@@ -63,7 +60,7 @@ export default function ImageControl({ useUploadImage, useFetchImages, paramsGet
                     </Tooltip>
                 </>
             }
-            {isFetchingImages || isPending ? (
+            {isFetchingImages || isPending || isDeleting ? (
                 <div>
                     {[...Array(3)].map((_, index) => (
                         <Skeleton key={index} variant="rectangular" width={210} height={118} style={{ margin: '10px' }} />
@@ -73,16 +70,13 @@ export default function ImageControl({ useUploadImage, useFetchImages, paramsGet
                 ? <Alert severity='error' >Hubo un error al obtener las imagenes</Alert>
                 : 
                 (
-                    <ImageControlList images={imagesFiles} />
+                    <ImageControlList images={imagesFiles} handleDeleteImage={setDeleteImage} deletable={true}/>
                 )}
         </div>
     );
 }
 
 ImageControl.propTypes = {
-    useUploadImage: PropTypes.func,
-    useFetchImages: PropTypes.func.isRequired,
-    paramsGet: PropTypes.object,
-    paramsUpload: PropTypes.object,
+    contentId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     uploadeable: PropTypes.bool
 };
