@@ -105,12 +105,12 @@ export function usePostTagged({tagId, entityTypeId, entityId, ...rest}){
       )
     )
 }
-export function useDeleteTagged({id, ...rest}){
+export function useDeleteTagged({taggedId, ...rest}){
 
     return(
       useApiQuery({
-        queryKey:['useDeleteTagged',id],
-        endpoint: `/tagged/${id}`,
+        queryKey:['useDeleteTagged',taggedId],
+        endpoint: `/tagged/${taggedId}`,
         method: 'DELETE',
         options: {...rest},
         }

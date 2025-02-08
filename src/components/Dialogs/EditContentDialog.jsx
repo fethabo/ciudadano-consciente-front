@@ -39,7 +39,7 @@ export default function EditContentDialog({open, content, handleClose, path,...r
                <DialogContent dividers>
                     <FormEditContent onSubmit={handleSubmit} loading={isFetching} initialValues={content}/>
                     <TagsControl entityId={content?.contentId} entityType={"contents"} />
-                    <ImageControl contentId={content?.contentId}/>
+                    <ImageControl contentId={content?.contentId} uploadeable/>
 
                </DialogContent>
             </Dialog> );
