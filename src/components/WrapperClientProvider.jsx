@@ -19,7 +19,8 @@ export default function WrapperClientProvider({children}){
       },
       queryCache: new QueryCache({
         onError: (error) => {
-          enqueueSnackbar(`Error: ${error}`, {variant:"error"})
+          console.log(error)
+          enqueueSnackbar(`Error: ${error?.response?.data?.detail || error}`, {variant:"error"})
         }
       }),}
     )

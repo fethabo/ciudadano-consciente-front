@@ -7,11 +7,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import useUserApi from "../Hooks/useUserApi";
 import { usePostContent } from "../Hooks/requests/Content";
 import FormAddContent from "@components/Forms/FormAddContent";
+
 /**
- * activityTypeVersionId *
-publicContent *
-model *
-string($binary)
  * @param {*} param0 
  * @returns 
  */
@@ -19,28 +16,24 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
     const { idOrganization } = useParams(); // id de organizacion para organization
     const { userId } = useUserApi();//id de usuario para creator
     const [formPost, setFormPost] = useState(null);
-    const {data, isFetching, isError} = usePostContent({form: formPost, enabled: !!formPost})
+    const {data: contentPosted, isFetching: isFetchingPostContent, isError: isErrorPostContent} = usePostContent({form: formPost, enabled: !!formPost})
     const queryClient = useQueryClient()
-    
-
-    //Model: formulario autogenerado segun el modelo del activityTypeVersionId. 
-    //Para llegar al activityTypeVersionId primero tenemos que seleccionar el activityType., esa seleccion debe obtener el activityTypeVersion vigente
-    //al obtener la version vigente tenemos el modelo para autogenerar el formulario
-    // los valores del formulario del content se deben pasar como json en el content del post.
    
-    
     useEffect(() => {
-        if (data){
+        console.log("useEffect que evalua el post", isFetchingPostContent, isErrorPostContent, contentPosted)
+        if(!isFetchingPostContent){
+            if (contentPosted){
+                console.log("entra en el uef, if de data")
+                queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
+                queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
+            }
             setFormPost(null);
-            queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
-            queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
-            handleClose();
-        }else if(isError){
-            setFormPost(null)
+            handleClose(contentPosted);
         }
-    }, [data, isError]);//eslint-disable-line
-
+    }, [contentPosted, isErrorPostContent, isFetchingPostContent]);//eslint-disable-line
+    
     const handleSubmit = (v) =>{
+        console.log("handleSubmit de addContentDialog")
         const form = {...v, model: JSON.stringify(v.model),  creator: userId, organization: Number(idOrganization)}
         const formData = new FormData();
         Object.keys(form).forEach(key => {
@@ -56,9 +49,9 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
                 {...rest}
             >
-               <DialogTitle sx={{justifyContent:'space-between', display:'flex'}}><Typography variant="h5"> Agregar contenido</Typography>  <IconButton type='button'  onClick={handleClose}  disabled={isFetching}><CloseIcon/></IconButton> </DialogTitle>
+               <DialogTitle sx={{justifyContent:'space-between', display:'flex'}}><Typography variant="h5"> Agregar contenido</Typography>  <IconButton type='button'  onClick={handleClose}  disabled={isFetchingPostContent}><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
-                    <FormAddContent onSubmit={handleSubmit} loading={isFetching}/>
+                    <FormAddContent onSubmit={handleSubmit} loading={isFetchingPostContent}/>
                </DialogContent>
             </Dialog> );
 }

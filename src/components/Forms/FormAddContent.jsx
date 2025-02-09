@@ -1,4 +1,4 @@
-import { Box, Button, LinearProgress, Skeleton, Stack } from "@mui/material";
+import { Alert, Box, Button, Skeleton, Stack } from "@mui/material";
 import FormBase from "./FormBase";
 import PropTypes from "prop-types"
 import formConfigs from "./formConfigs";
@@ -8,8 +8,6 @@ import { useGetActivityTypes } from "@components/Hooks/requests/ActivityType";
 
 
 /**
- * @todo agregar skeleton con el fetching de los activityTypeVersion
- * @todo mostrar mensaje de error en el caso de que haya error -.-
  * @todo en el caso de que venga mas de un activityTypeVersion, habilitar la seleccion de aquellos que esten en estado "stashed"
  * @todo revisar validacion de formulario
  * @param {*} param0 
@@ -30,7 +28,6 @@ function FormAddContent({onSubmit, loading, ...rest}) {
                 label: type.name,
                 value: type.activityTypeId
             }));
-            console.log(activityTypeOptions)
             config.fields = config.fields.map(field => 
                 field.name === 'activityTypeId' ? { ...field, options: activityTypeOptions } : field
             );
@@ -57,8 +54,9 @@ function FormAddContent({onSubmit, loading, ...rest}) {
                     <Skeleton key={index} variant="rectangular" width="100%" height={16} />
                 ))}
               </Stack>
-            :
-      <FormBase
+            : (isError || isErrorActivityTypes)
+                ?<Alert severity="error" >Hubo un error al obtener los tipos de actividad</Alert>
+      :<FormBase
             fields={config.fields}
             initialValues={ initialValues  || { publicContent: false, activityTypeId: "" }}
             validationSchema={config.validationSchema}
@@ -67,7 +65,7 @@ function FormAddContent({onSubmit, loading, ...rest}) {
             jsonTemplate={jsonTemplate}
             isLoadingTemplate={isFetchingActivityTypeVersion}
             onFieldChange={handleSelection}
-            loading= {isFetchingActivityTypeVersion}
+            loading= {isFetchingActivityTypeVersion || loading}
             {...rest}
         >
        

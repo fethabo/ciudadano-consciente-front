@@ -15,7 +15,6 @@ export default function Organization() {
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization}= useGetOrganization({organizationId:idOrganization, enabled:!!idOrganization})
     const navigate = useNavigate();
     const role = useGetOrganizationRole({organizationId:idOrganization})
-    console.log(role)
     const {pathname} = useLocation();
 return ( 
        role !=="none" 

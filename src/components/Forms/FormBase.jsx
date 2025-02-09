@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, MenuItem, Skeleton, Switch, TextField, Typography } from '@mui/material';
+import { MenuItem, Skeleton, Switch, TextField, Typography } from '@mui/material';
 import { Formik, Form, Field, useFormikContext, /* ErrorMessage */ } from 'formik';
 import PropTypes from "prop-types"
 
@@ -69,7 +69,7 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                     variant="outlined"
                     error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
                     helperText={formState.touched[field.name] && formState.errors[field.name]}
-                    disabled={disableForm}
+                    disabled={disableForm || field.disabled}
                     {...field.props}
                   >
                     {field.options?.map((option) => (
@@ -91,7 +91,7 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                     type="checkbox"
                     as={Switch}
                     label={field.label || field.name}
-                    disabled={disableForm}
+                    disabled={disableForm || field.disabled}
                     {...field.props}
                   />
                   </>
@@ -106,7 +106,7 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                     variant="outlined"
                     error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
                     helperText={formState.touched[field.name] && formState.errors[field.name]}
-                    disabled={disableForm}
+                    disabled={disableForm || field.disabled}
                     {...field.props}
                   />
                   )}
