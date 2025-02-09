@@ -14,9 +14,13 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 
 export const DynamicSubForm = ({ jsonTemplate, formState }) => {
- console.log("jsonTemplate", jsonTemplate)
+  const initialValues = formState.values.model;
+ console.log("jsonTemplate",initialValues, jsonTemplate)
+ //del formState-values-model puedo obtener los initialValues
+
 const renderField = useCallback((key, path, value ) => {
   const { values } = formState;
+ // console.log("formState en renderField subform", formState)
   const fieldName = path ? `${path}.${key}` : key;
   if (typeof value === 'object' && !Array.isArray(value)) {
     // Si el valor es un objeto, renderiza los campos de forma recursiva
@@ -53,7 +57,8 @@ const renderField = useCallback((key, path, value ) => {
                     
                       {nestedValue && nestedValue?.length > 0 && (
                          <List>
-{                        nestedValue.map((unit, index) => (
+                          {console.log("nestedValue",nestedValue)}
+{                        nestedValue?.map((unit, index) => (
                           <ListItem key={index}>
                             <Field  as={TextField} variant="outlined" name={`${fieldName}.${index}`} placeholder="placeholder" size={"small"} fullWidth/>
                             <IconButton

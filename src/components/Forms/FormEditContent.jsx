@@ -2,27 +2,33 @@ import { Box, Button, LinearProgress, Skeleton, Stack } from "@mui/material";
 import FormBase from "./FormBase";
 import PropTypes from "prop-types"
 import formConfigs from "./formConfigs";
-import { useGetActivityTypeVersionsOfActivityType } from "../Hooks/requests/ActivityTypeVersion";
+import { useGetActivityTypeVersion, useGetActivityTypeVersionsOfActivityType } from "../Hooks/requests/ActivityTypeVersion";
 import { useEffect, useState } from "react";
 import { useGetActivityTypes } from "@components/Hooks/requests/ActivityType";
+import convertModel from "@components/Utils/convertModel";
 
 
-/**
- * @todo agregar skeleton con el fetching de los activityTypeVersion
+/**@todo: no necesito el OPTIONS, deshabilitar la seleccion del activityType, solo mostrarlo
  * @todo mostrar mensaje de error en el caso de que haya error -.-
  * @todo en el caso de que venga mas de un activityTypeVersion, habilitar la seleccion de aquellos que esten en estado "stashed"
  * @todo revisar validacion de formulario
  * @param {*} param0 
  * @returns 
  */
-function FormEditContent({onSubmit, loading, ...rest}) {
+function FormEditContent({onSubmit, loading, content, ...rest}) {
 
     const config = formConfigs['Content'];
-    const { initialValues } = rest;
+   // const { initialValues } = rest;
     const [jsonTemplate, setJsonTemplate]= useState(null)
     const [option, setOption] = useState(null)
-    const {data: activityTypes, isFetching: isFetchingActivityTypes, isError: isErrorActivityTypes} = useGetActivityTypes({enabled: true})
-    const { data: activityTypeVersions, isFetching: isFetchingActivityTypeVersion, isError} = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
+    const { data: activityTypes, isFetching: isFetchingActivityTypes, isError: isErrorActivityTypes } = useGetActivityTypes({enabled: true})
+    const { data: activityTypeVersions, isFetching: isFetchingActivityTypeVersion, isError: isErrorActivityTypeVersion } = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
+    const { data: activityTypeVersionInicial, isFetching: isFetchingActivityTypeVersionInicial, isError: isErrorActivityTypeVersionInicial} = useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content})
+    /* TENGO QUE OBTENER EL ACTIVITY TYPE DESDE EL ACTIVITYTYPEVERSION DEL CONTENT 
+        para eso: obtener a partir de activityTypeVersionId el version, luego obtener el activityType, ahi dejar como initial value ese tipo
+
+    */
+    const [initialValues, setInitialValues] = useState(null)
 
     useEffect(() => {
         if (activityTypes) {
@@ -36,6 +42,17 @@ function FormEditContent({onSubmit, loading, ...rest}) {
             );
         }
     }, [activityTypes,config]);
+    
+    useEffect(() => {
+        console.log("UEF activity inicial")
+        if(activityTypeVersionInicial && !isFetchingActivityTypeVersionInicial){
+            const initials = {...content, activityTypeId: activityTypeVersionInicial.activityTypeId};
+            initials.model = convertModel(content.model);
+            setInitialValues(initials);
+        }
+    }, [activityTypeVersionInicial, content, isFetchingActivityTypeVersionInicial]);
+  
+    //Obtengo el model del ultimo activityTypeVersion del activityType
     useEffect(() => {
         if (activityTypeVersions?.length>0&&activityTypeVersions[activityTypeVersions.length-1]?.model){
             setJsonTemplate({model: JSON.parse(activityTypeVersions[activityTypeVersions.length-1].model)})
@@ -46,12 +63,9 @@ function FormEditContent({onSubmit, loading, ...rest}) {
         setOption(values.activityTypeId)
     }
 
-    const handleSubmit = (values) => {
-        const form = {...values, activityTypeVersionId: activityTypeVersions[activityTypeVersions.length-1].activityTypeVersionId}
-        onSubmit(form)
-    }
+   
     return (  
-        (loading || isFetchingActivityTypes )
+        (loading || isFetchingActivityTypes || isFetchingActivityTypeVersionInicial|| !initialValues )
             ? <Stack spacing={2} display={"flex"}>
                 {[...Array(5)].map((_, index) => (
                     <Skeleton key={index} variant="rectangular" width="100%" height={16} />
@@ -60,9 +74,9 @@ function FormEditContent({onSubmit, loading, ...rest}) {
             :
       <FormBase
             fields={config.fields}
-            initialValues={ initialValues  || { publicContent: false, activityTypeId: "" }}
+            initialValues={ initialValues}
             validationSchema={config.validationSchema}
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
             disableForm={loading}
             jsonTemplate={jsonTemplate}
             isLoadingTemplate={isFetchingActivityTypeVersion}
@@ -85,5 +99,6 @@ export default FormEditContent;
 
 FormEditContent.propTypes={
     onSubmit: PropTypes.func,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    content: PropTypes.object
 }

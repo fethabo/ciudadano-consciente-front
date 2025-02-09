@@ -79,9 +79,9 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 #### TODO GENERAL:
 
 - [x] implementar React query y hooks para cada request (podriamos usar algo similar al mono repo)
-- [ ] implementar formularios para carga de contenidos
-- [ ] corregir altura de contenido (jode el appBar)
-- [ ] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
+- [x] implementar formularios para carga de contenidos
+- [x] corregir altura de contenido (jode el appBar)
+- [x] implementar loader para carga de la pagina y carga de contenidos (pueden ser el mismo o pensar en dos diferentes)
 - [x] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
 - [x] activity
 - [x] configuracion de caminos (gestion de organizaciones).
@@ -97,7 +97,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] agregar alias para importaciones de hooks y componentes 
 - [ ] agregar post para marcar favorito (sobre el level (mapa y actividad) )
 - [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
-- [ ] busqueda de paths 
+- [ ] busqueda de paths / filtrado
 - [x] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
 - [ ] en EmblaCarousel definir vista movil (un slide en la pantalla)
 - [ ] Agregar creacion de contenidos:
@@ -130,7 +130,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 
 ##### modificaciones por normalizacion de la api:
 - [x] Quitar requests de usuarios de la organizacion en paralelo.
-- [ ] quitar idUser de requests, probar e identificar cuales faltan quitar. 
+- [x] quitar idUser de requests, probar e identificar cuales faltan quitar. 
 - [ ] POR AHORA NO HACER NADA- Se agrego el hidden en los levels, por el momento suponer que la api devuelve lo que necesito segun los roles. 
 - [ ] hacer fullwidth las ventanas de formularios
 

@@ -16,7 +16,7 @@ string($binary)
  * @returns 
  */
 export default function AddContentDialog({open, handleClose, ...rest}) {
-    const {idOrganization} = useParams(); // id de organizacion para organization
+    const { idOrganization } = useParams(); // id de organizacion para organization
     const { userId } = useUserApi();//id de usuario para creator
     const [formPost, setFormPost] = useState(null);
     const {data, isFetching, isError} = usePostContent({form: formPost, enabled: !!formPost})
@@ -33,7 +33,7 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
         if (data){
             setFormPost(null);
             queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
-            //     queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
+            queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
             handleClose();
         }else if(isError){
             setFormPost(null)
@@ -41,8 +41,6 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
     }, [data, isError]);//eslint-disable-line
 
     const handleSubmit = (v) =>{
-        console.log("handleSubmit en dialog", v)
-        /* TODO: JSON.stringify no esta escapando el arreglo de opciones del FieldArray (y si lo convierto a string en el submit?) */
         const form = {...v, model: JSON.stringify(v.model),  creator: userId, organization: Number(idOrganization)}
         const formData = new FormData();
         Object.keys(form).forEach(key => {

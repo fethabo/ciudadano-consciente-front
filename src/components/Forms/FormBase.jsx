@@ -1,4 +1,4 @@
-import { MenuItem, Skeleton, TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, MenuItem, Skeleton, Switch, TextField, Typography } from '@mui/material';
 import { Formik, Form, Field, useFormikContext, /* ErrorMessage */ } from 'formik';
 import PropTypes from "prop-types"
 
@@ -48,78 +48,90 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
         }) {
           const combinedInitialValues = { ...initialValues };
         
-          return (
+            return (
             <Formik
               initialValues={combinedInitialValues}
               validationSchema={validationSchema}
               onSubmit={onSubmit}
             >
               {(formState) => (
-                <Form style={{marginTop:'1em'}}>
-                  <ValuesListener onFieldChange={onFieldChange} />
-                  {fields.map((field) => (
-                    <div key={field.name} style={{ marginBottom: '16px' }}>
-                      {field.type === 'select' ? (
-                        <Field
-                          name={field.name}
-                          as={TextField}
-                          select
-                          label={field.label || field.name}
-                          fullWidth
-                          variant="outlined"
-                          error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
-                          helperText={formState.touched[field.name] && formState.errors[field.name]}
-                          disabled={disableForm}
-                          {...field.props}
-                        >
-                          {field.options?.map((option) => (
-                            <MenuItem key={option.value} value={option.value} sx={{ gap: "1em" }}>
-                              {option.icon && option.icon}{option.label}
-                            </MenuItem>
-                          ))}
-                          {field?.allowAdditions && (
-                            <MenuItem key={"create"} value={""} onClick={() => onAddition()} sx={{ gap: "1em" }}>
-                              <LibraryAddIcon /> Agregar
-                            </MenuItem>
-                          )}
-                        </Field>
-                      ) : (
-                        <Field
-                          as={TextField}
-                          name={field.name}
-                          type={field.type}
-                          label={field.label || field.name}
-                          placeholder={field.placeholder}
-                          fullWidth
-                          variant="outlined"
-                          error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
-                          helperText={formState.touched[field.name] && formState.errors[field.name]}
-                          disabled={disableForm}
-                          {...field.props}
-                        />
-                      )}
-                    </div>
+              <Form style={{marginTop:'1em'}}>
+                <ValuesListener onFieldChange={onFieldChange} />
+                {fields.map((field) => (
+                <div key={field.name} style={{ marginBottom: '16px' }}>
+                  {field.type === 'select' ? (
+                  <Field
+                    name={field.name}
+                    as={TextField}
+                    select
+                    label={field.label || field.name}
+                    fullWidth
+                    variant="outlined"
+                    error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
+                    helperText={formState.touched[field.name] && formState.errors[field.name]}
+                    disabled={disableForm}
+                    {...field.props}
+                  >
+                    {field.options?.map((option) => (
+                    <MenuItem key={option.value} value={option.value} sx={{ gap: "1em" }}>
+                      {option.icon && option.icon}{option.label}
+                    </MenuItem>
+                    ))}
+                    {field?.allowAdditions && (
+                    <MenuItem key={"create"} value={""} onClick={() => onAddition()} sx={{ gap: "1em" }}>
+                      <LibraryAddIcon /> Agregar
+                    </MenuItem>
+                    )}
+                  </Field>
+                  ) : field.type === 'checkbox' ? (
+                   <>
+                    <Typography variant='body1'>{field.label || field.name}</Typography>
+                  <Field
+                    name={field.name}
+                    type="checkbox"
+                    as={Switch}
+                    label={field.label || field.name}
+                    disabled={disableForm}
+                    {...field.props}
+                  />
+                  </>
+                  ) : (
+                  <Field
+                    as={TextField}
+                    name={field.name}
+                    type={field.type}
+                    label={field.label || field.name}
+                    placeholder={field.placeholder}
+                    fullWidth
+                    variant="outlined"
+                    error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
+                    helperText={formState.touched[field.name] && formState.errors[field.name]}
+                    disabled={disableForm}
+                    {...field.props}
+                  />
+                  )}
+                </div>
+                ))}
+          
+               { /* Renderizar el subformulario dinámico */}
+                {
+                isLoadingTemplate ? (
+                  <div>
+                  {[...Array(3)].map((_, index) => (
+                    <Skeleton key={index} variant="rectangular" width="100%" height={56} style={{ marginBottom: '16px' }} />
                   ))}
-        
-                 { /* Renderizar el subformulario dinámico */}
-                  {
-                    isLoadingTemplate ? (
-                      <div>
-                        {[...Array(3)].map((_, index) => (
-                          <Skeleton key={index} variant="rectangular" width="100%" height={56} style={{ marginBottom: '16px' }} />
-                        ))}
-                      </div>
-                    ) : (
-                      jsonTemplate && <DynamicSubForm jsonTemplate={jsonTemplate} formState={formState} />
-                    )
-                  }
+                  </div>
+                ) : (
+                  jsonTemplate && <DynamicSubForm jsonTemplate={jsonTemplate} formState={formState} />
+                )
+                }
 
-                {  /* Renderizar los elementos hijos, como los botones de submit */}
-                  {children}
-                </Form>
+              {  /* Renderizar los elementos hijos, como los botones de submit */}
+                {children}
+              </Form>
               )}
             </Formik>
-          );
+            );
         }
         
 /* export default function FormBase({ fields, initialValues, validationSchema, onSubmit, children, disableForm, onAddition }){

@@ -14,6 +14,7 @@ import AddContentDialog from '@components/Dialogs/AddContentDialog';
 import EditContentDialog from '@components/Dialogs/EditContentDialog';
 import PropTypes from 'prop-types';
 import ConfirmDialog from '@components/Dialogs/ConfirmDialog';
+import { useQueryClient } from '@tanstack/react-query';
 
 const MenuAcciones=({content, handleDeleteContent})=>{
     const [anchorEl, setAnchorEl] = useState(null);
@@ -28,6 +29,11 @@ const MenuAcciones=({content, handleDeleteContent})=>{
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     
+    const queryClient= useQueryClient()
+    const handleClose = () => {
+        setOpenEdit(false);
+        queryClient.resetQueries('getContentsOfOrganization');
+    };
     
 
     return(<>
@@ -36,7 +42,7 @@ const MenuAcciones=({content, handleDeleteContent})=>{
     </IconButton>
    {content &&
    <>
-        <EditContentDialog open={openEdit} content={content} handleClose={()=>setOpenEdit(false)} />
+        <EditContentDialog open={openEdit} content={content} handleClose={handleClose} />
         <ConfirmDialog open={openDelete} message='Está eliminando el contenido' content={content} onClose={()=>setOpenDelete(false)} onConfirm={()=> {handleDeleteContent(content?.contentId);setOpenDelete(false)}} />
         <DetailContentOrganization open={openDetails} content={content} handleClose={()=>setOpenDetails(false)} />
     </>}
@@ -87,6 +93,12 @@ const OrganizationContents = () => {
         console.log('Eliminando contenido', contentId);
         setEnabledDelete(contentId);}
     };
+
+    const queryClient= useQueryClient()
+    const handleClose = () => {
+        setOpenAddContent(false);
+        queryClient.resetQueries('getContentsOfOrganization');
+    };
     
     return (
         <Container>
@@ -95,7 +107,7 @@ const OrganizationContents = () => {
                 Contenidos de la organización
             </Typography>
             <Button onClick={()=>{setOpenAddContent(true)}}>Crear Contenido</Button>
-            <AddContentDialog open={openAddContent} handleClose={()=>setOpenAddContent(false)} />
+            <AddContentDialog open={openAddContent} handleClose={handleClose} />
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                 <Button onClick={() => handleViewChange('table')} disabled={view === 'table'}>Table View</Button>
                 <Button onClick={() => handleViewChange('cards')} disabled={view === 'cards'}>Card View</Button>

@@ -10,7 +10,7 @@ export default function Home (){
     const navigate= useNavigate();
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
     const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({enabled:true});
-    const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({enabled:true});
+ //   const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({enabled:true});
   /* Encabezado: "¿Listo para comenzar tu aventura educativa?"
 
 Descripción: "Elige entre nuestras opciones de juego y descubre un mundo de aprendizaje interactivo. Desde situaciones cotidianas hasta decisiones importantes, cada partida es una oportunidad para mejorar tus habilidades como ciudadano. */
@@ -30,8 +30,8 @@ Descripción: "Elige entre nuestras opciones de juego y descubre un mundo de apr
                 <CarouselPaths style={{maxWidth:'100%'}} paths={paths} isLoading={isFetchingPaths} isError={isErrorPaths}/>
             </Box>
             {/* Recientes*/}
-            <Typography variant="h5">Recientes</Typography>
-            <CarouselPaths paths={recentPaths} isLoading={isFetchingRecentlyPaths} isError={isErrorRecentlyPaths}/>
+      {/*       <Typography variant="h5">Recientes</Typography>
+            <CarouselPaths paths={recentPaths} isLoading={isFetchingRecentlyPaths} isError={isErrorRecentlyPaths}/> */}
             {/* Favoritos */}
             <Typography variant="h5">Tus Favoritos</Typography>
             <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>

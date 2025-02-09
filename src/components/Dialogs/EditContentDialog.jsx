@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useGetContentImages, usePatchContent, usePostContentImage } from "../Hooks/requests/Content";
+import { usePatchContent } from "../Hooks/requests/Content";
 import FormEditContent from "@components/Forms/FormEditContent";
 import ImageControl from "@components/ImageControl";
 import TagsControl from "@components/TagsControl";
 
-export default function EditContentDialog({open, content, handleClose, path,...rest}) {
+export default function EditContentDialog({open, content, handleClose, ...rest}) {
     const [formPatch, setFormPatch] = useState(null);
     const {data, isFetching, isError} = usePatchContent({form: formPatch, contentId: content?.contentId, enabled: !!formPatch && !!content?.contentId})
     const queryClient = useQueryClient()
@@ -24,9 +24,14 @@ export default function EditContentDialog({open, content, handleClose, path,...r
     }, [data, isError]);//eslint-disable-line
 
     const handleSubmit = (v) =>{
-        const form = {...v}
-        setFormPatch(form);
+        const formData = new FormData();
+        formData.append("content", v.contentId);
+        formData.append("model", JSON.stringify(v.model));
+        formData.append("description", v.description)
+        formData.append("publicContent", v.publicContent)
+        setFormPatch(formData);
     }
+  
 
     return ( <Dialog
     fullScreen
@@ -37,10 +42,9 @@ export default function EditContentDialog({open, content, handleClose, path,...r
             >
                <DialogTitle> Editar content  <IconButton type='button'  onClick={handleClose} disabled={isFetching} ><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
-                    <FormEditContent onSubmit={handleSubmit} loading={isFetching} initialValues={content}/>
-                    <TagsControl entityId={content?.contentId} entityType={"contents"} />
-                    <ImageControl contentId={content?.contentId} uploadeable/>
-
+                    <FormEditContent onSubmit={handleSubmit} loading={isFetching} content={content}/>
+                    <TagsControl entityId={content?.contentId?.toString()} entityType={"contents"} />
+                    <ImageControl contentId={content?.contentId?.toString()} uploadeable/>
                </DialogContent>
             </Dialog> );
 }

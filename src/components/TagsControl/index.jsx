@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
-import { TextField, Chip, Autocomplete, Box, Typography, LinearProgress, Skeleton } from '@mui/material';
-import { Add as AddIcon, Close as CloseIcon } from '@mui/icons-material';
+import { TextField, Chip, Autocomplete, Box, Typography, Skeleton } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { useGetEntityTypes } from '@components/Hooks/requests/EntityTypes';
 import { useDeleteTagged, useGetTags, useGetTagsOfEntity, usePostTag, usePostTagged } from '@components/Hooks/requests/Tags';
 import PropTypes from 'prop-types'
 import { useQueryClient } from '@tanstack/react-query';
 
+
+/**
+ * @todo: Corregir autocomplete: se queda el valor en el input al agregar tag.el agregado de tag no sirve para movil, sin el enter no toma el onchange.
+ * @param {*} param0 
+ * @returns 
+ */
 const TagsControl = ({ entityId, entityType }) => {
     
     const [newTag, setNewTag] = useState(null);
@@ -46,52 +52,52 @@ const TagsControl = ({ entityId, entityType }) => {
             setNewTag(null)
             queryClient.resetQueries({ queryKey: ['useGetTags'], exact:true})
         }
-    }, [tagAdded,isFetchingAddTag, isErrorAddTag, queryClient]);
+    }, [tagAdded, isFetchingAddTag, isErrorAddTag, queryClient]);
 
-    console.log("filtro de tags",tags?.filter(tag => !tagsEntity?.some(entityTag => entityTag.tagId === tag.tagId)))
+   // console.log("filtro de tags",tags?.filter(tag => !tagsEntity?.some(entityTag => entityTag.tagId === tag.tagId)))
     return (
         <Box>
             <Typography variant="h6" >Tags</Typography>
             <Autocomplete
                 loading={isFetchingTags}
                 freeSolo
-                //value={newTag || ''}
                 options={tags?.filter(tag => !tagsEntity?.some(entityTag => entityTag.tagId === tag.tagId)) || []}
                 getOptionLabel={(tag) => tag?.name}
                 isOptionEqualToValue={(option, value) => option.tagId === value.tagId}
                 onChange={(event, newValue) => {
-                    console.log(newValue)
-                        if (!newValue.tagId) {
-                            console.log(newValue, "no existe")
-                            //si el tag ya existe lo agrego al EntityTag
-                            if (tags.some(existingTag => existingTag.name === newValue.name)) {
-                                setParamsPost({ entityId, entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: tags.find(existingTag => existingTag.name === newValue.name).tagId });
-                                setNewTag(null)
-                            } else {
-                                setNewTag(newValue);
-                                setEnableAddition(true);
-                            }
+                    if (!newValue.tagId) {
+                        if (tags.some(existingTag => existingTag.name === newValue.name)) {
+                            setParamsPost({ entityId, entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: tags.find(existingTag => existingTag.name === newValue.name).tagId });
+                            setNewTag(null)
                         } else {
-                            setParamsPost({ entityId,  entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: newValue.tagId });
+                            setNewTag(newValue);
+                            setEnableAddition(true);
                         }
-                    
+                    } else {
+                        setParamsPost({ entityId, entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: newValue.tagId });
+                    }
                 }}
                 renderInput={(params) => (
                     <>
-                    {console.log("params", params)}
-                    <TextField {...params} label="Add Tag" variant="outlined" />
+                        <TextField {...params} label="Add Tag" variant="outlined" />
                     </>
                 )}
             />
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 2 }}>
-                {tagsEntity?.map((tag) => (
-                    <Chip
-                        key={tag.tagId}
-                        label={tag.name || tag.tagname}
-                        onDelete={() => setTagToDelete(tag)}
-                        deleteIcon={<CloseIcon />}
-                    />
-                ))}
+                {isFetchingTagsEntity ? (
+                    Array.from(new Array(5)).map((_, index) => (
+                        <Skeleton key={index} variant="rectangular" width={100} height={32} />
+                    ))
+                ) : (
+                    tagsEntity?.map((tag) => (
+                        <Chip
+                            key={tag.tagId}
+                            label={tag.name || tag.tagname}
+                            onDelete={() => setTagToDelete(tag)}
+                            deleteIcon={<CloseIcon />}
+                        />
+                    ))
+                )}
             </Box>
         </Box>
     );
