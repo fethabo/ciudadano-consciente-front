@@ -45,14 +45,14 @@ TODO:
 
 ##### Organization
 - [x] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
-- [ ] mejorar embla carousel de las organizaciones del usuario
-- [ ] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
-- [ ] agregar configuracion de mapa
-- [ ] agregar formularios: 
-    - [ ] Level
-    - [ ] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
+- [-] mejorar embla carousel de las organizaciones del usuario
+- [x] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
+- [x] agregar configuracion de mapa
+- [x] agregar formularios: 
+    - [x] Level
+    - [x] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
     - [ ] References (se deben poder agregar y vincular referencias a una actividad)
-    - [ ] Tags (permitir agregar tag y vincularla a una actividad) (ALLOW ADDITIONS IN SELECT)
+    - [x] Tags (permitir agregar tag y vincularla a una actividad) (ALLOW ADDITIONS IN SELECT)
 
 ##### DEV
 - [ ] agregar pagina de Dev. permitir aca la configuracion de activityTypes. (no esta atado a una organizacion)
@@ -73,8 +73,8 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] agregar post de respuesta 
 - [x] corregir ruteo e implementar contexto para el manejo de la actividad.
 ##### formularios
-- [ ] terminar formulario autogenerado de activityContent  
-- [ ] implementar formularios de configuracion
+- [x] terminar formulario autogenerado de activityContent  
+- [x] implementar formularios de configuracion
 
 #### TODO GENERAL:
 
@@ -85,7 +85,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
 - [x] activity
 - [x] configuracion de caminos (gestion de organizaciones).
-- [ ] vista de home para usuarios no registrados (debe tener algunas diferencias)
+- [-] vista de home para usuarios no registrados (debe tener algunas diferencias)----Siempre usuarios registrados, si no lo estan debe ser un guest user
 - [ ] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
 - [ ] probar elemento de aceternity
 - [x] probar https://www.embla-carousel.com/ para los carouseles del home.
@@ -105,7 +105,6 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
             - si el contenido se genera desde la configuracionde la organización este se vincula a la misma, creando como propiedad de esta.
             - si el contenido lo crea un usario desde fuera de la organización es del usuario, puede ponerlo publico y editarlo cuando quiere.
         - puede editarlo/eliminarlo un moderador o el creador (si tiene organizacion relacionada el usuario debe ser divulgador de la misma o moderador para poder editarlo). 
-        - Agregar tags de forma obligatoria en el contenido (1 o 2)?
 - [ ] Agregar en el home la creacion de contenidos y la vista de contenidos publicos.
 - [ ] en el pool permitir la creacion de contenidos como respuesta a una pregunta.
 - [ ] en el pool agregar modo de juego sobre los contenidos publicos (directamente desde las respuestas del pool, esto seria una actividad sin level).
@@ -119,7 +118,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] quitar retry en requests de escritura
 - [x] Agregar un USER PROVIDER global, que intente obtener el usuario de la api a partir del userName o el email de kc, si no existe debe realizar un POST y disponibilizar el userId en la aplicacion.
 - [ ] idea: probar userGuests de kc, la app siempre autenticada, pero el registro en la api (POST) debe realizarse solo cuando se registra efectivamente en KC.
-- [ ] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
+- [x] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
 - [ ] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
 - [ ] agregar pristine para submit en formularioBase
 - [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
@@ -132,7 +131,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] Quitar requests de usuarios de la organizacion en paralelo.
 - [x] quitar idUser de requests, probar e identificar cuales faltan quitar. 
 - [ ] POR AHORA NO HACER NADA- Se agrego el hidden en los levels, por el momento suponer que la api devuelve lo que necesito segun los roles. 
-- [ ] hacer fullwidth las ventanas de formularios
+- [x] hacer fullwidth las ventanas de formularios
 
 ## IMPORTANTE
 API:
@@ -222,4 +221,18 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - Opciones:
 1. La mejor seria un enfoque de microfrontends, es decir, que los componentes se guarden ya transpilados, de esa forma la importacion dinamica podria hacerse como se planteo desde un principio y sigue todo encaminado. Esto requeriria establecer la mecanica tanto de la conformacion de los templates como de la transpilacion (babel o similar) y el empaquetado en un bundle.js. Esto aun no me quita la duda sobre las dependencias, habria que ahondar en la arquitectura microfrontend para lograr lo requerido de forma completa. (Nuestra api esta preparada para esta arquitectura)
 2. La otra seria ser conservadores (y mas expeditivos), plantearlo como lo planteamos tambien en un principio, los templates se integran en el proyecto, el cual podria ser colaborativo (parcialmente) para facilitar la participacion de la comunidad de programadores, y solo se pondrian en servicio por medio de deploys. Esto no significaria que no sirva lo del activity-version, ya que esto puede ser una version previa a la implementacion de los micro-frontends, lo unico que no estariamos importando dinamicamente directamente desde el servidor, sino que obtendriamos la version aprobada y obtendriamos el template dinamicamente desde la carpeta dedicada a alojar los templates dentro del proyecto (usando como referencia ese idActivityTypeVersion guardado en la api)********
+
+
+## Prioridades
+- [] Creacion de Organizacion
+    - [] Formulario de post
+    - [] vista c/validacion
+- [] votacion de contenido
+- [] jugar contenido
+- [] agregar mensaje en favoritos (home)
+- [] votacion de paths
+- [] Post de preguntas, get y votacion (pool)
+- [] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
+- [] agregar tags a levels (paths)
+- [] corregir mensaje de exito en actividad
 

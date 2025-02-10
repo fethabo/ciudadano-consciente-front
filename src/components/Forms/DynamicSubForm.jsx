@@ -1,5 +1,5 @@
 import { Field, FieldArray } from 'formik';
-import { Box, Button, FormControlLabel, Switch, TextField, Typography, IconButton, List, ListItem, Stack } from '@mui/material';
+import { Box, Button, Switch, TextField, Typography, IconButton, List, ListItem, Stack } from '@mui/material';
 import PropTypes from 'prop-types'
 import { useCallback } from 'react';
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
@@ -78,8 +78,19 @@ const renderField = useCallback((key, path, value ) => {
                 />
       }     
        case "boolean": 
-        return  (<div key={fieldName} style={{ marginBottom: '16px' }}>
-                <FormControlLabel  name={fieldName} fullWidth control={<Switch />} label={key}/>
+   //    console.log("booleano en subform", fieldName, )
+        return  (
+        <div key={fieldName} style={{ marginBottom: '16px' }}>
+           <Typography variant='body1'>{key || fieldName}</Typography>
+                <Field
+                  name={fieldName}
+                  type="checkbox"
+                  as={Switch}
+                  label={key}
+                  fullWidth
+                  variant="outlined"
+                />
+           {/*      <FormControlLabel  name={fieldName} fullWidth control={<Switch />} label={key}/> */}
          </div>)
       case "number":return  (<div key={fieldName}>
         <Field
