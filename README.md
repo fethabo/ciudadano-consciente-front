@@ -224,15 +224,15 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 
 
 ## Prioridades
-- [] Creacion de Organizacion
-    - [] Formulario de post
-    - [] vista c/validacion
-- [] votacion de contenido
-- [] jugar contenido
-- [] agregar mensaje en favoritos (home)
-- [] votacion de paths
-- [] Post de preguntas, get y votacion (pool)
-- [] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
-- [] agregar tags a levels (paths)
-- [] corregir mensaje de exito en actividad
+- [ ] Creacion de Organizacion
+    - [ ] Formulario de post
+    - [ ] vista c/validacion
+- [ ] votacion de contenido
+- [ ] jugar contenido
+- [ ] agregar mensaje en favoritos (home)
+- [ ] votacion de paths
+- [ ] Post de preguntas, get y votacion (pool)
+- [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
+- [ ] agregar tags a levels (paths)
+- [ ] corregir mensaje de exito en actividad
 
