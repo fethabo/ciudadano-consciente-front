@@ -227,12 +227,16 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] Creacion de Organizacion
     - [x] Formulario de post
     - [x] vista c/validacion
+    - [ ] agregar mensaje de correo no validado en datos de organizacion.
+    - [ ] mensaje de validacion cuando se realiza el patch de email de la orga.
+- [x] jugar contenido
+- [ ] los ActivityType deben o reiniciarse o volverse a montar para el reintento (que es menos costoso?)
 - [ ] votacion de contenido
-- [ ] jugar contenido
 - [ ] agregar mensaje en favoritos (home)
 - [ ] votacion de paths
 - [ ] Post de preguntas, get y votacion (pool)
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
 - [ ] agregar tags a levels (paths)
 - [ ] corregir mensaje de exito en actividad
+
 

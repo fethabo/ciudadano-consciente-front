@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useGetContentImages, useGetContents } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
 import FormAddContent from '@components/Forms/FormAddContent';
+import { useNavigate } from 'react-router-dom';
 
 
 /**
@@ -16,7 +17,7 @@ import FormAddContent from '@components/Forms/FormAddContent';
   cambiar boton de voto por icono vacio/relleno 
 */
 function ContentsPage(){
-
+  const navigate = useNavigate();
   //Obtengo los contenidos publicos para mostrarlos
   const{ data: contents, isFetching, isError} = useGetContents({enabled: true})
   const { userId } = useUserApi()
@@ -31,6 +32,7 @@ function ContentsPage(){
   const handleEntrar = (id) => {
     // Lógica para entrar en la actividad
     console.log(`Entrar en actividad con id: ${id}`);
+    navigate(`/pool/content/${id}/play`)
   };
 
   const [formOpen, setFormOpen] =useState(false);
@@ -39,6 +41,7 @@ function ContentsPage(){
   }
   
   return (
+    <Stack>
     <Box sx={{ flexGrow: 1, padding: 2, justifyContent: 'center', alignItems: 'center' }}>
             <Dialog onClose={handleClose} open={formOpen} fullWidth>
                 <DialogTitle>Agregar contenido</DialogTitle>
@@ -88,6 +91,7 @@ function ContentsPage(){
         ))}
         </Stack>
     </Box>
+    </Stack>
   );
 }
 

@@ -12,9 +12,10 @@ import { useEffect, useState } from "react";
  */
 export default function TrueOrFalse({ content, onResponse }) {
   const [response, setResponse] = useState(null);
-
+console.log(content)
   useEffect(() => {
     if (response !== null) {
+      console.log("onResponse",response === content.correct_answer)
       onResponse(response === content.correct_answer);
     }
   }, [response, content, onResponse]);

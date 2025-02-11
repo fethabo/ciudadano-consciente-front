@@ -40,7 +40,7 @@ function Router() {
             <Route path="/init" element={<NotImplemented />} />  {/* INIT (pagina inicial, previo al home(loading?)) */}
             <Route path="/pool" element={<Pool />} /> {/* VISTA DE POOL DE PREGUNTAS*/}
             <Route path="/pool/question/:idConcern/answer" element={<NotImplemented />} /> {/* VISTA DE Respuesta DE PREGUNTAS, Creacion de contenido especifico (publico) */}
-            <Route path="/pool/content/:idContent/play" element={<NotImplemented />} /> {/* VISTA juego de contenido */}
+            <Route path="/pool/content/:idContent/play" element={<Activity />} /> {/* VISTA juego de contenido */}
             <Route path="/random-play" element={<NotImplemented />} />{/* Vista de Modo de juego random (contenido publico) */}
             <Route path="/organizations"  element={<Organizations />} />{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
               <Route path="/organizations/:idOrganization" element={<Organization />} >{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
@@ -70,6 +70,7 @@ function Router() {
             {/* {console.log(token)}   */}     
             <Route path="/profile" element={token? <Profile />:<Navigate to="/login" replace={true} />} />
             <Route path="/contents" element={<ContentsPage />} /> {/* VISTA DE Contenidos del usuario */}
+            
             <Route path="/dev" element={<NotImplemented />} /> {/* VISTA DE creacion de activities types */}
             <Route path="/new-organization" element={<FormAddOrganization />} /> {/* VISTA DE creacion de activities types */}
             <Route path="/new-organization/verify" element={<FormVerifyOrganization/>} /> {/* si es solo verify debe volver a escribir el correo para obtener la organizacion */}

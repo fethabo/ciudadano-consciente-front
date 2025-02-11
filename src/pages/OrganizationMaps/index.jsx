@@ -1,9 +1,9 @@
-import { Alert, AlertTitle, Box, Button, Card, CardActions, CardContent,  Container,  Divider,  IconButton, LinearProgress, Skeleton, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActions, CardContent,  Container,   IconButton,  Skeleton, Stack, Typography } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetOrganization } from "../../components/Hooks/requests/Organizations";
-import useGetOrganizationRole from "../../security/hooks/useGetOrganizationRole";
+//import useGetOrganizationRole from "../../security/hooks/useGetOrganizationRole";
 import { useDeleteLevel, /* useGetLevelsOfUserInOrganization, */ useGetOrganizationPaths } from "../../components/Hooks/requests/Level";
 //import useUserApi from "../../components/Hooks/useUserApi";
 //import { useGetRoles } from "../../components/Hooks/requests/Roles";
@@ -20,7 +20,7 @@ function OrganizationMaps() {
     const { idOrganization } = useParams();
     const navigate= useNavigate();
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization} = useGetOrganization({organizationId: idOrganization, enabled: !!idOrganization})
-    const role = useGetOrganizationRole({organizationId:idOrganization});
+    //const role = useGetOrganizationRole({organizationId:idOrganization});
     //const user = useUserApi()
     //const {data: roles, isFetching: isFetchingRoles, isError: isErrorRoles}= useGetRoles({enabled:true});
     //Si es divulgador Rquest de los levels en los que es divulgador, para esto la asignacion de los user-role-level deben ser en un nodo especifico, impactando sin persisitir en los levels children.

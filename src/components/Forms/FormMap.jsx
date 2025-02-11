@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { usePostLevel } from "../Hooks/requests/Level";
 import formConfigs from "./formConfigs";
 import FormBase from "./FormBase";
-import { Alert, Box, Button,  Skeleton, Typography } from "@mui/material";
+import { Alert, Box, Button,  Skeleton } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
 function FormMap() {
