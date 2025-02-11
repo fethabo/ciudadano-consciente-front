@@ -212,3 +212,33 @@ export function useDeleteUserRoleOrganization({organizationId, userId,roleId, ..
   )
     )
 }
+
+
+/**
+ * 
+ * @param {*} email 
+ * @returns 
+ */
+export function useGetOrganizationByEmail({email, ...rest}){
+  return( useApiQuery({
+    queryKey:['useGetOrganizationByEmail',email],
+    endpoint: `/organizations/email/${email}`,
+    options: {...rest},
+  }
+  )
+)
+}
+
+
+
+export function usePostOrganizationVerify({organizationId,form, ...rest}){
+  return( useApiQuery({
+    queryKey:['usePostOrganizationVerify',organizationId],
+    endpoint: `/organizations/${organizationId}/verify`,
+    method: 'POST',
+    options: {...rest},
+    form: form,
+    }
+  ) 
+  ) 
+}

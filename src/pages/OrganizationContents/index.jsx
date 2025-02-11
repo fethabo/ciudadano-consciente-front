@@ -77,7 +77,7 @@ const OrganizationContents = () => {
     const { idOrganization } = useParams();
     const { data, isFetching: isFetchingContentsOfOrganization, isError: isErrorContents } = useGetContentsOfOrganization({ organizationId: idOrganization, enabled: !!idOrganization });
     //a los contenidos agregarle: activityType, imagenes
-    const [view, setView] = useState('cards'); // 'table' or 'cards'
+    const [view, setView] = useState('table'); // 'table' or 'cards'
 
     const handleViewChange = (newView) => {
         setView(newView);

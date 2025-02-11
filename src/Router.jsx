@@ -21,6 +21,8 @@ import FormMap from "./components/Forms/FormMap";
 import OrganizationAccess from "./pages/Organization/OrganizationAccess";
 import MapConfig from "./pages/MapConfig";
 import OrganizationContents from "./pages/OrganizationContents";
+import FormAddOrganization from "@components/Forms/FormAddOrganization";
+import FormVerifyOrganization from "@components/Forms/FormVerifyOrganization";
 
 /* TODO: AGREGAR ERROR BOUNDARY 
 * VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
@@ -69,7 +71,10 @@ function Router() {
             <Route path="/profile" element={token? <Profile />:<Navigate to="/login" replace={true} />} />
             <Route path="/contents" element={<ContentsPage />} /> {/* VISTA DE Contenidos del usuario */}
             <Route path="/dev" element={<NotImplemented />} /> {/* VISTA DE creacion de activities types */}
-
+            <Route path="/new-organization" element={<FormAddOrganization />} /> {/* VISTA DE creacion de activities types */}
+            <Route path="/new-organization/verify" element={<FormVerifyOrganization/>} /> {/* si es solo verify debe volver a escribir el correo para obtener la organizacion */}
+            <Route path="/new-organization/verify/:idOrganization" element={<FormVerifyOrganization/>} />{/* Si tiene idOrganization directamente renderiza el input del key */}
+            
             {/* <ProtectedRoute path="/profile" componente={<Profile />}/> */}
            </Route>
         </Routes>
