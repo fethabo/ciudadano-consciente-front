@@ -44,7 +44,8 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
           onAddition,
           jsonTemplate, // Agregamos el template JSON como prop adicional
           onFieldChange,
-          isLoadingTemplate
+          isLoadingTemplate,
+          formTitle
         }) {
           const combinedInitialValues = { ...initialValues };
         
@@ -54,8 +55,10 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
               validationSchema={validationSchema}
               onSubmit={onSubmit}
             >
+             
               {(formState) => (
               <Form style={{marginTop:'1em'}}>
+                 {formTitle && <Typography variant='h6' align='left' marginBottom={"1em"}>{formTitle}</Typography>}
                 <ValuesListener onFieldChange={onFieldChange} />
                 {fields.map((field) => (
                 <div key={field.name} style={{ marginBottom: '16px' }}>
@@ -86,14 +89,15 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                   ) : field.type === 'checkbox' ? (
                    <>
                     <Typography variant='body1'>{field.label || field.name}</Typography>
-                  <Field
-                    name={field.name}
-                    type="checkbox"
-                    as={Switch}
-                    label={field.label || field.name}
-                    disabled={disableForm || field.disabled}
-                    {...field.props}
-                  />
+                    <Field
+                      name={field.name}
+                      type="checkbox"
+                      as={Switch}
+                      label={field.label || field.name}
+                      disabled={disableForm || field.disabled}
+                      {...field.props}
+                    />
+                    {console.log("formState",formState)}
                   </>
                   ) : (
                   <Field
@@ -206,6 +210,7 @@ FormBase.propTypes = {
     onAddition: PropTypes.func,
     jsonTemplate: PropTypes.object,
     onFieldChange: PropTypes.func,
-    isLoadingTemplate: PropTypes.bool
+    isLoadingTemplate: PropTypes.bool,
+    formTitle: PropTypes.string
 }
  

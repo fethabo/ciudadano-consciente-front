@@ -224,9 +224,9 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 
 
 ## Prioridades
-- [ ] Creacion de Organizacion
-    - [ ] Formulario de post
-    - [ ] vista c/validacion
+- [x] Creacion de Organizacion
+    - [x] Formulario de post
+    - [x] vista c/validacion
 - [ ] votacion de contenido
 - [ ] jugar contenido
 - [ ] agregar mensaje en favoritos (home)

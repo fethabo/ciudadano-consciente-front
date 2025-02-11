@@ -14,7 +14,7 @@ function AccessCard({text, url, ...rest}){
     const backgroundImage = backgroundImages[url] || 'none';
 
     return (
-       <Container sx={{display:'flex',width:'50%',flexGrow:1, padding:'0.5em'}}>
+       <Container sx={{display:'flex',width:{xs:'100%',sm:'48%'},flexGrow:1}}>
        <FrostedGlassCard onClick={()=>navigate(url)} sx={{ 
                     cursor: 'pointer', 
                     width: '100%', 
@@ -42,7 +42,7 @@ function OrganizationAccess() {
 
     ]
 
-    return ( <Stack width="100%" display={"flex"} flexDirection={"row"} flexWrap={"wrap"}>
+    return ( <Stack width="100%" display={"flex"} flexDirection={"row"} flexWrap={"wrap"} gap="1em">
       {accessCards.map((ac, index)=>
         <AccessCard key={index} {...ac} />
     )}

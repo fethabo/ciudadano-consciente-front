@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import SearchIcon from "@mui/icons-material/Search";
-
+import EmailIcon from '@mui/icons-material/Email';
 function FormVerifyOrganization() {
 
     const { idOrganization } = useParams();
@@ -73,7 +73,7 @@ function FormVerifyOrganization() {
                                 </Stack>
                             ) : (idOrganization || organization?.organizationId) ? (
                                 <Stack gap="1em">
-                                <Alert severity="success">Ingresa el token que te enviamos por correo electrónico</Alert>
+                                <Alert severity="warning" icon={<EmailIcon />}>Ingresa el token que te enviamos por correo electrónico</Alert>
                                     <Field
                                         name="token"
                                         as={TextField}

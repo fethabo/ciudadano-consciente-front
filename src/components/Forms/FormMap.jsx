@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { usePostLevel } from "../Hooks/requests/Level";
 import formConfigs from "./formConfigs";
 import FormBase from "./FormBase";
-import { Box, Button, LinearProgress } from "@mui/material";
+import { Alert, Box, Button,  Skeleton, Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
 function FormMap() {
@@ -13,38 +13,56 @@ function FormMap() {
     const {data, isFetching, isError, isSuccess, isFetchedAfterMount}= usePostLevel({form:postForm, enabled: !!postForm})
     
     const queryClient = useQueryClient()
+   
     useEffect(() => {
-        queryClient.resetQueries({ queryKey:"usePostLevel", exact: true }) 
-    }, []);
-    
-    useEffect(() => {
-        if(data){
-           setPostForm(null);//Reseteo el form para permitir otro submit
-           if(isSuccess){
-            navigate(`/organizations/${idOrganization}/maps/${data?.levelId}`)
-           }
+        if(isFetchedAfterMount){
+            if(!isFetching)
+                {
+                    setPostForm(null);//Reseteo el form para permitir otro submit
+                    if(isSuccess){
+                    queryClient.resetQueries({ queryKey:['useGetOrganizationPaths', idOrganization], exact: true }) 
+                    navigate(`/organizations/${idOrganization}/maps/${data?.levelId}`)
+                    }
+                }
         }
-    }, [data]);
+    }, [data, isFetchedAfterMount, isFetching, isSuccess, idOrganization,navigate, queryClient]);
 
     const onSubmit = (values) =>{
-        console.log("onSubmit",values)
+      //  console.log("onSubmit",values)
         setPostForm({...values, organization: idOrganization, parent: null})
     }
     const config = formConfigs['Level'];
-    return (  
-      <FormBase
+    return (
+      <>
+        {isFetching ? (
+          <Box>
+            <Skeleton variant="text" width={210} height={40} />
+            <Skeleton variant="rectangular" width="100%" height={60} />
+            <Skeleton variant="rectangular" width="100%" height={60} />
+            <Skeleton variant="rectangular" width="100%" height={60} />
+            <Box display={"flex"} justifyContent={"space-around"} mt={2}>
+              <Skeleton variant="rectangular" width={100} height={36} />
+              <Skeleton variant="rectangular" width={100} height={36} />
+            </Box>
+          </Box>
+        ) : isError? <Alert severity="error">Hubo un error al guardar los datos, intenta nuevamente</Alert>
+        
+        :(
+          <FormBase
+          formTitle="Nuevo mapa"
             fields={config.fields}
-            initialValues={ { name: null, description: null }}
+            initialValues={{ name: null, description: null, hidden: false }}
             validationSchema={config.validationSchema}
             onSubmit={onSubmit}
             disableForm={isFetching}
-        >
-        {isFetching && <LinearProgress />}
-             <Box display={"flex"} justifyContent={"space-around"}>
-                <Button key="volver" onClick={()=>navigate(`/organizations/${idOrganization}/maps`)} disabled={isFetching}>Volver</Button>
-                <Button key="submit" type="submit" disabled={isFetching}>Crear</Button>
+          >
+            <Box display={"flex"} justifyContent={"space-around"}>
+              <Button key="volver" onClick={() => navigate(`/organizations/${idOrganization}/maps`)} disabled={isFetching}>Volver</Button>
+              <Button key="submit" type="submit" disabled={isFetching}>Crear</Button>
             </Box>
-        </FormBase> 
+          </FormBase>
+        )}
+      </>
     );
 }
 
