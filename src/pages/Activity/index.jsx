@@ -6,7 +6,6 @@ import { usePostAnswer } from "../../components/Hooks/requests/Answer";
 import { useNavigate, useParams } from "react-router-dom";
 import useUserApi from "../../components/Hooks/useUserApi";
 import { useGetActivityTypeVersion } from "../../components/Hooks/requests/ActivityTypeVersion";
-//import Confetti from 'react-confetti'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import animatedFail from '@animations/Fail.lottie'
 import animatedEntusiastic from '@animations/Entusiastic.lottie'

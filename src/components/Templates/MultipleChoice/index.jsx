@@ -40,7 +40,7 @@ export default function MultipleChoice ({content, onResponse}) {
         <Stack direction="column" spacing={2}>
             <Typography variant="h4">{content?.question}</Typography>
             {optionsKeys.map((option, index)=>
-                <Button key={index}  onClick={()=> setResponse(option)} variant="text">{/* {index}- */}{content?.options[option]}</Button>
+                <Button key={index}  onClick={()=> setResponse(content?.options[option])} variant="text">{/* {index}- */}{content?.options[option]}</Button>
             )}
            
         </Stack>
