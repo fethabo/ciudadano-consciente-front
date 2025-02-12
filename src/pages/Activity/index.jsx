@@ -6,11 +6,13 @@ import { usePostAnswer } from "../../components/Hooks/requests/Answer";
 import { useNavigate, useParams } from "react-router-dom";
 import useUserApi from "../../components/Hooks/useUserApi";
 import { useGetActivityTypeVersion } from "../../components/Hooks/requests/ActivityTypeVersion";
-import Confetti from 'react-confetti'
-
-
+//import Confetti from 'react-confetti'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import animatedFail from '@animations/Fail.lottie'
+import animatedEntusiastic from '@animations/Entusiastic.lottie'
+import ReactConfetti from "react-confetti";
 /**
- * @todo: los ActivityType deben o reiniciarse o volverse a montar para el reintento (que es menos costoso?)
+ * @todo: agregar post del streak al responder correctamente (eso no deberia afectar a activities)
  * @returns 
  */
 export default function Activity() {
@@ -23,6 +25,7 @@ export default function Activity() {
     const [ enabledPost, setEnabledPost ] = useState(false);
     const { activity } = useMap();
     
+    //Si estoy en un mapa y no tengo actividad en el contexto navego al mapa (algo falló)
     useEffect(() => {
         if(activity===null && !idContent){
             navigate(`/map/${idParentLevel}`)
@@ -35,12 +38,12 @@ export default function Activity() {
     const [responseContent, setResponseContent] = useState(false)
     //Obtengo el contenido de la respuesta del content
     useEffect(() => {
-      if (content && !!content.model){
+      if (content && !!content.model && activityContent===null){
         console.log("modelo que llega" , content.model)
         const modelObject = JSON.parse(content.model); 
         setActivityContent(modelObject)
       }
-    },[content])
+    },[content,activityContent])
 
     //Handler de la actividad, habilita el post 
     const handleResponse = useCallback((value)=>{
@@ -73,25 +76,7 @@ export default function Activity() {
         }
     }, [activityTypeVersion, ActivityType]);
 
-    const [progress, setProgress] = useState(0);
-
-    useEffect(() => {
-        if (isFetchingContent || isFetchingActivityTypeVersion) {
-            const timer = setInterval(() => {
-                setProgress((oldProgress) => {
-                    if (oldProgress === 100) {
-                        return 0;
-                    }
-                    const diff = Math.random() * 10;
-                    return Math.min(oldProgress + diff, 100);
-                });
-            }, 500);
-
-            return () => {
-                clearInterval(timer);
-            };
-        }
-    }, [isFetchingContent, isFetchingActivityTypeVersion]);
+   
 
     return ( 
         <Box>
@@ -112,9 +97,9 @@ export default function Activity() {
                     )
                 )
         }    
-    <Dialog  disableEscapeKeyDown open={enabledPost || responseContent} >
+    <Dialog  disableEscapeKeyDown open={enabledPost || responseContent} maxWidth="md" fullWidth>
         <DialogContent>
-           <Box>
+           <Box sx={{ position: 'relative', overflow: 'hidden' }}>
             {isFetchingAnswer 
                 ? <LinearProgress />
                 : isErrorAnswer
@@ -122,21 +107,32 @@ export default function Activity() {
                     :<div>
                         {response?.status || responseContent?.value
                             ? <div> 
-                                ¡Correcto!
+                                <ReactConfetti></ReactConfetti>
+                                   ¡Correcto!
+                                        <DotLottieReact
+                                            src={animatedEntusiastic}
+                                            loop
+                                            autoplay
+                                        />
                               </div>
-                            : "ups.. es incorrecto, intenta nuevamente"}
+                            : <div>
+                                ups.. es incorrecto, intenta nuevamente
+                                <DotLottieReact
+                                    src={animatedFail}
+                                    loop
+                                    autoplay
+                                    />
+                              </div>}
                             </div>}
-              <Confetti
-                width={"100%"}
-                height={"100%"}
-                hidden={response ? !response?.status : !responseContent?.value}
-            >
-            </Confetti>
+                        
+
+
+   
             </Box>
         </DialogContent>
         <DialogActions>
                {activity&& <Button onClick={()=> navigate(`/map/${idParentLevel}`)} disabled={isFetchingAnswer}>Volver al mapa</Button>}
-                <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false)}} disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}>Reintentar</Button>
+                <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}>Reintentar</Button>
                 <Button onClick={()=>{ idContent? navigate(-1) : navigate(`/map/${idParentLevel}`)}} disabled={isFetchingAnswer ||(response ? !response?.status: !responseContent?.value)}>Siguiente</Button>
                 {/* El siguiente vuelve al mapa para permitirle elegir la siguiente actividad (no siempre hay un solo camino a seguir) 
                 TODO: agregar en contexto de useMap el id de la respuesta recien guardada, esto mostraria la animacion en el nodo de completado y habilitar los siguientes nodos.

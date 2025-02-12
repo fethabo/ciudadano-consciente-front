@@ -2,14 +2,18 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import path from 'path';
+import {lottie} from 'vite-plugin-lottie';
+
 
 // https://vitejs.dev/config/
+
 export default defineConfig({
   plugins: [react(), 
             dynamicImportVars({
                 // options
                 include:['js','jsx']
-              })
+              }),
+              lottie()
     ],
     
     resolve: {
@@ -23,10 +27,11 @@ export default defineConfig({
         '@hooks': path.resolve(__dirname, 'src/hooks'),
         '@constants': path.resolve(__dirname, 'src/constants'),
         '@security': path.resolve(__dirname, 'src/security'),
-        
+        '@animations': path.resolve(__dirname, 'src/assets/animations'),
         
       }
     },
+    assetsInclude: ["**/*.lottie"],
     server: {
       host: true,
       port: 5173
