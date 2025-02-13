@@ -1,11 +1,12 @@
-import { Alert, Box, Button, LinearProgress } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, LinearProgress } from "@mui/material";
 import { useGetOrganization, usePatchOrganization } from "../Hooks/requests/Organizations";
 import {  useEffect,  useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import FormBase from "./FormBase";
 import formConfigs from "./formConfigs";
 import { Skeleton } from "@mui/material";
-
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import { useQueryClient } from "@tanstack/react-query";
 
 /**
  * 
@@ -16,14 +17,15 @@ export default function FormOrganization() {
     const [postForm, setPostForm] =useState(null);
     const { idOrganization } = useParams();    
     const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization}= useGetOrganization({organizationId:idOrganization, enabled:!!idOrganization})
- 
     const {data: responsePatch, isFetching: isFetchingPatch, isError: isErrorPatch}= usePatchOrganization({form:postForm, organizationId: idOrganization, enabled: !!postForm&&!!idOrganization})
  
+    const queryClient = useQueryClient()
     useEffect(() => {
         if(!isFetchingPatch ){
             setPostForm(null);
+            queryClient.resetQueries({ queryKey: ['useGetOrganization', idOrganization], exact: true })
         }
-    }, [responsePatch, isFetchingPatch, isErrorPatch]);
+    }, [responsePatch, isFetchingPatch, isErrorPatch, queryClient, idOrganization]);
 
     const onSubmit = (values) =>{
        // console.log("onSubmit",values)
@@ -64,8 +66,15 @@ export default function FormOrganization() {
                 {isFetchingPatch && <LinearProgress />}
                 <Box display={"flex"} justifyContent={"space-around"}>
                     <Button key="volver" onClick={() => navigate(`/organizations/${idOrganization}`)} disabled={isFetchingPatch}>Volver</Button>
-                    <Button key="submit" type="submit" disabled={isFetchingPatch || isFetchingOrganization}>GUARDAR</Button>
+                    <Button key="submit" type="submit" disabled={!organization?.verified||isFetchingPatch || isFetchingOrganization}>GUARDAR</Button>
                 </Box>
+                {!organization?.verified 
+                    &&<Alert severity="warning"> 
+                    <AlertTitle>El correo de la organizacion no fue confirmado</AlertTitle> 
+                        Para poder modificar contenido de la organizacion tenes que <Button endIcon={<ForwardToInboxIcon />} onClick={() => navigate('/new-organization/verify')}>validar el correo electrónico</Button>.
+                    </Alert>
+                    
+                    }
             </FormBase>
         )
     );

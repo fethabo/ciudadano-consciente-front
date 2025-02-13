@@ -227,8 +227,8 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] Creacion de Organizacion
     - [x] Formulario de post
     - [x] vista c/validacion
-    - [ ] agregar mensaje de correo no validado en datos de organizacion.
-    - [ ] mensaje de validacion cuando se realiza el patch de email de la orga.
+    - [x] agregar mensaje de correo no validado en datos de organizacion.
+    - [x] mensaje de validacion cuando se realiza el patch de email de la orga.
 - [x] jugar contenido
 - [x] los ActivityType deben o reiniciarse o volverse a montar para el reintento (que es menos costoso?)
 - [x] agregar imagenes en los contenidos
