@@ -45,13 +45,13 @@ TODO:
 
 ##### Organization
 - [x] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
-- [-] mejorar embla carousel de las organizaciones del usuario
+- ~~mejorar embla carousel de las organizaciones del usuario~~
 - [x] agregar acceso a configuracion de organizacion para el rol adecuado (permitir agregar usuarios como moderadores)
 - [x] agregar configuracion de mapa
 - [x] agregar formularios: 
     - [x] Level
     - [x] Activity (esto debe crear la actividad y el contenido de la misma, y vincularla a un activityTypeVersion)
-    - [ ] References (se deben poder agregar y vincular referencias a una actividad)
+    - [ ] References (se deben poder agregar y vincular referencias a una actividad)--CORRECCION, a un level
     - [x] Tags (permitir agregar tag y vincularla a una actividad) (ALLOW ADDITIONS IN SELECT)
 
 ##### DEV
@@ -61,7 +61,7 @@ TODO:
 
 - [ ] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
 - [ ] Mejorar estilos del mapa. 
-- [ ] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
+- [x] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
 - [ ] vincular respuestas a los levels.. 
 - [ ] cambiar estilo de nodo si tiene respuesta correcta 
 - [ ] agregar estilo a conexiones entre nodos si existe respuesta correcta en el parent,
@@ -85,11 +85,11 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] para el mapa intentar usar: https://github.com/plotly/react-cytoscapejs, como segunda opcion: https://nivo.rocks/network/
 - [x] activity
 - [x] configuracion de caminos (gestion de organizaciones).
-- [-] vista de home para usuarios no registrados (debe tener algunas diferencias)----Siempre usuarios registrados, si no lo estan debe ser un guest user
+- ~~vista de home para usuarios no registrados (debe tener algunas diferencias)----Siempre usuarios registrados, si no lo estan debe ser un guest user~~
 - [ ] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
 - [ ] probar elemento de aceternity
 - [x] probar https://www.embla-carousel.com/ para los carouseles del home.
-- [-] agregar boton de acceso/registro/logout.
+- ~~ agregar boton de acceso/registro/logout.~~
 - [x] agregar mapper de ID de usuario de keycloak (o averiguar como pasar el ID de usuario en el token.)// se complicó -.-
 - [x] Agregar POST de usuario al registrar.
 - [x] sacar autenticacion obligatoria.
@@ -100,7 +100,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] busqueda de paths / filtrado
 - [x] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
 - [ ] en EmblaCarousel definir vista movil (un slide en la pantalla)
-- [ ] Agregar creacion de contenidos:
+- [x] Agregar creacion de contenidos:
         - Un usuario cualquiera puede crear contenidos, habilitandolos como publicos o privados.
             - si el contenido se genera desde la configuracionde la organización este se vincula a la misma, creando como propiedad de esta.
             - si el contenido lo crea un usario desde fuera de la organización es del usuario, puede ponerlo publico y editarlo cuando quiere.
@@ -235,13 +235,13 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] agregar estadisticas del usuario
 - [x] agregar estadisticas de la organizacion
 - [ ] votacion de contenido
-- [ ] agregar mensaje en favoritos (home)
 - [ ] votacion de paths
-- [ ] Post de preguntas, get y votacion (pool)
+- [ ] agregar referencias y tags a levels (paths/maps)
+- [ ] Post y delete de preguntas, get y votacion (pool)
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
-- [ ] agregar tags a levels (paths)
-- [ ] corregir mensaje de exito en actividad
-- [ ] agregar referencias en la respuesta
+- [ ] agregar mensaje en favoritos (home)
+- [x] corregir mensaje de exito en actividad
+- [ ] mostrar referencias en la respuesta de la actividad (si es en un level)
 - [ ] Agregar limitaciones con respecto a los archivos . --->agregar en model de activityTypeVersion el limite para la cantidad de archivos
 - [ ] agregar Mensaje de exito y mensaje de error para los contents? podria ser un campo solo "mensajes", lo manejamos como un arreglo y seria algo puramente para la aplicacion del front.
 Ejemplo: 

@@ -1,4 +1,7 @@
 import React from 'react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import errorHistery from '@animations/ErrorHistery.lottie';
+import PropTypes from 'prop-types'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -6,13 +9,12 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error) { //eslint-disable-line
     // Actualiza el estado para que la próxima renderización muestre la UI de fallback
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // Puedes registrar el error en un servicio de reportes o consola
     console.error("ErrorBoundary capturó un error:", error, errorInfo);
   }
 
@@ -20,9 +22,14 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       // Renderiza una UI de fallback personalizada
       return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
-          <h2>Oops! Algo salió mal.</h2>
+        <div style={{ padding: '20px', textAlign: 'center', gap:'1em' }}>
+          <h2>¡Oops! Algo salió mal.</h2>
           <p>Me parece que hay que le falta sal.</p>
+          <DotLottieReact
+              src={errorHistery}
+              loop
+              autoplay
+              />
         </div>
       );
     }
@@ -32,3 +39,7 @@ class ErrorBoundary extends React.Component {
 }
 
 export default ErrorBoundary;
+
+ErrorBoundary.propTypes={
+  children: PropTypes.any
+}

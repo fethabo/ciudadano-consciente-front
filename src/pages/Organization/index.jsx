@@ -10,7 +10,6 @@ import IconButton from '@mui/material/IconButton';
 
 
 /**
- * @todo edicion y users solo deben mostrarse en la raiz de la organizacion o no?
  * @returns 
  */
 export default function Organization() {

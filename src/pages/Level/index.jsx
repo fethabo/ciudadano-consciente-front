@@ -9,6 +9,11 @@ import { useGetLevel } from "../../components/Hooks/requests/Level";
 * -definir contexto
 *- anidar mas? 
 */
+
+/**
+ * @deprecated
+ * @returns 
+ */
 const Level = () => {
   const { level } = useParams();
   const location = useLocation();

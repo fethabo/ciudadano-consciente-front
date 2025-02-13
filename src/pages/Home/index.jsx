@@ -43,7 +43,6 @@ export default function Home (){
                     <Typography variant="body2" color="#ffffff">
                         Gestiona el contenido de tus organizaciones.
                     </Typography>
-
                 </CardContent>
                </FrostedGlassCard>
          </Stack>

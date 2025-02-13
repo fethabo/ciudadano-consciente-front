@@ -17,11 +17,11 @@ export function useGetTags({ ...rest }){
     )
 }
 
-export function useGetTag({contentId, ...rest}){
+export function useGetTag({tagId, ...rest}){
     return(
       useApiQuery({
-        queryKey:['useGetTag',contentId],
-        endpoint: `/tags/${contentId}`,
+        queryKey:['useGetTag',tagId],
+        endpoint: `/tags/${tagId}`,
         options: {...rest},
         }
       )

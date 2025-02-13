@@ -57,3 +57,16 @@ export function usePostVote({entityTypeId,entityId,...rest}){
     )
   )    
 }
+
+
+
+export function useGetVotesOfEntity({entityId, entityType, ...rest}){
+    return(
+      useApiQuery({
+        queryKey:['useGetVotesOfEntity',entityId, entityType],
+        endpoint: `/${entityType}/${entityId}/votes`,
+        options: {...rest},
+        }
+        )
+    )
+    }

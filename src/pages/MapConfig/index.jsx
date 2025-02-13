@@ -15,6 +15,7 @@ import EditLevelPermissionsDialog from "../../components/Dialogs/EditLevelPermis
 
 /**
  * CONFIGURACION DE MAPA DE LA ORGANIZACION.
+ * @todo: AGREGAR ACA, al seleccionar el level, que muestre el crud de referencias
  * @returns 
  */
 export default function MapConfig() {

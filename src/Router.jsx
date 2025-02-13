@@ -25,9 +25,6 @@ import FormAddOrganization from "@components/Forms/FormAddOrganization";
 import FormVerifyOrganization from "@components/Forms/FormVerifyOrganization";
 import OrganizationStatistics from "@pages/OrganizationStatistics";
 
-/* TODO: AGREGAR ERROR BOUNDARY 
-* VER NESTING DE REACT ROUTER, EN LA DOCUMENTACION SOLO HAY UN TODO -.-
-*/
 function Router() {
  
   const token = useObtenerToken();
