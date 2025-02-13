@@ -46,11 +46,11 @@ export function usePatchVoteStatus({voteId,...rest}){
  * @param entityId 
  * @returns 
  */
-export function usePostVote({userId,entityTypeId,entityId,...rest}){
+export function usePostVote({entityTypeId,entityId,...rest}){
   return( 
     useApiQuery({
-      queryKey:['usePostVote', userId,entityTypeId,entityId],
-      endpoint: `/votes/${userId}/${entityTypeId}/${entityId}`,
+      queryKey:['usePostVote', entityTypeId,entityId],
+      endpoint: `/votes/${entityTypeId}/${entityId}`,
       method: 'POST',
       options: {...rest},
       }

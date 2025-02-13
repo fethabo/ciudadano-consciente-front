@@ -232,6 +232,8 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] jugar contenido
 - [x] los ActivityType deben o reiniciarse o volverse a montar para el reintento (que es menos costoso?)
 - [x] agregar imagenes en los contenidos
+- [x] agregar estadisticas del usuario
+- [x] agregar estadisticas de la organizacion
 - [ ] votacion de contenido
 - [ ] agregar mensaje en favoritos (home)
 - [ ] votacion de paths

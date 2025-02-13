@@ -1,9 +1,10 @@
-import { Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton } from '@mui/material';
+import { Card, CardContent, Typography, Button, Box, Dialog, DialogContent, DialogTitle, Stack, Skeleton, Alert } from '@mui/material';
 import { useState } from 'react';
 import { useGetContentImages, useGetContents } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
 import FormAddContent from '@components/Forms/FormAddContent';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserVotes } from '@components/Hooks/requests/Users/Index';
 
 
 /**
@@ -20,8 +21,11 @@ function ContentsPage(){
   const navigate = useNavigate();
   //Obtengo los contenidos publicos para mostrarlos
   const{ data: contents, isFetching, isError} = useGetContents({enabled: true})
-  //const { userId } = useUserApi()
+  const { userId } = useUserApi()
 //  const { data: images, isLoading: isLoadingImages, isError: isErrorImages } = useGetContentImages({contentId: activity?.content, enabled: !!activity?.content});
+  const {data: votes, isFetching: isFetchingVotes, isError: isErrorVotes } = useGetUserVotes({userId: userId, enabled: !!userId})
+  
+
 
   const handleVotar = (id) => {
     // Lógica para votar (incrementar el número de votos)
@@ -68,7 +72,8 @@ function ContentsPage(){
     </Card>
   ))
    
-  ):
+  ): isError? <Alert severity="error">Hubo un error al obtener los contenidos</Alert>
+  :
         contents?.map((content, index) => (
             <Card key={index} sx={{ marginBottom: 2, width: {xs:'100%', sm: "48%"} }}>
               <CardContent>
