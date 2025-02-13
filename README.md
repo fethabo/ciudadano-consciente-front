@@ -231,6 +231,7 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
     - [ ] mensaje de validacion cuando se realiza el patch de email de la orga.
 - [x] jugar contenido
 - [x] los ActivityType deben o reiniciarse o volverse a montar para el reintento (que es menos costoso?)
+- [x] agregar imagenes en los contenidos
 - [ ] votacion de contenido
 - [ ] agregar mensaje en favoritos (home)
 - [ ] votacion de paths
@@ -238,5 +239,10 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
 - [ ] agregar tags a levels (paths)
 - [ ] corregir mensaje de exito en actividad
-
-
+- [ ] agregar referencias en la respuesta
+- [ ] Agregar limitaciones con respecto a los archivos . --->agregar en model de activityTypeVersion el limite para la cantidad de archivos
+- [ ] agregar Mensaje de exito y mensaje de error para los contents? podria ser un campo solo "mensajes", lo manejamos como un arreglo y seria algo puramente para la aplicacion del front.
+Ejemplo: 
+[{nombre: mensajeExito, valor: "Efectivamente, los terremotos son mas frecuentes"}, { nombre: mensajeFalla, valor: "no, piensa en los noticiarios y la frecuencia de sus menciones" }, { nombre: hint, valor: "trrrrrrr" }]
+otra es agregarlos a los tres como campos del content, no obligatorios. 
+otra es agregar una entidad "mensaje" y hacer una relacion uno a muchos con el content
