@@ -1,14 +1,32 @@
-import { useState } from 'react';
-import { Grid, Card, CardContent, Typography, Button, TextField, Box } from '@mui/material';
-
+import { useEffect, useState } from 'react';
+import {  Card, CardContent, Typography, Button, TextField, Box, Stack, IconButton } from '@mui/material';
+import { useGetConcerns } from '@components/Hooks/requests/Concerns';
+import { usePatchVoteStatus, usePostVote } from '@components/Hooks/requests/Votes';
+import { useGetEntityTypes } from '@components/Hooks/requests/EntityTypes';
+import  FavoriteIcon from '@mui/icons-material/Favorite';
+import  FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import useUserApi from '@components/Hooks/useUserApi';
+import { useGetUserVotes } from '@components/Hooks/requests/Users/Index';
 const Pool = () => {
+
+  const { userId } = useUserApi()
+  const {data: concerns, isFetching: isFetchingConcerns, isError: isErrorConcerns} = useGetConcerns({enabled:true});
+  const [entityTypeId, setEntityTypeId]= useState(null)
+  const {data: entityTypes, isFetching: isFetchingEntityTypes, isError: isErrorEntityTypes}= useGetEntityTypes({enabled:true});
+  const [vote, setVote] = useState(null)
+  const [updateVote, setUpdateVote] = useState(null)
+  const {data: concernVoted, isFetching: isFetchingPostVote, isError: isErrorPostVote } = usePostVote({entityId: vote, entityTypeId: entityTypeId, enabled: !!vote && !!entityTypeId})
+  const {data: concernPatched, isFetching: isFetchingPatchVote, isError: isErrorPatchVote } = usePatchVoteStatus({voteId: updateVote, entityTypeId: entityTypeId, enabled: !!updateVote && !!entityTypeId})
   
-  /*TODO: OBTENER PREGUNTAS de la api*/
-  const [preguntas, setPreguntas] = useState([
-    { id: 1, contenido: '¿Cómo optimizar el rendimiento de React?', votos: 12 },
-    { id: 2, contenido: '¿Cuál es la mejor práctica para manejar estados globales?', votos: 8 },
-    // Más preguntas iniciales
-  ]);
+ 
+  const {data: userVotes, isFetching: isFetchingUserVots, isError: isErrorUserVotes} = useGetUserVotes({userId: userId, enabled: !!userId})
+  
+  useEffect(() => {
+    if(!!entityTypes){
+    const id= entityTypes?.find((v)=> v?.title==="concerns")?.entityTypeId
+      setEntityTypeId(id)
+  }
+  }, [entityTypes]);
 
   const handleVotar = (id) => {
     setPreguntas((prevPreguntas) =>
@@ -27,59 +45,62 @@ const Pool = () => {
         contenido: nuevaPregunta,
         votos: 0,
       };
-      setPreguntas([nueva, ...preguntas]);
+      //setPreguntas([nueva, ...preguntas]);
       setNuevaPregunta(''); // Limpiar el campo de texto
     }
+  };
+
+  const handleEliminar = (id) => {
+   console.log("debo eliminar", id)
+    // setPreguntas((prevPreguntas) => prevPreguntas.filter((pregunta) => pregunta.id !== id));
   };
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Typography variant="h4" gutterBottom>
-        Pool de Preguntas
+        Foro de Preguntas
       </Typography>
     
-      <Box sx={{ marginBottom: 2 }}>
-        <TextField
-          label="Introduce tu pregunta"
-          variant="outlined"
-          minRows={5}
-          fullWidth
-          value={nuevaPregunta}
-          onChange={(e) => setNuevaPregunta(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ marginTop: 1 }}
-          onClick={handleAgregarPregunta}
-        >
-          ¡Preguntar!
-        </Button>
-      </Box>
-      
-      {/* DEJARLO COMO GRID? o pensarlo en algo tipo foro? */}
-      <Grid container spacing={3}>
-        {preguntas.map((pregunta) => (
-          <Grid item xs={12} sm={6} key={pregunta.id}>
-            <Card>
-              <CardContent>
-                <Typography variant="body1">{pregunta.contenido}</Typography>
-                <Typography variant="body2">Votos: {pregunta.votos}</Typography>
-              </CardContent>
-              <Box sx={{ padding: 2 }}>
-                {/* TODO: CAMBIAR POR UN ICONO FILLED DE CORAZON O DE PULGAR PARA VOTAR, (IMPLEMENTAR BOTON VOTAR) */}
+      <Stack spacing={3}>
+        {concerns?.map((concern) => (
+          <Card key={concern.concernId}>
+            <CardContent >
+              <Typography variant="h6" textAlign={"left"}>{concern.description}</Typography>
+              <Typography variant="body2" textAlign={"left"} color="textSecondary">
+                {concern.explanation}
+              </Typography>
+             
+            </CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 2, width:'100%'}}>
+              <Box>
+              <IconButton
+                onClick={() => setVote(concern.concernId)}
+              >
+              
+                {!userVotes?.some(vote =>vote.entityType===entityTypeId && vote.entity === concern.concernId)
+                    ?<FavoriteIcon />
+                    :<FavoriteBorderIcon />
+                }
+                
+              </IconButton>
+              {concern.user === userId && (
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleVotar(pregunta.id)}
+                  onClick={() => handleEliminar(concern.concernId)}
                 >
-                  Votar
+                  Eliminar
                 </Button>
-              </Box>
-            </Card>
-          </Grid>
+              )}
+               </Box>
+               <Typography variant="caption" display="block" align="right">
+                Realizada por: {concern.user} el {new Date(concern.date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+              </Typography>
+             
+            </Box>
+          </Card>
         ))}
-      </Grid>
+      </Stack>
     </Box>
   );
 };

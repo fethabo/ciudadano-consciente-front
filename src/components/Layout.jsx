@@ -6,7 +6,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 //import ReplyIcon from '@mui/icons-material/Reply';
 import Header from "./Header";
 import useObtenerToken from "../security/hooks/useGetToken";
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary.jsx';
 
 
 const Layout = () => {

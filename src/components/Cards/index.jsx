@@ -21,12 +21,14 @@ export const SolidAccentCard = styled(Card)(({ theme }) => ({
 }));
 
 export const DiagonalGradientCard = styled(Card)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #ff9800 0%, #e57373 100%)',
+  backgroundColor: '#2c2c2c', // Fondo oscuro relajado
+  border: '2px solid', // Borde con degradado
+  borderImage: 'linear-gradient(135deg, #ff9800 0%, #e57373 100%) 1',
   color: theme.palette.text.primary,
-  borderRadius: '12px',
+  //borderRadius: '12px',
   boxShadow: '0 5px 10px rgba(0, 0, 0, 0.3)',
   '&:hover': {
-    background: 'linear-gradient(135deg, #e57373 0%, #ff9800 100%)',
+    borderImage: 'linear-gradient(135deg, #e57373 0%, #ff9800 100%) 1',
   },
 }));
 

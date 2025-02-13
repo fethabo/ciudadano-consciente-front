@@ -73,10 +73,10 @@ export function useGetUserByUsername({userName, ...rest}){
  * @param userId
  * @returns  votes of user
  */
-    export function useGetUserVotes({userId,...rest}){
+    export function useGetUserVotes({...rest}){
       return useApiQuery({
-        queryKey: ['useGetUserVotes', userId],
-        endpoint: `/users/${userId}/votes`,
+        queryKey: ['useGetUserVotes'],
+        endpoint: `/votes/users`,
         options: { ...rest },
       });
     }

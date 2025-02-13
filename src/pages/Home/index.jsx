@@ -31,11 +31,18 @@ export default function Home (){
                 <CarouselPaths paths={recentPaths} isLoading={isFetchingRecentlyPaths} isError={isErrorRecentlyPaths}/> */}
             {/* Favoritos */}
             <Typography variant="h5">Tus Favoritos</Typography>
-            <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>
-           
+            {favoritePaths?.length > 0 ? (
+                <CarouselPaths paths={favoritePaths} isLoading={isFetchingFavoritePaths} isError={isErrorFavoritePaths}/>
+            ) : (
+                <Box textAlign="center" p={2} borderRadius={2} bgcolor="rgba(0, 0, 0, 0.05)">
+                    <Typography variant="body1" color="textSecondary">
+                        Aún no tienes caminos favoritos. ¡Marca como favorito alguno para que se muestren aquí!
+                    </Typography>
+                </Box>
+            )}
            
             <ContentAccess />
-            <FrostedGlassCard onClick={()=>navigate("/organizations")} sx={{cursor:'pointer', '&:hover':{backgroundColor:'rgba(0,0,0,0.1)'}}}>
+            <FrostedGlassCard onClick={() => navigate("/organizations")} sx={{cursor:'pointer', '&:hover':{backgroundColor:'rgba(0,0,0,0.1)'}}}>
                 <CardContent>
                     <Typography variant="h5" color="#ffffff">
                       Organizaciones
