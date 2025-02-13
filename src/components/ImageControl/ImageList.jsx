@@ -7,7 +7,7 @@ import  DeleteOutlineIcon  from '@mui/icons-material/DeleteOutline';
 
 
 export default function ImageControlList({images, handleDeleteImage, deletable}) {
-  
+  /*Tomado del ejemplo de MUI*/
 
   return (
     <ImageList

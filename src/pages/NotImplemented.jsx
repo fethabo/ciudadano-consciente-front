@@ -8,10 +8,10 @@ const NotImplemented = () => {
      
       <Alert severity="info" icon={<EngineeringRoundedIcon fontSize="medium" />}><AlertTitle> Page not implemented, yet...</AlertTitle></Alert>
       <DotLottieReact
-                                    src={animatedWorkInProgress}
-                                    loop
-                                    autoplay
-                                    />
+          src={animatedWorkInProgress}
+          loop
+          autoplay
+          />
     </Box>
     )
   };

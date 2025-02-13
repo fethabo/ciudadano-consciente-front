@@ -4,8 +4,8 @@ import { Alert, Button, CircularProgress, Skeleton, Tooltip, Typography } from '
 import ImageControlList from './ImageList';
 import { useDeleteContentImage, useGetContentImages, useGetImagesFilesOfContent, usePostContentImage } from '@components/Hooks/requests/Content';
 import { useQueryClient } from '@tanstack/react-query';
-import TagsControl from '@components/TagsControl';
-import { useGetTagged } from '@components/Hooks/requests/Tags';
+//import TagsControl from '@components/TagsControl';
+//import { useGetTagged } from '@components/Hooks/requests/Tags';
 
 export default function ImageControl({ contentId, uploadeable }) {
     const ref= useRef(null);

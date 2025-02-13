@@ -15,13 +15,13 @@ function shuffle(array) {
 * EL Content lo define el programador (modelo) para cumplir las necesidades de este componente. 
 * El onResponse es una funcion siempre igual que setea un estado true o false 
 */
-export default function MultipleChoice ({content, onResponse}) {
+export default function MultipleChoice ({content, onResponse, images}) {
 
     const [response, setResponse] =useState(null);
     
     const optionsKeys= shuffle(Object.keys(content.options))
 
-
+console.log("*******IMAGES",images)
     useEffect(() => {
         //Evaluo si la respuesta es correcta
         
@@ -39,14 +39,39 @@ export default function MultipleChoice ({content, onResponse}) {
     return ( 
         <Stack direction="column" spacing={2}>
             <Typography variant="h4">{content?.question}</Typography>
-            {optionsKeys.map((option, index)=>
-                <Button key={index}  onClick={()=> setResponse(content?.options[option])} variant="text">{/* {index}- */}{content?.options[option]}</Button>
+            {images && (
+                images?.map((image, index) => (
+                    <img
+                        key={index} 
+                        src={image.data}
+                        alt={image?.image?.imageName}
+                        loading="lazy"
+                        style={{ 
+                            maxWidth: '50vh', 
+                            display: 'block', 
+                            marginLeft: 'auto', 
+                            marginRight: 'auto' 
+                        }}
+                    />
+                ))
             )}
-           
+            <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
+                {optionsKeys.map((option, index) => (
+                    <Button 
+                        key={index}  
+                        onClick={() => setResponse(content?.options[option])} 
+                        variant="text" 
+                        style={{ width: '45%', margin: '5px' }}
+                    >
+                        {content?.options[option]}
+                    </Button>
+                ))}
+            </Stack>
         </Stack>
-     );
+    );
 }
 MultipleChoice.propTypes={
     content:PropTypes.object, //DEPENDE DEL MODELO DEFINIDO DEL ACTIVITYTYPE
-    onResponse: PropTypes.func // FUNCION QUE SETEA ESTADO TRUE O FALSE 
+    onResponse: PropTypes.func,// FUNCION QUE SETEA ESTADO TRUE O FALSE 
+    images: PropTypes.array
 }

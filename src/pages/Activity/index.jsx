@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, LinearProgress, Skeleton } from "@mui/material";
 import useMap from "../../components/Hooks/useMap";
-import { useGetContent } from "../../components/Hooks/requests/Content";
+import { useGetContent, useGetContentImages, useGetImagesFilesOfContent } from "../../components/Hooks/requests/Content";
 import { usePostAnswer } from "../../components/Hooks/requests/Answer";
 import { useNavigate, useParams } from "react-router-dom";
 import useUserApi from "../../components/Hooks/useUserApi";
@@ -35,11 +35,15 @@ export default function Activity() {
     const { data: activityTypeVersion, isFetching: isFetchingActivityTypeVersion, isError: isErrorActivityTypeVersion}= useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content})
     const { data: response, isFetching: isFetchingAnswer, isError: isErrorAnswer} = usePostAnswer({form: answer, enabled:(!!answer && enabledPost)})
     const [responseContent, setResponseContent] = useState(false)
+    const { data: images, isFetching: isFetchingImages, isError: isErrorImages} = useGetContentImages({contentId:content?.contentId, enabled: !!content?.contentId})
+    const { data: imagesFiles, isPending } = useGetImagesFilesOfContent({images: images || [], enabled: !!images && images?.length>0});
+
     //Obtengo el contenido de la respuesta del content
     useEffect(() => {
       if (content && !!content.model && activityContent===null){
         console.log("modelo que llega" , content.model)
         const modelObject = JSON.parse(content.model); 
+
         setActivityContent(modelObject)
       }
     },[content,activityContent])
@@ -79,7 +83,7 @@ export default function Activity() {
 
     return ( 
         <Box>
-         {(isFetchingContent || isFetchingActivityTypeVersion) 
+         {(isFetchingContent || isFetchingActivityTypeVersion || isFetchingImages || isPending) 
              ? <Box sx={{ width: '100%', height: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                  <Skeleton variant="rectangular" width="80%" height="60%">
                  </Skeleton>
@@ -91,7 +95,7 @@ export default function Activity() {
                     ? <Alert severity="error">Hubo un error al obtener la actividad</Alert>
                     :(!!activityContent&&
                          <Suspense fallback={<LinearProgress/>}>
-                            {ActivityType && <ActivityType content={activityContent} onResponse={handleResponse}/>}
+                            {ActivityType && <ActivityType content={activityContent} onResponse={handleResponse} images={imagesFiles} />}
                          </Suspense>
                     )
                 )

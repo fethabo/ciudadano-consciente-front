@@ -20,7 +20,7 @@ function ContentsPage(){
   const navigate = useNavigate();
   //Obtengo los contenidos publicos para mostrarlos
   const{ data: contents, isFetching, isError} = useGetContents({enabled: true})
-  const { userId } = useUserApi()
+  //const { userId } = useUserApi()
 //  const { data: images, isLoading: isLoadingImages, isError: isErrorImages } = useGetContentImages({contentId: activity?.content, enabled: !!activity?.content});
 
   const handleVotar = (id) => {
