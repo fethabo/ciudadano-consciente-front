@@ -31,7 +31,7 @@ export function usePatchVoteStatus({voteId,...rest}){
   return( 
     useApiQuery({
       queryKey:['usePatchVoteStatus', voteId],
-      endpoint: `/votes/${voteId}`,
+      endpoint: `/votes/${voteId}/status`,
       method: 'PATCH',
       options: {...rest},
       }

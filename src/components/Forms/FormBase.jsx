@@ -97,8 +97,23 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                       disabled={disableForm || field.disabled}
                       {...field.props}
                     />
-                    {console.log("formState",formState)}
                   </>
+                  ) : field.type === 'textarea' ? (
+                  <Field
+                  as={TextField}
+                  name={field.name}
+                  type="text"
+                  label={field.label || field.name}
+                  placeholder={field.placeholder}
+                  fullWidth
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
+                  helperText={formState.touched[field.name] && formState.errors[field.name]}
+                  disabled={disableForm || field.disabled}
+                  {...field.props}
+                  />
                   ) : (
                   <Field
                     as={TextField}
@@ -116,7 +131,6 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                   )}
                 </div>
                 ))}
-          
                { /* Renderizar el subformulario dinámico */}
                 {
                 isLoadingTemplate ? (
@@ -138,68 +152,6 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
             );
         }
         
-/* export default function FormBase({ fields, initialValues, validationSchema, onSubmit, children, disableForm, onAddition }){
-
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-      
-    >
-      {(formState) => (
-          <Form>
-          {fields.map((field) => (
-            <div key={field.name} style={{ marginBottom: '16px' }}>
-              {field.type === 'select' ? (
-                 <Field
-                 name={field.name}
-                 as={TextField}
-                 select
-                 label={field.label || field.name}
-                 fullWidth
-                 variant="outlined"
-                 error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
-                 helperText={formState.touched[field.name] && formState.errors[field.name]}
-                 disabled={disableForm}
-                 {...field.props}
-               >
-                 {field.options?.map((option) => (
-                   <MenuItem key={option.value} value={option.value} sx={{gap:"1em"}}>
-                     {option.icon && option.icon}{option.label}
-
-                   </MenuItem>
-                 ))}
-                 {field?.allowAdditions &&
-                 <MenuItem key={"create"} value={""} onClick={()=>onAddition()} sx={{gap:"1em"}}>
-                   <LibraryAddIcon /> Agregar
-                 </MenuItem>
-                 }
-               </Field>
-              ) : (
-                <Field
-                  as={TextField}
-                  name={field.name}
-                  type={field.type}
-                  label={field.label || field.name}
-                  placeholder={field.placeholder}
-                  fullWidth
-                  variant="outlined"
-                  error={formState.touched[field.name] && Boolean(formState.errors[field.name])}
-                  helperText={formState.touched[field.name] && formState.errors[field.name]}
-                  disabled={disableForm}
-                  {...field.props}
-                />
-              )}
-            </div>
-          ))}
-          {children}
-        </Form>
-      )}
-    </Formik>
-  );
-}
-*/
 FormBase.propTypes = {
     fields: PropTypes.arrayOf(PropTypes.object),
     initialValues: PropTypes.object,

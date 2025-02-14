@@ -19,7 +19,7 @@ function FormAddContent({onSubmit, loading, ...rest}) {
     const { initialValues } = rest;
     const [jsonTemplate, setJsonTemplate]= useState(null)
     const [option, setOption] = useState(null)
-    const {data: activityTypes, isFetching: isFetchingActivityTypes, isError: isErrorActivityTypes} = useGetActivityTypes({enabled: true})
+    const { data: activityTypes, isFetching: isFetchingActivityTypes, isError: isErrorActivityTypes} = useGetActivityTypes({enabled: true})
     const { data: activityTypeVersions, isFetching: isFetchingActivityTypeVersion, isError} = useGetActivityTypeVersionsOfActivityType({activityTypeId: option, enabled: !!option})
 
     useEffect(() => {

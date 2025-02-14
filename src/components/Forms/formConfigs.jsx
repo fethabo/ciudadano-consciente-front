@@ -41,13 +41,13 @@ export const formConfigs = {
     
     Concern: {
         fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
+            { name: 'description', label: 'Pregunta', type: 'text', placeholder: 'Ingrese la pregunta' },
+            { name: 'explanation', label: 'Desarrollo', type: 'textarea', placeholder: 'Ingrese una aclaración sobre la pregunta' },
             // Añadir más campos aquí según sea necesario
         ],
         validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
+            explanation: Yup.string().required('El desarrollo de la idea es obligatorio'),
+            description: Yup.string().required('La pregunta es obligatoria'),
             // Añadir más validaciones aquí según sea necesario
         }),
     },

@@ -39,7 +39,7 @@ export function useDeleteConcern({concernId, ...rest}){
     return(
       useApiQuery({
         queryKey:['useDeleteConcern',concernId],
-        endpoint: `/concern/${concernId}`,
+        endpoint: `/concerns/${concernId}`,
         method: 'DELETE',
         options: {...rest},
         }
@@ -50,9 +50,7 @@ export function useDeleteConcern({concernId, ...rest}){
 /**
  * 
  * @param {*} form: {
-  "level": "",
-  "title": "",
-  "url": "",
+  "explanation": "",
   "description": ""
 }
  

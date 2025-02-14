@@ -43,6 +43,7 @@ export default function useApiQuery({ queryKey, endpoint, method = 'GET', form, 
     retry: isWriting() ? false: 1,
     staleTime: isWriting()? 0 : 30*1000,
     refetchOnWindowFocus: false,
+    //refetchOnInvalidate: true, // Add this line to enable refetch on invalidate
     ...options,
   });
 }
