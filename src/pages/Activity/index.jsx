@@ -74,7 +74,7 @@ export default function Activity() {
     const [ActivityType, setActivityType] = useState(null);
     useEffect(() => {
         if(activityTypeVersion?.template&& ActivityType===null){
-            const aux = lazy(() => import(/* @vite-ignore */ `../../components/Templates/${activityTypeVersion.template}`))
+            const aux = lazy(() => import(`../../components/Templates/${activityTypeVersion.template}/index.jsx`))
             setActivityType(aux)
         }
     }, [activityTypeVersion, ActivityType]);
