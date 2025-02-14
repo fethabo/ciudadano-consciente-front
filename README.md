@@ -234,12 +234,13 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] agregar imagenes en los contenidos
 - [x] agregar estadisticas del usuario
 - [x] agregar estadisticas de la organizacion
+- [ ] integrar votacion en un componente que obtenga el voto de la entidad y maneje su patch
 - [ ] votacion de contenido
 - [ ] votacion de paths
 - [ ] agregar referencias y tags a levels (paths/maps)
-- [ ] Post y delete de preguntas, get y votacion (pool)
+- [x] Post y delete de preguntas, get y votacion (pool)
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
-- [ ] agregar mensaje en favoritos (home)
+- [x] agregar mensaje en favoritos (home)
 - [x] corregir mensaje de exito en actividad
 - [ ] mostrar referencias en la respuesta de la actividad (si es en un level)
 - [ ] Agregar limitaciones con respecto a los archivos . --->agregar en model de activityTypeVersion el limite para la cantidad de archivos
