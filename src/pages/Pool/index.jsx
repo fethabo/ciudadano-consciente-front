@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import {  Card, CardContent, Typography, Box, Stack, IconButton, Pagination, Select, MenuItem, Skeleton, Alert } from '@mui/material';
+import {  Card, CardContent, Typography, Box, Stack, IconButton, Pagination, Select, MenuItem, Alert } from '@mui/material';
 import { useDeleteConcern, useGetConcerns } from '@components/Hooks/requests/Concerns';
-import { usePatchVoteStatus, usePostVote } from '@components/Hooks/requests/Votes';
-import { useGetEntityTypes } from '@components/Hooks/requests/EntityTypes';
-import  FavoriteIcon from '@mui/icons-material/Favorite';
-import  FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import useUserApi from '@components/Hooks/useUserApi';
 import { useGetUserVotes } from '@components/Hooks/requests/Users/Index';
 import { useQueryClient } from '@tanstack/react-query';
 import NewConcern from './NewConcern';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ConfirmDialog from '@components/Dialogs/ConfirmDialog';
-
+import Vote from '@components/Vote';
+import SkeletonConcerns from './SkeletonConcerns';
 
 /**
- * @todo: llevar responsabilidad de votos a cada Card, de esta forma invalido solo ese voto en particular y no tengo un parpadeo en el Refetch tras la actualizcion de estado (ademas puedo reutilizar el control del voto segun la entidad)
  * @returns 
  */
 export default function Pool(){
@@ -22,52 +18,18 @@ export default function Pool(){
   const { userId } = useUserApi()
   const queryClient = useQueryClient();
   const {data: concerns, isFetching: isFetchingConcerns, isError: isErrorConcerns} = useGetConcerns({enabled:true});
-  const [entityTypeId, setEntityTypeId]= useState(null)
-  const {data: entityTypes, isFetching: isFetchingEntityTypes, isError: isErrorEntityTypes}= useGetEntityTypes({enabled:true});
-  const [vote, setVote] = useState(null)
-  const [updateVote, setUpdateVote] = useState(null)
-  const {data: concernVoted, isFetching: isFetchingPostVote, isError: isErrorPostVote } = usePostVote({entityId: vote, entityTypeId: entityTypeId, enabled: !!vote && !!entityTypeId})
-  const {data: concernPatched, isFetching: isFetchingPatchVote, isError: isErrorPatchVote } = usePatchVoteStatus({voteId: updateVote, entityTypeId: entityTypeId, enabled: !!updateVote && !!entityTypeId})
   const {data: userVotes, isFetching: isFetchingUserVotes, isError: isErrorUserVotes} = useGetUserVotes({userId: userId, enabled: !!userId})
   const [concernToDelete, setConcernToDelete] = useState(null)
   const [openDelete, setOpenDelete] = useState(null)
-  const {data: concernDeleted, isFetching: isFetchingConcernDeleted, isError: isErrorConcernDeleted} = useDeleteConcern({concernId: concernToDelete, enabled: !!concernToDelete})
+  const {data: concernDeleted, isFetching: isFetchingConcernDeleted /* isError: isErrorConcernDeleted */} = useDeleteConcern({concernId: concernToDelete, enabled: !!concernToDelete})
 
   useEffect(() => {
     if(!isFetchingConcernDeleted && concernToDelete){
       queryClient.resetQueries({ queryKey: ['useGetConcerns'], exact: false });
-        setConcernToDelete(null)
+      setConcernToDelete(null)
     }
   }, [isFetchingConcernDeleted, concernDeleted, queryClient, concernToDelete]);
  
-
-  //Seteo el entityTypeId
-  useEffect(() => {
-    if(entityTypes){
-      const id= entityTypes?.find((v)=> v?.title==="concerns")?.entityTypeId
-      setEntityTypeId(id)
-  }
-  }, [entityTypes]);
-
-  useEffect(() => {
-    if(!isFetchingPostVote && !isFetchingPatchVote && (vote||updateVote)){
-      console.log("se cumple funcion en uef", vote, updateVote, userId, queryClient)
-      queryClient.resetQueries({ queryKey: ['useGetUserVotes'], exact: false });
-      //queryClient.resetQueries({ queryKey: ['useGetUserVotes', userId], exact: true }) // fuerzo la lectura del mapa actualizado
-        setVote(null)
-        setUpdateVote(null)
-    }
-  }, [vote, updateVote, isFetchingPatchVote, isFetchingPostVote, queryClient, userId]);
-
-  const handleVotar = (id) => {
-    const vote = userVotes?.find(vote => vote.entityType === entityTypeId && vote.entity === id)
-    if (vote) {
-      setUpdateVote(vote?.voteId);// para el patch uso el id del voto, no de la entidad
-    } else {
-      setVote(id);
-    }
-  };
-
 
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -81,45 +43,11 @@ export default function Pool(){
   return (
     <Stack sx={{ flexGrow: 1, padding: 2, gap: '2em' }}>
       <Typography variant="h4" gutterBottom>
-        Foro de Preguntas
+        Pool de Preguntas
       </Typography>
      
     {isFetchingConcerns  ? (
-      <Stack spacing={3}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" textAlign={"left"}>
-              <Skeleton width="40%" />
-            </Typography>
-            <Skeleton variant="rectangular" height={56} sx={{ marginBottom: 2 }} />
-            <Skeleton variant="rectangular" height={100} />
-          </CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 2 }}>
-            <Skeleton variant="rectangular" width={100} height={36} />
-          </Box>
-        </Card>
-        {[1, 2, 3].map((index) => (
-      <Card key={index}>
-        <CardContent>
-          <Typography variant="h6" textAlign={"left"}>
-        <Skeleton width="80%" />
-          </Typography>
-          <Typography variant="body2" textAlign={"left"} color="textSecondary">
-        <Skeleton width="60%" />
-          </Typography>
-        </CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 2, width: '100%' }}>
-          <Box display={"flex"}>
-          <Skeleton variant="circular" width={40} height={40} />
-          <Skeleton variant="circular" width={40} height={40} />
-          </Box>
-          <Typography variant="caption" width={40} display="block" align="right">
-        <Skeleton width="100%" />
-          </Typography>
-        </Box>
-      </Card>
-        ))}
-      </Stack>
+      <SkeletonConcerns />
     ): (isErrorConcerns? <Alert severity='error'>Hubo un error al obtener el pool de preguntas</Alert> 
       :
    <Stack sx={{flexGrow: 1, padding: 2, gap: '2em'}}>
@@ -135,12 +63,8 @@ export default function Pool(){
             </CardContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 2, width: '100%' }}>
               <Box>
-                <IconButton onClick={() => handleVotar(concern.concernId)}>
-                  {userVotes?.some(vote => vote.entityType === entityTypeId && vote.entity === concern.concernId && vote.active===true)
-                    ? <FavoriteIcon />
-                    : <FavoriteBorderIcon />
-                  }
-                </IconButton>
+              <Vote entityId={concern.concernId} entityType='concerns' userVotes={userVotes} isLoading={isFetchingUserVotes} isError={isErrorUserVotes} />
+               
                 {concern.user === userId && (
                   <IconButton
                     variant="contained"

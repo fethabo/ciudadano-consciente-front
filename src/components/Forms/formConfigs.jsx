@@ -13,31 +13,9 @@ export const formConfigs = {
         }),
     },
     
-    ActivityType: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
-    
-    Answer: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
+   /* 
+   Los activityType y ActivityTypeVersion actualmente se crean directo en la bdd
+   */
     
     Concern: {
         fields: [
@@ -54,7 +32,7 @@ export const formConfigs = {
     
     Content: {
         fields: [
-            { name: 'activityTypeId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad', /* options: [{value: 3, label: 'Elección múltiple'},{value: 2, label: 'Selección múltiple'},{value: 5, label: 'Ordenar secuencia'},{value: 4, label: 'Verdadero o falso'}]  */},
+            { name: 'activityTypeId', label: 'Tipo de actividad', type: 'select', placeholder: 'Seleccione el tipo de actividad'},
             { name: 'publicContent', label: 'Público', type: 'checkbox', placeholder: '¿Es público?' },
             { name: 'description', label: 'Descripcion', type: 'text',  placeholder: 'Ingrese una descripción'},
             //   { name: 'model', label: 'Datos del contenido', type: 'textArea', placeholder: 'ESTE FIELD DEBE TENER EL MODELO CON DATOS' }, debe ser un subForm
@@ -63,21 +41,7 @@ export const formConfigs = {
         validationSchema: Yup.object({
             activityTypeId: Yup.string().required('El tipo de actividad es obligatorio'),
             publicContent: Yup.string().required('Indica si el contenido es público'),
-          
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
-    
-    EntityType: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
+            description: Yup.string().required('Realiza una descripción del contenido para que te sea más sencillo identificarlo'),
         }),
     },
     
@@ -90,6 +54,7 @@ export const formConfigs = {
         validationSchema: Yup.object({
             name: Yup.string().required('El nombre es obligatorio'),
             description: Yup.string().required('La descripción es obligatoria'),
+            //hidden no puede ser required, la logica del required para los booleanos es que sea true para que pase la regla. asegurarse de que el checkbox siempre tenga valor false o true y no undefined para que no se rompa la api
         }),
     },
     
@@ -103,74 +68,9 @@ export const formConfigs = {
             name: Yup.string().required('El nombre es obligatorio'),
             description: Yup.string().required('La descripción es obligatoria'),
             email: Yup.string().email('Invalid email').required('Required'),
-            // Añadir más validaciones aquí según sea necesario
         }),
     },
     
-    Role: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
-    
-    Streak: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
-    
-    Tag: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
-    
-    User: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
-    
-    Vote: {
-        fields: [
-            { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            // Añadir más campos aquí según sea necesario
-        ],
-        validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es obligatorio'),
-            description: Yup.string().required('La descripción es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
-        }),
-    },
     
 };
 
