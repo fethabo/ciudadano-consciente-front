@@ -237,9 +237,11 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] integrar votacion en un componente que obtenga el voto de la entidad y maneje su patch
 - [x] votacion de contenido
 - [x] corregir creacion de contenido publico desde contents
-- [ ] agregar vista de contents del usuario (permite el CRUD alli)
-- [ ] votacion de paths
-- [ ] agregar referencias y tags a levels (paths/maps)
+- [x] agregar vista de contents del usuario (permite el CRUD alli)
+- [x] votacion de paths (agregado en el mapa)
+- [ ] agregar carga de tags a levels (config)
+- [x] agregar tags a mapa
+- [ ] agregar referencias (paths/maps)
 - [x] Post y delete de preguntas, get y votacion (pool)
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
 - [x] agregar mensaje en favoritos (home)

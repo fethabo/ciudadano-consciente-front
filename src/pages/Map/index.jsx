@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
@@ -7,6 +7,11 @@ import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/reques
 import {  useGetAnswersOfUserFromLevel } from "../../components/Hooks/requests/Answer";
 import { useGetActivitiesOfLevels, useGetActivityByLevel } from "../../components/Hooks/requests/Activity";
 import useMap from "../../components/Hooks/useMap";
+import { Skeleton } from "@mui/material";
+import Vote from "../../components/Vote";
+import useUserApi from "@components/Hooks/useUserApi";
+import { useGetUserVotes } from "@components/Hooks/requests/Users/Index";
+import TagsDisplay from "@components/TagsDisplay";
 
 /* TODO: 
 * cambiar estilo de nodo si tiene respuesta correcta 
@@ -73,26 +78,29 @@ const handleSelect= (value)=>{
   setActivity(value?.data?.activity)  
   setLevelSelected(childrens?.find((level)=>level?.levelId===Number(levelSelectedId)))
 }
+const { userId } = useUserApi()
+const {data: userVotes, isFetching: isFetchingUserVotes, isError: isErrorUserVotes} = useGetUserVotes({userId: userId, enabled: !!userId})
 
     return (
-    <Box>
-     <Typography variant="h5">Mapa</Typography>   
-     LEVEL SELECCIONADO: {levelSelectedId}
-     <WindowLevel open={!!activity&&!!levelSelectedId} activity={!!activity&&activity} level={childrens?.find((level)=>level?.levelId===Number(levelSelectedId))} handleClose={()=>setActivity(null)}/>
-            {
-            path
-             ? <div className="path" style={{    justifyContent: 'center', display: 'flex',flexDirection: 'column', alignItems: 'center'}} >
-                    <Typography className="nombre">{path.name}</Typography>
-                    <Typography className="descripcion">{path.description}</Typography>
-                    {mapElements&&mapElements?.length>0
-                    && <MapCytoscape elements={mapElements} onSelect={handleSelect}/>
-                    }
-                </div>            
-                  :<LinearProgress color={'secondary'}/>
-            }
-                
-    </Box>
-    )
+      <Box sx={{ padding: 2 }}>
+        <Typography variant="h5" gutterBottom textAlign={"left"}>Mapa</Typography>
+        <WindowLevel open={!!activity && !!levelSelectedId} activity={!!activity && activity} level={childrens?.find((level) => level?.levelId === Number(levelSelectedId))} handleClose={() => setActivity(null)} />
+        {path ? (
+         
+         <Card className="path" sx={{ justifyContent: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 2 }}>
+           <CardContent>
+            <Typography variant="h5" className="nombre" gutterBottom>{path.name}</Typography>
+            <Typography variant="body1" className="descripcion" gutterBottom>{path.description}</Typography>
+            <Vote entityId={path.levelId} entityType="levels" isLoading={isFetchingUserVotes} isError={isErrorUserVotes} userVotes={userVotes} />
+            <TagsDisplay  entityId={path.levelId} entityType="levels" />
+            {mapElements && mapElements?.length > 0 && <MapCytoscape elements={mapElements} onSelect={handleSelect} />}
+            </CardContent>
+          </Card>
+        ) : (
+          <Skeleton variant="rectangular" height="50vh" />
+        )}
+      </Box>
+    );
   };
   
   export default Map;
