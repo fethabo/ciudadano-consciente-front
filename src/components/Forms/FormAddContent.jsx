@@ -13,7 +13,7 @@ import { useGetActivityTypes } from "@components/Hooks/requests/ActivityType";
  * @param {*} param0 
  * @returns 
  */
-function FormAddContent({onSubmit, loading, ...rest}) {
+function FormAddContent({onSubmit, loading, isPublic, ...rest}) {
 
     const config = formConfigs['Content'];
     const { initialValues } = rest;
@@ -58,7 +58,7 @@ function FormAddContent({onSubmit, loading, ...rest}) {
                 ?<Alert severity="error" >Hubo un error al obtener los tipos de actividad</Alert>
       :<FormBase
             fields={config.fields}
-            initialValues={ initialValues  || { publicContent: false, activityTypeId: "" }}
+            initialValues={ initialValues  || { publicContent: isPublic ?? false, activityTypeId: "" }}
             validationSchema={config.validationSchema}
             onSubmit={handleSubmit}
             disableForm={loading}
@@ -83,5 +83,6 @@ export default FormAddContent;
 
 FormAddContent.propTypes={
     onSubmit: PropTypes.func,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    isPublic: PropTypes.bool
 }

@@ -9,7 +9,15 @@ import { useGetEntityTypes } from '@components/Hooks/requests/EntityTypes';
 import { usePatchVoteStatus, usePostVote } from '@components/Hooks/requests/Votes';
 import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 
-function Vote({entityType, entityId, userVotes, isError, isLoading}) {
+
+/**
+ *  el padre debe indicar el id de la entidad y en nombre del tipo de la entidad, pasarle el arreglo del userVotes y el isLoading del mismo.
+ *  const { userId } = useUserApi()
+   const {data: userVotes, isFetching: isFetchingUserVotes, isError: isErrorUserVotes} = useGetUserVotes({userId: userId, enabled: !!userId})
+  
+ * @returns 
+ */
+function Vote({entityType, entityId, userVotes, isError, isLoading = false}) {
 
 /**
  * Tengo dos casos de uso: 
@@ -34,8 +42,8 @@ function Vote({entityType, entityId, userVotes, isError, isLoading}) {
 
   const [enablePost, setEnablePost] = useState(false);  
   const [enablePatch, setEnablePatch] = useState(false);
-  const {data: voted, isFetching: isFetchingPostVote, isError: isErrorPostVote } = usePostVote({entityId: entityId, entityTypeId: entityTypeId, enabled: enablePost && !!entityId && !!entityTypeId})
-  const {data: votePatched, isFetching: isFetchingPatchVote, isError: isErrorPatchVote } = usePatchVoteStatus({voteId: vote?.voteId , entityTypeId: entityTypeId, enabled: !!enablePatch && !!vote && !!entityTypeId})
+  const { isFetching: isFetchingPostVote, isError: isErrorPostVote } = usePostVote({entityId: entityId, entityTypeId: entityTypeId, enabled: enablePost && !!entityId && !!entityTypeId})
+  const { isFetching: isFetchingPatchVote, isError: isErrorPatchVote } = usePatchVoteStatus({voteId: vote?.voteId , entityTypeId: entityTypeId, enabled: !!enablePatch && !!vote && !!entityTypeId})
   
 
   //busco el voto y lo seteo en el estado interno

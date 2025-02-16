@@ -2,6 +2,7 @@ import React from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import errorHistery from '@animations/ErrorHistery.lottie';
 import PropTypes from 'prop-types'
+import { Button } from '@mui/material';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class ErrorBoundary extends React.Component {
               loop
               autoplay
               />
+          <Button href="/">Volver al inicio</Button>
         </div>
       );
     }

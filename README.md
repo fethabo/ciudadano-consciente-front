@@ -234,8 +234,10 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] agregar imagenes en los contenidos
 - [x] agregar estadisticas del usuario
 - [x] agregar estadisticas de la organizacion
-- [ ] integrar votacion en un componente que obtenga el voto de la entidad y maneje su patch
-- [ ] votacion de contenido
+- [x] integrar votacion en un componente que obtenga el voto de la entidad y maneje su patch
+- [x] votacion de contenido
+- [x] corregir creacion de contenido publico desde contents
+- [ ] agregar vista de contents del usuario (permite el CRUD alli)
 - [ ] votacion de paths
 - [ ] agregar referencias y tags a levels (paths/maps)
 - [x] Post y delete de preguntas, get y votacion (pool)

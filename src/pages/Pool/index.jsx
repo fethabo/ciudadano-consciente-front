@@ -15,9 +15,9 @@ import SkeletonConcerns from './SkeletonConcerns';
  */
 export default function Pool(){
 
-  const { userId } = useUserApi()
   const queryClient = useQueryClient();
   const {data: concerns, isFetching: isFetchingConcerns, isError: isErrorConcerns} = useGetConcerns({enabled:true});
+  const { userId } = useUserApi()
   const {data: userVotes, isFetching: isFetchingUserVotes, isError: isErrorUserVotes} = useGetUserVotes({userId: userId, enabled: !!userId})
   const [concernToDelete, setConcernToDelete] = useState(null)
   const [openDelete, setOpenDelete] = useState(null)

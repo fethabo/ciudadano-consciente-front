@@ -12,7 +12,7 @@ import FormAddContent from "@components/Forms/FormAddContent";
  * @param {*} param0 
  * @returns 
  */
-export default function AddContentDialog({open, handleClose, ...rest}) {
+export default function AddContentDialog({open, handleClose, isPublic, ...rest}) {
     const { idOrganization } = useParams(); // id de organizacion para organization
     const { userId } = useUserApi();//id de usuario para creator
     const [formPost, setFormPost] = useState(null);
@@ -33,12 +33,23 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
     }, [contentPosted, isErrorPostContent, isFetchingPostContent]);//eslint-disable-line
     
     const handleSubmit = (v) =>{
-        console.log("handleSubmit de addContentDialog")
-        const form = {...v, model: JSON.stringify(v.model),  creator: userId, organization: Number(idOrganization)}
+        console.log("HANDLE SUBMIT EN DIALOG", v)
+        const form = {
+            ...v,
+            model: JSON.stringify(v.model),
+            creator: userId,
+            publicContent: isPublic ?? v.publicContent
+        };
+        if (!isPublic) {
+            form.organization = Number(idOrganization);
+        }
+        console.log("Form", form)
+       
         const formData = new FormData();
         Object.keys(form).forEach(key => {
             formData.append(key, form[key]);
         });
+        console.log("FormData", formData)
         setFormPost(formData);
     }
 
@@ -51,7 +62,7 @@ export default function AddContentDialog({open, handleClose, ...rest}) {
             >
                <DialogTitle sx={{justifyContent:'space-between', display:'flex'}}><Typography variant="h5"> Agregar contenido</Typography>  <IconButton type='button'  onClick={handleClose}  disabled={isFetchingPostContent}><CloseIcon/></IconButton> </DialogTitle>
                <DialogContent dividers>
-                    <FormAddContent onSubmit={handleSubmit} loading={isFetchingPostContent}/>
+                    <FormAddContent onSubmit={handleSubmit} loading={isFetchingPostContent} isPublic={isPublic}/>
                </DialogContent>
             </Dialog> );
 }
@@ -60,6 +71,7 @@ AddContentDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     idParent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    path: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    path: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    isPublic: PropTypes.bool
 }
 

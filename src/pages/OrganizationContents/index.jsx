@@ -82,7 +82,6 @@ const OrganizationContents = () => {
     const handleViewChange = (newView) => {
         setView(newView);
     };
-    const [openAddContent, setOpenAddContent] = useState(false);
     const [enabledDelete, setEnabledDelete] = useState(null);
 
     const {data: contentDeleted, isFetching: isFetchingDelete, isError: isErrorDelete} = useDeleteContent({contentId: enabledDelete, enabled: !!enabledDelete});
@@ -101,6 +100,8 @@ const OrganizationContents = () => {
         }
     }, [contentDeleted, isFetchingDelete, isErrorDelete, queryClient]);
 
+    //CONTROL DE DIALOGS
+    const [openAddContent, setOpenAddContent] = useState(false);
     const [contentEdit, setContentEdit] = useState(null);
     const [openEditContent, setOpenEditContent] = useState(false)
    
