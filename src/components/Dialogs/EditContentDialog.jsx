@@ -17,7 +17,8 @@ export default function EditContentDialog({open, content, handleClose, ...rest})
         if (data){
             setFormPatch(null);
             queryClient.resetQueries({ queryKey: ['usePatchContent', content.contentId ], exact: true }) 
-            queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
+            queryClient.resetQueries({ queryKey: ['useGetContents'], exact: false }) //para actualizar las opciones de la actividad
+            queryClient.resetQueries({ queryKey: ['useGetContentsOfUser'], exact: false }) //para actualizar las opciones de la actividad
             queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', content.organization], exact: true }) //para actualizar las opciones de la actividad
             handleClose();
         }else if(isError){

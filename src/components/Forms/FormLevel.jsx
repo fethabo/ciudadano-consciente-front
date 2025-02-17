@@ -9,7 +9,7 @@ function FormLevel({onSubmit, loading, ...rest}) {
     return (  
       <FormBase
             fields={config.fields}
-            initialValues={ { name: null, description: null }}
+            initialValues={ { name: null, description: null, hidden: false }}
             validationSchema={config.validationSchema}
             onSubmit={onSubmit}
             disableForm={loading}

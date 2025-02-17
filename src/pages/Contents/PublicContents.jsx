@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography,Box, Stack, Alert, IconButton, Tooltip, SvgIcon } from '@mui/material';
+import { Card, CardContent, Typography,Box, Stack, Alert, IconButton, Tooltip, SvgIcon, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useGetContents } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
@@ -9,6 +9,7 @@ import { Pagination } from '@mui/material';
 import { useEffect } from 'react';
 import TagsDisplay from '@components/TagsDisplay';
 import SkeletonContents from './SkeletonContents';
+import PlayAnimatedIcon from '@icons/PlayAnimatedIcon';
 
 
 function PublicContents(){
@@ -23,7 +24,7 @@ function PublicContents(){
     };
   
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(4);
+    const [pageSize, setPageSize] = useState(5);
     const [paginatedContents, setPaginatedContents] = useState([]);
   
     useEffect(() => {
@@ -65,9 +66,7 @@ function PublicContents(){
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 2 }}>
                     <Tooltip title="Probar" arrow>
                     <IconButton variant="contained" color="primary" onClick={() => handleEntrar(content.contentId)}>
-                      <SvgIcon>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="40" stroke-dashoffset="40" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6l10 6l-10 6Z"><animate fill="freeze" attributeName="fill-opacity" begin="0.5s" dur="0.15s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0"/></path></svg>
-                      </SvgIcon>
+                        <PlayAnimatedIcon/>
                     </IconButton>
                     </Tooltip>
                   </Box>
@@ -75,6 +74,20 @@ function PublicContents(){
               ))
             )}
           </Stack>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 2, alignItems: 'center' , gap: '1em'}}>
+        <Typography variant="body2" >Items por página:</Typography>
+        <Select
+        size='small'
+          value={pageSize}
+          onChange={(e) => setPageSize(Number(e.target.value))}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Items per page' }}
+        >
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={20}>20</MenuItem>
+        </Select>
+      </Box>
           <Pagination
             count={Math.ceil(contents?.length / pageSize)}
             page={page}

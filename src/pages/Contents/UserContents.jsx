@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Button, Box, Stack,  Alert, IconButton, Tooltip, SvgIcon } from '@mui/material';
+import { Card, CardContent, Typography, Button, Box, Stack,  Alert, IconButton, Tooltip, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import {  useDeleteContent, useGetContentsOfUser } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
@@ -11,8 +11,10 @@ import EditContentDialog from '@components/Dialogs/EditContentDialog';
 import EditIcon from '@mui/icons-material/Edit';
 import  DeleteForeverIcon  from '@mui/icons-material/DeleteForever';
 import SkeletonContents from './SkeletonContents';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import ConfirmDialog from '@components/Dialogs/ConfirmDialog';
+import PlayAnimatedIcon from '@icons/PlayAnimatedIcon';
+import AddIcon from '@mui/icons-material/Add'
 
 /**
  * 
@@ -34,7 +36,7 @@ function UsersContent(){
   };
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(4);
+  const [pageSize, setPageSize] = useState(5);
   const [paginatedContents, setPaginatedContents] = useState([]);
 
   useEffect(() => {
@@ -80,7 +82,7 @@ function UsersContent(){
   return (
     <Stack>
       <Box sx={{ flexGrow: 1, padding: 2, justifyContent: 'center', alignItems: 'center' }}>
-      <Typography variant="h5">Tus contenidos</Typography>
+   {/*    <Typography variant="h5">Tus contenidos</Typography> */}
           <AddContentDialog open={openAddContent} handleClose={handleClose} isPublic={true} />
           <EditContentDialog open={openEditContent} handleClose={() => { setOpenEditContent(false); setContentEdit(null) }} content={contentEdit} />
                <ConfirmDialog
@@ -93,7 +95,14 @@ function UsersContent(){
                          setContentToDelete(openDelete);
                        }}
                      />
-         <Button onClick={() => setOpenAddContent(true)}>Nuevo contenido</Button>
+        <Card sx={{ marginBottom: 2, width: '100%', textAlign: 'center' }}>
+            <CardContent>
+                <Typography variant="h6">¿Quieres aportar a la comunidad creando tu propio contenido?</Typography>
+                <Button variant="contained" color="primary" startIcon={   <AddIcon />} onClick={() => setOpenAddContent(true)} sx={{ marginTop: 2 }}>
+                    Crear contenido
+                </Button>
+            </CardContent>
+        </Card>
         <Stack sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', gap: "1em" }}>
            
           {isFetching ? (
@@ -128,9 +137,7 @@ function UsersContent(){
                   </Tooltip>  
                   <Tooltip title="Probar" arrow>
                   <IconButton variant="contained" color="primary" onClick={() => handleEntrar(content.contentId)}>
-                    <SvgIcon>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="40" stroke-dashoffset="40" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6l10 6l-10 6Z"><animate fill="freeze" attributeName="fill-opacity" begin="0.5s" dur="0.15s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0"/></path></svg>
-                    </SvgIcon>
+                      <PlayAnimatedIcon />
                   </IconButton>
                   </Tooltip>
                 </Box>
@@ -138,6 +145,20 @@ function UsersContent(){
             ))
           )}
         </Stack>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 2, alignItems: 'center' , gap: '1em'}}>
+        <Typography variant="body2" >Items por página:</Typography>
+        <Select
+        size='small'
+          value={pageSize}
+          onChange={(e) => setPageSize(Number(e.target.value))}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Items per page' }}
+        >
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={20}>20</MenuItem>
+        </Select>
+      </Box>
         <Pagination
           count={Math.ceil(contents?.length / pageSize)}
           page={page}

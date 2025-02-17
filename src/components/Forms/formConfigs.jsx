@@ -49,7 +49,7 @@ export const formConfigs = {
         fields: [
             { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Ingrese el nombre' },
             { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            { name: 'hidden' , label : 'Oculto', type: 'checkbox' }
+            { name: 'hidden' , label : 'Oculto', type: 'checkbox', placeholder: '¿Es oculto?' }
         ],
         validationSchema: Yup.object({
             name: Yup.string().required('El nombre es obligatorio'),

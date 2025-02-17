@@ -28,6 +28,7 @@ export default defineConfig({
         '@constants': path.resolve(__dirname, 'src/constants'),
         '@security': path.resolve(__dirname, 'src/security'),
         '@animations': path.resolve(__dirname, 'src/assets/animations'),
+        '@icons': path.resolve(__dirname,'src/assets/icons'),
         
       }
     },

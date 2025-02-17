@@ -3,7 +3,7 @@ import { Formik, Form, Field, useFormikContext } from 'formik';
 import PropTypes from "prop-types"
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { DynamicSubForm } from './DynamicSubForm';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
   const { values } = useFormikContext();
@@ -46,13 +46,15 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
           isLoadingTemplate,
           formTitle
         }) {
-          const combinedInitialValues = { ...initialValues };
+          
+           
         
             return (
             <Formik
-              initialValues={combinedInitialValues}
+              initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={onSubmit}
+
             >
              
               {(formState) => (
@@ -94,6 +96,8 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
                       as={Switch}
                       label={field.label || field.name}
                       disabled={disableForm || field.disabled}
+                      fullWidth
+                      defaultChecked={false}
                       {...field.props}
                     />
                   </>

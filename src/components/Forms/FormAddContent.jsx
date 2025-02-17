@@ -36,6 +36,7 @@ function FormAddContent({onSubmit, loading, isPublic, ...rest}) {
     useEffect(() => {
         if (activityTypeVersions?.length>0&&activityTypeVersions[activityTypeVersions.length-1]?.model){
             setJsonTemplate({model: JSON.parse(activityTypeVersions[activityTypeVersions.length-1].model)})
+            console.log("uef que setea jsonTemplate",JSON.parse(activityTypeVersions[activityTypeVersions.length-1].model))
         }
     }, [activityTypeVersions]);
 

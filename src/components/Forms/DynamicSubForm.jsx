@@ -1,7 +1,7 @@
 import { Field, FieldArray } from 'formik';
 import { Box, Button, Switch, TextField, Typography, IconButton, List, ListItem, Stack } from '@mui/material';
 import PropTypes from 'prop-types'
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 /**
@@ -14,12 +14,28 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 
 export const DynamicSubForm = ({ jsonTemplate, formState }) => {
-//  const initialValues = formState.values.model;
-// console.log("jsonTemplate",initialValues, jsonTemplate)
+   
+  //const initialValues = formState.values.model;
+ //console.log("jsonTemplate",initialValues, jsonTemplate)
+
+useEffect(() => {
+  if (jsonTemplate && !formState.initialValues.model) {
+    const subFormInitialValues = Object.keys(jsonTemplate.model).reduce((acc, key) => {
+      acc[key] = jsonTemplate.model[key] === 'boolean' ? false : '';
+      return acc;
+    }, {});
+
+    formState.setValues((prevValues) => ({
+      ...prevValues,
+      model: { ...subFormInitialValues }
+    }));
+  }
+}, [jsonTemplate]);
+
 
 const renderField = useCallback((key, path, value ) => {
   const { values } = formState;
- // console.log("formState en renderField subform", formState)
+  console.log("formState en renderField subform", key,path,value, formState)
   const fieldName = path ? `${path}.${key}` : key;
   if (typeof value === 'object' && !Array.isArray(value)) {
     // Si el valor es un objeto, renderiza los campos de forma recursiva
@@ -42,6 +58,7 @@ const renderField = useCallback((key, path, value ) => {
       case "string[]":
       {        
         const nestedValue = getNestedValue(values, fieldName);
+        console.log("nestedValue en String[]", nestedValue)
         return  <FieldArray
                   label={fieldName}
                   name={fieldName}
@@ -59,7 +76,7 @@ const renderField = useCallback((key, path, value ) => {
                           {console.log("nestedValue",nestedValue)}
 {                        nestedValue?.map((unit, index) => (
                           <ListItem key={index}>
-                            <Field  as={TextField} variant="outlined" name={`${fieldName}.${index}`} placeholder="placeholder" size={"small"} fullWidth/>
+                            <Field  as={TextField} variant="outlined" name={`${fieldName}.${index}`} placeholder={`Ingrese ${key}`} size={"small"} fullWidth/>
                             <IconButton
                               type="button"
                               onClick={() => arrayHelpers.remove(index)} // remove a unit from the list
@@ -78,9 +95,10 @@ const renderField = useCallback((key, path, value ) => {
                 />
       }     
        case "boolean": 
-   //    console.log("booleano en subform", fieldName, )
+       //console.log("booleano en subform", fieldName, formState)
         return  (
         <div key={fieldName} style={{ marginBottom: '16px' }}>
+          {console.log("booleano")}
            <Typography variant='body1'>{key || fieldName}</Typography>
                 <Field
                   name={fieldName}
@@ -88,7 +106,6 @@ const renderField = useCallback((key, path, value ) => {
                   as={Switch}
                   label={key}
                   fullWidth
-                  variant="outlined"
                 />
            {/*      <FormControlLabel  name={fieldName} fullWidth control={<Switch />} label={key}/> */}
          </div>)
@@ -122,7 +139,7 @@ const renderField = useCallback((key, path, value ) => {
 return (
     <>
       {Object.entries(jsonTemplate).map(([key, value]) =>
-        renderField(key, '', value,formState.values)
+        renderField(key, '', value)
       )}
     </>
   );

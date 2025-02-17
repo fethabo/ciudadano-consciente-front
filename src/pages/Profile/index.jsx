@@ -1,9 +1,12 @@
-import { Alert, Box, Skeleton, Typography } from "@mui/material";
+import { Alert, Box, Button, Skeleton, Typography } from "@mui/material";
 //import useGivenName from "../../security/hooks/useGivenName";
 import useUserName from "../../security/hooks/useUserName";
 import useEmail from "../../security/hooks/useEmail";
 import { useGetStatisticsOfUser } from "@components/Hooks/requests/Statistics";
+import { useContext } from "react";
+import { KeycloakContext } from "@security/KeycloakContext";
 
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 /**
  * @todo: agregar cambio de contraseña, quizas tambien mostrar a que organizaciones pertenece, 
@@ -23,6 +26,8 @@ import { useGetStatisticsOfUser } from "@components/Hooks/requests/Statistics";
  * @returns 
  */
 const Profile = () => {
+  
+  const keycloakContext = useContext(KeycloakContext)
   const userName= useUserName();
   const email= useEmail();
   const {data: statistics, isFetching: isFetchingStatistics, isError: isErrorStatistics} = useGetStatisticsOfUser({enabled: true})
@@ -54,6 +59,7 @@ const Profile = () => {
           <Typography variant="body2">Contenidos: <b>{statistics.contents}</b></Typography>
         </Box>
       )}
+        <Button startIcon={<ExitToAppIcon />} onClick={()=> keycloakContext?.logout()}><Typography variant="body2">Logout</Typography></Button>
     </Box>
     )
   };

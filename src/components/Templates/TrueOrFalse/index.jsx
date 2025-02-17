@@ -21,13 +21,21 @@ console.log(content)
   }, [response, content, onResponse]);
 
   return (
-    <Stack direction="column" spacing={2}>
-      <Typography variant="h4">{content?.statement}</Typography>
-      <Stack direction="row" spacing={2}>
+    <Stack
+      direction="column"
+      spacing={4}
+      alignItems="center"
+      justifyContent="center"
+     //sx={{ minHeight: "100vh" }}
+    >
+      <Typography variant="h4" align="center">
+        {content?.statement}
+      </Typography>
+      <Stack direction="row" spacing={2} justifyContent="center">
         <Button onClick={() => setResponse(true)} variant="contained">
           Verdadero
         </Button>
-        <Button onClick={() => setResponse(false)} variant="contained">
+        <Button onClick={() => setResponse(false)} variant="outlined">
           Falso
         </Button>
       </Stack>

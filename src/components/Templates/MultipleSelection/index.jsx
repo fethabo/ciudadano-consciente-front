@@ -13,7 +13,7 @@ import { useState } from "react";
  */
 export default function MultipleSelection({ content, onResponse }) {
   const [selected, setSelected] = useState([]);
-console.log("contenido en multiplesleccion", content)
+//console.log("contenido en multiplesleccion", content)
   const toggleSelection = (option) => {
     setSelected((prev) =>
       prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
@@ -21,7 +21,8 @@ console.log("contenido en multiplesleccion", content)
   };
 
   const handleSubmit = () => {
-    const corrects = JSON.parse(content.correct_answers);
+    const corrects = content.correct_answers
+ //   console.log("submit",selected.sort(), corrects.sort(),selected.sort() == corrects.sort())
     const isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(corrects.sort());
     onResponse(isCorrect);
   };
@@ -30,7 +31,7 @@ console.log("contenido en multiplesleccion", content)
     <Stack direction="column" spacing={2}>
       <Typography variant="h4">{content?.question}</Typography>
       <Stack direction="column" spacing={1}>
-        {JSON.parse(content?.options)?.map((option, index) => (
+        {content?.options?.map((option, index) => (
           <Button
             key={index}
             onClick={() => toggleSelection(option)}
@@ -40,9 +41,11 @@ console.log("contenido en multiplesleccion", content)
           </Button>
         ))}
       </Stack>
-      <Button onClick={handleSubmit} variant="contained">
-        Verificar
-      </Button>
+      <Stack direction="row" justifyContent="center" marginTop={2}>
+        <Button onClick={handleSubmit} variant="outlined" color="secondary">
+          Verificar
+        </Button>
+      </Stack>
     </Stack>
   );
 }

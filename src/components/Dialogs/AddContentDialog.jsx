@@ -25,6 +25,7 @@ export default function AddContentDialog({open, handleClose, isPublic, ...rest})
             if (contentPosted){
                 console.log("entra en el uef, if de data")
                 queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
+                queryClient.resetQueries({ queryKey: ['useGetContentsOfUser'], exact: false }) //para actualizar las opciones de la actividad
                 queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
             }
             setFormPost(null);
