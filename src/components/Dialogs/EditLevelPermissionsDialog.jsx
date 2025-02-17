@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDeleteUserRoleLevel, useGetUsersWithRoleInLevel } from "../Hooks/requests/Level";
 import useUserApi from "../Hooks/useUserApi";
 import { useEffect, useState } from "react";
-import FormSearchUsers from "../Forms/FormSearchUser";
+//import FormSearchUsers from "../Forms/FormSearchUser";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetRoles } from "../Hooks/requests/Roles";
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -67,6 +67,7 @@ const handleCloseForm = () => {
     queryClient.resetQueries({ queryKey: ['useGetUsersWithRoleInLevel', level?.levelId,null,null], exact: true })
 }
     return ( <Dialog
+        fullScreen
                 open={open}
                 aria-labelledby="edit-level-permissions-dialog"
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}

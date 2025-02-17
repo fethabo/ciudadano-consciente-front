@@ -23,14 +23,15 @@ export default function EditLevelDialog({open, level, handleClose, path,...rest}
     }, [data, isError]);//eslint-disable-line
 
     const handleSubmit = (v) =>{
-        console.log("handleSubmit en dialog", v)
+        //console.log("handleSubmit en dialog", v)
         const form = {...v}
-        console.log("handleSubmit en dialog", v, form)
+        //console.log("handleSubmit en dialog", v, form)
         setFormPatch(form);
     }
 
     return ( <Dialog
-                open={open}
+        fullScreen        
+        open={open}
                 aria-labelledby="edit-level-dialog"
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
                 {...rest}

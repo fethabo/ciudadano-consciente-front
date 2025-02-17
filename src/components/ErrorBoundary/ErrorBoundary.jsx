@@ -31,6 +31,7 @@ class ErrorBoundary extends React.Component {
               loop
               autoplay
               />
+              <Button onClick={() => window.location.reload()}>Reintentar</Button>
           <Button href="/">Volver al inicio</Button>
         </div>
       );

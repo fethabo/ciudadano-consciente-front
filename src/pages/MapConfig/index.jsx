@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fade, LinearProgress, Menu, MenuItem,  Typography } from "@mui/material";
+import { Alert, Box, Fade, Menu, MenuItem,  Skeleton,  Stack,  Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
@@ -24,7 +24,7 @@ export default function MapConfig() {
   //Obtengo el path y los childrens del nivel padre
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
-//obtengo activities de todos los childrens. (ojo con la key de la query, es activityByLevel)
+  //obtengo activities de todos los childrens. (ojo con la key de la query, es activityByLevel)
   const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
   const queryClient = useQueryClient()
   
@@ -76,7 +76,7 @@ export default function MapConfig() {
           classes: 'outline'
         });
   
-        // Agregar conexión padre-hijo
+        // Agregar transiciones
         if (level.parent) {
           elements.push({
             data: { source: level.parent, target: level.levelId }
@@ -111,7 +111,7 @@ const handleAddLevel=()=>{
 //Handling delete action
 const [deleteLevel, setDeleteLevel] = useState(null);
 const [openDeleteLevel, setOpenDeleteLevel] = useState(false);
-const {data: responseDelete, isFetching: isFetchingDelete, isError: isErrorDelete} = useDeleteLevel({levelId: deleteLevel, enabled: !!deleteLevel});
+const {data: responseDelete, isFetching: isFetchingDelete, } = useDeleteLevel({levelId: deleteLevel, enabled: !!deleteLevel});
 useEffect(() => {
   if (responseDelete && !isFetchingDelete){
     setDeleteLevel(null)
@@ -151,7 +151,7 @@ const handleEditActivity = () => {
 //handling delete Activity
 const [openDeleteActivityDialog, setOpenDeleteActivityDialog] = useState(false);
 const [deleteActivity, setDeleteActivity] = useState(null);
-const { data: responseDeleteActivity, isError: isErrorDeleteActivity,isFeching: isFetchingDeleteActivity } = useDeleteActivity({activityId: deleteActivity, enabled: !!deleteActivity});
+const { data: responseDeleteActivity, isFeching: isFetchingDeleteActivity } = useDeleteActivity({activityId: deleteActivity, enabled: !!deleteActivity});
 
 const handleDeleteActivity = () => {
   setOpenDeleteActivityDialog(true);
@@ -166,7 +166,7 @@ useEffect(() => {
   }
 }, [ queryClient, levelSelectedId, idParentLevel, responseDeleteActivity, isFetchingDeleteActivity, activity]);
 
-
+//Apertura de permisos
 const [openEditPermissions, setOpenEditPermissions] = useState(false);
 const handleEditPermissions = () => {
   setOpenEditPermissions(true);
@@ -175,12 +175,15 @@ const handleEditPermissions = () => {
 
     return (
     <Box>
-      <Typography className="nombre">Mapa: {path?.name}</Typography>
-      <Typography className="descripcion">{path?.description}</Typography>   
-            {
+      <Stack textAlign="left">
+        <Typography className="nombre">Mapa: {path?.name}</Typography>
+        <Typography className="descripcion">Descripción: {path?.description}</Typography>    
+      </Stack>
+        {
+            isFetchingPath ? <Skeleton variant="rectangular" width="100%" height={400} /> :
+            (isErrorPath||isErrorChildrens)? <Alert severity="error">Hubo un error al obtener el mapa</Alert>:
             path
-             ? <div className="path" >
-                    
+             && <div className="path" >
                     {mapElements&&mapElements?.length>0
                     &&<> <MapCytoscape elements={mapElements} onSelect={handleSelect} loading={isFetchingChildrens} />
                      <Menu
@@ -210,16 +213,18 @@ const handleEditPermissions = () => {
                       <ConfirmDialog   open={openDeleteActivityDialog} onClose={()=>setOpenDeleteActivityDialog(false)} onConfirm={()=>setDeleteActivity(activity?.activityId)} title="Eliminar la actividad" message={`Eliminando la actividad ${activity?.activityId} del level ${levelSelectedId}. Esta acción no borrará el contenido que ejecuta la actividad de este nivel ¿Está seguro?`} loading={isFetchingDeleteActivity}/>
                       <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> setOpenEditActivity(false)} path={idParentLevel}/>
                       <EditLevelPermissionsDialog open={openEditPermissions} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditPermissions(false)} path={idParentLevel} />
-                      {activity &&
+                   {/*    {levelSelectedId &&
+                        <LevelInfo level={level} />
+                      } */}
+                      {
+                        isPending ? (
+                          <Skeleton variant="rectangular" width="100%" height={200} animation="wave" />
+                        ):activity &&
                         <ActivityInfo activity={activity} />
-                      
                       }
-                      
-                    
                     </>
                     }
                 </div>            
-                  :<LinearProgress color={'secondary'}/>
             }
                 
     </Box>

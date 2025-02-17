@@ -31,14 +31,14 @@ return (
             <Skeleton variant="text" width={210} height={40} />
             <Skeleton variant="text" width={300} height={20} />
             <Box>
-            <Skeleton variant="rectangular" width={100} height={36} />
-            <Skeleton variant="rectangular" width={100} height={36} style={{ marginLeft: '1em' }} />
+                <Skeleton variant="rectangular" width={100} height={36} />
+                <Skeleton variant="rectangular" width={100} height={36} style={{ marginLeft: '1em' }} />
             </Box>
           </>
         )
           : isErrorOrganization? <Alert severity="error">Error al cargar la organización</Alert>
           :   <>
-               <Typography variant="h5">{organization?.name}</Typography>
+               <Typography variant="h5">Organización: {organization?.name}</Typography>
                <Typography variant="subtitle1">{organization?.description}</Typography>
                {organization?.verified
                 ? 

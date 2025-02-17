@@ -62,10 +62,8 @@ function Router() {
             <Route path="/settings" element={<Settings />} /> 
             <Route path="/map"  >{/* Pantalla de vista dle mapa, se muestran los branches y sus levels agrupados */}
               <Route path=":idParentLevel" index element={<Map />} />
-             {/*  <Route path=":idParentLevel/:level" element={<Level />} /> */}
               <Route path=":idParentLevel/activity/" element={<Activity />} />
             </Route>
-            {/* {console.log(token)}   */}     
             <Route path="/profile" element={token? <Profile />:<Navigate to="/login" replace={true} />} />
             <Route path="/contents" element={<ContentsPage />} /> {/* VISTA DE Contenidos del usuario */}
             

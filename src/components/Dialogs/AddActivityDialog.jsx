@@ -32,6 +32,7 @@ export default function AddActivityDialog({open, idLevel , handleClose, path,...
 
     return ( <Dialog
                 open={open}
+                fullScreen
                 aria-labelledby="add-level-dialog"
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
                 {...rest}

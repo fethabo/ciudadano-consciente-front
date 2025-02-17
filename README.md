@@ -95,7 +95,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] sacar autenticacion obligatoria.
 - [ ] agregar manejo de respuestas locales (localStorage) para la vista del mapa.
 - [x] agregar alias para importaciones de hooks y componentes 
-- [ ] agregar post para marcar favorito (sobre el level (mapa y actividad) )
+- [x] agregar post para marcar favorito (sobre el level (mapa y actividad) )
 - [ ] ventana o info de organization visible por un usuario comun (donde se puede votar la organizacion) Podria ser accesible desde el mapa.
 - [ ] busqueda de paths / filtrado
 - [x] ver opciones de REact query para que no haga refetch cada vez que vuelve a la pestaña.
@@ -105,13 +105,13 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
             - si el contenido se genera desde la configuracionde la organización este se vincula a la misma, creando como propiedad de esta.
             - si el contenido lo crea un usario desde fuera de la organización es del usuario, puede ponerlo publico y editarlo cuando quiere.
         - puede editarlo/eliminarlo un moderador o el creador (si tiene organizacion relacionada el usuario debe ser divulgador de la misma o moderador para poder editarlo). 
-- [ ] Agregar en el home la creacion de contenidos y la vista de contenidos publicos.
+- [x] Agregar en el home la creacion de contenidos y la vista de contenidos publicos.
 - [ ] en el pool permitir la creacion de contenidos como respuesta a una pregunta.
-- [ ] en el pool agregar modo de juego sobre los contenidos publicos (directamente desde las respuestas del pool, esto seria una actividad sin level).
+- [x] en el pool agregar modo de juego sobre los contenidos publicos (directamente desde las respuestas del pool, esto seria una actividad sin level).
 - [ ] Agregar modo de juego random con los contenidos publicos, (con configuraciones de tags, pertenecientesde organizacion o no).
 - [ ] Idea: modo de juego competitivo. 
 - [ ] Idea: ranking por racha de victorias en modo de juego random
-- [ ] implementar o utilizar un tagPicker
+- [x] implementar o utilizar un tagPicker
 - [x] unificar el uso del useQuery para posibles modificaciones masivas sobre todas las consultas de la aplicacion. (por ejemplo el staleTime)
 - [x] agregar staleTime a todos los useQuery
 - [x] quitar staleTime en requests de escritura
@@ -119,7 +119,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] Agregar un USER PROVIDER global, que intente obtener el usuario de la api a partir del userName o el email de kc, si no existe debe realizar un POST y disponibilizar el userId en la aplicacion.
 - [ ] idea: probar userGuests de kc, la app siempre autenticada, pero el registro en la api (POST) debe realizarse solo cuando se registra efectivamente en KC.
 - [x] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
-- [ ] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
+- [x] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
 - [ ] agregar pristine para submit en formularioBase
 - [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
 - [ ] agregar search a la seleccion de contenidos.
@@ -239,13 +239,13 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] corregir creacion de contenido publico desde contents
 - [x] agregar vista de contents del usuario (permite el CRUD alli)
 - [x] votacion de paths (agregado en el mapa)
-- [ ] agregar carga de tags a levels (config)
+- [x] agregar carga de tags a levels (config)
 - [x] agregar tags a mapa
-- [ ] agregar referencias (paths/maps)
 - [x] Post y delete de preguntas, get y votacion (pool)
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
 - [x] agregar mensaje en favoritos (home)
 - [x] corregir mensaje de exito en actividad
+- [ ] agregar referencias (paths/maps)
 - [ ] mostrar referencias en la respuesta de la actividad (si es en un level)
 - [ ] Agregar limitaciones con respecto a los archivos . --->agregar en model de activityTypeVersion el limite para la cantidad de archivos
 - [ ] agregar Mensaje de exito y mensaje de error para los contents? podria ser un campo solo "mensajes", lo manejamos como un arreglo y seria algo puramente para la aplicacion del front.
@@ -253,3 +253,7 @@ Ejemplo:
 [{nombre: mensajeExito, valor: "Efectivamente, los terremotos son mas frecuentes"}, { nombre: mensajeFalla, valor: "no, piensa en los noticiarios y la frecuencia de sus menciones" }, { nombre: hint, valor: "trrrrrrr" }]
 otra es agregarlos a los tres como campos del content, no obligatorios. 
 otra es agregar una entidad "mensaje" y hacer una relacion uno a muchos con el content
+
+
+-[ ] implementar un selector de contents para el alta de actividad
+-[ ]

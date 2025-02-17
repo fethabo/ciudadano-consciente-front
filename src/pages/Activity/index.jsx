@@ -10,11 +10,14 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import animatedFail from '@animations/Fail.lottie'
 import animatedEntusiastic from '@animations/Entusiastic.lottie'
 import ReactConfetti from "react-confetti";
+import PropTypes from "prop-types"
+
+
 /**
  * @todo: agregar post del streak al responder correctamente (eso no deberia afectar a activities)
  * @returns 
  */
-export default function Activity() {
+export default function Activity({id}) {
 
     const [activityContent, setActivityContent] = useState(null);
     const user = useUserApi();
@@ -26,12 +29,12 @@ export default function Activity() {
     
     //Si estoy en un mapa y no tengo actividad en el contexto navego al mapa (algo falló)
     useEffect(() => {
-        if(activity===null && !idContent){
+        if(activity===null && !idContent && !id){
             navigate(`/map/${idParentLevel}`)
         }
-    }, [activity, idParentLevel, navigate, idContent]);
+    }, [activity, idParentLevel, navigate, idContent, id]);
 
-    const { data: content, isFetching: isFetchingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content || idContent, enabled:(!!activity&&!!activity.content)||!!idContent})
+    const { data: content, isFetching: isFetchingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content || idContent || id, enabled:(!!activity&&!!activity.content)||!!idContent || !!id})
     const { data: activityTypeVersion, isFetching: isFetchingActivityTypeVersion, isError: isErrorActivityTypeVersion}= useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content})
     const { data: response, isFetching: isFetchingAnswer, isError: isErrorAnswer} = usePostAnswer({form: answer, enabled:(!!answer && enabledPost)})
     const [responseContent, setResponseContent] = useState(false)
@@ -50,8 +53,6 @@ export default function Activity() {
 
     //Handler de la actividad, habilita el post 
     const handleResponse = useCallback((value)=>{
-        //console.log("handleResponse")
-        
         if(activity){
             //(EL POST SOLO OCURRE CUANDO ESTOY JUGANDO EN UNA ACTIVIDAD)
             setAnswer({activity:activity.activityId, userId:user?.userId, status: value})        
@@ -91,7 +92,7 @@ export default function Activity() {
                     <LinearProgress/>
                  </Box>
                </Box>
-            :   ((isErrorContent || isErrorActivityTypeVersion)
+            :   ((isErrorContent  || isErrorActivityTypeVersion || isErrorImages)
                     ? <Alert severity="error">Hubo un error al obtener la actividad</Alert>
                     :(!!activityContent&&
                          <Suspense fallback={<LinearProgress/>}>
@@ -135,8 +136,13 @@ export default function Activity() {
         </DialogContent>
         <DialogActions>
                {activity&& <Button onClick={()=> navigate(`/map/${idParentLevel}`)} disabled={isFetchingAnswer}>Volver al mapa</Button>}
-                <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}>Reintentar</Button>
-                <Button onClick={()=>{ idContent? navigate(-1) : navigate(`/map/${idParentLevel}`)}} disabled={isFetchingAnswer ||(response ? !response?.status: !responseContent?.value)}>Siguiente</Button>
+                {id ?
+                <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}}>cerrar</Button>    
+                    :<>
+                        <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}>Reintentar</Button>
+                        <Button onClick={()=>{ idContent? navigate(-1) : navigate(`/map/${idParentLevel}`)}} disabled={isFetchingAnswer ||(response ? !response?.status: !responseContent?.value)}>Siguiente</Button>
+                    </>
+            }
                 {/* El siguiente vuelve al mapa para permitirle elegir la siguiente actividad (no siempre hay un solo camino a seguir) 
                 TODO: agregar en contexto de useMap el id de la respuesta recien guardada, esto mostraria la animacion en el nodo de completado y habilitar los siguientes nodos.
                 */}
@@ -147,3 +153,6 @@ export default function Activity() {
      );
 }
 
+Activity.propTypes={
+    id: PropTypes.number
+}

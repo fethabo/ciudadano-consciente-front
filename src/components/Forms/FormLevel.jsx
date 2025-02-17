@@ -2,10 +2,12 @@ import { Box, Button, LinearProgress } from "@mui/material";
 import FormBase from "./FormBase";
 import formConfigs from "./formConfigs";
 import PropTypes from "prop-types"
+import TagsControl from "@components/TagsControl";
 
 function FormLevel({onSubmit, loading, ...rest}) {
 
     const config = formConfigs['Level'];
+    const {initialValues} = rest
     return (  
       <FormBase
             fields={config.fields}
@@ -19,6 +21,10 @@ function FormLevel({onSubmit, loading, ...rest}) {
              <Box display={"flex"} justifyContent={"right"}>
                 <Button key="submit" type="submit" disabled={loading}>Guardar</Button>
             </Box>
+
+         {!!initialValues?.levelId &&
+            <TagsControl entityId={initialValues.levelId} entityType="levels"/>
+         }   
         </FormBase> 
     );
 }

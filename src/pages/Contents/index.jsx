@@ -11,8 +11,7 @@ import UserContents from './UserContents';
  * - Permite al usuario Agregar Contenidos
  * - Ver otros contenidos y votarlos
  * - Jugar contenidos de forma aleatoria (o por categoría).
- * @todo: agregar filtrado y paginado
- * @todo: agregar vista de contenidos del usuario (para que pueda editar, crear, eliminar y hacerlos publicos)
+ * @todo: agregar filtrado
 */
 function ContentsPage(){
  

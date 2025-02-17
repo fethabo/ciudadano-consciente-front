@@ -8,7 +8,7 @@ import FormActivity from "../Forms/FormActivity";
 
 export default function EditActivityDialog({open, activity, handleClose, path,...rest}) {
     const [formPatch, setFormPatch] = useState(null);
-    console.log("ACTIVITY EN EDIT DIALOG", activity)
+    //console.log("ACTIVITY EN EDIT DIALOG", activity)
     const {data, isFetching, isError} = usePatchActivity({form: formPatch, activityId: activity?.activityId, enabled: !!formPatch && !!activity?.activityId})
     const queryClient = useQueryClient()
     
@@ -30,6 +30,7 @@ export default function EditActivityDialog({open, activity, handleClose, path,..
 
     return ( <Dialog
                 open={open}
+                fullScreen
                 aria-labelledby="edit-activity-dialog"
                 onClose={(e,reason) => { if (reason === 'backdropClick') { handleClose() } }}
                 {...rest}
