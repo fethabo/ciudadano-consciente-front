@@ -40,7 +40,7 @@ const renderField = useCallback((key, path, value ) => {
   if (typeof value === 'object' && !Array.isArray(value)) {
     // Si el valor es un objeto, renderiza los campos de forma recursiva
     return (
-      <Stack key={fieldName} style={{ paddingLeft: '20px', borderLeft: '1px solid #ccc', marginBottom: '10px', gap:'1em' }}>
+      <Stack key={key} style={{ paddingLeft: '20px', borderLeft: '1px solid #ccc', marginBottom: '10px', gap:'1em' }}>
         <h4>{key}</h4>
         {Object.entries(value).map(([subKey, subValue]) =>
           renderField(subKey, fieldName, subValue)

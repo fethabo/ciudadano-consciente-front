@@ -216,6 +216,7 @@ const handleEditPermissions = () => {
                    {/*    {levelSelectedId &&
                         <LevelInfo level={level} />
                       } */}
+                      
                       {
                         isPending ? (
                           <Skeleton variant="rectangular" width="100%" height={200} animation="wave" />

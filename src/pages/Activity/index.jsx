@@ -44,7 +44,7 @@ export default function Activity({id}) {
     //Obtengo el contenido de la respuesta del content
     useEffect(() => {
       if (content && !!content.model && activityContent===null){
-        console.log("modelo que llega" , content.model)
+        //console.log("modelo que llega" , content.model)
         const modelObject = JSON.parse(content.model); 
 
         setActivityContent(modelObject)
@@ -65,7 +65,7 @@ export default function Activity({id}) {
     },[activity, user])
 
     useEffect(() => {
-        console.log("uef response", response)
+        //console.log("uef response", response)
         if(response && !isFetchingAnswer){
             setAnswer(null)
         }

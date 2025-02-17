@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function ColorChooser({ content, onResponse }) {
   const [selectedColor, setSelectedColor] = useState(null);
- // console.log("content en colorChooser",content)
+  //console.log("content en colorChooser",content)
   useEffect(() => {
     if (selectedColor !== null) {
       const isCorrect = selectedColor === content.correct_color;
@@ -16,7 +16,7 @@ export default function ColorChooser({ content, onResponse }) {
     <Stack direction="column" spacing={2} alignItems="center">
       <Typography variant="h4">{content?.prompt}</Typography>
       <Stack direction="row" spacing={2}>
-        {JSON.parse(content?.colors)?.map((color, index) => (
+        {content?.colors?.map((color, index) => (
           <Button
             key={index}
             onClick={() => setSelectedColor(color)}
