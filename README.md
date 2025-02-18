@@ -41,7 +41,7 @@ TODO:
 - [ ] Implementar vista o acceso a login de kc (TEMIFICARLO con https://www.keycloakify.dev/)
 
 ##### Pool
-- [ ] implementar vista
+- [x] implementar vista
 
 ##### Organization
 - [x] agregar listados de organizaciones a las que pertenece el usuario (con info resumida de su rol en la organizacion).
@@ -125,7 +125,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [ ] agregar search a la seleccion de contenidos.
 
 ##### bugs
-- [ ] reintento no permite volver a seleccionar la ultima respuesta (deberia limpiarlo completo)
+- [x] reintento no permite volver a seleccionar la ultima respuesta (deberia limpiarlo completo)
 
 ##### modificaciones por normalizacion de la api:
 - [x] Quitar requests de usuarios de la organizacion en paralelo.
