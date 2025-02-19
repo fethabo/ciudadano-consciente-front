@@ -20,7 +20,7 @@ export function useGetAnswers({...rest}){
  * @returns 
  */
 export function usePostAnswer({form,...rest}){
- console.log("POSTANSWER", form)
+ //console.log("POSTANSWER", form)
   return( 
     useApiQuery({
       queryKey:['usePostAnswers'],

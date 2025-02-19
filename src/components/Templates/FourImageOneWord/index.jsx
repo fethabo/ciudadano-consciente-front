@@ -8,9 +8,10 @@ import PropTypes from 'prop-types';
 export default function FourImageOneWord({ content, onResponse, images }) {
         const [answer, setAnswer] = useState('');
         const [hints, setHints] = useState([]);
+       // console.log("PROPS DEL TEMPLATE", content, images);
 
         useEffect(() => {
-            if (content.hints) {
+            if (content.hints && content.correct_answer?.length>2) {
                 const correctAnswer = content.correct_answer.trim();
                 const hintIndices = [];
                 while (hintIndices.length < 2) {
@@ -31,15 +32,15 @@ export default function FourImageOneWord({ content, onResponse, images }) {
         };
 
         const handleSubmit = (event) => {
-        event.preventDefault();
-        const filledAnswer = answer.map((char, index) => (char === '' && hints.includes(index) ? content.correct_answer[index] : char));
-        const joinedAnswer = filledAnswer.join('');
-        console.log(joinedAnswer);
-        onResponse(joinedAnswer.toLowerCase() === content.correct_answer.toLowerCase());};
+            event.preventDefault();
+            const filledAnswer = answer.map((char, index) => (char === '' && hints.includes(index) ? content.correct_answer[index] : char));
+            const joinedAnswer = filledAnswer.join('');
+            console.log(joinedAnswer);
+            onResponse(joinedAnswer.toLowerCase() === content.correct_answer.toLowerCase());};
 
-        useEffect(() => {
-            setAnswer(new Array(content.correct_answer.length).fill(''));
-        }, [content.correct_answer]);
+            useEffect(() => {
+                setAnswer(new Array(content.correct_answer.length).fill(''));
+            }, [content.correct_answer]);
 
         const handleChange = (event, index) => {
             const newAnswer = [...answer];
