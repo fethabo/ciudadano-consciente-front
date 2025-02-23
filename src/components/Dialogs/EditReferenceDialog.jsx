@@ -10,16 +10,17 @@ export default function EditReferenceDialog({open, reference, handleClose, ...re
   
   const queryClient = useQueryClient();
   const [formPatch, setFormPatch] = useState(null);
-  const { data: referencePatched, isFetching: isFetchingPatch, isError: isErrorPatch} = usePatchReference({referenceId: formPatch?.referenceId, form: formPatch, enabled: !!formPatch})
+  const { data: referencePatched, isFetching: isFetchingPatch, isError: isErrorPatch, isFetchedAfterMount} = usePatchReference({referenceId: formPatch?.referenceId, form: formPatch, enabled: !!formPatch})
 
   useEffect(()=>{
-      if (!isFetchingPatch){
+      if (referencePatched && !isFetchingPatch && isFetchedAfterMount){
           setFormPatch(null)
-          queryClient.resetQueries({ queryKey: ['useGetReferencesOfLevel', reference?.level], exact: true })
+          queryClient.resetQueries({ queryKey: ['useGetReferencesOfLevel'], exact: false })
+          handleClose()
       }else if(isErrorPatch){
           setFormPatch(null)
       }
-  }, [referencePatched, isFetchingPatch, isErrorPatch, reference, queryClient])	
+  }, [referencePatched, isFetchingPatch, isErrorPatch, reference, queryClient, isFetchedAfterMount])	
 
     
         const handleSubmit = (values) => {

@@ -16,7 +16,7 @@ export default function AddReferenceDialog({open, levelId , handleClose, ...rest
         useEffect(()=>{
             if (!isFetchingAdd){
                 setFormPost(null)
-                queryClient.resetQueries({ queryKey: ['useGetReferencesOfLevel', levelId], exact: true })
+                queryClient.resetQueries({ queryKey: ['useGetReferencesOfLevel'], exact: false })
                 handleClose();
             }else if (isErrorAdd){
                 setFormPost(null)

@@ -18,7 +18,7 @@ function ReferencesControl({ entityId}) {
     useEffect(() => {
         if (!isFetchingDelete){
             setReferenceToDelete(null)
-            queryClient.resetQueries({ queryKey: ['useGetReferencesOfLevel', entityId], exact: true })
+            queryClient.resetQueries({ queryKey: ['useGetReferencesOfLevel'], exact: false })
         }
     }, [referenceDeleted, isFetchingDelete, isErrorDelete, entityId, queryClient]);
 
