@@ -24,7 +24,7 @@ function ActivityInfo({activity}) {
                 {isFetchingContent ? (
                     <SkeletonContent />
                 ): isErrorContent? <Alert severity="error">Hubo un error al obtener el contenido</Alert>:
-         <Card sx={{ marginBottom: 2, width: { xs: '100%', sm: "48%" }, textAlign:'left' }}>
+         <Card sx={{ marginBottom: 2, width: "100%", textAlign:'left' }}>
                 <CardContent>
                   <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
                     <Typography variant="h6">{content.description}</Typography>    <Tooltip title="Editar" arrow>

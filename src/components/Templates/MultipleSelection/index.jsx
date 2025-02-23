@@ -13,7 +13,7 @@ import { useState } from "react";
  */
 export default function MultipleSelection({ content, onResponse }) {
   const [selected, setSelected] = useState([]);
-//console.log("contenido en multiplesleccion", content)
+  //  console.log("contenido en multiplesleccion", content)
   const toggleSelection = (option) => {
     setSelected((prev) =>
       prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]

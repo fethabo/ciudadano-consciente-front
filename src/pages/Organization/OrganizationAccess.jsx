@@ -6,7 +6,7 @@ import { FrostedGlassCard } from "@components/Cards";
 const backgroundImages = {
     maps: 'url(/images/maps.jpg)',
     contents: 'url(/images/activities.jpg)',
-    references: 'url(/images/references.jpg)',
+ //   references: 'url(/images/references.jpg)',
     stadistics: 'url(/images/statistics.jpg)',
 };
 function AccessCard({text, url, ...rest}){
@@ -37,7 +37,7 @@ function OrganizationAccess() {
     const accessCards= [
         {text: 'Mapas', url: 'maps'},
         {text: 'Actividades', url: 'contents'},
-        {text: 'Referencias', url: 'references'},
+       // {text: 'Referencias', url: 'references'},
         {text: 'Estadisticas', url: 'stadistics'},
 
     ]

@@ -1,4 +1,4 @@
-import { Alert, Box, Fade, Menu, MenuItem,  Skeleton,  Stack,  Typography } from "@mui/material";
+import { Alert, Box, Card, CardContent, Fade, IconButton, Menu, MenuItem,  Skeleton,  Stack,  Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
@@ -12,6 +12,7 @@ import ActivityInfo from "./ActivityInfo";
 import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
 import EditActivityDialog from "../../components/Dialogs/EditActivityDialog";
 import EditLevelPermissionsDialog from "../../components/Dialogs/EditLevelPermissionsDialog";
+import EditIcon from "@mui/icons-material/Edit";
 
 /**
  * CONFIGURACION DE MAPA DE LA ORGANIZACION.
@@ -173,12 +174,27 @@ const handleEditPermissions = () => {
   handleClose();
 }
 
+const [openEditPath, setOpenEditPath] = useState(false);
+
     return (
     <Box>
-      <Stack textAlign="left">
-        <Typography className="nombre">Mapa: {path?.name}</Typography>
-        <Typography className="descripcion">Descripción: {path?.description}</Typography>    
-      </Stack>
+      <Card>
+        <CardContent gap="1em">
+        <Stack justifyContent={"space-between"} flexWrap={"wrap"} display="flex" width="100%" alignItems="center" flexDirection={"row"}>
+          <Typography variant="h6" className="nombre">Configuración de mapa: </Typography>
+          <Box>
+            <IconButton onClick={()=>setOpenEditPath(true)}  variant="contained" color="secondary" size="small">
+              <EditIcon />
+            </IconButton>
+          </Box>
+        </Stack> 
+        <EditLevelDialog open={openEditPath} level={childrens?.find((c)=>idParentLevel==c?.levelId)} handleClose={()=> setOpenEditPath(false)} path={idParentLevel} />
+        <Stack textAlign="left">
+          <Typography variant="body1" >{path?.name}</Typography>
+          <Typography variant="body1" className="descripcion">Descripción: {path?.description}</Typography>    
+        </Stack>
+        </CardContent>
+      </Card>
         {
             isFetchingPath ? <Skeleton variant="rectangular" width="100%" height={400} /> :
             (isErrorPath||isErrorChildrens)? <Alert severity="error">Hubo un error al obtener el mapa</Alert>:
