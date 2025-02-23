@@ -245,8 +245,8 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
 - [x] agregar mensaje en favoritos (home)
 - [x] corregir mensaje de exito en actividad
-- [ ] agregar referencias (paths/maps)
-- [ ] mostrar referencias en la respuesta de la actividad (si es en un level)
+- [x] agregar referencias (paths/maps)
+- [x] mostrar referencias en la respuesta de la actividad (si es en un level) ----> se agrego en la vista de mapa
 - [ ] Agregar limitaciones con respecto a los archivos . --->agregar en model de activityTypeVersion el limite para la cantidad de archivos
 - [ ] agregar Mensaje de exito y mensaje de error para los contents? podria ser un campo solo "mensajes", lo manejamos como un arreglo y seria algo puramente para la aplicacion del front.
 Ejemplo: 
