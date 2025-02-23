@@ -3,8 +3,13 @@ import {  TextField, Typography, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
 //model:
-// {"imagesQuantity": "number", "hints": "boolean", "correct_answer": "string"}
+// 
 
+/**
+ * @todo: identificar cantidad de palabras (o se las pasamos en el model?)
+ * @param {*} content {"imagesQuantity": "number", "hints": "boolean", "correct_answer": "string"}
+ * @returns 
+ */
 export default function FourImageOneWord({ content, onResponse, images }) {
         const [answer, setAnswer] = useState('');
         const [hints, setHints] = useState([]);

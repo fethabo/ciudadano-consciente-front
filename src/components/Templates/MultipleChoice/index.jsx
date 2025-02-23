@@ -61,7 +61,7 @@ console.log("*******IMAGES",images)
                         key={index}  
                         onClick={() => setResponse(content?.options[option])} 
                         variant="text" 
-                        style={{ width: '45%', margin: '5px' }}
+                        sx={{ width: '45%', margin: '5px', textTransform: "none" }}
                     >
                         {content?.options[option]}
                     </Button>

@@ -28,7 +28,7 @@ export default function OrderSequence({ content, onResponse }) {
       <Typography variant="h4">{content?.instruction}</Typography>
       <Stack direction="row" spacing={2}>
         {content.options.map((option, index) => (
-          <Button key={index} onClick={() => handleOptionClick(option)} variant="outlined">
+          <Button key={index} onClick={() => handleOptionClick(option)} variant="outlined" sx={{ textTransform: "none" }}>
             {option}
           </Button>
         ))}

@@ -42,7 +42,7 @@ export default function MultipleSelection({ content, onResponse }) {
         ))}
       </Stack>
       <Stack direction="row" justifyContent="center" marginTop={2}>
-        <Button onClick={handleSubmit} variant="outlined" color="secondary">
+        <Button onClick={handleSubmit} variant="outlined" color="secondary" sx={{ textTransform: "none" }}>
           Verificar
         </Button>
       </Stack>

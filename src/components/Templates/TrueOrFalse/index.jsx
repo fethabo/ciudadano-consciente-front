@@ -1,4 +1,4 @@
-import { Button, Typography, Stack } from "@mui/material";
+import { Button, Typography, Stack, CardContent, Card } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
@@ -21,6 +21,7 @@ console.log(content)
   }, [response, content, onResponse]);
 
   return (
+   
     <Stack
       direction="column"
       spacing={4}
@@ -28,18 +29,23 @@ console.log(content)
       justifyContent="center"
      //sx={{ minHeight: "100vh" }}
     >
+     <Card>
+      <CardContent>
       <Typography variant="h4" align="center">
         {content?.statement}
       </Typography>
       <Stack direction="row" spacing={2} justifyContent="center">
-        <Button onClick={() => setResponse(true)} variant="contained">
+        <Button onClick={() => setResponse(true)} variant="contained" color="success">
           Verdadero
         </Button>
-        <Button onClick={() => setResponse(false)} variant="outlined">
+        <Button onClick={() => setResponse(false)} variant="contained" color= "error">
           Falso
         </Button>
       </Stack>
+      </CardContent>
+      </Card>
     </Stack>
+  
   );
 }
 

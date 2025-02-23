@@ -9,6 +9,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ConfirmDialog from '@components/Dialogs/ConfirmDialog';
 import Vote from '@components/Vote';
 import SkeletonConcerns from './SkeletonConcerns';
+import EditConcernDialog from '@components/Dialogs/EditConcernDialog';
+import  EditIcon from '@mui/icons-material/Edit';
 
 /**
  * @returns 
@@ -40,6 +42,14 @@ export default function Pool(){
 
   const paginatedConcerns = concerns?.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
+  const [openEdit, setOpenEdit] = useState(false);
+  const [concernToEdit, setConcernToEdit] = useState(null);
+
+  const handleCloseEdit= () =>{
+    setConcernToEdit(null);
+    setOpenEdit(false)
+  }
+
   return (
     <Stack sx={{ flexGrow: 1, padding: 2, gap: '2em' }}>
       <Typography variant="h4" gutterBottom>
@@ -52,6 +62,7 @@ export default function Pool(){
       :
    <Stack sx={{flexGrow: 1, padding: 2, gap: '2em'}}>
     <NewConcern />
+    <EditConcernDialog open={openEdit} handleClose={handleCloseEdit} concern={concernToEdit} />  
       <Stack spacing={3}>
         {paginatedConcerns?.map((concern) => (
           <Card key={concern.concernId}>
@@ -66,13 +77,22 @@ export default function Pool(){
               <Vote entityId={concern.concernId} entityType='concerns' userVotes={userVotes} isLoading={isFetchingUserVotes} isError={isErrorUserVotes} />
                
                 {concern.user === userId && (
-                  <IconButton
+                  <>
+                    <IconButton
+                      variant="contained"
+                      color="error"
+                      onClick={() => setOpenDelete(concern.concernId)}
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                    <IconButton
                     variant="contained"
-                    color="error"
-                    onClick={() => setOpenDelete(concern.concernId)}
+                    color="secondary"
+                    onClick={() => {setConcernToEdit(concern); setOpenEdit(true); }}
                   >
-                    <DeleteForeverIcon />
+                    <EditIcon />
                   </IconButton>
+                  </>
                 )}
               </Box>
               <Typography variant="caption" display="block" align="right">

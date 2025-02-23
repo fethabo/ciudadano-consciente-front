@@ -7,7 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 const NewConcern = () => {
 
     const [concern, setConcern] = useState(null)
-    const {data, isFetching, isError, isFetchedAfterMount} = usePostConcern({form: concern, enabled: !!concern});
+    const {data, isFetching, isFetchedAfterMount} = usePostConcern({form: concern, enabled: !!concern});
     
     const queryClient = useQueryClient();
 
