@@ -1,17 +1,18 @@
-import { Box, Card, CardContent, LinearProgress, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import MapCytoscape from "../../components/MapCytoscape";
 import WindowLevel from "../../components/WindowLevel";
 import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
 import {  useGetAnswersOfUserFromLevel } from "../../components/Hooks/requests/Answer";
-import { useGetActivitiesOfLevels, useGetActivityByLevel } from "../../components/Hooks/requests/Activity";
+import { useGetActivitiesOfLevels } from "../../components/Hooks/requests/Activity";
 import useMap from "../../components/Hooks/useMap";
 import { Skeleton } from "@mui/material";
 import Vote from "../../components/Vote";
 import useUserApi from "@components/Hooks/useUserApi";
 import { useGetUserVotes } from "@components/Hooks/requests/Users/Index";
 import TagsDisplay from "@components/TagsDisplay";
+import ReferencesDisplay from "@components/ReferencesDisplay";
 
 /* TODO: 
 * cambiar estilo de nodo si tiene respuesta correcta 
@@ -99,6 +100,13 @@ const {data: userVotes, isFetching: isFetchingUserVotes, isError: isErrorUserVot
         ) : (
           <Skeleton variant="rectangular" height="50vh" />
         )}
+        <Card>
+          <CardContent >
+            <Typography variant="h6" textAlign={"left"}>Referencias</Typography>
+            <Typography variant="body2"  textAlign={"left"}>Si quieres aprender más sobre el tema, el creador del nivel compartió las siguientes referencias</Typography>
+            <ReferencesDisplay entityId={idParentLevel} />
+          </CardContent>
+        </Card>
       </Box>
     );
   };
