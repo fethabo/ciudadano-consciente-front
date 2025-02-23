@@ -19,8 +19,17 @@ function TagsDisplay({ entityId, entityType}) {
                                 color="error"
                                 key={"error"}
                                 label={"error"}
+                                size="small"
                              />
                     :  
+                    tagsEntity?.length === 0 ? (
+                        <Chip
+                            color="warning"
+                            size="small"
+                            key={"empty"}
+                            label={"Sin etiquetas"}
+                        />
+                    ) :
                     (
                     tagsEntity?.map((tag) => (
                         <Chip

@@ -3,6 +3,7 @@ import FormBase from "./FormBase";
 import formConfigs from "./formConfigs";
 import PropTypes from "prop-types"
 import TagsControl from "@components/TagsControl";
+import ReferencesControl from "@components/ReferencesControl";
 
 function FormLevel({onSubmit, loading, ...rest}) {
 
@@ -25,6 +26,10 @@ function FormLevel({onSubmit, loading, ...rest}) {
          {!!initialValues?.levelId &&
             <TagsControl entityId={initialValues.levelId} entityType="levels"/>
          }   
+         
+         {!!initialValues?.levelId &&
+            <ReferencesControl entityId={initialValues.levelId} entityType="levels"/>
+         }
         </FormBase> 
     );
 }

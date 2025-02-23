@@ -28,7 +28,7 @@ export function useGetReferencesOfLevel({levelId, ...rest}){
     return(
       useApiQuery({
         queryKey:['useGetReferencesOfLevel',levelId],
-        endpoint: `/levels/${levelId}/references`,
+        endpoint: `/references/level/${levelId}`,
         options: {...rest},
         }
       )
@@ -39,7 +39,7 @@ export function useDeleteReference({referenceId, ...rest}){
     return(
       useApiQuery({
         queryKey:['useDeleteReference',referenceId],
-        endpoint: `/reference/${referenceId}`,
+        endpoint: `/references/${referenceId}`,
         method: 'DELETE',
         options: {...rest},
         }

@@ -26,7 +26,6 @@ export const formConfigs = {
         validationSchema: Yup.object({
             explanation: Yup.string().required('El desarrollo de la idea es obligatorio'),
             description: Yup.string().required('La pregunta es obligatoria'),
-            // Añadir más validaciones aquí según sea necesario
         }),
     },
     
@@ -70,7 +69,17 @@ export const formConfigs = {
             email: Yup.string().email('Invalid email').required('Required'),
         }),
     },
-    
+    Reference: {
+        fields: [
+            { name: 'title', label: 'Titulo', type: 'text', placeholder: 'Ingrese la pregunta' },
+            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese una aclaración sobre la pregunta' },
+            { name: 'url', label: 'URL', type: 'text', placeholder: 'Ingrese una aclaración sobre la pregunta' },
+        ],
+        validationSchema: Yup.object({
+            title: Yup.string().required('El titulo obligatorio'),
+            description: Yup.string().required('La descripción es obligatoria'),
+        }),
+    },
     
 };
 

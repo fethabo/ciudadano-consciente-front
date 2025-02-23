@@ -13,6 +13,8 @@ import AddActivityDialog from "../../components/Dialogs/AddActivityDialog";
 import EditActivityDialog from "../../components/Dialogs/EditActivityDialog";
 import EditLevelPermissionsDialog from "../../components/Dialogs/EditLevelPermissionsDialog";
 import EditIcon from "@mui/icons-material/Edit";
+import TagsDisplay from "@components/TagsDisplay";
+import ReferencesDisplay from "@components/ReferencesDisplay";
 
 /**
  * CONFIGURACION DE MAPA DE LA ORGANIZACION.
@@ -191,7 +193,9 @@ const [openEditPath, setOpenEditPath] = useState(false);
         <EditLevelDialog open={openEditPath} level={childrens?.find((c)=>idParentLevel==c?.levelId)} handleClose={()=> setOpenEditPath(false)} path={idParentLevel} />
         <Stack textAlign="left">
           <Typography variant="body1" >{path?.name}</Typography>
-          <Typography variant="body1" className="descripcion">Descripción: {path?.description}</Typography>    
+          <Typography variant="body1" >Descripción: {path?.description}</Typography>
+          <Typography variant="body1" >Etiquetas:</Typography><TagsDisplay entityId={idParentLevel} entityType="levels" />    
+          <Typography variant="body1" >Referencias:</Typography><ReferencesDisplay entityId={idParentLevel} entityType="levels" />    
         </Stack>
         </CardContent>
       </Card>
