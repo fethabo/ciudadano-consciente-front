@@ -25,7 +25,7 @@ export default function Activity({id}) {
     const { idParentLevel, idContent } = useParams();
     const [ answer, setAnswer ] =useState(null);
     const [ enabledPost, setEnabledPost ] = useState(false);
-    const { activity } = useMap();
+    const { activity, setActivity } = useMap();
     
     //Si estoy en un mapa y no tengo actividad en el contexto navego al mapa (algo falló)
     useEffect(() => {
@@ -135,12 +135,12 @@ export default function Activity({id}) {
             </Box>
         </DialogContent>
         <DialogActions>
-               {activity&& <Button onClick={()=> navigate(`/map/${idParentLevel}`)} disabled={isFetchingAnswer}>Volver al mapa</Button>}
+               {activity&& <Button onClick={()=> {navigate(`/map/${idParentLevel}`); setActivity(null)}} disabled={isFetchingAnswer}>Volver al mapa</Button>}
                 {id ?
                 <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}}>cerrar</Button>    
                     :<>
                         <Button onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}>Reintentar</Button>
-                        <Button onClick={()=>{ idContent? navigate(-1) : navigate(`/map/${idParentLevel}`)}} disabled={isFetchingAnswer ||(response ? !response?.status: !responseContent?.value)}>Siguiente</Button>
+                        <Button onClick={()=>{ idContent? navigate(-1) : navigate(`/map/${idParentLevel}`);setActivity(null);}} disabled={isFetchingAnswer ||(response ? !response?.status: !responseContent?.value)}>Siguiente</Button>
                     </>
             }
                 {/* El siguiente vuelve al mapa para permitirle elegir la siguiente actividad (no siempre hay un solo camino a seguir) 

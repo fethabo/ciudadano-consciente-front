@@ -32,7 +32,7 @@ export function useGetStatisticsOfUser({...rest}){
 export function useGetStatisticsOfOrganization({organizationId,...rest}){
     return(
       useApiQuery({
-        queryKey:['useGetStatisticsOfUser'],
+        queryKey:['useGetStatisticsOfOrganization'],
         endpoint: `/organizations/${organizationId}/statistics`,
         options: {...rest},
         }
