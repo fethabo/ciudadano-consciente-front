@@ -153,7 +153,7 @@ const handleEditActivity = () => {
 
 //handling delete Activity
 const [openDeleteActivityDialog, setOpenDeleteActivityDialog] = useState(false);
-const [deleteActivity, setDeleteActivity] = useState(null);
+const [ deleteActivity, setDeleteActivity ] = useState(null);
 const { data: responseDeleteActivity, isFeching: isFetchingDeleteActivity } = useDeleteActivity({activityId: deleteActivity, enabled: !!deleteActivity});
 
 const handleDeleteActivity = () => {
@@ -166,6 +166,7 @@ useEffect(() => {
     queryClient.resetQueries({ queryKey: ['useDeleteActivity', activity?.activityId], exact: true })   //la reseteo para que me permita borrar otro
     setOpenDeleteActivityDialog(false);
     queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', idParentLevel], exact: true }) 
+    setActivity(null)
   }
 }, [ queryClient, levelSelectedId, idParentLevel, responseDeleteActivity, isFetchingDeleteActivity, activity]);
 
@@ -231,7 +232,7 @@ const [openEditPath, setOpenEditPath] = useState(false);
                       <ConfirmDialog   open={openDeleteLevel} onClose={()=>setOpenDeleteLevel(false)} onConfirm={()=>setDeleteLevel(levelSelectedId)} title="Eliminar el nivel" message={`Eliminando el nivel ${levelSelectedId}. ¿Está seguro?`} loading={isFetchingDelete}/>
                       <AddActivityDialog open={openAddActivity} idLevel={levelSelectedId} handleClose={()=> setOpenAddActivity(false)} path={idParentLevel}/>
                       <ConfirmDialog   open={openDeleteActivityDialog} onClose={()=>setOpenDeleteActivityDialog(false)} onConfirm={()=>setDeleteActivity(activity?.activityId)} title="Eliminar la actividad" message={`Eliminando la actividad ${activity?.activityId} del level ${levelSelectedId}. Esta acción no borrará el contenido que ejecuta la actividad de este nivel ¿Está seguro?`} loading={isFetchingDeleteActivity}/>
-                      <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> {setOpenEditActivity(false)}} path={idParentLevel}/>
+                      <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> {setOpenEditActivity(false); setActivity(null)}} path={idParentLevel}/>
                       <EditLevelPermissionsDialog open={openEditPermissions} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditPermissions(false)} path={idParentLevel} />
                                        
                       {

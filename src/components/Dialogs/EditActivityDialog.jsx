@@ -9,12 +9,13 @@ import FormActivity from "../Forms/FormActivity";
 export default function EditActivityDialog({open, activity, handleClose, path,...rest}) {
     const [formPatch, setFormPatch] = useState(null);
     //console.log("ACTIVITY EN EDIT DIALOG", activity)
-    const {data, isFetching, isError} = usePatchActivity({form: formPatch, activityId: activity?.activityId, enabled: !!formPatch && !!activity?.activityId})
+    const {data, isFetching,isFetchedAfterMount, isError} = usePatchActivity({form: formPatch, activityId: activity?.activityId, enabled: !!formPatch && !!activity?.activityId})
     const queryClient = useQueryClient()
     
     useEffect(() => {
-        if (data){
+        if (data && !isFetching && isFetchedAfterMount){
             setFormPatch(null);
+            queryClient.resetQueries({ queryKey: ['useGetLevel', path], exact: true }) 
             queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) //ESTE HACE FALTA ACA? DEBERIA ALCANZAR CON REALIZAR EL GET ACTIVITIES, NO?
             queryClient.resetQueries({ queryKey: ['usePatchActivity', activity.activityId ], exact: true }) 
             queryClient.resetQueries({ queryKey: ['useGetContent'], exact: false})
@@ -23,11 +24,12 @@ export default function EditActivityDialog({open, activity, handleClose, path,..
         }else if(isError){
             setFormPatch(null)
         }
-    }, [data, isError]);//eslint-disable-line
+    }, [data, isError, isFetching, isFetchedAfterMount]);//eslint-disable-line
 
     const handleSubmit = (v) =>{
         const form = {...v}
         setFormPatch(form);
+        
     }
 
     return ( <Dialog

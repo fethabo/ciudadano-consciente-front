@@ -88,7 +88,6 @@ export function useGetActivitiesOfLevels({levels,...rest}){
             }
      
     })
-     // console.log(result, "result")
   return result
 }
 

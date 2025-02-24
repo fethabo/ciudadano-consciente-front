@@ -8,21 +8,22 @@ import FormActivity from "../Forms/FormActivity";
 
 export default function AddActivityDialog({open, idLevel , handleClose, path,...rest}) {
     const [formPost, setFormPost] = useState(null);
-    const {data, isFetching, isError} = usePostActivity({form: formPost, enabled: !!formPost})
+    const {data, isFetching, isError, isFetchedAfterMount} = usePostActivity({form: formPost, enabled: !!formPost})
     const queryClient = useQueryClient()
    
     useEffect(() => {
-        if (data){
+        if (data && !isFetching && isFetchedAfterMount){
             setFormPost(null);
+            queryClient.resetQueries({ queryKey: ['useGetLevel', path], exact: true }) 
             queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) // fuerzo la lectura del mapa actualizado
-            queryClient.resetQueries({ queryKey: "usePostActivity", exact: true }) 
             queryClient.resetQueries({ queryKey: ['useGetContent'], exact: false})
+            queryClient.resetQueries({ queryKey: ['useGetActivityByLevel'], exact: false})
             handleClose();
       
         }else if(isError){
             setFormPost(null)
         }
-    }, [data, isError]);//eslint-disable-line
+    }, [data, isError, isFetchedAfterMount, isFetching]);//eslint-disable-line
 
     const handleSubmit = (v) =>{
         console.log("handleSubmit en dialog", v)
