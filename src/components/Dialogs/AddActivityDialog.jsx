@@ -16,6 +16,7 @@ export default function AddActivityDialog({open, idLevel , handleClose, path,...
             setFormPost(null);
             queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) // fuerzo la lectura del mapa actualizado
             queryClient.resetQueries({ queryKey: "usePostActivity", exact: true }) 
+            queryClient.resetQueries({ queryKey: ['useGetContent'], exact: false})
             handleClose();
       
         }else if(isError){

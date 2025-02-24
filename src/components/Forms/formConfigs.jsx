@@ -5,11 +5,11 @@ export const formConfigs = {
     Activity: {
         fields: [
             { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese la descripción' },
-            { name: 'content', label: 'Contenido', type: 'select', placeholder: 'Selecciona el contenido', allowAdditions: true },
+         //   { name: 'content', label: 'Contenido', type: 'select', placeholder: 'Selecciona el contenido', allowAdditions: true },
         ],
         validationSchema: Yup.object({
             description: Yup.string().required('La descripción es obligatoria'),
-            content: Yup.string().required('El contenido es obligatorio'),
+          //  content: Yup.string().required('El contenido es obligatorio'),
         }),
     },
     

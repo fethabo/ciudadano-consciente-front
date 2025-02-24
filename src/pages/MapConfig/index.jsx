@@ -28,7 +28,7 @@ export default function MapConfig() {
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
   //obtengo activities de todos los childrens. (ojo con la key de la query, es activityByLevel)
-  const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
+  const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0&&!isFetchingChildrens})
   const queryClient = useQueryClient()
   
   const [levelSelectedId, setLevelSelectedId] = useState(null);
@@ -200,7 +200,7 @@ const [openEditPath, setOpenEditPath] = useState(false);
         </CardContent>
       </Card>
         {
-            isFetchingPath ? <Skeleton variant="rectangular" width="100%" height={400} /> :
+            (isFetchingPath||isFetchingChildrens) ? <Skeleton variant="rectangular" width="100%" height={400} /> :
             (isErrorPath||isErrorChildrens)? <Alert severity="error">Hubo un error al obtener el mapa</Alert>:
             path
              && <div className="path" >
@@ -231,14 +231,11 @@ const [openEditPath, setOpenEditPath] = useState(false);
                       <ConfirmDialog   open={openDeleteLevel} onClose={()=>setOpenDeleteLevel(false)} onConfirm={()=>setDeleteLevel(levelSelectedId)} title="Eliminar el nivel" message={`Eliminando el nivel ${levelSelectedId}. ¿Está seguro?`} loading={isFetchingDelete}/>
                       <AddActivityDialog open={openAddActivity} idLevel={levelSelectedId} handleClose={()=> setOpenAddActivity(false)} path={idParentLevel}/>
                       <ConfirmDialog   open={openDeleteActivityDialog} onClose={()=>setOpenDeleteActivityDialog(false)} onConfirm={()=>setDeleteActivity(activity?.activityId)} title="Eliminar la actividad" message={`Eliminando la actividad ${activity?.activityId} del level ${levelSelectedId}. Esta acción no borrará el contenido que ejecuta la actividad de este nivel ¿Está seguro?`} loading={isFetchingDeleteActivity}/>
-                      <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> setOpenEditActivity(false)} path={idParentLevel}/>
+                      <EditActivityDialog open={openEditActivity} activity={activity} handleClose={()=> {setOpenEditActivity(false)}} path={idParentLevel}/>
                       <EditLevelPermissionsDialog open={openEditPermissions} level={childrens?.find((c)=>levelSelectedId==c?.levelId)} handleClose={()=> setOpenEditPermissions(false)} path={idParentLevel} />
-                   {/*    {levelSelectedId &&
-                        <LevelInfo level={level} />
-                      } */}
-                      
+                                       
                       {
-                        isPending ? (
+                        (isPending|| isFetchingChildrens) ? (
                           <Skeleton variant="rectangular" width="100%" height={200} animation="wave" />
                         ):activity &&
                         <ActivityInfo activity={activity} />

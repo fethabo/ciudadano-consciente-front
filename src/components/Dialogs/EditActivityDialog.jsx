@@ -17,6 +17,8 @@ export default function EditActivityDialog({open, activity, handleClose, path,..
             setFormPatch(null);
             queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) //ESTE HACE FALTA ACA? DEBERIA ALCANZAR CON REALIZAR EL GET ACTIVITIES, NO?
             queryClient.resetQueries({ queryKey: ['usePatchActivity', activity.activityId ], exact: true }) 
+            queryClient.resetQueries({ queryKey: ['useGetContent'], exact: false})
+            queryClient.resetQueries({ queryKey: ['useGetActivityByLevel'], exact: false})
             handleClose();
         }else if(isError){
             setFormPatch(null)
