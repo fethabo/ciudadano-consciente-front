@@ -20,13 +20,13 @@ export default function AddContentDialog({open, handleClose, isPublic, ...rest})
     const queryClient = useQueryClient()
    
     useEffect(() => {
-        console.log("useEffect que evalua el post", isFetchingPostContent, isErrorPostContent, contentPosted)
+      //  console.log("useEffect que evalua el post", isFetchingPostContent, isErrorPostContent, contentPosted)
         if(!isFetchingPostContent){
             if (contentPosted){
-                console.log("entra en el uef, if de data")
+             //   console.log("entra en el uef, if de data")
                 queryClient.resetQueries({ queryKey: ['useGetContents'], exact: true }) //para actualizar las opciones de la actividad
                 queryClient.resetQueries({ queryKey: ['useGetContentsOfUser'], exact: false }) //para actualizar las opciones de la actividad
-                queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: true }) //para actualizar las opciones de la actividad
+                queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: false }) //para actualizar las opciones de la actividad
             }
             setFormPost(null);
             handleClose(contentPosted);
@@ -50,7 +50,7 @@ export default function AddContentDialog({open, handleClose, isPublic, ...rest})
         Object.keys(form).forEach(key => {
             formData.append(key, form[key]);
         });
-        console.log("FormData", formData)
+       // console.log("FormData", formData)
         setFormPost(formData);
     }
 
