@@ -78,6 +78,7 @@ function Vote({entityType, entityId, userVotes, isError, isLoading = false}) {
         } 
     }
     
+    
     const [loader, setLoader] = useState(true)
     useEffect(() => {
         if(isFetchingEntityTypes||isFetchingPatchVote||isFetchingPostVote){
