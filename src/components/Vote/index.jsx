@@ -63,6 +63,7 @@ function Vote({entityType, entityId, userVotes, isError, isLoading = false}) {
      useEffect(() => {
         if(!isFetchingPostVote && !isFetchingPatchVote && (enablePatch||enablePost)){
             queryClient.resetQueries({ queryKey: ['useGetUserVotes'], exact: false });
+            queryClient.resetQueries({ queryKey: ['useGetFavoritePaths'], exact: false})
             setEnablePatch(false)
             setEnablePost(false)
         }

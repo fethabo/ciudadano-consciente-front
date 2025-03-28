@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
     <link rel="icon" type="image/svg+xml" href="/loader.webp" />
-    <link rel="preload" href="/logo.jpg" as="image">
+    <link rel="preload" href="/logo-color.png" as="image">
     <style>
        /* Estilos para la pantalla de carga */
         #loader {
@@ -25,11 +25,12 @@
           top: 0;
           width: 100%;
           height: 100%;
-          background-color: inherit; /* Color de fondo */
+          background-color: black; /* Color de fondo */
           z-index: 9999; /* Z-index para asegurar que esté encima de todo */
           display: flex;
           justify-content: center;
           align-items: center;
+          transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
         .loader-container {
           display: flex;
@@ -45,9 +46,9 @@
         }
         .loader-img {
           /* Estilos para la imagen de carga */
-          width: 250px; /* Ancho de la imagen */
-          height: 181px; /* Alto de la imagen */
-          animation: beat 2s ease-in-out infinite; /* Animación de latido */
+          width: 350px; /* Ancho de la imagen */
+          height: 350px; /* Alto de la imagen */
+          animation: beat 4s ease-in-out infinite; /* Animación de latido */
         }
         @keyframes beat {
           0%{filter:  drop-shadow(0 0 2em #ffb14aaa)}
@@ -60,15 +61,21 @@
       <!-- Pantalla de carga -->
       <div id="loader">
         <div class="loader-container">
-          <img class="loader-img" src="/logo.jpg" alt="Cargando..." />
+          <img class="loader-img" src="/logo-color.png" alt="Cargando..." />
         </div>
       </div>
       <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var loader = document.getElementById("loader");
+          loader.style.opacity = "1"; // Asegura que el loader esté visible inicialmente
+        });
+      </script>
+    <!--   <script>
         window.addEventListener('load', function() {
           var loader = document.getElementById('loader');
           loader.style.display = 'none'; // Oculta la pantalla de carga
         });
-      </script>
+      </script> -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
