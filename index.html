@@ -50,6 +50,11 @@
           height: 350px; /* Alto de la imagen */
           animation: beat 4s ease-in-out infinite; /* Animación de latido */
         }
+        #loader.hidden {
+          opacity: 0;
+          transform: scale(1.1); /* Hace un pequeño zoom-out antes de desaparecer */
+          pointer-events: none; /* Evita interacción */
+        }
         @keyframes beat {
           0%{filter:  drop-shadow(0 0 2em #ffb14aaa)}
           50%{filter:  drop-shadow(0 0 0em #ffb14aaa)}

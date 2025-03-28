@@ -23,12 +23,19 @@ const Layout = () => {
             <Outlet />
         </ErrorBoundary>
         }
-        <AppBar position='fixed' sx={{ bottom:0,top:'auto' }}>
+        <AppBar 
+          position='fixed' 
+          sx={{ 
+            bottom: 0, 
+            top: 'auto', 
+            display: { xs: 'flex', md: 'none' } // Only visible on mobile (xs)
+          }}
+        >
             <BottomNavigation
             value={location.pathname}
             showLabels
             onChange={(event, newValue) => {
-              newValue==="" ? navigate(-1) : navigate(newValue);
+              newValue === "" ? navigate(-1) : navigate(newValue);
             }}
           >
             <BottomNavigationAction label="Pool" icon={<QuestionMarkIcon />}  value={"/pool"} />

@@ -4,6 +4,7 @@ import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../com
 import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
+import HeroSection from "./HeroSection";
 //import useUserApi from "../../components/Hooks/useUserApi";
 
 export default function Home (){
@@ -17,10 +18,10 @@ export default function Home (){
             spacing={2}
             divider={<Divider orientation="horizontal" flexItem />}
         >
-            <Box>
-            <Typography position='top' variant='h6'>¿Listo para comenzar tu aventura educativa? </Typography>
-            <Typography variant="body2">Abre tu camino entre nuestras opciones de juego y descubre un mundo de aprendizaje interactivo. Cada partida es una oportunidad para mejorar tus habilidades como ciudadano.</Typography>
-            </Box>
+            <div id="heroSection" style={{height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <HeroSection /> 
+            </div>
+
             {/* disponibles */}
             <Box >
                 <Typography variant="h5">Explora nuevos caminos!</Typography>
