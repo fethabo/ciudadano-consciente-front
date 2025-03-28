@@ -75,8 +75,9 @@ function Vote({entityType, entityId, userVotes, isError, isLoading = false}) {
                 setEnablePatch(true);
             } else {
                 setEnablePost(true);
-        }
+        } 
     }
+    
 
     const [loader, setLoader] = useState(true)
     useEffect(() => {
