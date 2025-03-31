@@ -1,6 +1,6 @@
 import { Stack,  CardContent, Typography, Divider, Box} from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { useGetFavoritePaths, useGetPaths, useGetRecentlyPaths } from "../../components/Hooks/requests/Level";
+import { useGetFavoritePaths, useGetPaths, /* useGetRecentlyPaths */ } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
@@ -23,7 +23,7 @@ export default function Home (){
             </div>
 
             {/* disponibles */}
-            <Box >
+            <Box id="pathsSection" >
                 <Typography variant="h5">Explora nuevos caminos!</Typography>
                 <CarouselPaths style={{maxWidth:'100%'}} paths={paths} isLoading={isFetchingPaths} isError={isErrorPaths}/>
             </Box>

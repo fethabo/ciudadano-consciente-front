@@ -21,7 +21,6 @@ export const formConfigs = {
         fields: [
             { name: 'description', label: 'Pregunta', type: 'text', placeholder: 'Ingrese la pregunta' },
             { name: 'explanation', label: 'Desarrollo', type: 'textarea', placeholder: 'Ingrese una aclaración sobre la pregunta' },
-            // Añadir más campos aquí según sea necesario
         ],
         validationSchema: Yup.object({
             explanation: Yup.string().required('El desarrollo de la idea es obligatorio'),
@@ -71,9 +70,9 @@ export const formConfigs = {
     },
     Reference: {
         fields: [
-            { name: 'title', label: 'Titulo', type: 'text', placeholder: 'Ingrese la pregunta' },
-            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese una aclaración sobre la pregunta' },
-            { name: 'url', label: 'URL', type: 'text', placeholder: 'Ingrese una aclaración sobre la pregunta' },
+            { name: 'title', label: 'Titulo', type: 'text', placeholder: 'Ingrese el titulo' },
+            { name: 'description', label: 'Descripción', type: 'textarea', placeholder: 'Ingrese una descripción' },
+            { name: 'url', label: 'URL', type: 'text', placeholder: 'Ingrese la URL a la referencia', helperText: 'Utilice una URL completa, por ejemplo https://example.com' },
         ],
         validationSchema: Yup.object({
             title: Yup.string().required('El titulo obligatorio'),

@@ -5,8 +5,10 @@
   text-align: center;
   min-height: 100vh;
   width: 100vw;
+/*   background-image: url('background.svg');
+ */
 }
-
+/* 
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -43,6 +45,8 @@
   color: #888;
 }
 
-.cytoscape-map div{
+
+ */
+ .cytoscape-map div{
   display:flex
 }

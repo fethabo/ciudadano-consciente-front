@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 
 const HeroSection = () => {
     const scrollToPaths = () => {
-        const pathsSection = document.getElementById('paths');
+        const pathsSection = document.getElementById('pathsSection');
         if (pathsSection) {
             pathsSection.scrollIntoView({ behavior: 'smooth' });
         }
@@ -17,7 +17,7 @@ const HeroSection = () => {
                 style={{ 
                     display: 'block', 
                     margin: '0 auto', 
-                    height: '50vh', 
+                    height: '40vh', 
                     objectFit: 'contain' 
                 }} 
             />
