@@ -1,11 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  padding: 0em!important;  
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #242424!important;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,7 +27,7 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  margin: 0!important;
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -34,6 +38,10 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 
 button {
   border-radius: 8px;

@@ -1,12 +1,13 @@
+import AnimatedArrowButton from "@components/AnimatedArrowButton";
 import { Typography } from "@mui/material";
 
 const HeroSection = () => {
-    const scrollToPaths = () => {
+   /*  const scrollToPaths = () => {
         const pathsSection = document.getElementById('pathsSection');
         if (pathsSection) {
             pathsSection.scrollIntoView({ behavior: 'smooth' });
         }
-    };
+    }; */
 
     return (
         <section id="heroSection" className="hero-section">
@@ -27,10 +28,10 @@ const HeroSection = () => {
                 </Typography>
                 <Typography variant="body2">Abre tu camino entre nuestras opciones de juego y descubre un mundo de aprendizaje interactivo. Cada partida es una oportunidad para mejorar tus habilidades como ciudadano.</Typography>
             </div>
-            
-            <button className="hero-button" onClick={scrollToPaths}>
+            <AnimatedArrowButton texto="comenzar" hrefSection="#pathsSection"/>
+           {/*  <button className="hero-button" onClick={scrollToPaths}>
                 <span className="arrow">↓</span>
-            </button>
+            </button> */}
         </section>
     );
 };

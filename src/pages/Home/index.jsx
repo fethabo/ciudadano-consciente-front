@@ -24,7 +24,7 @@ export default function Home (){
 
             {/* disponibles */}
             <Box id="pathsSection" >
-                <Typography variant="h5">Explora nuevos caminos!</Typography>
+                <Typography variant="h5"  sx={{marginTop:"2em"}}>Explora nuevos caminos!</Typography>
                 <CarouselPaths style={{maxWidth:'100%'}} paths={paths} isLoading={isFetchingPaths} isError={isErrorPaths}/>
             </Box>
             {/* Recientes*/}

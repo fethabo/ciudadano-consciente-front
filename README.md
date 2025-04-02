@@ -242,13 +242,15 @@ No logre hacer la transpilacion de un jsx en la app (se podria con un poco mas d
 - [x] agregar carga de tags a levels (config)
 - [x] agregar tags a mapa
 - [x] Post y delete de preguntas, get y votacion (pool)
-- [ ] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
+- [x] vincular respuestas en mapa (mostrar diferentes los levels superados y los sin actividad)
 - [x] agregar mensaje en favoritos (home)
 - [x] corregir mensaje de exito en actividad
 - [x] agregar referencias (paths/maps)
 - [x] mostrar referencias en la respuesta de la actividad (si es en un level) ----> se agrego en la vista de mapa
 - [ ] Agregar limitaciones con respecto a los archivos . --->agregar en model de activityTypeVersion el limite para la cantidad de archivos
 - [ ] agregar Mensaje de exito y mensaje de error para los contents? podria ser un campo solo "mensajes", lo manejamos como un arreglo y seria algo puramente para la aplicacion del front.
+- [ ] contenerizar proyecto
+- [ ] agregar helpers a modo de tutorial
 Ejemplo: 
 [{nombre: mensajeExito, valor: "Efectivamente, los terremotos son mas frecuentes"}, { nombre: mensajeFalla, valor: "no, piensa en los noticiarios y la frecuencia de sus menciones" }, { nombre: hint, valor: "trrrrrrr" }]
 otra es agregarlos a los tres como campos del content, no obligatorios. 
