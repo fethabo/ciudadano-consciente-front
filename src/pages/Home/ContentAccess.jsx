@@ -18,10 +18,10 @@ const ContentAccess = () => {
       </CardContent>
       <CardActions>
         <Box sx={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-          <Button size="small" color="primary" variant="contained"  onClick={()=>navigate("/contents")}>
+          <Button size="small" color="primary" variant="contained"  onClick={()=>navigate("/contents")} className='contentsButton'>
             Contenidos
           </Button>
-          <Button size="small" color="primary" variant="outlined" sx={{ color: '#ffffff', borderColor: '#ffffff' }}  onClick={()=>navigate("/pool")}>
+          <Button size="small" color="primary" variant="outlined" sx={{ color: '#ffffff', borderColor: '#ffffff' }} className='poolButton' onClick={()=>navigate("/pool")}>
             Preguntas
           </Button>
         </Box>

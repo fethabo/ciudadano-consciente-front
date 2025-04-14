@@ -6,6 +6,7 @@ import { UserProvider } from './components/Hooks/UserContext';
 import { SnackbarProvider} from 'notistack'
 import WrapperClientProvider from './components/WrapperClientProvider';
 import { useEffect } from 'react';
+import Joyride from 'react-joyride';
 
 
 /**
@@ -27,6 +28,30 @@ function App() {
     },
   });
 
+  const steps = [
+    {
+      target: '.pathsSection',
+      content: 'Explora nuevos caminos y comienza a jugar en cualquiera de ellos.',
+    },
+    {
+      target: '.cardOrganizations',
+      content: 'Gestiona el contenido de tus organizaciones o crea nuevos caminos.',
+    },
+    {
+        target: '.contentsButton',
+        content: 'Pulsa aquí para ver los contenidos de la comunidad, puedes crear los tuyos también!'
+    }
+    ,
+    {
+        target: '.poolButton',
+        content: 'Pulsa aquí para hacer alguna pregunta, ¡comparte tus inquietudes!'
+    },
+    {
+      target: '.path',
+      content: 'Pulsa sobre uno de las tarjetas para comenzar a jugar'
+    }
+  ];
+
   return (
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
@@ -34,6 +59,7 @@ function App() {
             <WrapperClientProvider>
               <UserProvider>
                 <MapProvider>
+                <Joyride steps={steps} continuous debug  />
                   <Router />
                 </MapProvider>
               </UserProvider>

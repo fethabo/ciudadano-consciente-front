@@ -8,6 +8,8 @@ import HeroSection from "./HeroSection";
 //import useUserApi from "../../components/Hooks/useUserApi";
 
 export default function Home (){
+
+   
     const navigate= useNavigate();
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
     const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({enabled:true});
@@ -18,12 +20,13 @@ export default function Home (){
             spacing={2}
             divider={<Divider orientation="horizontal" flexItem />}
         >
+            
             <div id="heroSection" style={{height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <HeroSection /> 
             </div>
 
             {/* disponibles */}
-            <Box id="pathsSection" >
+            <Box id="pathsSection" className="pathsSection" >
                 <Typography variant="h5"  sx={{marginTop:"2em"}}>Explora nuevos caminos!</Typography>
                 <CarouselPaths style={{maxWidth:'100%'}} paths={paths} isLoading={isFetchingPaths} isError={isErrorPaths}/>
             </Box>
@@ -44,7 +47,7 @@ export default function Home (){
            
             <ContentAccess />
             <FrostedGlassCard onClick={() => navigate("/organizations")} sx={{cursor:'pointer', '&:hover':{backgroundColor:'rgba(0,0,0,0.1)'}}}>
-                <CardContent>
+                <CardContent className="cardOrganizations">
                     <Typography variant="h5" color="#ffffff">
                       Organizaciones
                     </Typography>

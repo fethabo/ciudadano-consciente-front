@@ -134,7 +134,8 @@ const Map = () => {
     textAlign: 'center', 
     marginBottom: 2,
     position: 'relative' 
-  }}>
+  }}
+  >
     <CardContent sx={{
       width: '100%',
       position: 'relative' 
@@ -162,6 +163,7 @@ const Map = () => {
       <TagsDisplay entityId={path.levelId} entityType="levels" />
       {mapElements && mapElements?.length > 0 && (
         <MapCytoscape 
+        
           elements={mapElements} 
           onSelect={handleSelect} 
           loading={isFetchingPath || isFetchingChildrens || isFetchingAnswers || isPending}
