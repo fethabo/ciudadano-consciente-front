@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Ciudadano Consciente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              // Paleta de colores
+              primary: '#3498db', // Azul principal
+              secondary: '#2ecc71',
+              accent: '#f1c40f',
+              neutral: '#34495e', // Gris oscuro/Azul (Fondo principal)
+              light: '#ecf0f1', // Gris claro (Texto principal)
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Estilos base y de navegación (sin cambios respecto a la versión anterior, excepto la eliminación de Lucide) */
+      .slide {
+        min-height: 100vh;
+        padding: 4rem 2rem;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .slide.active-slide {
+        display: flex;
+      }
+      .slide-content {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+      }
+      .navigation-controls {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        background-color: rgba(52, 73, 94, 0.8);
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        display: flex;
+        gap: 1rem;
+      }
+      .nav-button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .nav-button:hover {
+        background-color: #2980b9;
+      }
+      .nav-button:disabled {
+        background-color: #7f8c8d;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+      /* Estilo base para iconos Iconify (tamaño y alineación si es necesario) */
+      .iconify {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    </style>
+</head>
+<body class="font-sans bg-neutral text-light md:overflow-hidden">
+
+    <section id="titulo" class="slide bg-neutral text-white">
+        <div class="slide-content">
+            <h1 class="text-5xl font-bold mb-4 text-white">Ciudadano Consciente</h1>
+            <p class="text-2xl mb-8 text-primary">gamificando el saber</p>
+            <p class="text-lg">Federico Thaiel Borgna & Cayetano Simón Paradiso</p>
+            <p class="text-md mt-2">Laboratorio de Desarrollo de Software - Curso 2023</p>
+            <p class="text-sm mt-1">Entrega Final - Abril 2025</p>
+        </div>
+    </section>
+
+    <section id="problema" class="slide bg-neutral text-light">
+        <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-6 text-primary">El Desafío Actual</h2>
+             <div class="max-w-3xl mx-auto text-lg space-y-4">
+                 <p>En la sociedad actual, acceder a información cívica <span class="font-semibold text-primary">verificada, comprensible y atractiva</span> es a menudo un desafío.</p>
+                 <p>La información está dispersa, es técnica o difícil de encontrar, generando una <span class="font-semibold text-primary">brecha de conocimiento</span> que dificulta la participación ciudadana informada.</p>
+                 <p>¿Cómo podemos hacer que el aprendizaje sobre normativas, derechos y deberes sea <span class="font-semibold text-primary">accesible y motivador</span> para todos?</p>
+                 <img src="https://placehold.co/600x300/34495e/ecf0f1?text=Ilustraci%C3%B3n+del+Problema" alt="[Ilustración del problema: ciudadano confundido con papeles]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+            </div>
+        </div>
+    </section>
+
+    <section id="solucion" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-6 text-primary">Nuestra Solución: Ciudadano Consciente</h2>
+            <div class="max-w-3xl mx-auto text-lg space-y-4">
+                <p>Una <span class="font-semibold text-primary">plataforma web interactiva</span> que conecta a ciudadanos con información verificada y expertos.</p>
+                <p>Transformamos el aprendizaje cívico en una experiencia <span class="font-semibold text-primary">lúdica y enriquecedora</span>, similar a un juego.</p>
+                <p>Fomentamos una comunidad <span class="font-semibold text-primary">informada, conectada y participativa</span>.</p>
+                <img src="https://placehold.co/600x300/34495e/ecf0f1?text=Captura+App+Ciudadano+Consciente" alt="[Captura de pantalla principal de Ciudadano Consciente]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+            </div>
+        </div>
+    </section>
+
+    <section id="como-funciona" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">¿Cómo Funciona?</h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-lg">
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:database-arrow-down-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">1. Instituciones Aportan</h3>
+                    <p>Organismos (tránsito, justicia, parques, etc.) comparten datos y conocimiento verificado.</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:gamepad-variant-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">2. Caminos de Aprendizaje</h3>
+                    <p>Se crean "Paths" temáticos con niveles y actividades interactivas (quizzes, etc.).</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:account-school-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">3. Ciudadanos Aprenden</h3>
+                    <p>Los usuarios exploran los paths, responden actividades, ganan conocimiento y miden su progreso.</p>
+                </div>
+            </div>
+             <div class="mt-8 bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600 max-w-xl mx-auto">
+                 <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:chat-question-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">¡La Comunidad Participa! (Pool de Preguntas)</h3>
+                 <p>Los usuarios proponen temas de interés, votan preguntas y guían la creación de nuevo contenido (Community Driven).</p>
+             </div>
+        </div>
+    </section>
+
+    <section id="caracteristicas" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">Características Principales</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:account-group-outline" data-inline="false"></span> <p class="font-semibold text-light">Gestión de Usuarios y Roles</p>
+                </div>
+                <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:map-legend" data-inline="false"></span> <p class="font-semibold text-light">Creación de Mapas/Paths</p>
+                </div>
+                 <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:controller-classic-outline" data-inline="false"></span> <p class="font-semibold text-light">Actividades Lúdicas</p>
+                </div>
+                <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:comment-question-outline" data-inline="false"></span> <p class="font-semibold text-light">Pool de Preguntas (CDD)</p>
+                </div>
+                 <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:chart-line" data-inline="false"></span> <p class="font-semibold text-light">Métricas de Progreso</p>
+                </div>
+                 <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:cog-outline" data-inline="false"></span> <p class="font-semibold text-light">Configuración Flexible</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section id="publico" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">¿Para Quién es?</h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-lg">
+                 <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:account-school-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Ciudadanos</h3>
+                    <p>Estudiantes, conductores, opositores, guías, cualquier persona con ganas de aprender sobre su entorno cívico.</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:domain" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Instituciones Productoras</h3>
+                     <p>Gobiernos, ONGs, Parques Nacionales, Poder Judicial, Bomberos, etc., que desean difundir conocimiento.</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:code-braces" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Desarrolladores (Futuro)</h3>
+                     <p>Comunidad que puede proponer nuevos tipos de actividades interactivas (templates).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tecnologia" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">Arquitectura y Tecnología</h2>
+            <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+                 <div class="md:w-1/2 text-left space-y-4">
+                    <p class="text-lg">Sistema basado en <span class="font-semibold text-primary">microservicios</span> y desplegado en contenedores para escalabilidad y mantenibilidad.</p>
+                    <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Stack Tecnológico:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-lg text-light">
+                        <li><span class="iconify mr-1" data-icon="mdi:react" data-inline="true"></span><span class="font-semibold">Frontend:</span> React + Vite (Diseño Mobile-First)</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span><span class="font-semibold">Backend APIs:</span> Java + Quarkus</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:database-postgresql" data-inline="true"></span><span class="font-semibold">Base de Datos:</span> PostgreSQL</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:key-variant" data-inline="true"></span><span class="font-semibold">Autenticación:</span> Keycloak</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span><span class="font-semibold">Despliegue:</span> Docker + Nginx</li>
+                    </ul>
+                </div>
+                 <div class="md:w-1/2">
+                     <img src="https://placehold.co/500x400/34495e/ecf0f1?text=Diagrama+de+Arquitectura" alt="[Diagrama simplificado de la arquitectura del sistema]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+                    <p class="text-sm mt-2 text-gray-400">Diagrama simplificado de la arquitectura</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="metodologia" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">Metodología de Desarrollo</h2>
+            <div class="max-w-3xl mx-auto text-lg space-y-4">
+                <p>Adaptación de metodologías ágiles: <span class="font-semibold text-primary">Scrum y Kanban</span>.</p>
+                 <ul class="list-disc list-inside space-y-2 text-left mx-auto max-w-xl">
+                     <li>Enfoque en <span class="font-semibold">iteraciones basadas en eventos</span> (Kanban).</li>
+                     <li>Uso de <span class="font-semibold">historias de usuario</span> y estimaciones (Scrum).</li>
+                     <li><span class="font-semibold">Tablero Kanban</span> visual (Google Sheets) para seguimiento.</li>
+                     <li><span class="font-semibold">Limitación del WIP</span> para mantener el foco.</li>
+                     <li><span class="font-semibold">Revisión continua</span> de prioridades.</li>
+                 </ul>
+                 <img src="https://placehold.co/600x250/34495e/ecf0f1?text=Ejemplo+Tablero+Kanban" alt="[Ejemplo visual del tablero Kanban utilizado]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x250/34495e/ecf0f1?text=Error+cargando+imagen';">
+            </div>
+        </div>
+    </section>
+
+     <section id="demo" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">Estado Actual y Demo</h2>
+            <div class="max-w-4xl mx-auto text-lg space-y-6">
+                <p class="bg-primary text-white font-semibold py-2 px-4 rounded-md inline-block">
+                    <span class="iconify mr-2 align-middle" data-icon="mdi:check-circle" data-inline="false"></span>¡Sistema Desplegado y Funcional!
+                </p>
+                <p>La aplicación web está disponible en:
+                    <a href="http://ciudadano.paradisoft.site" target="_blank" class="text-primary underline font-semibold hover:text-blue-300">ciudadano.paradisoft.site</a>
+                </p>
+                <p>Las APIs están operativas y documentadas (OpenAPI disponible en <code class="bg-gray-800 text-gray-300 px-1 rounded text-sm">/q/openapi</code>).</p>
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                     <img src="https://placehold.co/400x300/34495e/ecf0f1?text=Screenshot+1" alt="[Captura de pantalla: Ejemplo de Path]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+                     <img src="https://placehold.co/400x300/34495e/ecf0f1?text=Screenshot+2" alt="[Captura de pantalla: Ejemplo de Actividad]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+                </div>
+                <p class="mt-4">*(Se recomienda realizar una demostración en vivo durante la presentación)*</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="futuro" class="slide bg-neutral text-light">
+         <div class="slide-content flex flex-col h-full">
+            <h2 class="text-4xl font-bold mb-6 text-primary flex-shrink-0">Próximos Pasos: El Futuro</h2>
+            <div class="flex-grow overflow-y-auto px-4 max-h-[70vh]">
+                <div class="space-y-5 text-left max-w-3xl mx-auto text-base md:text-lg">
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:help-rhombus-outline" data-inline="false"></span>Manual de usuario integrado</h3>
+                        <p>Integrar guía interactiva (<code class="text-sm bg-gray-800 px-1 rounded">react-joyride</code>) en la app.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:palette-outline" data-inline="false"></span>Diseño con identidad</h3>
+                        <p>Evolucionar la identidad visual hacia un enfoque de juego, centrado en el conocimiento.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:code-sandbox" data-inline="false"></span>Sandbox para desarrolladores</h3>
+                        <p>Entorno tipo CodePen para probar templates funcionales en tiempo real.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:github" data-inline="false"></span>Repositorio público de templates</h3>
+                        <p>Crear repo para Pull Requests de templates, con auditoría pública.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:update" data-inline="false"></span>Build mensual con templates</h3>
+                        <p>Integrar templates aprobados mensualmente en nuevas versiones.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:cellphone-arrow-down" data-inline="false"></span>Desarrollo de aplicación móvil</h3>
+                        <p>Crear app móvil con funcionamiento offline.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:magnify-scan" data-inline="false"></span>Integración con stack ELK</h3>
+                        <p>Usar Elasticsearch, Kibana, Logstash para logs, observabilidad y métricas.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:credit-card-check-outline" data-inline="false"></span>Integración con APIs de pagos</h3>
+                        <p>Integrar MercadoPago/PayPal para funciones premium y monetización de templates.</p>
+                    </div>
+
+                     <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:message-text-outline" data-inline="false"></span>Integración con servicios de mensajería</h3>
+                        <p>Bots en WhatsApp/Signal/Telegram para interactuar con el Pool de Preguntas.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusion" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-6 text-primary">Conclusión</h2>
+            <div class="max-w-3xl mx-auto text-xl space-y-5">
+                 <span class="iconify text-primary text-5xl mb-4" data-icon="mdi:lightbulb-on-outline" data-inline="false"></span> <p>"Ciudadano Consciente" no es solo una plataforma, es una herramienta para el <span class="font-semibold text-primary">empoderamiento cívico</span>.</p>
+                <p>Buscamos construir una sociedad más <span class="font-semibold text-primary">informada, crítica y participativa</span> a través del conocimiento accesible y la tecnología.</p>
+                <p>¡Creemos en el poder de un ciudadano consciente!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="preguntas" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">¿Preguntas?</h2>
+            <span class="iconify text-primary text-6xl mb-6" data-icon="mdi:help-circle-outline" data-inline="false"></span> <p class="text-xl mb-4">¡Gracias por su atención!</p>
+            <p class="text-lg">Estamos a disposición para responder sus consultas.</p>
+            <p class="mt-8 text-sm text-gray-400">
+                Contacto: <br>
+                Federico Thaiel Borgna - federico.tahiel.borgna@gmail.com <br>
+                Cayetano Simón Paradiso - CayetanoSimonParadiso@gmail.com </p>
+             <p class="mt-4 text-sm text-gray-400">
+                 Repositorios: <br>
+                 <a href="https://github.com/CSParadiso/ciudadanoConsciente" target="_blank" class="text-primary underline hover:text-blue-300">Backend</a> |
+                 <a href="https://github.com/fethabo/ciudadano-consciente-front" target="_blank" class="text-primary underline hover:text-blue-300">Frontend</a>
+             </p>
+        </div>
+    </section>
+    <div class="navigation-controls">
+        <button id="prevBtn" class="nav-button" title="Anterior (Flecha Izquierda)">
+            <span class="iconify" data-icon="mdi:arrow-left" data-inline="true"></span> Anterior
+        </button>
+        <button id="nextBtn" class="nav-button" title="Siguiente (Flecha Derecha)">
+            Siguiente <span class="iconify" data-icon="mdi:arrow-right" data-inline="true"></span>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlideIndex = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                if (index < 0 || index >= totalSlides) return;
+                if (slides[currentSlideIndex]) slides[currentSlideIndex].classList.remove('active-slide');
+                currentSlideIndex = index;
+                if (slides[currentSlideIndex]) slides[currentSlideIndex].classList.add('active-slide');
+                updateButtonStates();
+            }
+
+            function updateButtonStates() {
+                if (prevBtn) prevBtn.disabled = currentSlideIndex === 0;
+                if (nextBtn) nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlideIndex < totalSlides - 1) showSlide(currentSlideIndex + 1);
+                });
+            }
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlideIndex > 0) showSlide(currentSlideIndex - 1);
+                });
+            }
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    if (nextBtn && !nextBtn.disabled) nextBtn.click();
+                } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                     if (prevBtn && !prevBtn.disabled) prevBtn.click();
+                }
+            });
+            showSlide(0);
+        });
+    </script>
+
+</body>
+</html>
