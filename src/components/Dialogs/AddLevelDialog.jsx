@@ -16,18 +16,17 @@ export default function AddLevelDialog({open, idParent , handleClose, path,...re
    
     
     useEffect(() => {
-        if (data){
+        if (formPost && !isFetching && data){
             setFormPost(null);
             queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', path], exact: true }) 
             queryClient.resetQueries({ queryKey: "usePostLevel", exact: true }) 
             handleClose();
-        }else if(isError){
+        }else if(isError && !!formPost){
             setFormPost(null)
         }
-    }, [data, isError]);//eslint-disable-line
+    }, [data, isError, isFetching, formPost, queryClient]);
 
     const handleSubmit = (v) =>{
-        console.log("handleSubmit en dialog", v)
         const form = {...v, parent: idParent, organization: idOrganization}
         console.log("handleSubmit en dialog", v, form)
         setFormPost(form);

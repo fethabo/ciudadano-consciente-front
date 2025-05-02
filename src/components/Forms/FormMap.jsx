@@ -20,8 +20,8 @@ function FormMap() {
                 {
                     setPostForm(null);//Reseteo el form para permitir otro submit
                     if(isSuccess){
-                    queryClient.resetQueries({ queryKey:['useGetOrganizationPaths', idOrganization], exact: true }) 
-                    navigate(`/organizations/${idOrganization}/maps/${data?.levelId}`)
+                      queryClient.resetQueries({ queryKey:['useGetOrganizationPaths', idOrganization], exact: true }) 
+                      navigate(`/organizations/${idOrganization}/maps/${data?.levelId}`)
                     }
                 }
         }

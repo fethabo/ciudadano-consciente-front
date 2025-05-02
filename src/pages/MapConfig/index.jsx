@@ -114,15 +114,16 @@ const handleAddLevel=()=>{
 //Handling delete action
 const [deleteLevel, setDeleteLevel] = useState(null);
 const [openDeleteLevel, setOpenDeleteLevel] = useState(false);
-const {data: responseDelete, isFetching: isFetchingDelete, } = useDeleteLevel({levelId: deleteLevel, enabled: !!deleteLevel});
+const {data: responseDelete, isFetching: isFetchingDelete,isFetchedAfterMount: isFetchedAfterMountDelete } = useDeleteLevel({levelId: deleteLevel, enabled: !!deleteLevel});
 useEffect(() => {
-  if (responseDelete && !isFetchingDelete){
+  if (responseDelete && !isFetchingDelete && isFetchedAfterMountDelete){
+    console.log("RESPUESTA DELETE uef", responseDelete)
     setDeleteLevel(null)
     queryClient.resetQueries({ queryKey: ['useDeleteLevel', levelSelectedId], exact: true })   //la reseteo para que me permita borrar otro
     setOpenDeleteLevel(false);
     queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', idParentLevel], exact: true }) 
   }
-}, [responseDelete, isFetchingDelete, queryClient, levelSelectedId, idParentLevel]);
+}, [responseDelete, isFetchingDelete, queryClient, levelSelectedId, idParentLevel, isFetchedAfterMountDelete]);
 
 const handleDeleteLevel=()=>{
   setOpenDeleteLevel(true)
@@ -154,21 +155,22 @@ const handleEditActivity = () => {
 //handling delete Activity
 const [openDeleteActivityDialog, setOpenDeleteActivityDialog] = useState(false);
 const [ deleteActivity, setDeleteActivity ] = useState(null);
-const { data: responseDeleteActivity, isFeching: isFetchingDeleteActivity } = useDeleteActivity({activityId: deleteActivity, enabled: !!deleteActivity});
+const { data: responseDeleteActivity, isFeching: isFetchingDeleteActivity, isFetchedAfterMount: isFetchedAfterMountDeleteActivity } = useDeleteActivity({activityId: deleteActivity, enabled: !!deleteActivity});
 
 const handleDeleteActivity = () => {
   setOpenDeleteActivityDialog(true);
   handleClose();
 }
 useEffect(() => {
-  if (responseDeleteActivity && !isFetchingDeleteActivity){
+  if (responseDeleteActivity && !isFetchingDeleteActivity &&isFetchedAfterMountDeleteActivity){
+    console.log("RESPUESTA DELETE ACTIVITY", responseDeleteActivity)
     setDeleteActivity(null)
     queryClient.resetQueries({ queryKey: ['useDeleteActivity', activity?.activityId], exact: true })   //la reseteo para que me permita borrar otro
     setOpenDeleteActivityDialog(false);
     queryClient.resetQueries({ queryKey: ['useGetLevelChildrens', idParentLevel], exact: true }) 
     setActivity(null)
   }
-}, [ queryClient, levelSelectedId, idParentLevel, responseDeleteActivity, isFetchingDeleteActivity, activity]);
+}, [ queryClient, levelSelectedId, idParentLevel, responseDeleteActivity, isFetchingDeleteActivity, activity, isFetchedAfterMountDeleteActivity]);
 
 //Apertura de permisos
 const [openEditPermissions, setOpenEditPermissions] = useState(false);
