@@ -75,70 +75,73 @@ function ContentChooser({ onSelectContent, onCreateContent, initialContentId }) 
         <Card>
             <CardContent>
                 <Typography variant="h6">Contenido</Typography>
-            <AddContentDialog resultContent={setSelectedContent} open={openAddContent} handleClose={handleClose } />
-            <EditContentDialog open={openEditContent} handleClose={() => { setOpenEditContent(false); setContentEdit(null) }} content={contentEdit} />
-                           
-            <TextField
-                label="Buscar Contenido"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                fullWidth
-                style={{ marginBottom: '10px' }}
-                slotProps={{
-                    input: {
-                      endAdornment: <SearchIcon />
-                    }
-                  }}
-            />
-            <Tabs value={tab} onChange={handleTabChange} indicatorColor="primary" textColor="primary">
-                <Tab label="Organización" value="organization" />
-                <Tab label="Externo" value="public" />
-            </Tabs>
-            {selectedContent
-                        ?<Alert severity="info">Contenido seleccionado: {selectedContent?.description}{selectedContent?.organization!=idOrganization && " (externo)"} </Alert>
-                        :<Alert severity="warning">Seleccione un contenido </Alert>
-                    }
-            {isFetchingOrg || isFetchingPublic ?
-               <SkeletonTableOfContents />
-            : 
-            <><Table >
-                    <TableHead>
-                       
-                        <Button onClick={handleCreateContent} variant="contained" color="primary" style={{ marginTop: '10px' }}>
-                            Crear Nuevo Contenido
-                        </Button>
-                        <TableRow>
-                            <TableCell>Descripción</TableCell>
-                            <TableCell>Acción</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filteredContents?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((content) => (
-                            <TableRow 
-                                key={content.contentId} 
-                                selected={selectedContent?.contentId === content?.contentId}
-                                style={{ backgroundColor: selectedContent?.contentId === content?.contentId ? 'revert-layer' : 'inherit' }}
-                            >
-                                <TableCell>{content.description}</TableCell>
-                                <TableCell>
-                                    <Button onClick={() => { setSelectedContent(content); onSelectContent(content.contentId); } } variant="contained" color="primary">
-                                        Seleccionar
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <TablePagination
-                        rowsPerPageOptions={[5]}
-                        component="div"
-                        count={filteredContents?.length || 0}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handlePageChange} />
-            </>
+                <AddContentDialog resultContent={setSelectedContent} open={openAddContent} handleClose={handleClose} />
+                <EditContentDialog open={openEditContent} handleClose={() => { setOpenEditContent(false); setContentEdit(null) }} content={contentEdit} />
+
+                <TextField
+                    label="Buscar Contenido"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    fullWidth
+                    style={{ marginBottom: '10px' }}
+                    slotProps={{
+                        input: {
+                            endAdornment: <SearchIcon />
+                        }
+                    }}
+                />
+                <Tabs value={tab} onChange={handleTabChange} indicatorColor="primary" textColor="primary">
+                    <Tab label="Organización" value="organization" />
+                    <Tab label="Externo" value="public" />
+                </Tabs>
+                {selectedContent
+                    ? <Alert severity="info">Contenido seleccionado: {selectedContent?.description}{selectedContent?.organization != idOrganization && " (externo)"}</Alert>
+                    : <Alert severity="warning">Seleccione un contenido </Alert>
                 }
-                </CardContent>
+                {isFetchingOrg || isFetchingPublic ?
+                    <SkeletonTableOfContents />
+                    :
+                    <>
+                        <Table>
+                            <TableHead>
+                                <Button onClick={handleCreateContent} variant="contained" color="primary" style={{ marginTop: '10px' }}>
+                                    Crear Nuevo Contenido
+                                </Button>
+                                <TableRow>
+                                    <TableCell>Descripción</TableCell>
+                                    <TableCell>Acción</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {filteredContents?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((content) => (
+                                    <TableRow
+                                        key={content.contentId}
+                                        selected={selectedContent?.contentId === content?.contentId}
+                                        style={{ backgroundColor: selectedContent?.contentId === content?.contentId ? 'revert-layer' : 'inherit' }}
+                                    >
+                                        <TableCell>{content.description}</TableCell>
+                                        <TableCell>
+                                            <Button onClick={() => { setSelectedContent(content); onSelectContent(content.contentId); }} variant="contained" color="primary">
+                                                Seleccionar
+                                            </Button>
+                                            <Button onClick={() => { setContentEdit(content); setOpenEditContent(true); }} variant="contained" color="secondary" style={{ marginLeft: '10px' }}>
+                                                Editar
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        <TablePagination
+                            rowsPerPageOptions={[5]}
+                            component="div"
+                            count={filteredContents?.length || 0}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handlePageChange} />
+                    </>
+                }
+            </CardContent>
         </Card>
     );
 }
