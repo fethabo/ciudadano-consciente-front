@@ -24,7 +24,7 @@ export default function AddLevelDialog({open, idParent , handleClose, path,...re
         }else if(isError && !!formPost){
             setFormPost(null)
         }
-    }, [data, isError, isFetching, formPost, queryClient]);
+    }, [data, isError, isFetching, formPost, queryClient]);//eslint-disable-line
 
     const handleSubmit = (v) =>{
         const form = {...v, parent: idParent, organization: idOrganization}

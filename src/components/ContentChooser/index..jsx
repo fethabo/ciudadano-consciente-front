@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import AddContentDialog from "@components/Dialogs/AddContentDialog";
 import SkeletonTableOfContents from "./SkeletonTableOfContents";
 import  SearchIcon  from "@mui/icons-material/Search";
+import EditContentDialog from "@components/Dialogs/EditContentDialog";
 
 function ContentChooser({ onSelectContent, onCreateContent, initialContentId }) {
     const { idOrganization } = useParams();
@@ -58,12 +59,25 @@ function ContentChooser({ onSelectContent, onCreateContent, initialContentId }) 
     const filteredContents = (tab === 'organization' ? orgContents : publicContents)?.filter(content =>
         content.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    const [contentEdit, setContentEdit] = useState(null);
+    const [openEditContent, setOpenEditContent] = useState(false)
+    const handleClose = (content) => {
+       // console.log("content en handle close",content)
+         setOpenAddContent(false);
+         if(content?.contentId){
+             setContentEdit(content)
+             setOpenEditContent(true)
+         }
+     };
+     
 
     return (
         <Card>
             <CardContent>
                 <Typography variant="h6">Contenido</Typography>
-            <AddContentDialog resultContent={setSelectedContent} open={openAddContent} handleClose={() => { setOpenAddContent(false) }} />
+            <AddContentDialog resultContent={setSelectedContent} open={openAddContent} handleClose={handleClose } />
+            <EditContentDialog open={openEditContent} handleClose={() => { setOpenEditContent(false); setContentEdit(null) }} content={contentEdit} />
+                           
             <TextField
                 label="Buscar Contenido"
                 value={searchTerm}
