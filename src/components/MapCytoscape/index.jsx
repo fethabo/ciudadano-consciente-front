@@ -163,8 +163,9 @@ export default function MapCytoscape({ elements, onSelect, loading, ...rest }) {
         style={{ display: 'flex', background: 'white', width:"100%",minWidth: '300px',height:'100%', minHeight: '300px' }}
         minZoom={0.5}
         maxZoom={2}
+        zoom={1} 
         zoomingEnabled
-        panningEnabled={false}
+        panningEnabled={true}
         className="cytoscape-map"
         boxSelectionEnabled={false}
         cy={(cyInstance) => setCy(cyInstance)}
