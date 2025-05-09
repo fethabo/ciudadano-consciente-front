@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';//eslint-disable-line
+import PropTypes from 'prop-types';
 
 export default function AnimatedArrowButton({texto, hrefSection}){
   const [isHovering, setIsHovering] = useState(false);
@@ -58,4 +59,9 @@ export default function AnimatedArrowButton({texto, hrefSection}){
       </a>
     </div>
   );
+}
+
+AnimatedArrowButton.propTypes = {
+  texto: PropTypes.string.isRequired,
+  hrefSection: PropTypes.string.isRequired,
 };

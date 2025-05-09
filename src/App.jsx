@@ -25,10 +25,40 @@ function App() {
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
+      primary: {
+        main: '#FFA500',
+        dark: '#CC8400',
+        light: '#FFB733',
+      },
+      secondary: {
+        main: '#0077CC',
+        light: '#4DA6FF',
+      },
+      background: {
+        default: '#121212',
+        paper: '#1E1E1E',
+      },
+      text: {
+        primary: '#FFFFFF',
+        secondary: '#BBBBBB',
+      },
+      success: {
+        main: '#4CAF50',
+      },
+      error: {
+        main: '#F44336',
+      },
+    },
+    typography: {
+      fontFamily: 'Roboto, Arial, sans-serif',
+      h1: { color: '#FFFFFF' },
+      h2: { color: '#FFFFFF' },
+      body1: { color: '#BBBBBB' },
+      body2: { color: '#BBBBBB' },
     },
   });
 
-  const steps = [
+ /*  const steps = [
     {
       target: '.pathsSection',
       content: 'Explora nuevos caminos y comienza a jugar en cualquiera de ellos.',
@@ -50,7 +80,7 @@ function App() {
       target: '.path',
       content: 'Pulsa sobre uno de las tarjetas para comenzar a jugar'
     }
-  ];
+  ]; */
 
   return (
       <ThemeProvider theme={darkTheme}>
@@ -59,7 +89,7 @@ function App() {
             <WrapperClientProvider>
               <UserProvider>
                 <MapProvider>
-                <Joyride steps={steps} continuous debug  />
+                {/* <Joyride steps={steps} continuous debug  /> */}
                   <Router />
                 </MapProvider>
               </UserProvider>

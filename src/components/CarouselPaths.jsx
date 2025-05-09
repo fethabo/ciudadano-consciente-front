@@ -15,27 +15,12 @@ import { DiagonalGradientCard, NeonCard } from "./Cards";
  */
 function Slide({path}){
     
-  //  const { data: activity, isFetching: isFetchingActivity, isError: isErrorActivity } = useGetActivityByLevel({levelId:path.levelId, enabled: !!path.levelId});
-  //  const { data: content, isFetching: isFetchingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content, enabled: !!activity?.content});
-   // const { data: images, isFetching: isFetchingImages, isError: isErrorImages } = useGetContentImages({contentId: activity?.content, enabled: !!activity?.content});
-    /*     const { data: content, isLoading: isLoadingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content, enabled: !!activity?.content});
-    const { data: activityTypeVersion, isLoading: isLoadingActivityTypeVersion, isError: isErrorActivityTypeVersion } = useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content?.activityTypeVersionId});
-    const { data: thumbnail, isLoading: isLoadingThumbnail, isError: isErrorThumbnail } = useGetActivityTypeVersionFile({activityTypeVersionId:activityTypeVersion?.activityTypeVersionId, fileName: "thumbnail", enabled: !!activityTypeVersion?.activityTypeVersionId});
- */    const navigate= useNavigate();
+    const navigate= useNavigate();
     
     return (
         <DiagonalGradientCard onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} sx={{ cursor:'pointer' }} >
-            {/* TODO: AGREGAR SKELETONS DEL CARD CUANDO EESTA OBTENIENDO EL CONTENT */}
-            <CardMedia>
-                {/* <Box
-                    component="img"
-                    sx={{
-                        maxWidth:"100%",
-                    }}
-                    alt={path?.name}
-                    src={""}
-                   // src={thumbnail}
-                    /> */}
+            <CardMedia >
+                <Box component="img"/>
             </CardMedia>
             <CardContent>
                 <Typography variant="h6">{path?.name}</Typography>

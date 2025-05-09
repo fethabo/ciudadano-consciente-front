@@ -2,12 +2,10 @@ import { AppBar, BottomNavigation, BottomNavigationAction, /* Button,  */Contain
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import HomeIcon from '@mui/icons-material/Home';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-//import ReplyIcon from '@mui/icons-material/Reply';
 import Header from "./Header";
 import useObtenerToken from "../security/hooks/useGetToken";
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary.jsx';
-
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -38,7 +36,7 @@ const Layout = () => {
               newValue === "" ? navigate(-1) : navigate(newValue);
             }}
           >
-            <BottomNavigationAction label="Pool" icon={<QuestionMarkIcon />}  value={"/pool"} />
+            <BottomNavigationAction label="Pool" icon={<RecordVoiceOverIcon />}  value={"/pool"} />
             <BottomNavigationAction label="Inicio" icon={<HomeIcon />} value={"/"}/>
             <BottomNavigationAction label="Perfil" icon={<PersonOutlineIcon />} value={"/profile"} />
           </BottomNavigation>

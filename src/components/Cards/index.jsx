@@ -30,6 +30,7 @@ export const DiagonalGradientCard = styled(Card)(({ theme }) => ({
   '&:hover': {
     borderImage: 'linear-gradient(135deg, #e57373 0%, #ff9800 100%) 1',
   },
+  height: '100%',
 }));
 
 export const NeonCard = styled(Card)((/* { theme } */) => ({

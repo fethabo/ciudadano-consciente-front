@@ -1,9 +1,49 @@
+/**
+ * FormBase Component
+ * 
+ * A reusable form component built with Formik, designed to handle dynamic fields, validation, and submission.
+ * 
+ * @component
+ * 
+ * @param {Object[]} fields - Array of field configurations for the form. Each field object can include:
+ *   @param {string} fields[].name - The name of the field (used as the key in the form values).
+ *   @param {string} [fields[].type="text"] - The type of the field (e.g., "text", "select", "checkbox", "textarea").
+ *   @param {string} [fields[].label] - The label for the field.
+ *   @param {string} [fields[].placeholder] - Placeholder text for the field.
+ *   @param {boolean} [fields[].disabled=false] - Whether the field is disabled.
+ *   @param {Object[]} [fields[].options] - Options for select fields. Each option object can include:
+ *     @param {string|number} fields[].options[].value - The value of the option.
+ *     @param {string} fields[].options[].label - The label for the option.
+ *     @param {ReactNode} [fields[].options[].icon] - An optional icon to display alongside the option.
+ *   @param {boolean} [fields[].allowAdditions=false] - Whether to allow adding new options to select fields.
+ *   @param {Object} [fields[].props] - Additional props to pass to the field component.
+ * 
+ * @param {Object} initialValues - Initial values for the form fields.
+ * 
+ * @param {Object} validationSchema - A Yup validation schema for the form.
+ * 
+ * @param {Function} onSubmit - Callback function to handle form submission.
+ * 
+ * @param {ReactNode|ReactNode[]} children - Child components to render inside the form, such as submit buttons.
+ * 
+ * @param {boolean} [disableForm=false] - Whether to disable the entire form.
+ * 
+ * @param {Function} [onAddition] - Callback function triggered when a new option is added to a select field with `allowAdditions`.
+ * 
+ * @param {Object} [jsonTemplate] - A JSON template for rendering a dynamic subform.
+ * 
+ * @param {Function} [onFieldChange] - Callback function triggered whenever a field value changes. Receives the updated form values as an argument.
+ * 
+ * @param {boolean} [isLoadingTemplate=false] - Whether the dynamic subform template is currently loading.
+ * 
+ * @param {string} [formTitle] - An optional title to display at the top of the form.
+ */
 import { MenuItem, Skeleton, Switch, TextField, Typography } from '@mui/material';
 import { Formik, Form, Field, useFormikContext } from 'formik';
 import PropTypes from "prop-types"
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { DynamicSubForm } from './DynamicSubForm';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
   const { values } = useFormikContext();
@@ -33,6 +73,7 @@ const ValuesListener = ({ onFieldChange = ()=>console.log("sin funcion") }) => {
         </FormBase> 
  * @returns 
  */
+
         export default function FormBase({
           fields,
           initialValues,
