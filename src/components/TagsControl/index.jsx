@@ -14,6 +14,7 @@ import { useQueryClient } from '@tanstack/react-query';
  */
 const TagsControl = ({ entityId, entityType }) => {
     
+    const [inputValue, setInputValue] = useState('');
     const [newTag, setNewTag] = useState(null);
     const { data: entityTypes, isFetching: isFetchingEntityTypes, isError: isErrorEntityTypes  } = useGetEntityTypes({enabled:true});
     const { data: tagsEntity, isFetching: isFetchingTagsEntity, isError: isErrorTagsEntity} = useGetTagsOfEntity({entityId:entityId, entityType:entityType, enabled: !!entityId && !!entityType});
@@ -40,47 +41,96 @@ const TagsControl = ({ entityId, entityType }) => {
         if(!isFetchingAddTagged){
             setParamsPost(null)
             setNewTag(null)
+            setInputValue(''); // Limpiar el input después de agregar un tag
             queryClient.resetQueries({ queryKey: ['useGetTagsOfEntity', entityId, entityType], exact: true })
         }
-    }, [taggedAdded, isFetchingAddTagged, isErrorAddTagged, entityId,entityType,queryClient]);
+    }, [taggedAdded, isFetchingAddTagged, isErrorAddTagged, entityId, entityType, queryClient]);
 
     useEffect(() => {
         if(!isFetchingAddTag){
             if(tagAdded){
-                setParamsPost({ entityId,  entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: tagAdded.tagId });
+                setParamsPost({ entityId, entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: tagAdded.tagId });
             }
             setNewTag(null)
+            setInputValue(''); // Limpiar el input después de agregar un tag
             queryClient.resetQueries({ queryKey: ['useGetTags'], exact:true})
         }
-    }, [tagAdded, isFetchingAddTag, isErrorAddTag, queryClient]);
+    }, [tagAdded, isFetchingAddTag, isErrorAddTag, entityTypes, entityId, entityType, queryClient]);
 
-   // console.log("filtro de tags",tags?.filter(tag => !tagsEntity?.some(entityTag => entityTag.tagId === tag.tagId)))
+    const handleNewTagCreation = (newInputValue) => {
+        if (!newInputValue) return;
+        
+        if (tags?.some(existingTag => existingTag.name === newInputValue)) {
+            setParamsPost({ 
+                entityId, 
+                entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, 
+                tagId: tags.find(existingTag => existingTag.name === newInputValue).tagId 
+            });
+        } else {
+            setNewTag(newInputValue);
+            setEnableAddition(true);
+        }
+        setInputValue('');
+    };
+
     return (
         <Box>
-            <Typography variant="h6" >Tags</Typography>
+            <Typography variant="h6">Tags</Typography>
             <Autocomplete
                 loading={isFetchingTags}
                 freeSolo
                 options={tags?.filter(tag => !tagsEntity?.some(entityTag => entityTag.tagId === tag.tagId)) || []}
-                getOptionLabel={(tag) => tag?.name}
+                getOptionLabel={(option) => {
+                    // Manejar diferentes tipos de entrada
+                    if (typeof option === 'string') {
+                        return option;
+                    }
+                    if (option && option.name) {
+                        return option.name;
+                    }
+                    return '';
+                }}
                 isOptionEqualToValue={(option, value) => option.tagId === value.tagId}
                 onChange={(event, newValue) => {
-                    if (!newValue.tagId) {
-                        if (tags.some(existingTag => existingTag.name === newValue.name)) {
-                            setParamsPost({ entityId, entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: tags.find(existingTag => existingTag.name === newValue.name).tagId });
-                            setNewTag(null)
-                        } else {
-                            setNewTag(newValue);
-                            setEnableAddition(true);
-                        }
-                    } else {
-                        setParamsPost({ entityId, entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, tagId: newValue.tagId });
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    if (newValue === null) {
+                        return; // No hacer nada si se elimina la selección
+                    }
+                    
+                    if (typeof newValue === 'string') {
+                        // Si el usuario introduce texto y presiona enter
+                        handleNewTagCreation(newValue);
+                    } else if (newValue && !newValue.tagId && newValue.inputValue) {
+                        // Si se crea una nueva opción (usado con createFilterOptions)
+                        handleNewTagCreation(newValue.inputValue);
+                    } else if (newValue && newValue.tagId) {
+                        // Si se selecciona una opción existente
+                        setParamsPost({ 
+                            entityId, 
+                            entityTypeId: entityTypes?.find(type => type.title === entityType)?.entityTypeId, 
+                            tagId: newValue.tagId 
+                        });
+                        setInputValue('');
+                    }
+                }}
+                inputValue={inputValue}
+                onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+                }}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' && inputValue) {
+                        event.preventDefault();
+                        handleNewTagCreation(inputValue);
                     }
                 }}
                 renderInput={(params) => (
-                    <>
-                        <TextField {...params} label="Add Tag" variant="outlined" />
-                    </>
+                    <TextField 
+                        {...params} 
+                        label="Add Tag" 
+                        variant="outlined" 
+                    />
                 )}
             />
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 2 }}>

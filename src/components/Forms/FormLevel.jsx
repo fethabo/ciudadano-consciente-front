@@ -1,4 +1,4 @@
-import { Box, Button, LinearProgress } from "@mui/material";
+import { Box, Button, Divider, LinearProgress } from "@mui/material";
 import FormBase from "./FormBase";
 import formConfigs from "./formConfigs";
 import PropTypes from "prop-types"
@@ -22,7 +22,9 @@ function FormLevel({onSubmit, loading, ...rest}) {
              <Box display={"flex"} justifyContent={"right"}>
                 <Button key="submit" type="submit" disabled={loading}>Guardar</Button>
             </Box>
-
+        
+        <Divider />
+        <br />
          {!!initialValues?.levelId &&
             <TagsControl entityId={initialValues.levelId} entityType="levels"/>
          }   

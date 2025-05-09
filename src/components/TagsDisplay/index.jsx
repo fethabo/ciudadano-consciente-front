@@ -7,7 +7,7 @@ function TagsDisplay({ entityId, entityType}) {
  
   const { data: tagsEntity, isFetching: isFetchingTagsEntity, isError: isErrorTagsEntity} = useGetTagsOfEntity({entityId:entityId, entityType:entityType, enabled: !!entityId && !!entityType});
  
-    return (
+  return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5,  alignItems: "center"}}>
                 {isFetchingTagsEntity ? (
                     Array.from(new Array(5)).map((_, index) => (

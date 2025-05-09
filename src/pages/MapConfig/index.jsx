@@ -208,7 +208,8 @@ const [openEditPath, setOpenEditPath] = useState(false);
             path
              && <div className="path" >
                     {mapElements&&mapElements?.length>0
-                    &&<> <MapCytoscape elements={mapElements} onSelect={handleSelect} loading={isFetchingChildrens} />
+                    &&<>
+                     <MapCytoscape elements={mapElements} onSelect={handleSelect} loading={isFetchingChildrens} />
                      <Menu
                       open={menuOpen}
                       TransitionComponent={Fade}
