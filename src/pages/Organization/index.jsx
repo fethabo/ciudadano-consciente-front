@@ -7,6 +7,7 @@ import noAuth from "../../components/Ilustrations/401.svg";
 import { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import BackToHomeButton from "@components/BackToHomeButton";
 
 
 /**
@@ -25,6 +26,7 @@ return (
     role !=="none" 
     ?(
      <Container sx={{display:'flex', gap:'1em', flexDirection: 'column'}} >
+        <BackToHomeButton />
       { ( isFetchingOrganization)?
           (
           <>

@@ -4,6 +4,8 @@ import { useGetOrganizationsOfUser } from "../../components/Hooks/requests/Organ
 import PropTypes from 'prop-types';
 import useUserApi from "../../components/Hooks/useUserApi";
 import { GradientCard } from "@components/Cards";
+import BackToHomeButton from "@components/BackToHomeButton";
+import CreateOrganizationCard from "./CreateOrganizationCard";
 
 function OrganizationCard({organization}) {
   const navigate = useNavigate();
@@ -26,19 +28,19 @@ const Organizations = () => {
     
   const user = useUserApi();
   const {data: organizations, isFetching: isFetchingOrganizations , isError: isErrorOrganizations} = useGetOrganizationsOfUser({userId:user?.userId, enabled: !!user?.userId})
-  const navigate = useNavigate();
 
     return (
     <Box>
+     <BackToHomeButton />
       <Typography variant="h5">Tus organizaciones</Typography>
       {isFetchingOrganizations ?
       <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
       {[...Array(3)].map((_, index) => (
       <Card key={index} style={{ marginBottom: '1rem', width:'48%' }}>
-        <CardContent>
-        <Skeleton variant="text" width="80%" />
-        <Skeleton variant="text" width="60%" />
-        </CardContent>
+      <CardContent>
+      <Skeleton variant="text" width="80%" />
+      <Skeleton variant="text" width="60%" />
+      </CardContent>
       </Card>
       ))}
       </Box>
@@ -47,18 +49,15 @@ const Organizations = () => {
       ? <Alert severity="error">Hubo un error al obtener tus organizaciones</Alert>
       : <Box>
       <Typography variant="body1">
-        Selecciona cuál de tus organizaciones quieres gestionar.
+      Selecciona cuál de tus organizaciones quieres gestionar.
       </Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap:'1em' }}>
-        {organizations?.length>0
-        ? organizations?.map((organization, index) => <OrganizationCard key={index} organization={organization} />)
-        : <Alert severity="info">No perteneces a ninguna organización. Puedes iniciar la creación de una, nuestro equipo deberá aprobarla para que puedas comenzar a crear contenido.</Alert>
+      {organizations?.length>0
+      ? organizations?.map((organization, index) => <OrganizationCard key={index} organization={organization} />)
+      : <Alert severity="info">No perteneces a ninguna organización. Puedes iniciar la creación de una, nuestro equipo deberá aprobarla para que puedas comenzar a crear contenido.</Alert>
       }
-        <GradientCard onClick={() => navigate('/new-organization')} sx={{ cursor: "pointer", width: '48%', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CardContent>
-            <Typography variant="h5" align="center">+ Crear organización</Typography>
-          </CardContent>
-        </GradientCard>
+      <CreateOrganizationCard />
+     
       </Box>
       <Outlet />
       </Box>)

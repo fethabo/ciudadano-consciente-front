@@ -13,6 +13,7 @@ import useUserApi from "@components/Hooks/useUserApi";
 import { useGetUserVotes } from "@components/Hooks/requests/Users/Index";
 import TagsDisplay from "@components/TagsDisplay";
 import ReferencesDisplay from "@components/ReferencesDisplay";
+import BackToHomeButton from "@components/BackToHomeButton";
 
 const Map = () => {
 
@@ -118,6 +119,7 @@ const Map = () => {
 
   return (
     <Box sx={{ padding: 2 }}>
+      <BackToHomeButton />
       <Typography variant="h5" gutterBottom textAlign={"left"}>Mapa</Typography>
       <WindowLevel 
         open={!!activity && !!levelSelectedId} 

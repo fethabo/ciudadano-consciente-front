@@ -11,6 +11,7 @@ import Vote from '@components/Vote';
 import SkeletonConcerns from './SkeletonConcerns';
 import EditConcernDialog from '@components/Dialogs/EditConcernDialog';
 import  EditIcon from '@mui/icons-material/Edit';
+import BackToHomeButton from '@components/BackToHomeButton';
 
 /**
  * @returns 
@@ -52,6 +53,7 @@ export default function Pool(){
 
   return (
     <Stack sx={{ flexGrow: 1, padding: 2, gap: '2em' }}>
+      <BackToHomeButton />
       <Typography variant="h4" gutterBottom>
         Pool de Preguntas
       </Typography>
