@@ -12,11 +12,13 @@ export default function ColorChooser({ content, onResponse }) {
     }
   }, [selectedColor, content, onResponse]);
 
+  const shuffledColors = [...(content?.colors || [])].sort(() => Math.random() - 0.5);
+
   return (
     <Stack direction="column" spacing={2} alignItems="center">
       <Typography variant="h4">{content?.prompt}</Typography>
       <Stack direction="row" spacing={2}>
-        {content?.colors?.map((color, index) => (
+        {shuffledColors.map((color, index) => (
           <Button
             key={index}
             onClick={() => setSelectedColor(color)}
@@ -28,9 +30,7 @@ export default function ColorChooser({ content, onResponse }) {
               minHeight: "50px",
               borderRadius: "50%"
             }}
-          >
-            {/* Optional: Add color labels */}
-          </Button>
+/>          
         ))}
       </Stack>
     </Stack>
