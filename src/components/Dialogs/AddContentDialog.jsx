@@ -34,7 +34,7 @@ export default function AddContentDialog({open, handleClose, isPublic, ...rest})
     }, [contentPosted, isErrorPostContent, isFetchingPostContent]);//eslint-disable-line
     
     const handleSubmit = (v) =>{
-        console.log("HANDLE SUBMIT EN DIALOG", v)
+       // console.log("HANDLE SUBMIT EN DIALOG", v)
         const form = {
             ...v,
             model: JSON.stringify(v.model),

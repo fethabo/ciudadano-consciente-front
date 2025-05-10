@@ -290,9 +290,9 @@ const OrganizationContents = () => {
   useEffect(() => {
     if (!isFetchingDelete) {
       setEnabledDelete(null);
-      queryClient.resetQueries('getContentsOfOrganization');
+      queryClient.resetQueries({ queryKey: ['useGetContentsOfOrganization', idOrganization], exact: false });
     }
-  }, [contentDeleted, isFetchingDelete, isErrorDelete, queryClient]);
+  }, [contentDeleted, isFetchingDelete, isErrorDelete, queryClient, idOrganization]);
 
   // Control de diálogos
   const [openAddContent, setOpenAddContent] = useState(false);

@@ -18,7 +18,6 @@ import OrganizationForm from "./components/Forms/FormOrganization";
 import ContentsPage from "./pages/Contents";
 import OrganizationMaps from "./pages/OrganizationMaps";
 import FormMap from "./components/Forms/FormMap";
-import OrganizationAccess from "./pages/Organization/OrganizationAccess";
 import MapConfig from "./pages/MapConfig";
 import OrganizationContents from "./pages/OrganizationContents";
 import FormAddOrganization from "@components/Forms/FormAddOrganization";
@@ -42,8 +41,8 @@ function Router() {
             <Route path="/random-play" element={<NotImplemented />} />{/* Vista de Modo de juego random (contenido publico) */}
             <Route path="/organizations"  element={<Organizations />} />{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
               <Route path="/organizations/:idOrganization" element={<Organization />} >{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
-                <Route path="/organizations/:idOrganization" element={<OrganizationAccess />}/>
-                <Route path="/organizations/:idOrganization/users" element={<><OrganizationAccess /><OrganizationUsers /></>}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
+                <Route index element={<Navigate to="maps" replace={true} />} />
+                <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
                 <Route path="/organizations/:idOrganization/maps" element={<OrganizationMaps />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
                 <Route path="/organizations/:idOrganization/maps/add" element={<FormMap />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
                 <Route path="/organizations/:idOrganization/maps/:idParentLevel" element={<MapConfig />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
