@@ -17,6 +17,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ArticleIcon from '@mui/icons-material/Article';
 import LockIcon from '@mui/icons-material/Lock';
 import EditIcon from '@mui/icons-material/Edit';
+import BackToHomeButton from "@components/BackToHomeButton";
 
 /**
  * Componente de perfil de usuario mejorado
@@ -65,6 +66,7 @@ const Profile = () => {
 
   return (
     <Box sx={{ maxWidth: 1200, mx: "auto", p: 2 }}>
+      <BackToHomeButton/>
       <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
           <Avatar 
