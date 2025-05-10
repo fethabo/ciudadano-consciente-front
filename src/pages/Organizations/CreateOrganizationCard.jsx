@@ -75,7 +75,7 @@ const CreateOrganizationCard = () => {
         position: 'relative',
         height: '150px',
         overflow: 'hidden',
-        background: '#f9f9f9',
+       // background: '#f9f9f9',
       }}
       onClick={() => navigate('/new-organization')}
     >
@@ -145,7 +145,7 @@ const CreateOrganizationCard = () => {
             },
           }}
         >
-          <Typography variant="h3" sx={{ color: '#666' }}>+</Typography>
+          <Typography variant="h3" sx={{ color: 'white' }}>+</Typography>
         </motion.div>
 
         {/* El texto que aparecerá */}
@@ -169,9 +169,9 @@ const CreateOrganizationCard = () => {
           }}
         >
           <Typography 
-            variant="body1" 
+            variant="h5" 
             sx={{ 
-              color: '#555',
+              color: 'white',
               fontWeight: 'medium',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
