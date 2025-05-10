@@ -5,7 +5,7 @@ import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
 import HeroSection from "./HeroSection";
-//import useUserApi from "../../components/Hooks/useUserApi";
+import ExplorePathsSection from "./ExplorePathsSection";
 
 export default function Home (){
 
@@ -25,12 +25,11 @@ export default function Home (){
                 <HeroSection /> 
             </div>
 
-            {/* disponibles */}
-            <Box id="pathsSection" className="pathsSection" >
-                <Typography variant="h5"  sx={{marginTop:"2em"}}>Explora nuevos caminos!</Typography>
-                <CarouselPaths style={{maxWidth:'100%'}} paths={paths} isLoading={isFetchingPaths} isError={isErrorPaths}/>
-            </Box>
-            {/* Recientes*/}
+            <ExplorePathsSection 
+                paths={paths} 
+                isLoading={isFetchingPaths} 
+                isError={isErrorPaths}
+            />
             {/* <Typography variant="h5">Recientes</Typography>
                 <CarouselPaths paths={recentPaths} isLoading={isFetchingRecentlyPaths} isError={isErrorRecentlyPaths}/> */}
             {/* Favoritos */}

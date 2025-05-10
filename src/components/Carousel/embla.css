@@ -30,8 +30,9 @@
     height: var(--slide-height);
   }
   .embla__controls {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-direction: row-reverse;
+    /*     grid-template-columns: auto 1fr; */
     justify-content: space-between;
     gap: 1.2rem;
     margin-top: 1.8rem;
@@ -40,7 +41,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.6rem;
-    align-items: center;
+    align-items: right;
   }
   .embla__button {
     -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);

@@ -6,12 +6,9 @@ import { UserProvider } from './components/Hooks/UserContext';
 import { SnackbarProvider} from 'notistack'
 import WrapperClientProvider from './components/WrapperClientProvider';
 import { useEffect } from 'react';
-import Joyride from 'react-joyride';
+//import Joyride from 'react-joyride';
 
 
-/**
- * TODO: definir tema )
- */
 function App() {
  
    useEffect(() => {

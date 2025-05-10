@@ -1,11 +1,9 @@
 import PropTypes from "prop-types"
 import EmblaCarousel from "./Carousel/EmblaCarousel"
-import { Alert, Box, Card, CardContent, CardMedia, Skeleton, Typography } from "@mui/material";
+import { Alert,  Card, CardContent, CardMedia, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
-import { DiagonalGradientCard, NeonCard } from "./Cards";
-//import { useGetActivityByLevel } from "./Hooks/requests/Activity";
-//import { useGetContent, useGetContentImages } from "./Hooks/requests/Content";
+import {  NeonCard } from "./Cards";
+import SlidePath from "./SlidePath";
 
 /**
  * @todo: agregar imagen en card
@@ -13,25 +11,6 @@ import { DiagonalGradientCard, NeonCard } from "./Cards";
  * @param {*} param0 
  * @returns 
  */
-function Slide({path}){
-    
-    const navigate= useNavigate();
-    
-    return (
-        <DiagonalGradientCard onClick={()=>navigate(`./map/${path.levelId}`,{ relative: 'path' })} sx={{ cursor:'pointer' }} >
-            <CardMedia >
-                <Box component="img"/>
-            </CardMedia>
-            <CardContent>
-                <Typography variant="h6">{path?.name}</Typography>
-                <Typography variant="body2">{path?.description}</Typography>
-            </CardContent>
-        </DiagonalGradientCard>
-    )
-}
-Slide.propTypes = {
-    path: PropTypes.object,
-}
 
 function LoadingSlide(){
     return (
@@ -67,7 +46,7 @@ function CarouselPaths({paths, isLoading, isError}) {
             } else if(paths){
                 const slidesPaths=[];
                 paths.map((path,index) => {                
-                    slidesPaths.push(<Slide key={index} path={path} />);
+                    slidesPaths.push(<SlidePath key={index} path={path} />);
                 })
                 setSlides(slidesPaths);
             }}
