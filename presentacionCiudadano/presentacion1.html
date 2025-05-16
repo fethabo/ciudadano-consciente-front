@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Ciudadano Consciente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              // Paleta de colores
+              primary: '#3498db', // Azul principal
+              secondary: '#2ecc71',
+              accent: '#f1c40f',
+              neutral: '#34495e', // Gris oscuro/Azul (Fondo principal)
+              light: '#ecf0f1', // Gris claro (Texto principal)
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Estilos base y de navegación (sin cambios respecto a la versión anterior, excepto la eliminación de Lucide) */
+      .slide {
+        min-height: 100vh;
+        padding: 4rem 2rem;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .slide.active-slide {
+        display: flex;
+      }
+      .slide-content {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+      }
+      .navigation-controls {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        background-color: rgba(52, 73, 94, 0.8);
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        display: flex;
+        gap: 1rem;
+      }
+      .nav-button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .nav-button:hover {
+        background-color: #2980b9;
+      }
+      .nav-button:disabled {
+        background-color: #7f8c8d;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+      /* Estilo base para iconos Iconify (tamaño y alineación si es necesario) */
+      .iconify {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    </style>
+</head>
+<body class="font-sans bg-neutral text-light md:overflow-hidden">
+
+    <section id="titulo" class="slide bg-neutral text-white">
+        <div class="slide-content">
+            <h1 class="text-5xl font-bold mb-4 text-white">Ciudadano Consciente</h1>
+            <p class="text-2xl mb-8 text-primary">Gamificando el saber</p>
+            <img src="/logo-simple-color.png" width="25%" height="25%" alt="Logo">
+            <p class="text-lg">Federico Thaiel Borgna & Cayetano Simón Paradiso</p>
+            <p class="text-md mt-2">Laboratorio de Desarrollo de Software - Curso 2023</p>
+            <p class="text-sm mt-1">Entrega Final - Mayo 2025</p>
+        </div>
+    </section>
+
+    <section id="problema" class="slide bg-neutral text-light">
+        <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-6 text-primary">🔍 El Desafío Actual (la motivación del proyecto)</h2>
+             <div class="max-w-3xl mx-auto text-lg space-y-4">
+                 <p>En la sociedad actual, acceder a información cívica <span class="font-semibold text-primary">verificada, comprensible y atractiva</span> es a menudo un desafío.</p>
+                 <p>La información está dispersa, es técnica o difícil de encontrar, generando una <span class="font-semibold text-primary">brecha de conocimiento</span> que dificulta la participación ciudadana informada.</p>
+                 <p>¿Cómo podemos hacer que el aprendizaje sobre normativas, derechos y deberes sea <span class="font-semibold text-primary">accesible y motivador</span> para todos?</p>
+                 <img src="/Presentacion-problema.png" alt="[Ilustración del problema: ciudadano confundido con papeles]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+            </div>
+        </div>
+    </section>
+
+    <section id="objetivos" class="slide bg-neutral text-light">
+      <div class="slide-content">
+          <h2 class="text-4xl font-bold mb-6 text-primary">🎯 Objetivos del proyecto</h2>
+           <div class="max-w-3xl mx-auto text-lg space-y-4">
+               <ul class="list-disc list-inside space-y-2 text-left mx-auto max-w-xl">
+                <li>Empoderar a la ciudadanía con conocimiento</li>
+                <li>Transformar contenido especializado en aprendizaje activo</li>
+                <li>Fomentar comunidad y participación</li>
+                <li>Abrir espacio a productores y consumidores de saber</li>
+               </ul>
+               <img src="/Presentacion-objetivo.png" alt="[Ilustración del problema: ciudadano confundido con papeles]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+          </div>
+      </div>
+  </section>
+
+    <section id="solucion" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-6 text-primary">Nuestra solución: Ciudadano Consciente</h2>
+            <div class="max-w-3xl mx-auto text-lg space-y-4">
+                <p>Una <span class="font-semibold text-primary">plataforma web interactiva</span> que conecta a ciudadanos con información verificada y expertos.</p>
+                <p>Transformamos el aprendizaje cívico en una experiencia <span class="font-semibold text-primary">lúdica y enriquecedora</span>, similar a un juego.</p>
+                <p>Fomentamos una comunidad <span class="font-semibold text-primary">informada, conectada y participativa</span>.</p>
+                <img src="/logo-color.png" alt="[Captura de pantalla principal de Ciudadano Consciente]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+            </div>
+        </div>
+    </section>
+
+    <section id="como-funciona" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">¿Cómo funciona?</h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-lg">
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:database-arrow-down-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">1. Instituciones aportan</h3>
+                    <p>Organismos (tránsito, justicia, parques, etc.) comparten datos y conocimiento verificado.</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:gamepad-variant-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">2. Caminos de aprendizaje</h3>
+                    <p>Se crean "Paths" temáticos con niveles y actividades interactivas (quizzes, etc.).</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:account-school-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">3. Ciudadanos aprenden</h3>
+                    <p>Los usuarios exploran los paths, responden actividades, ganan conocimiento y miden su progreso.</p>
+                </div>
+            </div>
+             <div class="mt-8 bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600 max-w-xl mx-auto">
+                 <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:chat-question-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">¡La comunidad participa! (Pool de preguntas)</h3>
+                 <p>Los usuarios proponen temas de interés, votan preguntas y guían la creación de nuevo contenido (Community Driven).</p>
+             </div>
+        </div>
+    </section>
+
+    <section id="caracteristicas" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">Características Principales</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:account-group-outline" data-inline="false"></span> <p class="font-semibold text-light">Gestión de usuarios y roles</p>
+                </div>
+                <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:map-legend" data-inline="false"></span> <p class="font-semibold text-light">Creación de mapas/paths</p>
+                </div>
+                 <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:controller-classic-outline" data-inline="false"></span> <p class="font-semibold text-light">Actividades lúdicas</p>
+                </div>
+                <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:comment-question-outline" data-inline="false"></span> <p class="font-semibold text-light">Pool de preguntas</p>
+                </div>
+                 <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:chart-line" data-inline="false"></span> <p class="font-semibold text-light">Métricas de progreso</p>
+                </div>
+                 <div class="bg-gray-700/50 p-4 rounded-lg shadow-md text-center border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-2" data-icon="mdi:cog-outline" data-inline="false"></span> <p class="font-semibold text-light">Configuración flexible</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section id="publico" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">¿Para quién es?</h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-lg">
+                 <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                    <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:account-school-outline" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Ciudadanos</h3>
+                    <p>Estudiantes, conductores, opositores, guías, cualquier persona con ganas de aprender sobre su entorno cívico.</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:domain" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Instituciones Productoras</h3>
+                     <p>Gobiernos, ONGs, Parques Nacionales, Poder Judicial, Bomberos, etc., que desean difundir conocimiento.</p>
+                </div>
+                <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
+                     <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:code-braces" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Desarrolladores (Futuro)</h3>
+                     <p>Comunidad que puede proponer nuevos tipos de actividades interactivas (templates).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Proceso de desarrollo -->
+    <section id="metodologia" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">Metodología de Desarrollo</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>Adaptación de metodologías ágiles: <span class="font-semibold text-primary">Scrum y Kanban</span>.</p>
+              <ul class="list-disc list-inside space-y-2 text-left mx-auto max-w-xl">
+                  <li>Enfoque en <span class="font-semibold">iteraciones basadas en eventos</span> (Kanban).</li>
+                  <li>Uso de <span class="font-semibold">historias de usuario</span> y estimaciones (Scrum).</li>
+                  <li><span class="font-semibold">Tablero Kanban</span> visual (Google Sheets) para seguimiento.</li>
+                  <li><span class="font-semibold">Limitación del WIP</span> para mantener el foco.</li>
+                  <li><span class="font-semibold">Revisión continua</span> de prioridades.</li>
+              </ul>
+              <img src="/Presentacion-kanban.png" alt="[Ejemplo visual del tablero Kanban utilizado]" class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/600x250/34495e/ecf0f1?text=Error+cargando+imagen';">
+         </div>
+     </div>
+    </section>
+
+    <section id="realizacion1" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🛠️ Realización del proyecto</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>1. Definición de requerimientos</p>
+             <p>Como no tuvimos un cliente al cual demandarle los requerimientos, debimos coordinar con los docentes la especificación de requerimientos.</p> 
+             <p>Acordamos un total de 44 ítems (en su mayoría CRUD de entidades). CRUD: Create (crear), Read (leer), Update (modificar) y Delete (borrar).</p>
+             <div class="flex-grow overflow-y-auto px-4 max-h-[70vh]">
+              <div class="space-y-1 text-left max-w-3xl mx-auto text-base md:text-lg">
+
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.1.1.​ Usuario.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.1.2.​ Usuario.login</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.2.1.​ Usuario.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.2.2.​ Usuario.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.3.1.​ Rol.asign</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.3.2.​ Usuario.notify</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.4.1.​ Usuario.search</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">1.4.2.​ Usuario.list</p>
+
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.1.​ Level.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.2.​ Level.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.3.​ Level.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.4.​ Level.browse</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.5.​ Tag.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.6.​ Tag.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.7.​ Tag.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.8.​ Tag.browse</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.9.​ Reference.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.10. ​Reference.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.11. ​Reference.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.12. ​ActivityType.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.13. ​Activity.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.14. ​Activity.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.15. ​Activity.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.1.16. ​Activity.browse</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">2.2.1.1.​ Level.Acceso.User.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">3.1.1.​ Usuario.Answer.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">4.1.1.​ Organization.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">4.1.1.1. ​Organization.Moderador.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">4.1.1.2. ​Organization.Divulgador.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">4.1.2.​ Organization.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">4.1.3.​ Organization.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.1.1. ​Question.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.1.2. ​Question.edit</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.1.3. ​Question.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.1.4.​ Question.browse</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.1.5.​ Voto.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.1.6.​ Voto.delete</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.2.1.​ Pool.dashboard</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.2.2.​ Pool.analytics</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">5.2.3.​ Pool.automation</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">6.1.1.​ ​Metrics.User.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">6.1.2.​ Metrics.User.view</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">6.2.1.​ Metrics.Map.add</p>
+                  <p class="bg-gray-700/50 p-2 rounded-lg border border-gray-600">6.2.2.​ Metrics.Map.view</p>
+              </div>
+          </div>
+         </div>
+     </div>
+    </section>
+
+    <section id="realizacion2.1" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🛠️ Realización del proyecto</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>2.1. Diseño de arquitectura (API y Web App)</p>
+             <p>De acuerdo a los requerimientos, elegimos implementar una API Rest (pedirle cosas al servidor de una forma específica) y 
+              una WebApp (una aplicación que se puede ejecutar en navegadores web).</p>
+              <p>Esto involucra generalmente contar con una base de datos y alguna manera de gestión de usuarios.</p> 
+             <img src="/Presentacion-realizacion2.png" alt="Arquitectura API Rest y WebApp" width="100%" height="100%">
+            </div>
+     </div>
+    </section>
+
+    <section id="realizacion2.1" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🛠️ Realización del proyecto</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>2.2. Diseño de arquitectura (modelo de datos)</p>
+             <p>El modelo de datos surgió del análisis inicial de requerimientos y se terminó de definir a medida que el sistema fue desarrollándose.</p>
+             <p>Al modelo de datos propio de la problemática (usuario, organización, nivel, etc.) hubo que rodearlo de entidades nomencladoras y agrupadoras 
+              como votos, etiquetas, vistas de la base de datos, etc.</p> 
+              <img src="/Presentacion-ciudadano_consciente - app.png" alt="Diagrama de base de datos" width="100%" height="100%">
+            </div>
+     </div>
+    </section>
+
+    <section id="realizacion3" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🛠️ Realización del proyecto</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>3. Desarrollo web clásico: backend y frontend</p>
+             <p>Al momento de iniciar el proyecto ambos estudiantes se encontaban trabajando en el área de desarrollo de la Municipalidad de Ushuaia, 
+              uno en el front end (lo que vé el usuario) y otro en el backend (lo que pasa debajo del capot).</p>
+              <p>Debido a esta coyuntura, optamos por materializar el proyecto de igual manera.</p> 
+              <p><span class="font-semibold text-primary">Pero ¡ojo!</span>, pronto surgió la necesidad de abordar integralmente y en conjunto una 
+                característica fundamental del sistema: el manejo de usuarios.</p> 
+            </div>
+     </div>
+    </section>
+
+    <section id="realizacion4" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🛠️ Realización del proyecto</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>4. Integración con Keycloak</p>
+             <p>Conocíamos las funcionalidades que ofrecía la herramienta. Sabíamos que nos serviría para autenticar (identificar usuarios) y
+              autorizar (quién accede a qué) pero nunca lo habíamos puesto en marcha por nuestra cuenta. Esta fué una de las principales demoras del 
+              proyecto.</p> 
+              <p>Una vez que logramos poner en marcha la integración con la solución (levantar un servidor de la solución, una base de datos dedicada
+                 y conectar el backend y el front end) y las configuraciones particulares que pretendíamos, todo fluyó en el ambiente local.</p>
+                <ul class="list-disc list-inside space-y-2 text-left mx-auto max-w-xl">
+                  <li>Creamos reinos, clientes y roles</li>
+                  <li>Añadimos atributos a los usuarios</li>
+                  <li>Mapeamos atributos del usuario al token</li>
+                  <li>Generamos una nueva API que nos permite conectarnos programáticamente con el servidor</li>
+                </ul>
+              <p>Hasta que... surgió la necesidad de replicar lo local en un ambiente productivo (no era explícitamente necesario pero ya que estamos, implementemos un producto 
+                real 😅). Y ahora fuimos capaces de:</p>
+                <ul class="list-disc list-inside space-y-2 text-left mx-auto max-w-xl">
+                  <li>Loguear usuarios a través de Google, LinkedIn y Github</li>
+                  <li>Enviar correos a través de la plataforma para verificaciones</li>
+                </ul>
+            </div>
+     </div>
+    </section>
+
+    <section id="realizacion5" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🛠️ Realización del proyecto</h2>
+         <div class="max-w-3xl mx-auto text-lg space-y-4">
+             <p>5. Despliegue en Servidor</p>
+             <p>Para que los usuarios puedan acceder a la WebApp fue necesario accesibilizarla a través de una url. Esto demandó contratar un nombre de dominio 
+              (lo que se escribe en el navegador) y un servicio de hosting (donde se alojan los datos y en este caso, el sistema entero). Con esto, ya tenemos 
+              nuestra aplicación en su sitio web.</p>
+            </div>
+     </div>
+    </section>
+
+
+  <!-- Sección Arquitectura y Componentes -->
+    <section id="tecnologia" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+            <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+                 <div class="md:w-1/2 text-left space-y-4">
+                    <p class="text-lg">Sistema basado en <span class="font-semibold text-primary">microservicios</span> y desplegado en contenedores para escalabilidad y mantenibilidad.</p>
+                    <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Stack tecnológico:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-lg text-light">
+                        <li><span class="iconify mr-1" data-icon="mdi:react" data-inline="true"></span><span class="font-semibold">Frontend:</span> React + Vite (Diseño Mobile-First)</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span><span class="font-semibold">Backend APIs:</span> Java + Quarkus</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:database" data-inline="true"></span><span class="font-semibold">Base de datos:</span> PostgreSQL</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:key-variant" data-inline="true"></span><span class="font-semibold">Autenticación:</span> Keycloak</li>
+                        <li><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span><span class="font-semibold">Despliegue:</span> Docker + Nginx</li>
+                    </ul>
+                </div>
+                 <div class="md:w-1/2">
+                     <img src="/Presentacion-stack.png" alt="Diagrama simplificado del stack" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+                    <p class="text-sm mt-2 text-gray-400">Diagrama simplificado del stack</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="componentes" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+         <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+              <div class="md:w-1/2 text-left space-y-4">
+                 <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Componentes:</h3>
+                 <ul class="list-disc list-inside space-y-2 text-lg text-light">
+                     <li><span class="iconify mr-1" data-icon="mdi:react" data-inline="true"></span><span class="font-semibold">WebApp Ciudadano Consciente</span></li>
+                     <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span><span class="font-semibold"><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>API Rest Ciudadano Consciente</span></li>
+                     <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span><span class="font-semibold"><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>Servidor de autenticación Keycloak</li>
+                     <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span><span class="font-semibold"><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>API Rest Keycloak</li>
+                     <li><span class="iconify mr-1" data-icon="mdi:database" data-inline="true"></span><span class="font-semibold"><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>Base de datos Keycloak</li>
+                     <li><span class="iconify mr-1" data-icon="mdi:database" data-inline="true"></span><span class="font-semibold"><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>Base de datos Ciudadano Consciente</li>
+                     <li><span class="iconify mr-1" data-icon="mdi:server" data-inline="true"></span><span class="font-semibold">Servidor web Nginx</li>
+                 </ul>
+             </div>
+              <div class="md:w-1/2">
+                  <img src="/Presentacion-arquitecturaCiuco.png" alt="[Diagrama simplificado de la arquitectura del sistema]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+                 <p class="text-sm mt-2 text-gray-400">Diagrama simplificado de la arquitectura.</p>
+             </div>
+         </div>
+     </div>
+  </section>
+
+    <section id="frontend" class="slide bg-neutral text-light">
+      <div class="slide-content">
+         <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+         <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+              <div class="md:w-1/2 text-left space-y-4">
+                 <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Front end:</h3>
+                 <ul class="list-disc list-inside space-y-2 text-lg text-light">
+                     <li><span class="iconify mr-1" data-icon="mdi:react" data-inline="true"></span><span class="font-semibold"> React</span> +  (Diseño )</li>
+                     <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span><span class="font-semibold">Vite</span></li>
+                     <li><span class="iconify mr-1" data-icon="mdi:database-postgresql" data-inline="true"></span><span class="font-semibold">Mobile-First</li>
+                 </ul>
+             </div>
+              <div class="md:w-1/2">
+                  <img src="/Presentacion-arquitecturaCiuco.png" alt="[Diagrama simplificado de la arquitectura del sistema]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+                 <p class="text-sm mt-2 text-gray-400">Diagrama del Front end.</p>
+             </div>
+         </div>
+     </div>
+ </section>
+
+ <section id="backend" class="slide bg-neutral text-light">
+  <div class="slide-content">
+     <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+     <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+          <div class="md:w-1/2 text-left space-y-4">
+             <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Backend - API Ciudadano Consciente</h3>
+             <ul class="list-disc list-inside space-y-2 text-lg text-light">
+              <p class="text-lg">API Rest desarrollada <span class="font-semibold text-primary">en capas</span> para favorecer la modularidad y las responsabilidades únicas.</p>
+              <li>Se encarga de recibir las peticiones del front y recuperar datos o performar alguna acción</li> 
+                <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span>Programado en <span class="font-semibold">Java</span> utilizando el framework <span class="font-semibold">Quarkus</span></li>
+                 <li><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>Desplegado en contenedor de <span class="font-semibold">Docker</span></li>
+             </ul>
+         </div>
+          <div class="md:w-1/2">
+              <img src="/Presentacion-capasAPI.png" alt="Capas de la API Rest Ciudadano Consciente" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+             <p class="text-sm mt-2 text-gray-400">Diagrama de arquitectura de capas Backend.</p>
+         </div>
+     </div>
+ </div>
+</section>
+
+<section id="keycloak" class="slide bg-neutral text-light">
+  <div class="slide-content">
+     <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+     <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+          <div class="md:w-1/2 text-left space-y-4">
+             <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Backend - Servidor Keycloak</h3>
+             <ul class="list-disc list-inside space-y-2 text-lg text-light">
+              <p class="text-lg">Servidor Keycloak utilizado como servidor de <span class="font-semibold text-primary">autenticación</span>.</p>
+                 <li>Las aplicaciones "cliente" se registran y solicitan a Keycloak que se encargue de darle credenciales válidas a los usuarios.</li>
+                 <li>Una vez que el usuario se loguea en la aplicación cliente con las credenciales proveídas por Keycloak, el cliente verifica que las credenciales 
+                  hayan sido firmadas con su clave pública (si reconoce las credenciales como válidas para sí mismo).</li>
+                  <li><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>Desplegado en contenedor de <span class="font-semibold">Docker</span></li>
+             </ul>
+         </div>
+          <div class="md:w-1/2">
+              <img src="/Presentacion-KeycloakServer.png" alt="Keycloak Server vinculado a backend y frontend" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+             <p class="text-sm mt-2 text-gray-400">Diagrama de Servidor Keycloak.</p>
+         </div>
+     </div>
+ </div>
+</section>
+
+<section id="api-rest-keycloak" class="slide bg-neutral text-light">
+  <div class="slide-content">
+     <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+     <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+          <div class="md:w-1/2 text-left space-y-4">
+             <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Backend - API Rest Keycloak como proxy</h3>
+             <ul class="list-disc list-inside space-y-2 text-lg text-light">
+              <p class="text-lg">API Rest desarrollada utilizando la librería de Java de Keycloak. Agregando un <span class="font-semibold text-primary">nuevo nivel de indirección adicional (proxy)</span>, el servidor de 
+                autenticación es utilzado por la API Ciudadano Consciente a través de esta API auxiliar.</p>
+                <li>Se encarga de recibir las peticiones de la API Ciudadano Consciente y recuperar datos o performar alguna acción en el servidor Keycloak
+                  (por debajo hace peticiones HTTP).</li> 
+                <li><span class="iconify mr-1" data-icon="mdi:language-java" data-inline="true"></span>Programado en <span class="font-semibold">Java</span> utilizando el framework <span class="font-semibold">Quarkus</span></li>
+                 <li><span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>Desplegado en contenedor de <span class="font-semibold">Docker</span></li>
+             </ul>
+         </div>
+          <div class="md:w-1/2">
+              <img src="/Presentacion-proxyAPIKeycloak.png" alt="API Rest Keycloak utilizada como proxy" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+             <p class="text-sm mt-2 text-gray-400">Diagrama de API Rest Keycloak como proxy.</p>
+         </div>
+     </div>
+ </div>
+</section>
+
+<section id="api-rest-keycloak" class="slide bg-neutral text-light">
+  <div class="slide-content">
+     <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+     <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+          <div class="md:w-1/2 text-left space-y-4">
+             <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Backend - Unidades de persistencia</h3>
+             <ul class="list-disc list-inside space-y-2 text-lg text-light">
+              <li>
+                Dos bases de datos: una para el servidor de autenticación Keycloak y otra para la API Ciudadano Consciente. 
+                Ambas son bases de datos relacionales <span class="font-semibold text-primary">Postgresql</span>
+                <ul class="list-disc list-inside space-y-2 text-lg text-light ml-6">
+                  <li>Se encargan de la persistencia y disponibilidad de los datos necesarios.</li> 
+                  <li>
+                    <span class="iconify mr-1" data-icon="mdi:docker" data-inline="true"></span>
+                    Desplegadas cada una en su propio contenedor de <span class="font-semibold">Docker</span>
+                  </li>
+                </ul>
+              </li>
+              <li>Sistema de archivos del servidor utilizado para almacenar las imágenes</li>
+            </ul>
+            
+         </div>
+          <div class="md:w-1/2">
+              <img src="/Presentacion-Persistencia.png" alt="Unidades de persistencia" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+             <p class="text-sm mt-2 text-gray-400">Diagrama de las unidades de persistencia.</p>
+         </div>
+     </div>
+ </div>
+</section>
+
+<section id="nginx" class="slide bg-neutral text-light">
+  <div class="slide-content">
+     <h2 class="text-4xl font-bold mb-8 text-primary">🏗️ Arquitectura y Tecnología</h2>
+     <div class="flex flex-col md:flex-row gap-8 items-center justify-center max-w-6xl mx-auto">
+          <div class="md:w-1/2 text-left space-y-4">
+             <h3 class="text-2xl font-semibold mt-4 mb-2 text-primary">Servidor Web - Nginx</h3>
+             <p>Nginx se encuentra instalado en el servidor remoto donde se aloja el front end y los contenedores del backend.</p>      
+             <p>Es el encargado de manejar las peticiones que llegan a la IP pública asociada al dominio y forwardearlas a los servicios apropiados.</p>      
+             <p>Es decir, recibe una petición y sabe a cuál de los servicios pasarsela (puede filtrar, modificar, balancear, etc.).</p>      
+         </div>
+          <div class="md:w-1/2">
+              <img src="/Presentacion-Nginx.png" alt="Servidor Web Nginx" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+             <p class="text-sm mt-2 text-gray-400">Diagrama de servidor web Nginx.</p>
+         </div>
+     </div>
+ </div>
+</section>
+
+
+<!-- Estado actual (producción) -->
+     <section id="demo" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">Estado Actual y Demo</h2>
+            <div class="max-w-4xl mx-auto text-lg space-y-6">
+                <p class="bg-primary text-white font-semibold py-2 px-4 rounded-md inline-block">
+                    <span class="iconify mr-2 align-middle" data-icon="mdi:check-circle" data-inline="false"></span>¡Sistema Desplegado y Funcional!
+                </p>
+                <p>La aplicación web está disponible en:
+                    <a href="http://ciudadano.paradisoft.site" target="_blank" class="text-primary underline font-semibold hover:text-blue-300">ciudadano.paradisoft.site</a>
+                </p>
+                <p>Las APIs están operativas y documentadas en formato <a href="http://ciuco.paradisoft.site/q/openapi" target="_blank" class="text-primary underline font-semibold hover:text-blue-300">OPENAPI</a>.</p>
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                     <img src="https://placehold.co/400x300/34495e/ecf0f1?text=Screenshot+1" alt="[Captura de pantalla: Ejemplo de Path]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+                     <img src="https://placehold.co/400x300/34495e/ecf0f1?text=Screenshot+2" alt="[Captura de pantalla: Ejemplo de Actividad]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lo que se puede mejorarse y añadirse -->
+    <section id="futuro" class="slide bg-neutral text-light">
+         <div class="slide-content flex flex-col h-full">
+            <h2 class="text-4xl font-bold mb-6 text-primary flex-shrink-0">Próximos pasos: el futuro</h2>
+            <div class="flex-grow overflow-y-auto px-4 max-h-[70vh]">
+                <div class="space-y-5 text-left max-w-3xl mx-auto text-base md:text-lg">
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:help-rhombus-outline" data-inline="false"></span>Manual de usuario integrado</h3>
+                        <p>Integrar guía interactiva (<code class="text-sm bg-gray-800 px-1 rounded">react-joyride</code>) en la app.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:palette-outline" data-inline="false"></span>Diseño con identidad</h3>
+                        <p>Evolucionar la identidad visual hacia un enfoque de juego, centrado en el conocimiento.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:code-sandbox" data-inline="false"></span>Sandbox para desarrolladores</h3>
+                        <p>Entorno tipo CodePen para probar templates funcionales en tiempo real.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:github" data-inline="false"></span>Repositorio público de templates</h3>
+                        <p>Crear repo para Pull Requests de templates, con auditoría pública.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:update" data-inline="false"></span>Build mensual con templates</h3>
+                        <p>Integrar templates aprobados mensualmente en nuevas versiones.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:cellphone-arrow-down" data-inline="false"></span>Desarrollo de aplicación móvil</h3>
+                        <p>Crear app móvil con funcionamiento offline.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:magnify-scan" data-inline="false"></span>Integración con stack ELK</h3>
+                        <p>Usar Elasticsearch, Kibana, Logstash para logs, observabilidad y métricas.</p>
+                    </div>
+
+                    <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:credit-card-check-outline" data-inline="false"></span>Integración con APIs de pagos</h3>
+                        <p>Integrar MercadoPago/PayPal para funciones premium y monetización de templates.</p>
+                    </div>
+
+                     <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
+                        <h3 class="text-xl font-semibold mb-2 text-primary flex items-center"><span class="iconify mr-2" data-icon="mdi:message-text-outline" data-inline="false"></span>Integración con servicios de mensajería</h3>
+                        <p>Bots en WhatsApp/Signal/Telegram para interactuar con el Pool de Preguntas.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusion" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-6 text-primary">Conclusión</h2>
+            <div class="max-w-3xl mx-auto text-xl space-y-5">
+                 <span class="iconify text-primary text-5xl mb-4" data-icon="mdi:lightbulb-on-outline" data-inline="false"></span> <p>"Ciudadano Consciente" no es solo una plataforma, es una herramienta para el <span class="font-semibold text-primary">empoderamiento cívico</span>.</p>
+                <p>Buscamos construir una sociedad más <span class="font-semibold text-primary">informada, crítica y participativa</span> a través del conocimiento accesible y la tecnología.</p>
+                <p>¡Creemos en el poder de un ciudadano consciente!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="preguntas" class="slide bg-neutral text-light">
+         <div class="slide-content">
+            <h2 class="text-4xl font-bold mb-8 text-primary">¿Preguntas?</h2>
+            <span class="iconify text-primary text-6xl mb-6" data-icon="mdi:help-circle-outline" data-inline="false"></span> <p class="text-xl mb-4">¡Gracias por su atención!</p>
+            <p class="text-lg">Estamos a disposición para responder sus consultas.</p>
+            <p class="mt-8 text-sm text-gray-400">
+                Contacto: <br>
+                Federico Thaiel Borgna - federico.tahiel.borgna@gmail.com <br>
+                Cayetano Simón Paradiso - cayetanosimonparadiso@gmail.com </p>
+             <p class="mt-4 text-sm text-gray-400">
+                 Repositorios: <br>
+                 <a href="https://github.com/CSParadiso/ciudadanoConsciente" target="_blank" class="text-primary underline hover:text-blue-300">Backend</a> |
+                 <a href="https://github.com/fethabo/ciudadano-consciente-front" target="_blank" class="text-primary underline hover:text-blue-300">Frontend</a>
+             </p>
+        </div>
+    </section>
+    <div class="navigation-controls">
+        <button id="prevBtn" class="nav-button" title="Anterior (Flecha Izquierda)">
+            <span class="iconify" data-icon="mdi:arrow-left" data-inline="true"></span> Anterior
+        </button>
+        <button id="nextBtn" class="nav-button" title="Siguiente (Flecha Derecha)">
+            Siguiente <span class="iconify" data-icon="mdi:arrow-right" data-inline="true"></span>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlideIndex = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                if (index < 0 || index >= totalSlides) return;
+                if (slides[currentSlideIndex]) slides[currentSlideIndex].classList.remove('active-slide');
+                currentSlideIndex = index;
+                if (slides[currentSlideIndex]) slides[currentSlideIndex].classList.add('active-slide');
+                updateButtonStates();
+            }
+
+            function updateButtonStates() {
+                if (prevBtn) prevBtn.disabled = currentSlideIndex === 0;
+                if (nextBtn) nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlideIndex < totalSlides - 1) showSlide(currentSlideIndex + 1);
+                });
+            }
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlideIndex > 0) showSlide(currentSlideIndex - 1);
+                });
+            }
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    if (nextBtn && !nextBtn.disabled) nextBtn.click();
+                } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                     if (prevBtn && !prevBtn.disabled) prevBtn.click();
+                }
+            });
+            showSlide(0);
+        });
+    </script>
+
+</body>
+</html>
