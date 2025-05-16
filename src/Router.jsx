@@ -41,7 +41,7 @@ function Router() {
             <Route path="/random-play" element={<NotImplemented />} />{/* Vista de Modo de juego random (contenido publico) */}
             <Route path="/organizations"  element={<Organizations />} />{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
               <Route path="/organizations/:idOrganization" element={<Organization />} >{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
-                <Route index element={<Navigate to="maps" replace={true} />} />
+                <Route index element={<Navigate to="maps" replace={true} />} />{/* TODO: EVALUAR SI NO ESTA MOLESTANDO ESTO PARA EL NGINX */}
                 <Route path="/organizations/:idOrganization/users" element={<OrganizationUsers />}/>{/* Edicion de usuarios de la organizacion , pagina o ventana???*/}
                 <Route path="/organizations/:idOrganization/maps" element={<OrganizationMaps />}/>{/* VISTA DE SELECCION DE MAPAS DE LA ORGANIZACION, PARA UN MODERADOR SERAN LOS PATHS de la organizacion, para un divulgador los levels que tiene rol de divulgador*/}
                 <Route path="/organizations/:idOrganization/maps/add" element={<FormMap />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
@@ -51,12 +51,6 @@ function Router() {
                 <Route path="/organizations/:idOrganization/stadistics" element={<OrganizationStatistics />}/>{/* VISTA De dashboard de org*/} 
               </Route>
               <Route path="/organizations/:idOrganization/edit" element={<OrganizationForm />}/>{/* Edicion de organizacion*/}
-              
-
-              <Route path="/organizations/:idOrganization/level" element={<NotImplemented />}/>{/* EN EL FORMULARIO TAMBIEN PODEMOS AGREGAR DIVULGADORES (USUARIOS DE LA ORGANIZACION) */}
-              <Route path="/organizations/:idOrganization/level/:idLevel" element={<NotImplemented />}/>{/* VISTA DE EDICION DE UN LEVEL */}
-              <Route path="/organizations/:idOrganization/level/:idLevel/activity" element={<NotImplemented />}/>{/* En esta vista se realiza la carga de la actividad, debe seleccionar el contenido antes de ingresar la descripcion, pueden acceder a la gestion de contenidos de la organizacion desde aca.  */}
-              <Route path="/organizations/:idOrganization/level/:idLevel/activity/:idActivity" element={<NotImplemented />}/>{/* El contenido lo puede usar un usuario que pertenece a la organizacion del level relacionado a ese contenido. Lo puede editar el usuario que es divulgador de la rama a la que pertenece el contenido */}
             
             <Route path="/settings" element={<Settings />} /> 
             <Route path="/map"  >{/* Pantalla de vista dle mapa, se muestran los branches y sus levels agrupados */}
@@ -71,7 +65,6 @@ function Router() {
             <Route path="/new-organization/verify" element={<FormVerifyOrganization/>} /> {/* si es solo verify debe volver a escribir el correo para obtener la organizacion */}
             <Route path="/new-organization/verify/:idOrganization" element={<FormVerifyOrganization/>} />{/* Si tiene idOrganization directamente renderiza el input del key */}
             
-            {/* <ProtectedRoute path="/profile" componente={<Profile />}/> */}
            </Route>
         </Routes>
       </BrowserRouter>

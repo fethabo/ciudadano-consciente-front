@@ -257,5 +257,5 @@ otra es agregarlos a los tres como campos del content, no obligatorios.
 otra es agregar una entidad "mensaje" y hacer una relacion uno a muchos con el content
 
 
--[ ] implementar un selector de contents para el alta de actividad
+-[x] implementar un selector de contents para el alta de actividad
 -[ ]
