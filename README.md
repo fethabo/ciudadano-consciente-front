@@ -15,6 +15,30 @@ Esta es la aplicación front-end del proyecto Ciudadano Consciente.
 - Tanstack-react-query V5.4
 - Embla-carousel 8.0.1
 
+1. React (react, react-dom)
+Descripción: Biblioteca principal para construir interfaces de usuario basadas en componentes. react-dom permite renderizar componentes en el DOM.
+2. Vite
+Descripción: Herramienta de desarrollo y bundler ultrarrápido para proyectos frontend modernos.
+3. @mui/material y @mui/icons-material
+Descripción: Conjunto de componentes de UI y sistema de diseño Material Design para React. Incluye componentes visuales y una amplia colección de íconos.
+4. @tanstack/react-query
+Descripción: Manejo eficiente de estados remotos, fetching, caching y sincronización de datos asíncronos en React.
+5. Formik y Yup
+Descripción: Formik facilita la gestión de formularios y validaciones en React. Yup es una librería para validación de esquemas de objetos, usada comúnmente con Formik.
+6. Cytoscape y react-cytoscapejs
+Descripción: cytoscape es una librería para visualización y análisis de grafos. react-cytoscapejs permite integrar Cytoscape como componente React.
+7. Axios
+Descripción: Cliente HTTP basado en promesas para hacer peticiones a APIs.
+8. Embla Carousel (embla-carousel, embla-carousel-react, embla-carousel-autoplay)
+Descripción: Librería para crear carruseles y sliders altamente personalizables y optimizados.
+9. Keycloak-js
+Descripción: Cliente JavaScript para autenticación y autorización usando Keycloak.
+10. notistack
+Descripción: Sistema de notificaciones (snackbars) para React, basado en Material UI.
+11. @emotion/react y @emotion/styled
+Descripción: Librerías para estilos CSS-in-JS, integradas con Material UI.
+
+
 ## Structure
 
 En el source organizamos en carpetas de pages(paginas y sus componentes específicos si los tuvieran) y components (componentes comunes a varias vistas)
@@ -59,12 +83,12 @@ TODO:
 
 ##### Map
 
-- [ ] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
-- [ ] Mejorar estilos del mapa. 
+- [x] corregir tamaño del mapa para la vista movil (determinar previo al renderizado con el hook useIsMobile)
+- [x] Mejorar estilos del mapa. 
 - [x] guardar en contexto el level seleccionado, y la actividad (y su activityTypeVersion) cuando la obtiene.
-- [ ] vincular respuestas a los levels.. 
-- [ ] cambiar estilo de nodo si tiene respuesta correcta 
-- [ ] agregar estilo a conexiones entre nodos si existe respuesta correcta en el parent,
+- [x] vincular respuestas a los levels.. 
+- [x] cambiar estilo de nodo si tiene respuesta correcta 
+- [x] agregar estilo a conexiones entre nodos si existe respuesta correcta en el parent,
 - [ ] habilitar levels children solo si el padre tiene respuesta correcta (segun configuracion)
 
 ##### Activity
@@ -86,7 +110,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] activity
 - [x] configuracion de caminos (gestion de organizaciones).
 - ~~vista de home para usuarios no registrados (debe tener algunas diferencias)----Siempre usuarios registrados, si no lo estan debe ser un guest user~~
-- [ ] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
+- [x] agregar tailwindCss para la composicion de algunos componentes, podemos hacer convivir material para los componentes mas genéricos e implementar tailwindCSS junto con otras librerias para explotar mejor la parte visual de otros componentes.
 - [ ] probar elemento de aceternity
 - [x] probar https://www.embla-carousel.com/ para los carouseles del home.
 - ~~ agregar boton de acceso/registro/logout.~~
@@ -121,8 +145,8 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 - [x] agregar en atajada de erores el contenido del header "warning con el mensaje que trae" (ver si lo puedo rescatar direcamente desde el useQUery o el status de axios)
 - [x] agregar mensajeError en metadatos de las request (para manejarlo con el QueryCache en el WrapperQueryClient y los mensaje flotantes)
 - [ ] agregar pristine para submit en formularioBase
-- [ ] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
-- [ ] agregar search a la seleccion de contenidos.
+- [x] agregar fetch de las actividades de los childrens en el mapa, en el armado del mapa si el children tiene activity se debe mostrar diferente. si no tiene activity no deberia poder pulsarse ( o se deberia de ignorar al menos la seleccion- ver tambien de quitar el seleccionable a las transiciones)
+- [x] agregar search a la seleccion de contenidos.
 
 ##### bugs
 - [x] reintento no permite volver a seleccionar la ultima respuesta (deberia limpiarlo completo)
@@ -130,7 +154,7 @@ Los templates deben tener como props SIEMPRE: (content)content.model (ya en JSON
 ##### modificaciones por normalizacion de la api:
 - [x] Quitar requests de usuarios de la organizacion en paralelo.
 - [x] quitar idUser de requests, probar e identificar cuales faltan quitar. 
-- [ ] POR AHORA NO HACER NADA- Se agrego el hidden en los levels, por el momento suponer que la api devuelve lo que necesito segun los roles. 
+- [x] POR AHORA NO HACER NADA- Se agrego el hidden en los levels, por el momento suponer que la api devuelve lo que necesito segun los roles. 
 - [x] hacer fullwidth las ventanas de formularios
 
 ## IMPORTANTE
@@ -158,20 +182,10 @@ julio 17/18
 ***Junio 11
 - Agregar pagina de configuracion de DEV?.
 
-
 Previo a junio
 ##### Nuevo para charlar:
 - prolemas con keycloak 
 - definicion de acceso directo a activity / uso de contexto y ruteo privado.
-
-
-
-
-
-
-
-
-
 
 ###### Ya Charlado:
 - *esto lo hablamos pero no lo anote* verificamos la existencia de actividad en el mapa para cada nodo cuando se pulsa en el nodo. -->Cuando pulsamos el nodo verificamos si tiene actividad, si tiene actividad y no esta resuelta se debe resolver, una vez resuelta se muestran sus childrens.
