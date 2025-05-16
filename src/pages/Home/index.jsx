@@ -13,6 +13,8 @@ export default function Home (){
     const navigate= useNavigate();
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
     const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({enabled:true});
+
+    const visiblePaths = paths?.filter(path => path.hidden === false) || [];
  //   const {data: recentPaths, isFetching: isFetchingRecentlyPaths, isError: isErrorRecentlyPaths}= useGetRecentlyPaths({enabled:true});
     return(
         <Stack 
@@ -26,7 +28,7 @@ export default function Home (){
             </div>
 
             <ExplorePathsSection 
-                paths={paths} 
+                paths={visiblePaths} 
                 isLoading={isFetchingPaths} 
                 isError={isErrorPaths}
             />
