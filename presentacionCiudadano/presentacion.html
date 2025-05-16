@@ -131,6 +131,31 @@
 </section>
 
 
+
+
+<section id="solucion" class="slide bg-neutral text-light">
+  <div class="slide-content text-center">
+    <h2 class="text-4xl font-bold mb-6 text-primary">🧪 Nuestra solución: Ciudadano Consciente</h2>
+    <div class="max-w-3xl mx-auto text-lg space-y-4 text-left">
+      <p>
+        Una <span class="font-semibold text-primary">plataforma web interactiva</span> que conecta a ciudadanos con información verificada y expertos.
+      </p>
+      <p>
+        Transformamos el aprendizaje cívico en una experiencia <span class="font-semibold text-primary">lúdica y enriquecedora</span>.
+      </p>
+      <p>
+        Fomentamos una comunidad <span class="font-semibold text-primary">informada, conectada y participativa</span>.
+      </p>
+      <img
+        src="logo-color.png"
+        alt="[Captura de pantalla principal de Ciudadano Consciente]"
+        class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700 w-full max-w-md"
+        onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';"
+      >
+    </div>
+  </div>
+</section>
+
 <section id="objetivos" class="slide bg-neutral text-light">
   <div class="slide-content text-center">
     <h2 class="text-4xl font-bold mb-6 text-primary">Objetivos del proyecto</h2>
@@ -144,30 +169,6 @@
       <img
         src="Presentacion-objetivo.png"
         alt="[Ilustración de los objetivos del proyecto]"
-        class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700 w-full max-w-md"
-        onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';"
-      >
-    </div>
-  </div>
-</section>
-
-
-<section id="solucion" class="slide bg-neutral text-light">
-  <div class="slide-content text-center">
-    <h2 class="text-4xl font-bold mb-6 text-primary">🧪 Nuestra solución: Ciudadano Consciente</h2>
-    <div class="max-w-3xl mx-auto text-lg space-y-4 text-left">
-      <p>
-        Una <span class="font-semibold text-primary">plataforma web interactiva</span> que conecta a ciudadanos con información verificada y expertos.
-      </p>
-      <p>
-        Transformamos el aprendizaje cívico en una experiencia <span class="font-semibold text-primary">lúdica y enriquecedora</span>, similar a un juego.
-      </p>
-      <p>
-        Fomentamos una comunidad <span class="font-semibold text-primary">informada, conectada y participativa</span>.
-      </p>
-      <img
-        src="logo-color.png"
-        alt="[Captura de pantalla principal de Ciudadano Consciente]"
         class="mt-6 rounded-lg shadow-md mx-auto border border-gray-700 w-full max-w-md"
         onerror="this.src='https://placehold.co/600x300/34495e/ecf0f1?text=Error+cargando+imagen';"
       >
@@ -236,7 +237,7 @@
                 </div>
                 <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
                      <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:domain" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Instituciones Productoras</h3>
-                     <p>Gobiernos, ONGs, Parques Nacionales, Poder Judicial, Bomberos, etc., que desean difundir conocimiento.</p>
+                     <p>Entidades estatales, ONGs, Empresas, Asociaciones, etc. que desean difundir conocimiento.</p>
                 </div>
                 <div class="bg-gray-700/50 p-6 rounded-lg shadow-md border border-gray-600">
                      <span class="iconify text-primary text-4xl mb-3" data-icon="mdi:code-braces" data-inline="false"></span> <h3 class="text-xl font-semibold mb-2 text-light">Desarrolladores (Futuro)</h3>
@@ -259,7 +260,7 @@
         <li>Iteraciones basadas en eventos (Kanban).</li>
         <li>Uso de historias de usuario y estimaciones (Scrum).</li>
         <li>Tablero Kanban visual con Google Sheets.</li>
-        <li>Limitación del WIP para mantener el foco.</li>
+        <li>Limitación del WIP ("Work In Progress") para mantener el foco.</li>
         <li>Revisión continua de prioridades.</li>
       </ul>
       <img
@@ -346,14 +347,15 @@
     <div class="max-w-3xl mx-auto text-lg space-y-6 text-left">
       <p><span class="font-semibold text-primary">2.1. Diseño de arquitectura</span> — API Rest y WebApp</p>
 
-      <p>
-        En base a los requerimientos funcionales, optamos por una <span class="font-semibold">arquitectura cliente-servidor</span> que 
-        separa claramente la lógica de negocio (API Rest) de la interfaz de usuario (WebApp).
-      </p>
 
+<p>
+  En base a los requerimientos funcionales, optamos por una <span class="font-semibold">arquitectura cliente-servidor</span> que 
+        separa el acceso a los datos y la gestión de operaciones complejas a través de la <span class="font-semibold">API Rest</span>, 
+        facilitando que la <span class="font-semibold">WebApp</span> consuma información y funcionalidades sin tener que resolver directamente la lógica de acceso o integración de múltiples fuentes.
+</p>
       <p>
         La <span class="font-semibold">API Rest</span> permite la gestión estructurada de datos y funcionalidades mediante solicitudes HTTP, 
-        mientras que la <span class="font-semibold">WebApp</span> ofrece una experiencia interactiva desde el navegador.
+        mientras que la <span class="font-semibold">WebApp</span> ofrece una experiencia interactiva desde el navegador y sirve de interfaz para la configuración de los datos necesarios para el funcionamiento del sistema.
       </p>
 
       <p>
@@ -525,11 +527,10 @@
     <h2 class="text-4xl font-bold mb-8 text-primary">Frontend</h2>
     <div class="max-w-3xl mx-auto text-lg space-y-6 text-left">
         <ul class="list-disc list-inside space-y-2 text-lg">
-          <li><strong>Framework:</strong> React</li>
-          <li><strong>Bundler:</strong> Vite</li>
-          <li><strong>Diseño:</strong> Mobile-First</li>
-        </ul>
-        <img src="Presentacion-arquitecturaCiuco.png" alt="Diagrama del frontend" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
+            <li><strong>React JS:</strong> El frontend está desarrollado utilizando React JS.</li>
+            <li><strong>Vite:</strong> Se emplea Vite como bundler y herramienta principal de desarrollo, lo que agiliza la compilación y el flujo de trabajo.</li>
+            <li><strong>Mobile-First:</strong> El diseño e implementación siguen la filosofía Mobile-First, priorizando la experiencia en dispositivos móviles desde el inicio.</li></ul>
+        <img src="Presentacion-diagramaComponentesDark.png" alt="Diagrama del frontend" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/500x400/34495e/ecf0f1?text=Error+cargando+imagen';">
         <p class="text-sm mt-2 text-gray-400">Diagrama del frontend.</p>
     </div>
   </div>
@@ -634,8 +635,8 @@
                 </p>
                 <p>Las APIs están operativas y documentadas en formato <a href="http://ciuco.paradisoft.site/q/openapi" target="_blank" class="text-primary underline font-semibold hover:text-blue-300">OPENAPI</a>.</p>
                 <div class="grid md:grid-cols-2 gap-4 mt-6">
-                     <img src="https://placehold.co/400x300/34495e/ecf0f1?text=Screenshot+1" alt="[Captura de pantalla: Ejemplo de Path]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
-                     <img src="https://placehold.co/400x300/34495e/ecf0f1?text=Screenshot+2" alt="[Captura de pantalla: Ejemplo de Actividad]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+                     <img src="Presentacion-Captura-home.png" alt="[Captura de pantalla: Ejemplo de Path]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
+                     <img src="Presentacion-captura2.png" alt="[Captura de pantalla: Ejemplo de Actividad]" class="rounded-lg shadow-md mx-auto border border-gray-700" onerror="this.src='https://placehold.co/400x300/34495e/ecf0f1?text=Error+cargando+imagen';">
                 </div>
             </div>
         </div>
