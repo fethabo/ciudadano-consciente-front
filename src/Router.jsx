@@ -48,7 +48,7 @@ function Router() {
                 <Route path="/organizations/:idOrganization/maps/:idParentLevel" element={<MapConfig />}/>  {/*VISTA DE CONFIGURACION DE MAPA Ver de hacer la configuracion del mapa con un mapCytoscape Y VENTANAS EMERGENTES */}              
                 <Route path="/organizations/:idOrganization/contents" element={<OrganizationContents />}/>{/* VISTA PARA CREACION DE CONTENIDO, ACCESIBLE DESDE EL FORMULARIO DE creacion de ACTIVIDAD Y DESDE LA RAIZ DE LA ORGANIZACION*/}
                 <Route path="/organizations/:idOrganization/references" element={<NotImplemented />}/>{/* VISTA PARA CREACION DE Referencias*/}
-                <Route path="/organizations/:idOrganization/stadistics" element={<OrganizationStatistics />}/>{/* VISTA De dashboard de org*/} 
+                <Route path="/organizations/:idOrganization/statistics" element={<OrganizationStatistics />}/>{/* VISTA De dashboard de org*/} 
               </Route>
               <Route path="/organizations/:idOrganization/edit" element={<OrganizationForm />}/>{/* Edicion de organizacion*/}
             
