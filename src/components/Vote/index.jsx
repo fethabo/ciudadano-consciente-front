@@ -2,7 +2,7 @@
 import  FavoriteIcon from '@mui/icons-material/Favorite';
 import  FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PropTypes from "prop-types"
-import { IconButton, SvgIcon } from '@mui/material';
+import { IconButton, SvgIcon, Tooltip } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useGetEntityTypes } from '@components/Hooks/requests/EntityTypes';
@@ -101,11 +101,11 @@ function Vote({entityType, entityId, userVotes, isError, isLoading = false, sxBu
                     </SvgIcon>
                  : ((isError||isErrorEntityTypes||isErrorPostVote||isErrorPatchVote)
                         ? <ErrorTwoToneIcon color="error" />
-                        :
-                        (vote?.active===true)
-                            ? <FavoriteIcon />
-                            : <FavoriteBorderIcon />
-                    )
+                        : <Tooltip title={vote?.active === true ? "Quitar favorito" : "Agregar favorito"} arrow>
+                                {(vote?.active===true)?
+                                            <FavoriteIcon />
+                                             : <FavoriteBorderIcon />}
+                            </Tooltip>)
                 }
                 </IconButton>
      );
