@@ -280,7 +280,7 @@ export default function Organization() {
                         />
                         <Tab 
                             label="Estadísticas" 
-                            onClick={() => navigate(`/organizations/${idOrganization}/stadistics`)}
+                            onClick={() => navigate(`/organizations/${idOrganization}/statistics`)}
                             sx={{ py: 2 }}
                         />
                        

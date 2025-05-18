@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography,Box, Stack, Alert, IconButton, Tooltip, SvgIcon, Select, MenuItem } from '@mui/material';
+import { Card, CardContent, Typography,Box, Stack, Alert, IconButton, Tooltip, Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useGetContents } from '@components/Hooks/requests/Content';
 import useUserApi from '@components/Hooks/useUserApi';
@@ -20,7 +20,7 @@ function PublicContents(){
     const {data: votes, isFetching: isFetchingVotes, isError: isErrorVotes } = useGetUserVotes({userId: userId, enabled: !!userId})
     
     const handleEntrar = (id) => {
-      navigate(`/pool/content/${id}/play`)
+      navigate(`/contents/${id}/play`)
     };
   
     const [page, setPage] = useState(1);

@@ -63,6 +63,7 @@ const Profile = () => {
     { icon: <ReportProblemIcon color="error" />, label: "Preocupaciones", value: statistics?.concerns || 0 },
     { icon: <ArticleIcon color="secondary" />, label: "Contenidos", value: statistics?.contents || 0 },
   ];
+  
 
   return (
     <Box sx={{ maxWidth: 1200, mx: "auto", p: 2 }}>
@@ -209,7 +210,7 @@ const Profile = () => {
             variant="contained" 
             color="error"
             startIcon={<ExitToAppIcon />} 
-            onClick={() => keycloakContext?.logout()}
+            onClick={() => {keycloakContext?.logout({ redirectUri: window.location.origin + "/" })}}
             sx={{ 
               px: 3,
               py: 1

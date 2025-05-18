@@ -32,7 +32,7 @@ function UsersContent(){
   const{ data: contents, isFetching, isError} = useGetContentsOfUser({userId: userId, enabled: !!userId})
   
   const handleEntrar = (id) => {
-    navigate(`/pool/content/${id}/play`)
+    navigate(`/contents/${id}/play`)
   };
 
   const [page, setPage] = useState(1);
