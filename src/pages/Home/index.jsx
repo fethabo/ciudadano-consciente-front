@@ -6,6 +6,8 @@ import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
 import HeroSection from "./HeroSection";
 import ExplorePathsSection from "./ExplorePathsSection";
+import { GameIconsRollingDices } from "@icons/GameIconsRollingDices";
+import RandomPlayAccess from "./RandomPlayAccess";
 
 export default function Home (){
 
@@ -32,6 +34,7 @@ export default function Home (){
                 isLoading={isFetchingPaths} 
                 isError={isErrorPaths}
             />
+           <RandomPlayAccess />
             {/* <Typography variant="h5">Recientes</Typography>
                 <CarouselPaths paths={recentPaths} isLoading={isFetchingRecentlyPaths} isError={isErrorRecentlyPaths}/> */}
             {/* Favoritos */}
