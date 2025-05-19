@@ -15,7 +15,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import ConfirmDialog from '@components/Dialogs/ConfirmDialog';
 import PlayAnimatedIcon from '@icons/PlayAnimatedIcon';
 import AddIcon from '@mui/icons-material/Add';
-import PersonIcon from '@mui/icons-material/Person';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import { TextField, InputAdornment } from '@mui/material';

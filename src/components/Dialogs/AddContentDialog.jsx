@@ -44,7 +44,7 @@ export default function AddContentDialog({open, handleClose, isPublic, ...rest})
         if (!isPublic) {
             form.organization = Number(idOrganization);
         }
-        console.log("Form", form)
+       // console.log("Form", form)
        
         const formData = new FormData();
         Object.keys(form).forEach(key => {

@@ -23,6 +23,7 @@ import OrganizationContents from "./pages/OrganizationContents";
 import FormAddOrganization from "@components/Forms/FormAddOrganization";
 import FormVerifyOrganization from "@components/Forms/FormVerifyOrganization";
 import OrganizationStatistics from "@pages/OrganizationStatistics";
+import ActivityRandom from "@pages/ActivityRandom";
 
 function Router() {
  
@@ -37,7 +38,7 @@ function Router() {
             <Route path="/init" element={<NotImplemented />} />  {/* INIT (pagina inicial, previo al home(loading?)) */}
             <Route path="/pool" element={<Pool />} /> {/* VISTA DE POOL DE PREGUNTAS*/}
             <Route path="/pool/question/:idConcern/answer" element={<NotImplemented />} /> {/* VISTA DE Respuesta DE PREGUNTAS, Creacion de contenido especifico (publico) */}
-            <Route path="/random-play" element={<NotImplemented />} />{/* Vista de Modo de juego random (contenido publico) */}
+            <Route path="/random-play" element={<ActivityRandom />} />{/* Vista de Modo de juego random (contenido publico) */}
             <Route path="/organizations"  element={<Organizations />} />{/* VISTA DE ORGANIZACIONES DISPONIBLES (ORGANIZACIONES DEL USUARIO), SOLO ACCESIBLE DESDE EL HOME PARA LOS USUARIOS QUE PERTENECEN A ALGUNA ORGANIZACION */}
               <Route path="/organizations/:idOrganization" element={<Organization />} >{/* VISTA general de la organizacion,permite acceder a mapas, a contenidos, a usuarios (SI CORRESPONDE) */}
                 <Route index element={<Navigate to="maps" replace={true} />} />{/* TODO: EVALUAR SI NO ESTA MOLESTANDO ESTO PARA EL NGINX */}

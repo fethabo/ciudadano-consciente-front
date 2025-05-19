@@ -38,15 +38,15 @@ function PublicContents(){
 
 
       useEffect(() => {
-      if (data && activityTypes && activityTypesVersions) {
+      if (data && activityTypes && activityTypesVersions && organizations) {
         const enrichedContents = data.map(content => {
-          const activityTypeVersion = activityTypesVersions.find(
+          const activityTypeVersion = activityTypesVersions?.find(
             version => version.activityTypeVersionId === content.activityTypeVersionId
           );
-          const activityType = activityTypes.find(
+          const activityType = activityTypes?.find(
             type => type.activityTypeId === activityTypeVersion?.activityTypeId
           );
-          const organization = organizations.find(org => org.organizationId === content.organization);
+          const organization = organizations?.find(org => org.organizationId === content.organization);
           return {
             ...content,
             activityType: activityType?.name || 'Desconocido',

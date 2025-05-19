@@ -1,4 +1,4 @@
-import { Button, Typography, Stack } from "@mui/material";
+import { Button, Typography, Stack, Badge } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
@@ -14,12 +14,9 @@ import { useState } from "react";
 export default function OrderSequence({ content, onResponse }) {
   const [userSequence, setUserSequence] = useState([]);
 
-  const handleOptionClick = (option) => {
-    setUserSequence([...userSequence, option]);
-  };
 
   const handleSubmit = () => {
-    const isCorrect = JSON.stringify(userSequence) === JSON.stringify(content.correct_sequence);
+    const isCorrect = JSON.stringify(userSequence) === JSON.stringify(content?.correct_sequence);
     onResponse(isCorrect);
   };
 
@@ -27,13 +24,52 @@ export default function OrderSequence({ content, onResponse }) {
     <Stack direction="column" spacing={2}>
       <Typography variant="h4">{content?.instruction}</Typography>
       <Stack direction="row" spacing={2}>
-        {content.options.map((option, index) => (
-          <Button key={index} onClick={() => handleOptionClick(option)} variant="outlined" sx={{ textTransform: "none" }}>
-            {option}
-          </Button>
-        ))}
+        {content?.options?.map((option, index) => {
+          const selectedIndex = userSequence.indexOf(option);
+          const isSelected = selectedIndex !== -1;
+          return (
+            <Button
+              key={index}
+              onClick={() => {
+                if (isSelected) {
+                  setUserSequence(userSequence.filter((item) => item !== option));
+                } else {
+                  setUserSequence([...userSequence, option]);
+                }
+              }}
+              variant={isSelected ? "contained" : "outlined"}
+              sx={{ textTransform: "none", position: "relative" }}
+            >
+              {isSelected ? (
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <span>{option}</span>
+                  <Badge
+                    badgeContent={selectedIndex + 1}
+                    color="secondary"
+                    sx={{
+                      "& .MuiBadge-badge": {
+                        right: -8,
+                        top: 8,
+                        minWidth: 22,
+                        height: 22,
+                        borderRadius: "50%",
+                        fontSize: 14,
+                      },
+                    }}
+                  />
+                </Stack>
+              ) : (
+                option
+              )}
+            </Button>
+          );
+        })}
       </Stack>
-      <Button onClick={handleSubmit} variant="contained" disabled={userSequence.length !== content.options.length}>
+      <Button
+        onClick={handleSubmit}
+        variant="contained"
+        disabled={userSequence?.length !== content?.options?.length}
+      >
         Verificar
       </Button>
     </Stack>
