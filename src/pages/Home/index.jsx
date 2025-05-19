@@ -1,17 +1,14 @@
-import { Stack,  CardContent, Typography, Divider, Box} from "@mui/material"
-import { useNavigate } from "react-router-dom"
+import { Stack,  Typography, Divider, Box} from "@mui/material"
 import { useGetFavoritePaths, useGetPaths, /* useGetRecentlyPaths */ } from "../../components/Hooks/requests/Level";
 import CarouselPaths from "../../components/CarouselPaths";
 import ContentAccess from "./ContentAccess";
-import { FrostedGlassCard } from "../../components/Cards";
 import HeroSection from "./HeroSection";
 import ExplorePathsSection from "./ExplorePathsSection";
 import RandomPlayAccess from "./RandomPlayAccess";
+import OrganizationsAccess from "./OrganizationsAccess";
 
 export default function Home (){
 
-   
-    const navigate= useNavigate();
     const {data: paths, isFetching: isFetchingPaths, isError: isErrorPaths}= useGetPaths({enabled:true, retry:false});
     const {data: favoritePaths, isFetching: isFetchingFavoritePaths, isError: isErrorFavoritePaths}= useGetFavoritePaths({enabled:true});
 
@@ -49,16 +46,7 @@ export default function Home (){
             )}
            
             <ContentAccess />
-            <FrostedGlassCard onClick={() => navigate("/organizations")} sx={{cursor:'pointer', '&:hover':{backgroundColor:'rgba(0,0,0,0.1)'}}}>
-                <CardContent className="cardOrganizations">
-                    <Typography variant="h5" color="#ffffff">
-                      Organizaciones
-                    </Typography>
-                    <Typography variant="body2" color="#ffffff">
-                        Gestiona el contenido de tus organizaciones.
-                    </Typography>
-                </CardContent>
-               </FrostedGlassCard>
+           <OrganizationsAccess />
          </Stack>
 
     )
