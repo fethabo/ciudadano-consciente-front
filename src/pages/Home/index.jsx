@@ -6,7 +6,6 @@ import ContentAccess from "./ContentAccess";
 import { FrostedGlassCard } from "../../components/Cards";
 import HeroSection from "./HeroSection";
 import ExplorePathsSection from "./ExplorePathsSection";
-import { GameIconsRollingDices } from "@icons/GameIconsRollingDices";
 import RandomPlayAccess from "./RandomPlayAccess";
 
 export default function Home (){

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, LinearProgress, Skeleton, Typography } from "@mui/material";
-import { useGetContent, useGetContents } from "../../components/Hooks/requests/Content";
+import { useGetContents } from "../../components/Hooks/requests/Content";
 import { useGetContentImages, useGetImagesFilesOfContent } from "../../components/Hooks/requests/Content";
 import { useNavigate } from "react-router-dom";
 import useUserApi from "../../components/Hooks/useUserApi";
@@ -16,13 +16,13 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import useIsMobile from "@components/Hooks/useIsMobile";
 import { useGetStreakOfUser, usePatchStreak, usePostStreak } from "@components/Hooks/requests/RandomStreak";
-import { set } from "date-fns";
 
 export default function ActivityRandom() {
     const [randomContent, setRandomContent] = useState(null);
     const [activityContent, setActivityContent] = useState(null);
     const [responseContent, setResponseContent] = useState(false);
     const [currentStreak, setCurrentStreak] = useState(0);
+    const [maxStreak, setMaxStreak] = useState(0);
     const [streakId, setStreakId] = useState(null);
     const [showDialog, setShowDialog] = useState(false);
     const user = useUserApi();
@@ -33,7 +33,7 @@ export default function ActivityRandom() {
     const { data: publicContents, isFetching: isFetchingContents, isError: isErrorContents } = useGetContents({enabled: true });
 
     // Get user streak data
-    const { data: streakData, isFetching: isFetchingStreak } = useGetStreakOfUser({
+    const { data: streakData, isFetching: isFetchingStreak, refetch } = useGetStreakOfUser({
         userId: user?.userId,
         enabled: !!user?.userId
     });
@@ -41,8 +41,9 @@ export default function ActivityRandom() {
     // Initialize streak data
     useEffect(() => {
         if (streakData && !isFetchingStreak) {
-            setCurrentStreak(streakData.count || 0);
+            setCurrentStreak(streakData.actualStreak || 0);
             setStreakId(streakData.streakId);
+            setMaxStreak(streakData.maxStreak);
         }
     }, [streakData, isFetchingStreak]);
 
@@ -58,15 +59,17 @@ export default function ActivityRandom() {
     useEffect(() => {
         if(!isPostingStreak && formPost){
             setFormPost(null);
+            refetch();
         }
-    }, [isPostingStreak, formPost]);
+    }, [isPostingStreak, formPost, refetch]);
 
 
     useEffect(() => {
         if(!isPatchingStreak && formPatch){
             setFormPatch(null);
+            refetch()
         }
-    }, [isPatchingStreak , formPatch]);
+    }, [isPatchingStreak , formPatch, refetch]);
 
     // Select a random content when component loads or when continuing after a correct answer
     useEffect(() => {
@@ -114,11 +117,10 @@ export default function ActivityRandom() {
     // Handle user response
     const handleResponse = useCallback((value) => {
         setResponseContent({ value });
-        console.log("User response:", value);
+       // console.log("User response:", value);
         // Update streak if correct answer
         if (value) {
-            console.log("Correct answer");
-            const formData = {userId: user?.userId, count: currentStreak + 1};
+            const formData = {userId: user?.userId, actualStreak: currentStreak + 1};
             setCurrentStreak(prev => prev + 1);
             if (streakId) {
                 setFormPatch(formData);
@@ -126,6 +128,10 @@ export default function ActivityRandom() {
                 setFormPost(formData) 
             }
         }else{
+            if (streakId) {
+            const formData = {userId: user?.userId, actualStreak: 0};
+            setFormPatch(formData);
+            } 
             setCurrentStreak(0);
         }
         setShowDialog(true);
@@ -155,8 +161,6 @@ export default function ActivityRandom() {
     // Check for errors
     const hasError = isErrorContents || isErrorActivityTypeVersion || isErrorImages;
 
-    // Track maximum streak
-    const [maxStreak, setMaxStreak] = useState(0);
 
     // Update max streak when current streak increases
     useEffect(() => {

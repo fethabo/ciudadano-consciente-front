@@ -15,7 +15,6 @@ import {
   TableRow, 
   Card, 
   CardContent, 
-  CardActions, 
   Tooltip, 
   Skeleton, 
   Alert,
@@ -41,7 +40,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import DetailContentOrganization from '@components/Dialogs/DetailContentOrganization';
 import AddContentDialog from '@components/Dialogs/AddContentDialog';
 import EditContentDialog from '@components/Dialogs/EditContentDialog';
@@ -386,7 +384,7 @@ const OrganizationContents = () => {
           content={contentEdit} 
         />
 
-        {isErrorContents ? (
+        {isErrorContents || isErrorActivityTypes || isErrorActivityTypesVersions ? (
           <Alert severity="error" sx={{ mt: 2 }}>
             Hubo un error al obtener los contenidos de la organización
           </Alert>
