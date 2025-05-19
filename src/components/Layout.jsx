@@ -38,7 +38,7 @@ const Layout = () => {
       <Container sx={{
         marginBottom: '4em', 
         padding: {xs: '0.5rem', md: '2rem'},
-        minHeight: '100vh' // Asegura que el contenedor tenga al menos la altura de la ventana
+    //    minHeight: '100vh' // Asegura que el contenedor tenga al menos la altura de la ventana
       }}>  
         {token &&
           <ErrorBoundary>

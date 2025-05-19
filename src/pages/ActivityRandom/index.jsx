@@ -183,29 +183,60 @@ export default function ActivityRandom() {
                     <Alert severity="error">Hubo un error al obtener la actividad</Alert>
                 ) : (
                     !!activityContent && (
-                        <Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, p: 2 }}>
-                                <Button 
-                                    startIcon={<ArrowBackIcon />}
-                                    onClick={exitActivity}
-                                    variant="outlined"
-                                >
-                                    Salir
-                                </Button>
+                        <Box sx={{ position: 'relative' }}>
+                            {/* Sticky Header */}
+                            <Box
+                                sx={{
+                                    position: 'sticky',
+                                    top: { xs: '6em', sm: '6em' }, // Ajusta según la altura de tu AppBar
+                                    zIndex: 10,
+                                    background: (theme) => `linear-gradient(90deg, ${theme.palette.secondary.light}AA 0%, ${theme.palette.secondary.dark}AA 100%)`, // Agrega transparencia
+                                    boxShadow: 2,
+                                    borderRadius: 2,
+                                    mb: 2,
+                                    p: 2,
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    backdropFilter: 'blur(6px)', // Opcional: efecto de desenfoque
+                                }}
+                            >
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                    <Button
+                                        startIcon={<ArrowBackIcon />}
+                                        onClick={exitActivity}
+                                        variant="outlined"
+                                        sx={{ bgcolor: 'background.paper' }}
+                                    >
+                                        Salir
+                                    </Button>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            color: 'white',
+                                            letterSpacing: 1,
+                                            ml: 2,
+                                            textShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                                        }}
+                                    >
+                                        Random Play
+                                    </Typography>
+                                </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                         <EmojiEventsIcon color="secondary" />
-                                        <Typography variant="caption">Actual</Typography>
-                                        <Typography variant="h6">{currentStreak}</Typography>
+                                        <Typography variant="caption" sx={{ color: 'white' }}>Actual</Typography>
+                                        <Typography variant="h6" sx={{ color: 'white' }}>{currentStreak}</Typography>
                                     </Box>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                         <EmojiEventsIcon color="warning" />
-                                        <Typography variant="caption">Max</Typography>
-                                        <Typography variant="h6">{maxStreak}</Typography>
+                                        <Typography variant="caption" sx={{ color: 'white' }}>Max</Typography>
+                                        <Typography variant="h6" sx={{ color: 'white' }}>{maxStreak}</Typography>
                                     </Box>
                                 </Box>
                             </Box>
-                            
+
                             <Suspense fallback={<LinearProgress />}>
                                 {ActivityType && <ActivityType content={activityContent} onResponse={handleResponse} images={imagesFiles} />}
                             </Suspense>
@@ -214,14 +245,21 @@ export default function ActivityRandom() {
                 )
             )}
 
-            <Dialog disableEscapeKeyDown open={showDialog} maxWidth="sm">
+            <Dialog disableEscapeKeyDown open={showDialog} maxWidth="sm"
+                PaperProps={{
+                    sx: {
+                        backgroundColor: 'rgba(30,30,30,0.85)', // Fondo del dialog con transparencia
+                        backdropFilter: 'blur(8px)', // Opcional: desenfoque
+                    }
+                }}
+            >
                 <DialogContent>
-                    <Box sx={{ 
-                        position: 'relative', 
-                        overflow: 'hidden', 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        alignItems: 'center', 
+                    <Box sx={{
+                        position: 'relative',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
                         justifyContent: 'center',
                         minHeight: 320,
                         py: 4
@@ -288,16 +326,16 @@ export default function ActivityRandom() {
                                         </Box>
                                     </Box>
                                 )
-                            }
-                        </Box>
-                    )}
+                                }
+                            </Box>
+                        )}
                     </Box>
                 </DialogContent>
                 <DialogActions>
                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                         {isMobile ? (
                             <>
-                                <Button 
+                                <Button
                                     size="small"
                                     onClick={exitActivity}
                                     disabled={isLoading}

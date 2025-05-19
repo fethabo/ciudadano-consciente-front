@@ -1,5 +1,5 @@
 import { FrostedGlassCard } from "@components/Cards";
-import { CardContent, Typography, Box, useTheme } from "@mui/material";
+import { CardContent, Typography, Box  } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BusinessCenter } from "@mui/icons-material";
@@ -11,7 +11,6 @@ const MotionFrostedGlassCard = motion(FrostedGlassCard);
 
 function OrganizationsAccess() {
     const navigate = useNavigate();
-    const theme = useTheme();
     const [hovered, setHovered] = useState(false);
 
     // Configuración de líneas aleatorias de fondo
