@@ -56,7 +56,8 @@ function CarouselPaths({paths, isLoading, isError}) {
         align: 'start',
         dragFree: true,
         loop: true,
-        slidesToScroll: 'auto'
+        slidesToScroll: 'auto',
+        stopOnMouseEnter: true,
       }
 
     return ( 

@@ -10,27 +10,6 @@ import useEmblaCarousel from 'embla-carousel-react'
 import './embla.css'
 import PropTypes from 'prop-types'
 
-/* 
-usage: 
-
-const OPTIONS = {
-  align: 'start',
-  dragFree: true,
-  loop: true,
-  slidesToScroll: 'auto'
-}
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-return(
-    <EmblaCarousel slides={SLIDES} options={OPTIONS} />
-)
-*/
-
-/**
- * 
- * @param {*} props 
- * @returns 
- */
 const EmblaCarousel = (props) => {
   const { slides, options } = props
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()])
@@ -47,6 +26,18 @@ const EmblaCarousel = (props) => {
     resetOrStop()
   }, [])
 
+  // Pausar autoplay al hacer hover
+  const handleMouseEnter = useCallback(() => {
+    const autoplay = emblaApi?.plugins()?.autoplay
+    if (autoplay) autoplay.stop()
+  }, [emblaApi])
+
+  // Reanudar autoplay al salir del hover
+  const handleMouseLeave = useCallback(() => {
+    const autoplay = emblaApi?.plugins()?.autoplay
+    if (autoplay) autoplay.play()
+  }, [emblaApi])
+
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
     emblaApi,
     onNavButtonClick
@@ -61,7 +52,12 @@ const EmblaCarousel = (props) => {
 
   return (
     <section className="embla">
-      <div className="embla__viewport" ref={emblaRef}>
+      <div
+        className="embla__viewport"
+        ref={emblaRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="embla__container">
           {slides.map((slide,index) => (
             <div className="embla__slide" key={index}>

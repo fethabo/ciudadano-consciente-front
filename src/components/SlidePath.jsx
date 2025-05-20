@@ -3,6 +3,8 @@ import { Card, CardContent, CardMedia, Typography, useTheme } from "@mui/materia
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useMemo } from "react";
+import { useGetOrganization } from "./Hooks/requests/Organizations";
+import { Verified } from "@mui/icons-material";
 
 /**
  * Enhanced Slide component for embla-carousel
@@ -14,6 +16,7 @@ function SlidePath({ path, height = 320 }) {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
     const theme = useTheme();  // te da acceso a darkTheme
+    const {data: organization, isFetching: isFetchingOrganization, isError: isErrorOrganization} = useGetOrganization({organizationId: path?.organization, enabled: !!path?.organization});
 
     const gradient = `linear-gradient(
         45deg,
@@ -84,7 +87,6 @@ function SlidePath({ path, height = 320 }) {
                         right: 0,
                         bottom: 0,
                         background: gradient,
-                        //background: 'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
                         backgroundSize: '200% 200%',
                         opacity: isHovered ? 0.7 : 0.3,
                         transition: 'opacity 0.3s ease'
@@ -197,14 +199,37 @@ function SlidePath({ path, height = 320 }) {
                         >
                             {path?.description}
                         </Typography>
+                        {/* Organization name and verified icon */}
+                        
                     </div>
                     
                     <motion.div
                         style={{ 
                             marginTop: '16px',
                             textAlign: 'right',
+                            display: 'flex',
+                            justifyContent: 'space-between',
                         }}
                     >
+                         {organization && !isFetchingOrganization && !isErrorOrganization && (
+                            <div style={{ display: 'flex', alignItems: 'center',  }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: '#fff',
+                                        fontWeight: 500,
+                                        textShadow: '0px 1px 2px rgba(0,0,0,0.3)',
+                                        mr: 0.5
+                                    }}
+                                >
+                                    {organization.name}
+                                </Typography>
+                                {/* MUI Verified Icon */}
+                                <span style={{ display: 'flex', alignItems: 'center' }}>
+                                    <Verified/>
+                                </span>
+                            </div>
+                        )}
                         <motion.div
                             style={{
                                 display: 'inline-block',
@@ -215,6 +240,7 @@ function SlidePath({ path, height = 320 }) {
                                 transition: { type: 'spring', stiffness: 500 }
                             }}
                         >
+                           
                             <Typography 
                                 variant="button"
                                 sx={{ 
