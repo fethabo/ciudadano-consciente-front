@@ -66,6 +66,16 @@ export default function MultipleSelection({ content, onResponse }) {
     show: { opacity: 1, y: 0 }
   };
 
+  // Mezcla las opciones una sola vez al montar el componente
+  const [shuffledOptions, setShuffledOptions] = useState([]);
+
+  useEffect(() => {
+    if (content?.options) {
+      const shuffled = [...content.options].sort(() => Math.random() - 0.5);
+      setShuffledOptions(shuffled);
+    }
+  }, [content?.options]);
+
   return (
     <Fade in={fadeIn} timeout={800}>
       <Paper 
@@ -73,7 +83,6 @@ export default function MultipleSelection({ content, onResponse }) {
         sx={{ 
           padding: 3, 
           borderRadius: 2,
-        //  background: "linear-gradient(145deg,  0%, #f5f7fa 100%)",
           overflow: "hidden"
         }}
       >
@@ -128,7 +137,7 @@ export default function MultipleSelection({ content, onResponse }) {
               animate="show"
             >
               <Stack direction="column" spacing={1.5}>
-                {content?.options?.map((option, index) => (
+                {shuffledOptions.map((option, index) => (
                   <Zoom 
                     in={showOptions} 
                     style={{ transitionDelay: `${index * 100}ms` }}

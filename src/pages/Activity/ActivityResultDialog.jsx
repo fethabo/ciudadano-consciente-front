@@ -159,6 +159,14 @@ function ActivityResultDialog({
                     :<Box>
                         {isMobile ? (
                             <>
+                             <Button 
+                                size="small"
+                                onClick={()=> {navigate(`/contents`); setActivity(null)}} 
+                                disabled={isFetchingAnswer}
+                                aria-label="Volver"
+                            >
+                                <ArrowBackIcon />
+                            </Button>
                                 <Button 
                                     size="small"
                                     onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} 
@@ -177,22 +185,22 @@ function ActivityResultDialog({
                                 </Button>
                             </>
                         ) : (
-                            <>
+                            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', width: '100%' }}>
                                 <Button 
-                                    startIcon={<ReplayIcon />} 
-                                    onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} 
-                                    disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}
+                                    startIcon={<ArrowBackIcon />} 
+                                    onClick={()=> {navigate(`/contents`); setActivity(null)}} 
+                                    disabled={isFetchingAnswer}
                                 >
-                                    Reintentar
+                                    Volver
                                 </Button>
-                                <Button 
-                                    endIcon={<ArrowForwardIcon />} 
-                                    onClick={()=>{ idContent? navigate(-1) : navigate(`/map/${idParentLevel}`);setActivity(null);}} 
-                                    disabled={isFetchingAnswer ||(response ? !response?.status: !responseContent?.value)}
-                                >
-                                    Siguiente
-                                </Button>
-                            </>
+                                    <Button 
+                                        startIcon={<ReplayIcon />} 
+                                        onClick={()=>{setAnswer(null);setEnabledPost(false); setResponseContent(false); setActivityContent(null)}} 
+                                        disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}
+                                    >
+                                        Reintentar
+                                    </Button>
+                            </Box>
                         )}
                     </Box>
             }

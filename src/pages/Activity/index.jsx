@@ -57,6 +57,7 @@ export default function Activity({id}) {
             setAnswer({activity:activity.activityId, userId:user?.userId, status: value})        
             setEnabledPost(true);
         }else{
+            console.log("no estoy en una actividad", value)
             //si ejecuto directamente el content
             setResponseContent({value: value})
         }
@@ -64,7 +65,6 @@ export default function Activity({id}) {
     },[activity, user])
 
     useEffect(() => {
-        //console.log("uef response", response)
         if(response && !isFetchingAnswer){
             setAnswer(null)
         }
