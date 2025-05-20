@@ -14,13 +14,14 @@ import { useGetUserVotes } from "@components/Hooks/requests/Users/Index";
 import TagsDisplay from "@components/TagsDisplay";
 import ReferencesDisplay from "@components/ReferencesDisplay";
 import BackToHomeButton from "@components/BackToHomeButton";
-
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import catError from '@animations/CatErrorAnimation.lottie';
 const Map = () => {
 
   const { idParentLevel } = useParams();
   const {data: path, isFetching: isFetchingPath, isError: isErrorPath}= useGetLevel({levelId: idParentLevel, enabled: !!idParentLevel});
   const {data: childrens, isFetching: isFetchingChildrens, isError: isErrorChildrens}= useGetLevelChildrens({levelId: idParentLevel, enabled:!!idParentLevel})
-  const {data: answers, isFetching: isFetchingAnswers, isError: isErrorAnswers, refetch: refetchAnswers}= useGetAnswersOfUserFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
+  const {data: answers, isFetching: isFetchingAnswers, refetch: refetchAnswers}= useGetAnswersOfUserFromLevel({levelId: idParentLevel, enabled:!!idParentLevel})
   const {data: activities, isPending} = useGetActivitiesOfLevels({levels:childrens ?? [], enabled: childrens?.length>0})
   const {activity, setActivity, setLevelSelected} = useMap();
   const [mapElements, setMapElements] = useState([]);
@@ -163,14 +164,26 @@ const Map = () => {
       </Box>
       
       <TagsDisplay entityId={path.levelId} entityType="levels" />
-      {mapElements && mapElements?.length > 0 && (
+    {(isErrorPath || isErrorChildrens) ? (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: 'column', my: 2 }}>
+        <DotLottieReact
+          src={catError}
+          loop
+          autoplay
+        />
+        <Typography variant="body2" >Hay un problema, persiste y lo lograrás</Typography>
+      </Box>
+    ):
+      (mapElements && mapElements?.length > 0) && (
         <MapCytoscape 
-        
+          enableButtonReferences
           elements={mapElements} 
           onSelect={handleSelect} 
           loading={isFetchingPath || isFetchingChildrens || isFetchingAnswers || isPending}
         />
-      )}
+      )
+      }
+     
     </CardContent>
   </Card>
       ) : (

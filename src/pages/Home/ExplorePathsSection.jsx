@@ -77,7 +77,7 @@ const ExplorePathsSection = ({ paths, isLoading, isError }) => {
                 </Box>
                 
                 {/* Right side - CarouselPaths */}
-                <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 58.33%' }, alignContent:'center' }}>
+                <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 58.33%' }, alignContent:'center', marginLeft: {md:'-1.2em'} }}>
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}

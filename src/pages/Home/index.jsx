@@ -19,6 +19,7 @@ export default function Home (){
             direction='column' 
             spacing={2}
             divider={<Divider orientation="horizontal" flexItem />}
+            padding={2}
         >
             
             <div id="heroSection" style={{height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>

@@ -278,7 +278,8 @@ SlidePath.propTypes = {
         levelId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         name: PropTypes.string.isRequired,
         description: PropTypes.string,
-        imageUrl: PropTypes.string
+        imageUrl: PropTypes.string,
+        organization: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     height: PropTypes.number
 };

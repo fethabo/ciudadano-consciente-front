@@ -23,7 +23,7 @@ const HeaderBar = styled(AppBar)(({ theme }) => ({
 }));
 
 const Header = () => {
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery(theme => theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === '/';

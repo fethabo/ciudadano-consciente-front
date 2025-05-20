@@ -2,6 +2,8 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import PropTypes from 'prop-types';
 import { useState, useRef, useEffect } from 'react';
 import { Backdrop, CircularProgress } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 
 /**
@@ -9,7 +11,7 @@ import { Backdrop, CircularProgress } from '@mui/material';
  * @param {*} param0 
  * @returns 
  */
-export default function MapCytoscape({ elements, onSelect, loading, ...rest }) {
+export default function MapCytoscape({ elements, onSelect, loading, enableButtonReferences = false, ...rest }) {
   const [cy, setCy] = useState();
   const containerRef = useRef(null);
 
@@ -143,13 +145,15 @@ export default function MapCytoscape({ elements, onSelect, loading, ...rest }) {
     }
   ];
  
+  const [showReferences, setShowReferences] = useState(false);
+
   return (
     <div style={{
       position: 'relative',
       width: '100%',
       height: '100%',
       maxWidth: '100vw',
-      maxHeight: '80vh', // Opcional, para limitar el alto en pantallas grandes
+      maxHeight: '80vh',
     }} ref={containerRef}>
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
@@ -172,6 +176,98 @@ export default function MapCytoscape({ elements, onSelect, loading, ...rest }) {
         stylesheet={style}
         {...rest}
       />
+     {enableButtonReferences && <IconButton
+        onClick={() => setShowReferences((prev) => !prev)}
+        color="secondary"
+        sx={{
+          position: 'absolute',
+          bottom: 18,
+          right: 18,
+        //  boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          zIndex: 20,
+        }}
+        size="small"
+        aria-label="Mostrar referencias"
+        disableRipple
+      >
+        <HelpOutlineIcon />
+      </IconButton>}
+      {showReferences && (
+        <div style={{
+          position: 'absolute',
+          bottom: 60,
+          right: 10,
+          background: 'rgba(5, 4, 4, 0.95)',
+          border: '1px solid #ccc',
+          borderRadius: 8,
+          padding: '12px 18px',
+          fontSize: 13,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
+          zIndex: 10,
+          maxWidth: 260
+        }}>
+          <div style={{ fontWeight: 600, marginBottom: 6 }}>Referencias:</div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+            <span style={{
+              display: 'inline-block',
+              width: 18,
+              height: 18,
+              background: '#666',
+              borderRadius: 4,
+              marginRight: 8,
+              border: '1px solid #444'
+            }} />
+            Nodo
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+            <span style={{
+              display: 'inline-block',
+              width: 18,
+              height: 18,
+              background: 'rgba(254, 167, 4, 0.92)',
+              borderRadius: 4,
+              marginRight: 8,
+              border: '1px solid #b28500'
+            }} />
+            Actividad
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+            <span style={{
+              display: 'inline-block',
+              width: 18,
+              height: 18,
+              background: 'indianred',
+              borderRadius: 4,
+              marginRight: 8,
+              border: '1px solid #b28500'
+            }} />
+            Incorrecta
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+            <span style={{
+              display: 'inline-block',
+              width: 18,
+              height: 18,
+              background: '#82b366',
+              borderRadius: 4,
+              marginRight: 8,
+              border: '2px solid green'
+            }} />
+            Correcta
+          </div>
+          {/* <div style={{ display: 'flex', alignItems: 'center', marginBottom: 0 }}>
+            <span style={{
+              display: 'inline-block',
+              width: 24,
+              height: 4,
+              background: '#82b366',
+              borderRadius: 2,
+              marginRight: 8
+            }} />
+            Arista desde nodo correcto
+          </div> */}
+        </div>
+      )}
     </div>
   );
 }
@@ -180,4 +276,5 @@ MapCytoscape.propTypes = {
   elements: PropTypes.array.isRequired,
   onSelect: PropTypes.func,
   loading: PropTypes.bool,
+  enableButtonReferences: PropTypes.bool,
 };
