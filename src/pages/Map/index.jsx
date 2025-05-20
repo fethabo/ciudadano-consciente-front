@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import MapCytoscape from "../../components/MapCytoscape";
+import MapCytoscape from "@components/MapCytoscape";
 import WindowLevel from "../../components/WindowLevel";
 import { useGetLevel, useGetLevelChildrens } from "../../components/Hooks/requests/Level";
 import { useGetAnswersOfUserFromLevel } from "../../components/Hooks/requests/Answer";
@@ -141,7 +141,10 @@ const Map = () => {
   >
     <CardContent sx={{
       width: '100%',
-      position: 'relative' 
+      position: 'relative' ,
+      gap: 2,
+      display: 'flex',
+      flexDirection: 'column',
     }}>
       <Vote 
         entityId={path.levelId} 

@@ -40,7 +40,7 @@ export default function Activity({id}) {
         }
     }, [activity, idParentLevel, navigate, idContent, id]);
 
-    const { data: content, isFetching: isFetchingContent, isError: isErrorContent } = useGetContent({contentId:activity?.content || idContent || id, enabled:(!!activity&&!!activity.content)||!!idContent || !!id})
+    const { data: content, isFetching: isFetchingContent, isError: isErrorContent } = useGetContent({contentId:  id || idContent || activity?.content, enabled:(!!activity&&!!activity.content)||!!idContent || !!id})
     const { data: activityTypeVersion, isFetching: isFetchingActivityTypeVersion, isError: isErrorActivityTypeVersion}= useGetActivityTypeVersion({activityTypeVersionId: content?.activityTypeVersionId, enabled: !!content})
     const { data: response, isFetching: isFetchingAnswer, isError: isErrorAnswer} = usePostAnswer({form: answer, enabled:(!!answer && enabledPost)})
     const [responseContent, setResponseContent] = useState(false)

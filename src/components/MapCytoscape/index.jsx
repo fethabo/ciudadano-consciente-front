@@ -1,25 +1,19 @@
 import CytoscapeComponent from 'react-cytoscapejs';
 import PropTypes from 'prop-types';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Backdrop, CircularProgress } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 
 /**
- * OBSERVACION: TENER EN CUENTA DE QUE LOS ESTILOS DE LOS SELECTORES SE DETERMINAN POR ORDEN, SIENDO EL ULTIMO EL DE MAYOR PRIORIDAD
- * @param {*} param0 
  * @returns 
  */
 export default function MapCytoscape({ elements, onSelect, loading, enableButtonReferences = false, ...rest }) {
-  const [cy, setCy] = useState();
+  const [cy, setCy] = useState(null);
   const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (!cy) return; // Salir si cy no está inicializado aún
-    
-    // Función para manejar el clic en el nodo
-    const handleNodeClick = (event) => {
+ 
+  const handleNodeClick = useCallback((event) => {
       const node = event.target;
       const position = node.renderedPosition();
       // Obtenemos la posición del contenedor en la pantalla
@@ -29,15 +23,39 @@ export default function MapCytoscape({ elements, onSelect, loading, enableButton
       const absoluteY = containerRect.top + position.y;
       onSelect({ data: node.data(), positionNode: { x: absoluteX, y: absoluteY } });
       console.log("nodo", node)
-    };
-    
-    // Deseleccionamos cuando hacemos click fuera
-    const handleBackgroundClick = (event) => {
-      if (event.target === cy) {
-        onSelect(null);
-      }
-    };
+    }, [onSelect]);
 
+    // Deseleccionamos cuando hacemos click fuera
+  const handleBackgroundClick = useCallback((event) => {
+    if (event.target === cy) {
+      onSelect(null);
+    }
+  }, [cy, onSelect]);
+
+  useEffect(() => {
+    if (!cy) return; // Salir si cy no está inicializado aún
+   /*   // 1) Ajusta la vista para que entren todos los nodos
+        
+     cy.fit(cy.elements(), 50);
+
+        // 2) Calcula bordes para no poder arrastrar más allá
+        const bb = cy.elements().boundingBox();
+        const pad = 50;
+        const minX = -bb.x1 + pad;
+        const minY = -bb.y1 + pad;
+        const maxX = containerRef.current.clientWidth - bb.x2 - pad;
+        const maxY = containerRef.current.clientHeight - bb.y2 - pad;
+
+        // 3) Clampa el paneo
+        const clampPan = () => {
+          const p = cy.pan();
+          const x = Math.max(Math.min(p.x, minX), maxX);
+          const y = Math.max(Math.min(p.y, minY), maxY);
+          if (x !== p.x || y !== p.y) cy.pan({ x, y });
+        };
+        cy.on('pan', clampPan);
+   */
+        
     cy.on('tap', 'node', handleNodeClick);
     cy.on('tap', handleBackgroundClick);
 
@@ -46,7 +64,7 @@ export default function MapCytoscape({ elements, onSelect, loading, enableButton
       cy.off('tap', 'node', handleNodeClick);
       cy.off('tap', handleBackgroundClick);
     };
-  }, [cy, onSelect]);
+  }, [cy, onSelect, handleBackgroundClick, handleNodeClick]);
 
   const layout = {
     name: 'breadthfirst',
@@ -54,8 +72,27 @@ export default function MapCytoscape({ elements, onSelect, loading, enableButton
     spacingFactor: 1.5, // Ajusta la separación entre nodos
     avoidOverlap: true, // Evita que los nodos se superpongan
     animate: true, // Anima el reordenamiento
+    //boundingBox: {x1:0,x2: 1,y2:1, y1:0}, // Ajusta el tamaño del contenedor
     fit: true, // Ajusta el gráfico al contenedor
   };
+  /* fit: true, // whether to fit the viewport to the graph
+  directed: false, // whether the tree is directed downwards (or edges can point in any direction if false)
+  padding: 30, // padding on fit
+  circle: false, // put depths in concentric circles if true, put depths top down if false
+  grid: false, // whether to create an even grid into which the DAG is placed (circle:false only)
+  spacingFactor: 1.75, // positive spacing factor, larger => more space between nodes (N.B. n/a if causes overlap)
+  boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+  avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
+  nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
+  roots: undefined, // the roots of the trees
+  depthSort: undefined, // a sorting function to order nodes at equal depth. e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+  animate: false, // whether to transition the node positions
+  animationDuration: 500, // duration of animation in ms if enabled
+  animationEasing: undefined, // easing of animation if enabled,
+  animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+  ready: undefined, // callback on layoutready
+  stop: undefined, // callback on layoutstop
+  transform: function (node, position ){ return position; }  */
 
   const style = [
     // Estilo base para nodos con etiqueta
@@ -165,7 +202,8 @@ export default function MapCytoscape({ elements, onSelect, loading, enableButton
         layout={layout}
         elements={elements}
         style={{ display: 'flex', background: 'white', width:"100%",minWidth: '300px',height:'100%', minHeight: '300px' }}
-        minZoom={0.5}
+        headless={false}
+        minZoom={0.6}
         maxZoom={2}
         zoom={1} 
         zoomingEnabled
