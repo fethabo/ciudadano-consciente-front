@@ -112,7 +112,7 @@ export default function Memotest({ content, images = [], onResponse }) {
   // Initialize on component mount
   useEffect(() => {
     initializeGame();
-  }, [initializeGame]);
+  }, []);
   
   // Timer effect
   useEffect(() => {
@@ -136,7 +136,7 @@ export default function Memotest({ content, images = [], onResponse }) {
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [gameStarted, hasTimeLimit, timeRemaining, gameOver, onResponse]);
+  }, [gameStarted, hasTimeLimit, timeRemaining, gameOver]);
   
   // Check for win condition
   useEffect(() => {
@@ -145,7 +145,7 @@ export default function Memotest({ content, images = [], onResponse }) {
       setShowSuccessDialog(true);
       onResponse(true);
     }
-  }, [matchedPairs, cards.length, onResponse]);
+  }, [matchedPairs, cards.length]);
   
   // Handle card flip
   const handleCardClick = (index) => {

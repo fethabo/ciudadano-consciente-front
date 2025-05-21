@@ -338,7 +338,7 @@ export default function ActivityRandom() {
                     </Box>
 
                     <Suspense fallback={<LinearProgress />}>
-                        {ActivityType && <ActivityType content={activityContent} onResponse={(v)=>handleResponse(v)} images={imagesFiles} />}
+                        {ActivityType && !isPending && <ActivityType content={activityContent} onResponse={(v)=>handleResponse(v)} images={imagesFiles} />}
                     </Suspense>
                 </Box>
             );

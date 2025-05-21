@@ -16,8 +16,15 @@ export default function ColorChooser({ content, onResponse }) {
   const [fadeIn, setFadeIn] = useState(false);
   const [showColors, setShowColors] = useState(false);
   
-  // Generar los colores aleatorios al cargar el componente
-  const shuffledColors = [...(content?.colors || [])].sort(() => Math.random() - 0.5);
+  // Mezclar los colores solo en el renderizado inicial
+  const [shuffledColors, setShuffledColors] = useState([]);
+
+  useEffect(() => {
+    if (content?.colors) {
+      const shuffled = [...content.colors].sort(() => Math.random() - 0.5);
+      setShuffledColors(shuffled);
+    }
+  }, [content?.colors]);
 
   useEffect(() => {
     // Animación secuencial
@@ -46,7 +53,7 @@ export default function ColorChooser({ content, onResponse }) {
         onResponse(responseIsCorrect); // Evaluate if the selected color is correct
       }, 1000); // Retraso de 1 segundo para mostrar el feedback
     }
-  }, [selectedColor, content, onResponse, processingResponse]);
+  }, [selectedColor, content, processingResponse]);
 
   const handleColorSelect = (color, index) => {
     if (processingResponse) return; // Evita múltiples selecciones durante el procesamiento
