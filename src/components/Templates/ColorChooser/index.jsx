@@ -1,4 +1,4 @@
-import { Typography, Stack, Button, Paper, Box, Fade, Zoom, Card, CardContent } from "@mui/material";
+import { Typography, Stack, Button, Box, Fade, Card, CardContent } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";

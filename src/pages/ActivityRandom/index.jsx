@@ -92,7 +92,7 @@ export default function ActivityRandom() {
     // Parse content model
     useEffect(() => {
         if (randomContent && !!randomContent.model && activityContent === null) {
-            console.log("Model content:", randomContent.model);
+        //    console.log("Model content:", randomContent.model);
             const modelObject = JSON.parse(randomContent.model);
             setActivityContent(modelObject);
         }
@@ -102,7 +102,7 @@ export default function ActivityRandom() {
     const [ActivityType, setActivityType] = useState(null);
     useEffect(() => {
         if (activityTypeVersion?.template && ActivityType === null) {
-            console.log("Loading activity template:", activityTypeVersion.template);
+         //   console.log("Loading activity template:", activityTypeVersion.template);
             const aux = lazy(() => import(`../../components/Templates/${activityTypeVersion.template}/index.jsx`));
             setActivityType(aux);
         }
@@ -111,7 +111,7 @@ export default function ActivityRandom() {
     // Handle user response
     const handleResponse = useCallback((value) => {
         setResponseContent({ value });
-        console.log("User response handler:", value);
+        //console.log("User response handler:", value);
         // Update streak if correct answer
         if (value) {
             const formData = {userId: user?.userId, actualStreak: currentStreak + 1};
