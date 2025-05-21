@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState, lazy, Suspense } from "react";
-import { Alert, Box, Button, LinearProgress, Skeleton, Typography } from "@mui/material";
+import { useCallback, useEffect, useState, lazy, Suspense, useRef } from "react";
+import { Alert, Box, Button, LinearProgress, Skeleton, Typography, CircularProgress } from "@mui/material";
 import { useGetContents } from "../../components/Hooks/requests/Content";
 import { useGetContentImages, useGetImagesFilesOfContent } from "../../components/Hooks/requests/Content";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,12 @@ import useUserApi from "../../components/Hooks/useUserApi";
 import { useGetActivityTypeVersion } from "../../components/Hooks/requests/ActivityTypeVersion";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import TimerIcon from '@mui/icons-material/Timer';
 import { useGetStreakOfUser, usePatchStreak, usePostStreak } from "@components/Hooks/requests/RandomStreak";
 import ActivityStreakDialog from "./ActivityStreakDialog";
+
+// Constante para el tiempo máximo del juego en segundos
+const MAX_TIME_SECONDS = 60;
 
 export default function ActivityRandom() {
     const [randomContent, setRandomContent] = useState(null);
@@ -18,6 +22,9 @@ export default function ActivityRandom() {
     const [maxStreak, setMaxStreak] = useState(0);
     const [streakId, setStreakId] = useState(null);
     const [showDialog, setShowDialog] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState(MAX_TIME_SECONDS);
+    const [isTimerActive, setIsTimerActive] = useState(false);
+    const timerRef = useRef(null);
     const user = useUserApi();
     const navigate = useNavigate();
 
@@ -39,7 +46,6 @@ export default function ActivityRandom() {
         }
     }, [streakData, isFetchingStreak]);
 
-
     const [formPost, setFormPost] = useState(null);
     // Post new streak if user doesn't have one
     const { isFetching: isPostingStreak } = usePostStreak({userId: user?.userId, form: formPost, enabled: !!user?.userId && !!formPost});
@@ -55,7 +61,6 @@ export default function ActivityRandom() {
         }
     }, [isPostingStreak, formPost, refetch]);
 
-
     useEffect(() => {
         if(!isPatchingStreak && formPatch){
             setFormPatch(null);
@@ -68,8 +73,43 @@ export default function ActivityRandom() {
         if (publicContents && publicContents.length > 0 && !randomContent) {
             const randomIndex = Math.floor(Math.random() * publicContents.length);
             setRandomContent(publicContents[randomIndex]);
+            // Reset and start the timer when new content is loaded
+            setTimeRemaining(MAX_TIME_SECONDS);
+            setIsTimerActive(true);
         }
     }, [publicContents, randomContent]);
+
+    // Timer logic
+    useEffect(() => {
+        // Clear any existing timer
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+
+        if (isTimerActive && !showDialog) {
+            timerRef.current = setInterval(() => {
+                setTimeRemaining((prevTime) => {
+                    if (prevTime <= 1) {
+                        // Time's up - handle as incorrect answer
+                        clearInterval(timerRef.current);
+                        timerRef.current = null;
+                        handleResponse(false);
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+        }
+
+        // Cleanup function
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+                timerRef.current = null;
+            }
+        };
+    }, [isTimerActive, showDialog]);
 
     // Get the activity type version
     const { data: activityTypeVersion, isFetching: isFetchingActivityTypeVersion, isError: isErrorActivityTypeVersion } = useGetActivityTypeVersion({
@@ -92,7 +132,6 @@ export default function ActivityRandom() {
     // Parse content model
     useEffect(() => {
         if (randomContent && !!randomContent.model && activityContent === null) {
-        //    console.log("Model content:", randomContent.model);
             const modelObject = JSON.parse(randomContent.model);
             setActivityContent(modelObject);
         }
@@ -102,7 +141,6 @@ export default function ActivityRandom() {
     const [ActivityType, setActivityType] = useState(null);
     useEffect(() => {
         if (activityTypeVersion?.template && ActivityType === null) {
-         //   console.log("Loading activity template:", activityTypeVersion.template);
             const aux = lazy(() => import(`../../components/Templates/${activityTypeVersion.template}/index.jsx`));
             setActivityType(aux);
         }
@@ -110,8 +148,15 @@ export default function ActivityRandom() {
 
     // Handle user response
     const handleResponse = useCallback((value) => {
+        // Stop the timer
+        setIsTimerActive(false);
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
+
         setResponseContent({ value });
-        //console.log("User response handler:", value);
+        
         // Update streak if correct answer
         if (value) {
             const formData = {userId: user?.userId, actualStreak: currentStreak + 1};
@@ -121,17 +166,15 @@ export default function ActivityRandom() {
             } else {
                 setFormPost(formData) 
             }
-        }else{
+        } else {
             if (streakId) {
-            const formData = {userId: user?.userId, actualStreak: 0};
-            setFormPatch(formData);
+                const formData = {userId: user?.userId, actualStreak: 0};
+                setFormPatch(formData);
             } 
             setCurrentStreak(0);
         }
         setShowDialog(true);
     }, [user, streakId, currentStreak]);
-
-
 
     // Load next random content
     const loadNextContent = () => {
@@ -141,21 +184,27 @@ export default function ActivityRandom() {
         setRandomContent(null);
         setActivityContent(null);
         setResponseContent(null);
-
+        setTimeRemaining(MAX_TIME_SECONDS);
+        setIsTimerActive(true);
     };
 
     // Exit activity
     const exitActivity = () => {
+        // Stop the timer when exiting
+        setIsTimerActive(false);
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
         navigate('/'); // Navigate to home or appropriate page
     };
 
     // Check if loading
     const isLoading = isFetchingContents || isFetchingActivityTypeVersion || 
-                     isFetchingImages || isPending ;
+                      isFetchingImages || isPending;
 
     // Check for errors
     const hasError = isErrorContents || isErrorActivityTypeVersion || isErrorImages;
-
 
     // Update max streak when current streak increases
     useEffect(() => {
@@ -164,8 +213,17 @@ export default function ActivityRandom() {
         }
     }, [currentStreak, maxStreak]);
 
+    const handleCloseDialog = () => { 
+        setShowDialog(false); 
+        setResponseContent(null); 
+    }
 
-    const handleCloseDialog = () => { setShowDialog(false); setResponseContent(null); }
+    // Calculate timer color based on remaining time
+    const getTimerColor = () => {
+        // Start with green (hue 120) and move to red (hue 0) as time decreases
+        const hue = (timeRemaining / MAX_TIME_SECONDS) * 120;
+        return `hsl(${hue}, 100%, 40%)`;
+    };
 
     const renderContent = () => {
         if (isLoading) {
@@ -223,16 +281,58 @@ export default function ActivityRandom() {
                                 Random Play
                             </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <EmojiEventsIcon color="secondary" />
-                                <Typography variant="caption" sx={{ color: 'white' }}>Actual</Typography>
-                                <Typography variant="h6" sx={{ color: 'white' }}>{currentStreak}</Typography>
+                        
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                            {/* Timer */}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+                                <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                                    <CircularProgress
+                                        variant="determinate"
+                                        value={(timeRemaining / MAX_TIME_SECONDS) * 100}
+                                        size={60}
+                                        thickness={5}
+                                        sx={{
+                                            color: getTimerColor(),
+                                            '& .MuiCircularProgress-circle': {
+                                                strokeLinecap: 'round',
+                                            }
+                                        }}
+                                    />
+                                    <Box
+                                        sx={{
+                                            top: 0,
+                                            left: 0,
+                                            bottom: 0,
+                                            right: 0,
+                                            position: 'absolute',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Typography variant="body1" sx={{ color: 'white', fontWeight: 'bold' }}>
+                                            {timeRemaining}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                                <Typography variant="caption" sx={{ color: 'white', mt: 1 }}>
+                                    <TimerIcon fontSize="small" sx={{ verticalAlign: 'middle', mr: 0.5 }} />
+                                    Tiempo
+                                </Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <EmojiEventsIcon color="warning" />
-                                <Typography variant="caption" sx={{ color: 'white' }}>Max</Typography>
-                                <Typography variant="h6" sx={{ color: 'white' }}>{maxStreak}</Typography>
+                            
+                            {/* Streak counters */}
+                            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <EmojiEventsIcon color="secondary" />
+                                    <Typography variant="caption" sx={{ color: 'white' }}>Actual</Typography>
+                                    <Typography variant="h6" sx={{ color: 'white' }}>{currentStreak}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <EmojiEventsIcon color="warning" />
+                                    <Typography variant="caption" sx={{ color: 'white' }}>Max</Typography>
+                                    <Typography variant="h6" sx={{ color: 'white' }}>{maxStreak}</Typography>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
@@ -261,5 +361,3 @@ export default function ActivityRandom() {
         </Box>
     );
 }
-
-ActivityRandom.propTypes = {};

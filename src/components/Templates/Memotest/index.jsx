@@ -219,7 +219,7 @@ export default function Memotest({ content, images = [], onResponse }) {
           p: { xs: 2, sm: 4 }, 
           borderRadius: 2, 
           overflow: "hidden",
-          background: "linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%)"
+     //     background: "linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%)"
         }}
         initial={{ y: 20 }}
         animate={{ y: 0 }}
@@ -400,6 +400,7 @@ export default function Memotest({ content, images = [], onResponse }) {
                         borderRadius: 1,
                         backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.2) 2px, transparent 2px)",
                         backgroundSize: "15px 15px",
+                        transform: isFlipped || isMatched ? "rotateY(180deg)" : "rotateY(0deg)",
                       }}
                     >
                       <Typography 
@@ -423,7 +424,7 @@ export default function Memotest({ content, images = [], onResponse }) {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backfaceVisibility: "hidden",
+                        backfaceVisibility: (isMatched || isFlipped) ? "visible": "hidden", // contrario a "hidden"
                         transform: "rotateY(180deg)",
                         bgcolor: theme.palette.background.paper,
                         borderRadius: 1,
@@ -432,7 +433,8 @@ export default function Memotest({ content, images = [], onResponse }) {
                       }}
                     >
                       {card.imageUrl ? (
-                        <img
+                        <Box
+                          component="img"
                           src={card.imageUrl}
                           alt={card.imageName}
                           style={{
