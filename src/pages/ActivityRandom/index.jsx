@@ -1,21 +1,14 @@
 import { useCallback, useEffect, useState, lazy, Suspense } from "react";
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, LinearProgress, Skeleton, Typography } from "@mui/material";
+import { Alert, Box, Button, LinearProgress, Skeleton, Typography } from "@mui/material";
 import { useGetContents } from "../../components/Hooks/requests/Content";
 import { useGetContentImages, useGetImagesFilesOfContent } from "../../components/Hooks/requests/Content";
 import { useNavigate } from "react-router-dom";
 import useUserApi from "../../components/Hooks/useUserApi";
 import { useGetActivityTypeVersion } from "../../components/Hooks/requests/ActivityTypeVersion";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import animatedFail from '@animations/Fail.lottie';
-import animatedCheck from '@animations/Check.lottie';
-import ReactConfetti from "react-confetti";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ReplayIcon from '@mui/icons-material/Replay';
-import CloseIcon from '@mui/icons-material/Close';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import useIsMobile from "@components/Hooks/useIsMobile";
 import { useGetStreakOfUser, usePatchStreak, usePostStreak } from "@components/Hooks/requests/RandomStreak";
+import ActivityStreakDialog from "./ActivityStreakDialog";
 
 export default function ActivityRandom() {
     const [randomContent, setRandomContent] = useState(null);
@@ -27,7 +20,6 @@ export default function ActivityRandom() {
     const [showDialog, setShowDialog] = useState(false);
     const user = useUserApi();
     const navigate = useNavigate();
-    const isMobile = useIsMobile();
 
     // Get all public contents
     const { data: publicContents, isFetching: isFetchingContents, isError: isErrorContents } = useGetContents({enabled: true });
@@ -100,6 +92,7 @@ export default function ActivityRandom() {
     // Parse content model
     useEffect(() => {
         if (randomContent && !!randomContent.model && activityContent === null) {
+            console.log("Model content:", randomContent.model);
             const modelObject = JSON.parse(randomContent.model);
             setActivityContent(modelObject);
         }
@@ -109,6 +102,7 @@ export default function ActivityRandom() {
     const [ActivityType, setActivityType] = useState(null);
     useEffect(() => {
         if (activityTypeVersion?.template && ActivityType === null) {
+            console.log("Loading activity template:", activityTypeVersion.template);
             const aux = lazy(() => import(`../../components/Templates/${activityTypeVersion.template}/index.jsx`));
             setActivityType(aux);
         }
@@ -117,7 +111,7 @@ export default function ActivityRandom() {
     // Handle user response
     const handleResponse = useCallback((value) => {
         setResponseContent({ value });
-       // console.log("User response:", value);
+        console.log("User response handler:", value);
         // Update streak if correct answer
         if (value) {
             const formData = {userId: user?.userId, actualStreak: currentStreak + 1};
@@ -142,11 +136,12 @@ export default function ActivityRandom() {
     // Load next random content
     const loadNextContent = () => {
         console.log("Loading next content");
+        setShowDialog(false);
         setActivityType(null);
         setRandomContent(null);
         setActivityContent(null);
-        setResponseContent(false);
-        setShowDialog(false);
+        setResponseContent(null);
+
     };
 
     // Exit activity
@@ -156,7 +151,7 @@ export default function ActivityRandom() {
 
     // Check if loading
     const isLoading = isFetchingContents || isFetchingActivityTypeVersion || 
-                     isFetchingImages || isPending || isPostingStreak || isPatchingStreak;
+                     isFetchingImages || isPending ;
 
     // Check for errors
     const hasError = isErrorContents || isErrorActivityTypeVersion || isErrorImages;
@@ -169,234 +164,100 @@ export default function ActivityRandom() {
         }
     }, [currentStreak, maxStreak]);
 
-    return (
-        <Box>
-            {isLoading ? (
+
+    const handleCloseDialog = () => { setShowDialog(false); setResponseContent(null); }
+
+    const renderContent = () => {
+        if (isLoading) {
+            return (
                 <Box sx={{ width: '100%', height: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <Skeleton variant="rectangular" width="80%" height="60%" />
                     <Box width={"80%"}>
                         <LinearProgress />
                     </Box>
                 </Box>
-            ) : (
-                hasError ? (
-                    <Alert severity="error">Hubo un error al obtener la actividad</Alert>
-                ) : (
-                    !!activityContent && (
-                        <Box sx={{ position: 'relative' }}>
-                            {/* Sticky Header */}
-                            <Box
+            );
+        }
+        if (hasError) {
+            return <Alert severity="error">Hubo un error al obtener la actividad</Alert>;
+        }
+        if (!!activityContent) {
+            return (
+                <Box sx={{ position: 'relative' }}>
+                    {/* Sticky Header */}
+                    <Box
+                        sx={{
+                            position: 'sticky',
+                            top: { xs: '6em', sm: '6em' },
+                            zIndex: 10,
+                            background: (theme) => `linear-gradient(90deg, ${theme.palette.secondary.light}AA 0%, ${theme.palette.secondary.dark}AA 100%)`,
+                            boxShadow: 2,
+                            borderRadius: 2,
+                            mb: 2,
+                            p: 2,
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            backdropFilter: 'blur(6px)',
+                        }}
+                    >
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Button
+                                startIcon={<ArrowBackIcon />}
+                                onClick={exitActivity}
+                                variant="outlined"
+                                sx={{ bgcolor: 'background.paper' }}
+                            >
+                                Salir
+                            </Button>
+                            <Typography
+                                variant="h6"
                                 sx={{
-                                    position: 'sticky',
-                                    top: { xs: '6em', sm: '6em' }, // Ajusta según la altura de tu AppBar
-                                    zIndex: 10,
-                                    background: (theme) => `linear-gradient(90deg, ${theme.palette.secondary.light}AA 0%, ${theme.palette.secondary.dark}AA 100%)`, // Agrega transparencia
-                                    boxShadow: 2,
-                                    borderRadius: 2,
-                                    mb: 2,
-                                    p: 2,
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    backdropFilter: 'blur(6px)', // Opcional: efecto de desenfoque
+                                    fontWeight: 'bold',
+                                    color: 'white',
+                                    letterSpacing: 1,
+                                    ml: 2,
+                                    textShadow: '0 2px 8px rgba(0,0,0,0.08)'
                                 }}
                             >
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                    <Button
-                                        startIcon={<ArrowBackIcon />}
-                                        onClick={exitActivity}
-                                        variant="outlined"
-                                        sx={{ bgcolor: 'background.paper' }}
-                                    >
-                                        Salir
-                                    </Button>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            fontWeight: 'bold',
-                                            color: 'white',
-                                            letterSpacing: 1,
-                                            ml: 2,
-                                            textShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                                        }}
-                                    >
-                                        Random Play
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <EmojiEventsIcon color="secondary" />
-                                        <Typography variant="caption" sx={{ color: 'white' }}>Actual</Typography>
-                                        <Typography variant="h6" sx={{ color: 'white' }}>{currentStreak}</Typography>
-                                    </Box>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <EmojiEventsIcon color="warning" />
-                                        <Typography variant="caption" sx={{ color: 'white' }}>Max</Typography>
-                                        <Typography variant="h6" sx={{ color: 'white' }}>{maxStreak}</Typography>
-                                    </Box>
-                                </Box>
-                            </Box>
-
-                            <Suspense fallback={<LinearProgress />}>
-                                {ActivityType && <ActivityType content={activityContent} onResponse={handleResponse} images={imagesFiles} />}
-                            </Suspense>
+                                Random Play
+                            </Typography>
                         </Box>
-                    )
-                )
-            )}
-
-            <Dialog disableEscapeKeyDown open={showDialog} maxWidth="sm"
-                PaperProps={{
-                    sx: {
-                        backgroundColor: 'rgba(30,30,30,0.85)', // Fondo del dialog con transparencia
-                        backdropFilter: 'blur(8px)', // Opcional: desenfoque
-                    }
-                }}
-            >
-                <DialogContent>
-                    <Box sx={{
-                        position: 'relative',
-                        overflow: 'hidden',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        minHeight: 320,
-                        py: 4
-                    }}>
-                        {isLoading ? (
-                            <LinearProgress sx={{ width: '100%' }} />
-                        ) : (
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                                {responseContent?.value ? (
-                                    <>
-                                        <ReactConfetti />
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                            <DotLottieReact
-                                                src={animatedCheck}
-                                                loop={false}
-                                                autoplay
-                                                style={{ width: 180, height: 180, marginBottom: 8 }}
-                                            />
-                                            <Box sx={{
-                                                fontWeight: 'bold',
-                                                fontSize: { xs: 28, md: 36 },
-                                                color: '#43a047',
-                                                textAlign: 'center',
-                                                mb: 1,
-                                                textShadow: '0 2px 8px rgba(67,160,71,0.2)'
-                                            }}>
-                                                ¡Respuesta correcta!
-                                            </Box>
-                                            <Box sx={{
-                                                fontSize: { xs: 18, md: 22 },
-                                                color: '#fff',
-                                                textAlign: 'center'
-                                            }}>
-                                                ¡Tu racha es ahora de {currentStreak}!<br />
-                                                ¿Quieres continuar?
-                                            </Box>
-                                        </Box>
-                                    </>
-                                ) : (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <DotLottieReact
-                                            src={animatedFail}
-                                            loop={false}
-                                            autoplay
-                                            style={{ width: 180, height: 180, marginBottom: 8 }}
-                                        />
-                                        <Box sx={{
-                                            fontWeight: 'bold',
-                                            fontSize: { xs: 24, md: 32 },
-                                            color: '#d32f2f',
-                                            textAlign: 'center',
-                                            mb: 1,
-                                            textShadow: '0 2px 8px rgba(211,47,47,0.15)'
-                                        }}>
-                                            ¡Oops! Respuesta incorrecta
-                                        </Box>
-                                        <Box sx={{
-                                            fontSize: { xs: 16, md: 20 },
-                                            color: '#fff',
-                                            textAlign: 'center'
-                                        }}>
-                                            Perdiste tu racha.<br />
-                                            ¿Quieres empezar de nuevo?
-                                        </Box>
-                                    </Box>
-                                )
-                                }
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <EmojiEventsIcon color="secondary" />
+                                <Typography variant="caption" sx={{ color: 'white' }}>Actual</Typography>
+                                <Typography variant="h6" sx={{ color: 'white' }}>{currentStreak}</Typography>
                             </Box>
-                        )}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <EmojiEventsIcon color="warning" />
+                                <Typography variant="caption" sx={{ color: 'white' }}>Max</Typography>
+                                <Typography variant="h6" sx={{ color: 'white' }}>{maxStreak}</Typography>
+                            </Box>
+                        </Box>
                     </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                        {isMobile ? (
-                            <>
-                                <Button
-                                    size="small"
-                                    onClick={exitActivity}
-                                    disabled={isLoading}
-                                    aria-label="Salir"
-                                >
-                                    <CloseIcon />
-                                </Button>
-                                {responseContent?.value ? (
-                                    <Button
-                                        size="small"
-                                        onClick={loadNextContent}
-                                        disabled={isLoading}
-                                        aria-label="Continuar"
-                                        color="primary"
-                                    >
-                                        <ArrowForwardIcon />
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        size="small"
-                                        onClick={loadNextContent}
-                                        disabled={isLoading}
-                                        aria-label="Reintentar"
-                                    >
-                                        <ReplayIcon />
-                                    </Button>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                <Button
-                                    startIcon={<CloseIcon />}
-                                    onClick={exitActivity}
-                                    disabled={isLoading}
-                                >
-                                    Salir
-                                </Button>
-                                {responseContent?.value ? (
-                                    <Button
-                                        endIcon={<ArrowForwardIcon />}
-                                        onClick={loadNextContent}
-                                        disabled={isLoading}
-                                        color="primary"
-                                        variant="contained"
-                                    >
-                                        Continuar
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        startIcon={<ReplayIcon />}
-                                        onClick={loadNextContent}
-                                        disabled={isLoading}
-                                    >
-                                        Reintentar
-                                    </Button>
-                                )}
-                            </>
-                        )}
-                    </Box>
-                </DialogActions>
-            </Dialog>
+
+                    <Suspense fallback={<LinearProgress />}>
+                        {ActivityType && <ActivityType content={activityContent} onResponse={(v)=>handleResponse(v)} images={imagesFiles} />}
+                    </Suspense>
+                </Box>
+            );
+        }
+        return null;
+    };
+
+    return (
+        <Box>
+            {renderContent()}
+            <ActivityStreakDialog
+                open={showDialog}
+                onClose={handleCloseDialog}
+                responseContent={responseContent}
+                currentStreak={currentStreak}
+                maxStreak={maxStreak}
+                isLoading={isPostingStreak || isPatchingStreak}
+                onContinue={loadNextContent}
+            />
         </Box>
     );
 }

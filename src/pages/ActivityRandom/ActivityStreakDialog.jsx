@@ -1,41 +1,38 @@
-import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
-import Alert from '@mui/material/Alert';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloseIcon from '@mui/icons-material/Close';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactConfetti from 'react-confetti';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import animatedCheck from '@animations/Check.lottie';
+import useIsMobile from "@components/Hooks/useIsMobile";
 import animatedFail from '@animations/Fail.lottie';
+import animatedCheck from '@animations/Check.lottie';
+import animateUpLevel from '@animations/LevelUpAnimation.lottie';
+import { useNavigate } from 'react-router-dom';
 
 const MotionBox = motion(Box);
 
-function ActivityResultDialog({
+function ActivityStreakDialog({
     open,
-    isFetchingAnswer,
-    isErrorAnswer,
-    response,
+    onClose,
     responseContent,
-    activity,
-    isMobile,
-    id,
-    idParentLevel,
-    navigate,
-    setActivity,
-    setAnswer,
-    setEnabledPost,
-    setResponseContent,
-    setActivityContent,
+    currentStreak,
+    maxStreak,
+    onContinue,
+    isLoading
 }) {
+    const isMobile = useIsMobile();
+    const isLevelUp = currentStreak + 1 > maxStreak;
+    const navigate = useNavigate();
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
         height: window.innerHeight
@@ -53,7 +50,7 @@ function ActivityResultDialog({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const isCorrect = response?.status || responseContent?.value;
+    const isCorrect = responseContent?.value;
 
     return (
         <Dialog 
@@ -69,11 +66,12 @@ function ActivityResultDialog({
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
                     border: '1px solid rgba(255, 255, 255, 0.08)',
                     overflow: 'hidden',
-                    padding: '12px'
+                    padding: '12px',
+                    backdropFilter: 'blur(10px)'
                 }
             }}
         >
-            <DialogContent sx={{ padding: 0 , scrollbarWidth: 'none'}}>
+            <DialogContent sx={{ padding: 0 }}>
                 <AnimatePresence mode="wait">
                     <MotionBox 
                         sx={{
@@ -83,7 +81,7 @@ function ActivityResultDialog({
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            minHeight: "50%",
+                            minHeight: 350,
                             width: '100%',
                             py: 4,
                             px: 2
@@ -93,7 +91,7 @@ function ActivityResultDialog({
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4 }}
                     >
-                        {isFetchingAnswer ? (
+                        {isLoading ? (
                             <MotionBox 
                                 sx={{ width: '80%', position: 'relative', mt: 6 }}
                                 initial={{ opacity: 0 }}
@@ -116,27 +114,6 @@ function ActivityResultDialog({
                                     }} 
                                 />
                             </MotionBox>
-                        ) : isErrorAnswer ? (
-                            <MotionBox 
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.4 }}
-                            >
-                                <Alert 
-                                    severity="error" 
-                                    sx={{ 
-                                        backgroundColor: 'rgba(211, 47, 47, 0.2)', 
-                                        color: '#ff8a8a',
-                                        border: '1px solid rgba(211, 47, 47, 0.3)',
-                                        borderRadius: 2,
-                                        '& .MuiAlert-icon': {
-                                            color: '#ff8a8a'
-                                        }
-                                    }}
-                                >
-                                    Fallo al guardar la respuesta, vuelve a intentarlo
-                                </Alert>
-                            </MotionBox>
                         ) : (
                             <MotionBox 
                                 sx={{ 
@@ -155,9 +132,10 @@ function ActivityResultDialog({
                                         <ReactConfetti 
                                             width={windowSize.width} 
                                             height={windowSize.height}
-                                            recycle={true}
-                                            numberOfPieces={200}
-                                            gravity={0.05}
+                                            recycle={false}
+                                            numberOfPieces={isLevelUp ? 300 : 200}
+                                            gravity={0.15}
+                                            colors={isLevelUp ? ['#FFD700', '#FFC107', '#FFEB3B', '#FFFFFF', '#E1BEE7'] : undefined}
                                         />
                                         <MotionBox 
                                             sx={{ 
@@ -171,7 +149,7 @@ function ActivityResultDialog({
                                             transition={{ duration: 0.6, delay: 0.2 }}
                                         >
                                             <DotLottieReact
-                                                src={animatedCheck}
+                                                src={isLevelUp ? animateUpLevel : animatedCheck}
                                                 loop={false}
                                                 autoplay
                                                 style={{ width: 180, height: 180, marginBottom: 16 }}
@@ -180,10 +158,12 @@ function ActivityResultDialog({
                                                 sx={{
                                                     fontWeight: 'bold',
                                                     fontSize: { xs: 28, md: 36 },
-                                                    color: '#43a047',
+                                                    color: isLevelUp ? '#FFD700' : '#43a047',
                                                     textAlign: 'center',
                                                     mb: 2,
-                                                    textShadow: '0 2px 12px rgba(67, 160, 71, 0.4)',
+                                                    textShadow: isLevelUp
+                                                        ? '0 2px 14px rgba(255, 215, 0, 0.6)'
+                                                        : '0 2px 12px rgba(67, 160, 71, 0.4)',
                                                     width: '100%'
                                                 }}
                                                 initial={{ scale: 0.7 }}
@@ -195,7 +175,7 @@ function ActivityResultDialog({
                                                     delay: 0.3
                                                 }}
                                             >
-                                                ¡Respuesta correcta!
+                                                {isLevelUp ? '¡Subiste de nivel!' : '¡Respuesta correcta!'}
                                             </MotionBox>
                                             <MotionBox 
                                                 sx={{
@@ -203,7 +183,9 @@ function ActivityResultDialog({
                                                     color: 'rgba(255, 255, 255, 0.9)',
                                                     textAlign: 'center',
                                                     maxWidth: '90%',
-                                                    background: 'linear-gradient(to right, #43a047, #66bb6a)',
+                                                    background: isLevelUp 
+                                                        ? 'linear-gradient(to right, #FFD700, #FFC107)'
+                                                        : 'linear-gradient(to right, #43a047, #66bb6a)',
                                                     backgroundClip: 'text',
                                                     WebkitTextFillColor: 'transparent',
                                                     fontWeight: 500
@@ -212,7 +194,21 @@ function ActivityResultDialog({
                                                 animate={{ opacity: 1 }}
                                                 transition={{ duration: 0.6, delay: 0.5 }}
                                             >
-                                                ¡Sigue así, lo estás haciendo excelente!
+                                                ¡Tu racha es ahora de {currentStreak}!
+                                            </MotionBox>
+                                            
+                                            <MotionBox
+                                                sx={{
+                                                    fontSize: { xs: 16, md: 20 },
+                                                    color: 'rgba(255, 255, 255, 0.8)',
+                                                    mt: 2,
+                                                    textAlign: 'center'
+                                                }}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.4, delay: 0.7 }}
+                                            >
+                                                ¿Quieres continuar?
                                             </MotionBox>
                                         </MotionBox>
                                     </>
@@ -257,7 +253,7 @@ function ActivityResultDialog({
                                         </MotionBox>
                                         <MotionBox 
                                             sx={{
-                                                fontSize: { xs: 16, md: 20 },
+                                                fontSize: { xs: 18, md: 20 },
                                                 color: 'rgba(255, 255, 255, 0.9)',
                                                 textAlign: 'center',
                                                 maxWidth: '90%',
@@ -267,7 +263,21 @@ function ActivityResultDialog({
                                             animate={{ opacity: 1 }}
                                             transition={{ duration: 0.5, delay: 0.5 }}
                                         >
-                                            Intenta nuevamente, ¡tú puedes lograrlo!
+                                            Perdiste tu racha.
+                                        </MotionBox>
+                                        
+                                        <MotionBox
+                                            sx={{
+                                                fontSize: { xs: 16, md: 18 },
+                                                color: 'rgba(255, 255, 255, 0.8)',
+                                                mt: 2,
+                                                textAlign: 'center'
+                                            }}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.4, delay: 0.7 }}
+                                        >
+                                            ¿Quieres empezar de nuevo?
                                         </MotionBox>
                                     </MotionBox>
                                 )}
@@ -292,62 +302,14 @@ function ActivityResultDialog({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.3 }}
                 >
-                    {/* Botón Volver al mapa */}
-                    {activity && (
-                        isMobile ? (
+                    {isMobile ? (
+                        <>
+                            {/* Botón Salir (móvil) */}
                             <Button
                                 size="medium"
-                                onClick={() => { navigate(`/map/${idParentLevel}`); setActivity(null); }}
-                                disabled={isFetchingAnswer}
-                                aria-label="Volver"
-                                sx={{ 
-                                    minWidth: '44px', 
-                                    height: '44px',
-                                    borderRadius: '50%',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                                    color: 'white',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                    }
-                                }}
-                                component={motion.button}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <ArrowBackIcon />
-                            </Button>
-                        ) : (
-                            <Button
-                                startIcon={<ArrowBackIcon />}
-                                onClick={() => { navigate(`/map/${idParentLevel}`); setActivity(null); }}
-                                disabled={isFetchingAnswer}
-                                sx={{
-                                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                                    color: 'white',
-                                    borderRadius: '12px',
-                                    padding: '8px 20px',
-                                    textTransform: 'none',
-                                    fontWeight: 500,
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                    }
-                                }}
-                                component={motion.button}
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.97 }}
-                            >
-                                Volver al mapa
-                            </Button>
-                        )
-                    )}
-
-                    {/* Botón Cerrar */}
-                    {!activity && id && (
-                        isMobile ? (
-                            <Button
-                                size="medium"
-                                onClick={() => { setAnswer(null); setEnabledPost(false); setResponseContent(false); setActivityContent(null); }}
-                                aria-label="Cerrar"
+                                onClick={() => {onClose(); navigate('/')}}
+                                disabled={isLoading}
+                                aria-label="Salir"
                                 sx={{ 
                                     minWidth: '44px', 
                                     height: '44px',
@@ -364,10 +326,61 @@ function ActivityResultDialog({
                             >
                                 <CloseIcon />
                             </Button>
-                        ) : (
+                            
+                            {/* Botón Continuar/Reintentar (móvil) */}
+                            {isCorrect ? (
+                                <Button
+                                    size="medium"
+                                    onClick={() => onContinue()}
+                                    disabled={isLoading}
+                                    aria-label="Continuar"
+                                    sx={{ 
+                                        minWidth: '44px', 
+                                        height: '44px',
+                                        borderRadius: '50%',
+                                        backgroundColor: isLevelUp ? 'rgba(255, 215, 0, 0.3)' : 'rgba(67, 160, 71, 0.3)',
+                                        color: isLevelUp ? '#FFD700' : '#4CAF50',
+                                        '&:hover': {
+                                            backgroundColor: isLevelUp ? 'rgba(255, 215, 0, 0.4)' : 'rgba(67, 160, 71, 0.4)',
+                                        }
+                                    }}
+                                    component={motion.button}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <ArrowForwardIcon />
+                                </Button>
+                            ) : (
+                                <Button
+                                    size="medium"
+                                    onClick={() => onContinue()}
+                                    disabled={isLoading}
+                                    aria-label="Reintentar"
+                                    sx={{ 
+                                        minWidth: '44px', 
+                                        height: '44px',
+                                        borderRadius: '50%',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                                        }
+                                    }}
+                                    component={motion.button}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <ReplayIcon />
+                                </Button>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {/* Botón Salir (escritorio) */}
                             <Button
                                 startIcon={<CloseIcon />}
-                                onClick={() => { setAnswer(null); setEnabledPost(false); setResponseContent(false); setActivityContent(null); }}
+                                onClick={() => {onClose(); navigate('/')}}
+                                disabled={isLoading}
                                 sx={{
                                     backgroundColor: 'rgba(255, 255, 255, 0.08)',
                                     color: 'white',
@@ -383,105 +396,68 @@ function ActivityResultDialog({
                                 whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.97 }}
                             >
-                                Cerrar
+                                Salir
                             </Button>
-                        )
-                    )}
-
-                    {/* Botón Volver a contents */}
-                    {!activity && !id && (
-                        isMobile ? (
-                            <Button
-                                size="medium"
-                                onClick={() => { navigate(`/contents`); setActivity(null); }}
-                                disabled={isFetchingAnswer}
-                                aria-label="Volver"
-                                sx={{ 
-                                    minWidth: '44px', 
-                                    height: '44px',
-                                    borderRadius: '50%',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                                    color: 'white',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                    }
-                                }}
-                                component={motion.button}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <ArrowBackIcon />
-                            </Button>
-                        ) : (
-                            <Button
-                                startIcon={<ArrowBackIcon />}
-                                onClick={() => { navigate(`/contents`); setActivity(null); }}
-                                disabled={isFetchingAnswer}
-                                sx={{
-                                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                                    color: 'white',
-                                    borderRadius: '12px',
-                                    padding: '8px 20px',
-                                    textTransform: 'none',
-                                    fontWeight: 500,
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                    }
-                                }}
-                                component={motion.button}
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.97 }}
-                            >
-                                Volver
-                            </Button>
-                        )
-                    )}
-
-                    {/* Botón Reintentar */}
-                    {isMobile ? (
-                        <Button
-                            size="medium"
-                            onClick={() => { setAnswer(null); setEnabledPost(false); setResponseContent(false); setActivityContent(null); }}
-                            disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}
-                            aria-label="Reintentar"
-                            sx={{ 
-                                minWidth: '44px', 
-                                height: '44px',
-                                borderRadius: '50%',
-                                backgroundColor: isCorrect ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.08)',
-                                color: isCorrect ? 'rgba(255, 255, 255, 0.4)' : 'white',
-                                '&:hover': {
-                                    backgroundColor: isCorrect ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.15)',
-                                }
-                            }}
-                            component={motion.button}
-                            whileHover={!isCorrect ? { scale: 1.05 } : undefined}
-                            whileTap={!isCorrect ? { scale: 0.95 } : undefined}
-                        >
-                            <ReplayIcon />
-                        </Button>
-                    ) : (
-                        <Button
-                            startIcon={<ReplayIcon />}
-                            onClick={() => { setAnswer(null); setEnabledPost(false); setResponseContent(false); setActivityContent(null); }}
-                            disabled={isFetchingAnswer || (response ? response?.status : responseContent?.value)}
-                            sx={{
-                                backgroundColor: isCorrect ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.08)',
-                                color: isCorrect ? 'rgba(255, 255, 255, 0.4)' : 'white',
-                                borderRadius: '12px',
-                                padding: '8px 20px',
-                                textTransform: 'none',
-                                fontWeight: 500,
-                                '&:hover': {
-                                    backgroundColor: isCorrect ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.15)',
-                                }
-                            }}
-                            component={motion.button}
-                            whileHover={!isCorrect ? { scale: 1.03 } : undefined}
-                            whileTap={!isCorrect ? { scale: 0.97 } : undefined}
-                        >
-                            Reintentar
-                        </Button>
+                            
+                            {/* Botón Continuar/Reintentar (escritorio) */}
+                            {isCorrect ? (
+                                <Button
+                                    endIcon={<ArrowForwardIcon />}
+                                    onClick={() => onContinue()}
+                                    disabled={isLoading}
+                                    sx={{
+                                        backgroundColor: isLevelUp ? 'rgba(255, 215, 0, 0.25)' : 'rgba(67, 160, 71, 0.25)',
+                                        color: isLevelUp ? '#FFD700' : '#4CAF50',
+                                        borderRadius: '12px',
+                                        padding: '8px 24px',
+                                        border: isLevelUp 
+                                            ? '1px solid rgba(255, 215, 0, 0.5)' 
+                                            : '1px solid rgba(67, 160, 71, 0.5)',
+                                        boxShadow: isLevelUp 
+                                            ? '0 0 15px rgba(255, 215, 0, 0.2)' 
+                                            : '0 0 15px rgba(67, 160, 71, 0.2)',
+                                        textTransform: 'none',
+                                        fontWeight: 600,
+                                        fontSize: '0.95rem',
+                                        '&:hover': {
+                                            backgroundColor: isLevelUp ? 'rgba(255, 215, 0, 0.35)' : 'rgba(67, 160, 71, 0.35)',
+                                        }
+                                    }}
+                                    component={motion.button}
+                                    whileHover={{ 
+                                        scale: 1.03,
+                                        boxShadow: isLevelUp 
+                                            ? '0 0 20px rgba(255, 215, 0, 0.4)' 
+                                            : '0 0 20px rgba(67, 160, 71, 0.4)'
+                                    }}
+                                    whileTap={{ scale: 0.97 }}
+                                >
+                                    Continuar
+                                </Button>
+                            ) : (
+                                <Button
+                                    startIcon={<ReplayIcon />}
+                                    onClick={() => onContinue()}
+                                    disabled={isLoading}
+                                    sx={{
+                                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                                        color: 'white',
+                                        borderRadius: '12px',
+                                        padding: '8px 20px',
+                                        textTransform: 'none',
+                                        fontWeight: 500,
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                                        }
+                                    }}
+                                    component={motion.button}
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.97 }}
+                                >
+                                    Reintentar
+                                </Button>
+                            )}
+                        </>
                     )}
                 </MotionBox>
             </DialogActions>
@@ -489,25 +465,16 @@ function ActivityResultDialog({
     );
 }
 
-export default ActivityResultDialog;
-ActivityResultDialog.propTypes = {
+ActivityStreakDialog.propTypes = {
     open: PropTypes.bool.isRequired,
-    isFetchingAnswer: PropTypes.bool.isRequired,
-    isErrorAnswer: PropTypes.bool.isRequired,
-    response: PropTypes.object,
-    responseContent: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.bool
-    ]),
-    activity: PropTypes.any,
-    isMobile: PropTypes.bool.isRequired,
-    id: PropTypes.any,
-    idParentLevel: PropTypes.any,
-    idContent: PropTypes.any,
-    navigate: PropTypes.func.isRequired,
-    setActivity: PropTypes.func.isRequired,
-    setAnswer: PropTypes.func.isRequired,
-    setEnabledPost: PropTypes.func.isRequired,
-    setResponseContent: PropTypes.func.isRequired,
-    setActivityContent: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    responseContent: PropTypes.shape({
+        value: PropTypes.any
+    }),
+    currentStreak: PropTypes.number,
+    maxStreak: PropTypes.number,
+    onClose: PropTypes.func.isRequired,
+    onContinue: PropTypes.func.isRequired,
 };
+
+export default ActivityStreakDialog;
