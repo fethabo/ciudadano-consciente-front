@@ -111,8 +111,10 @@ export default function Memotest({ content, images = [], onResponse }) {
   
   // Initialize on component mount
   useEffect(() => {
+   if (images.length > 0 && cards.length === 0) {
     initializeGame();
-  }, []);
+   }
+  }, [images]);
   
   // Timer effect
   useEffect(() => {
